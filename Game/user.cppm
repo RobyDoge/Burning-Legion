@@ -9,7 +9,7 @@ namespace game {
 		~User();
 		std::string getName();
 		std::string getPassword();
-		std::string getPoints();
+		Points getPoints();
 		void setName(const std::string& name);
 		void setPassword(const std::string& password);
 		void setPoints(const Points& points);

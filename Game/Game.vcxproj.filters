@@ -21,6 +21,9 @@
     <ClCompile Include="Points.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="user.cppm">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Points.h">
