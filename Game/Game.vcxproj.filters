@@ -18,15 +18,18 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Points.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="user.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="Word.cpp">
+    <ClCompile Include="user.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Word.h">
+    <ClInclude Include="Points.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClCompile Include="points.cppm">
