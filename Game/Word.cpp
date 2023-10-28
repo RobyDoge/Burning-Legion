@@ -25,3 +25,20 @@ std::vector<std::string> Word::getLexicalFamily() const
 	return m_lexicalFamily;
 }
 
+void Word::setWord(const std::string& word)
+{
+	m_word = word;
+}
+
+void Word::setLexicalFamily(const std::vector<std::string>& lexicalFamily)
+{
+	m_lexicalFamily = lexicalFamily;
+}
+
+bool Word::SeachWordInLexicalFamily(const std::string& wordToFind) const
+{
+	for (const std::string& lexicalWord : m_lexicalFamily)
+		if (lexicalWord == wordToFind)
+			return true;
+	return false;
+}
