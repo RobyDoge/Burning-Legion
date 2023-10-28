@@ -18,9 +18,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Points.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="user.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
@@ -29,11 +26,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Points.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Word.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClCompile Include="points.cppm">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="points.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

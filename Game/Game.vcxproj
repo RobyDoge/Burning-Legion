@@ -140,7 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Points.cpp" />
+    <ClCompile Include="points.cpp" />
+    <ClCompile Include="points.cppm" />
     <ClCompile Include="user.cppm" />
     <ClCompile Include="Word.cpp" />
   </ItemGroup>
