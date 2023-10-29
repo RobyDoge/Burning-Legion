@@ -1,9 +1,7 @@
-#include "Points.h"
-
-
-
+import points;
+import	user;
 
 int main()
 {
-	Points a;
+	game::Points a;
 }
