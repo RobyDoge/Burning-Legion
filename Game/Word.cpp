@@ -42,3 +42,19 @@ bool Word::SeachWordInLexicalFamily(const std::string& wordToFind) const
 			return true;
 	return false;
 }
+
+std::istream& operator>>(std::istream& wordFile, Word& word) 
+{
+    std::string newWord;
+    std::vector<std::string> lexicalFamily;
+    if (wordFile >> newWord)
+    {
+        std::string wordFromFamily;
+        while (wordFile >> wordFromFamily)
+            lexicalFamily.push_back(wordFromFamily);
+
+        word.setWord(newWord);
+        word.setLexicalFamily(lexicalFamily);
+    }
+    return wordFile;
+}

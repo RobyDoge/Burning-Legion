@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include "Word.h"
@@ -13,6 +14,7 @@ public:
 	Dictionary();
 	~Dictionary();
 
+	void readWordsFromFile(std::istream& wordList);
 	void addWord(Word* newWord);
 
 	Word* getRandomWord();
