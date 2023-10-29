@@ -1,5 +1,6 @@
 #include "Dictionary.h"
 #include <random>
+#include <fstream>
 
 Dictionary::Dictionary()
 {
@@ -12,6 +13,16 @@ Dictionary::~Dictionary()
         delete word.first;
 
     m_dictionary.clear();
+}
+
+void Dictionary::readWordsFromFile(std::istream& wordList)
+{
+    Word currentWord;
+    while (wordList >> currentWord)
+    {
+        Word* newWord = new Word(currentWord);
+        addWord(newWord);
+    }
 }
 
 void Dictionary::addWord(Word* newWord)
