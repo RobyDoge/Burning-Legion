@@ -1,7 +1,6 @@
 import points;
 #include <array>
 
-
 using game::Points;
 
 Points::Points()

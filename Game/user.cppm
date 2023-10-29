@@ -2,7 +2,9 @@ export module user;
 import <string>;
 import points;
 
+
 namespace game {
+	
 	export class User {
 	public:
 		User();												//default constructor

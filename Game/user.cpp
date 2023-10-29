@@ -1,6 +1,8 @@
 module user;
 import <format>;
+
 using game::User;
+using game::Points;
 
 User::User() {
     m_name = "";
@@ -11,15 +13,15 @@ User::~User() {
     // Destructor
 }
 
-std::string User::getName() {
+std::string User::getName() const {
     return m_name;
 }
 
-std::string User::getPassword() {
+std::string User::getPassword() const {
     return m_password;
 }
 
-Points User::getPoints() {
+Points User::getPoints() const {
 
     return m_points;
 }

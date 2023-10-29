@@ -140,13 +140,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Points.cpp" />
+    <ClCompile Include="points.cpp" />
+    <ClCompile Include="points.cppm" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="user.cppm" />
     <ClCompile Include="Word.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Points.h" />
     <ClInclude Include="Word.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
