@@ -18,12 +18,17 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="points.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="user.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="user.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="points.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
