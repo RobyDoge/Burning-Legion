@@ -4,36 +4,44 @@ import <format>;
 using game::User;
 using game::Points;
 
-User::User() {
+User::User()
+{
     m_name = "";
     m_password = ""; 
 }
 
-User::~User() {
+User::~User()
+{
     // Destructor
 }
 
-std::string User::getName() const {
+std::string User::GetName() const
+{
     return m_name;
 }
 
-std::string User::getPassword() const {
+std::string User::GetPassword() const
+{
     return m_password;
 }
 
-Points User::getPoints() const {
+Points User::GetPoints() const
+{
 
     return m_points;
 }
 
-void User::setName(const std::string& name) {
+void User::SetName(const std::string& name)
+{
     m_name = name;
 }
 
-void User::setPassword(const std::string& password) {
+void User::SetPassword(const std::string& password)
+{
     m_password = password;
 }
 
-void User::setPoints(const Points& points) {
+void User::SetPoints(const Points& points)
+{
     m_points = points;
 }

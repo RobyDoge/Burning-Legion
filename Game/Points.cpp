@@ -1,62 +1,72 @@
 import points;
-#include <array>
 
 using game::Points;
 
-Points::Points()
+Points::Points():
+	m_currentGamePoints{0},
+	m_turnPoints{0},
+	m_bestGamePoints{0}
 {
-	m_lastFiveMatchesPoints.fill(0);
-	m_bestGamePoints = 0;
-	m_currentGamePoints = 0;
-	m_turnPoints = 0;
 }
 
 Points::Points(const Points& points)
 {
 	m_bestGamePoints = points.m_bestGamePoints;
 	m_currentGamePoints = points.m_currentGamePoints;
-	m_lastFiveMatchesPoints = points.m_lastFiveMatchesPoints;
+	m_lastMatchesPoints = points.m_lastMatchesPoints;
 	m_turnPoints = points.m_turnPoints;
 }
 
 Points::~Points() = default;
 
-uint16_t Points::getCurrentGamePoints() const
+uint16_t Points::GetCurrentGamePoints() const
 {
 	return m_currentGamePoints;
 }
 
-void Points::setCurrentGamePoints(const uint16_t currentGamePoints)
+void Points::SetCurrentGamePoints(const uint16_t currentGamePoints)
 {
 	m_currentGamePoints = currentGamePoints;
 }
 
-uint8_t Points::getTurnPoints() const
+uint8_t Points::GetTurnPoints() const
 {
 	return m_turnPoints;
 }
 
-void Points::setTurnPoints(const uint8_t turnPoints)
+void Points::SetTurnPoints(const uint8_t turnPoints)
 {
 	m_turnPoints = turnPoints;
 }
 
-uint16_t Points::getBestGamePoints() const
+uint16_t Points::GetBestGamePoints() const
 {
 	return m_bestGamePoints;
 }
 
-void Points::setBestGamePoints(const uint16_t bestGamePoints)
+void Points::SetBestGamePoints(const uint16_t bestGamePoints)
 {
 	m_bestGamePoints = bestGamePoints;
 }
 
-std::array<uint16_t, 5> Points::getLastFiveMatchesPoints() const
+std::list<uint16_t> Points::GetLastMatchesPoints() const
 {
-	return m_lastFiveMatchesPoints;
+	return m_lastMatchesPoints;
 }
 
-void Points::setLastFiveMatchesPoints(const std::array<uint16_t, 5>& lastFiveMatchesPoints)
+void Points::SetLastMatchesPoints(const std::list<uint16_t>& lastMatchesPoints)
 {
-	m_lastFiveMatchesPoints = lastFiveMatchesPoints;
+	m_lastMatchesPoints = lastMatchesPoints;
+}
+
+void Points::AddMatch()
+{
+	if(MAX_SIZE_OF_LAST_MATCHES ==m_lastMatchesPoints.size())
+	{
+		m_lastMatchesPoints.pop_front();
+		
+	}
+	m_lastMatchesPoints.emplace_back(m_currentGamePoints);
+	if (m_currentGamePoints > m_bestGamePoints)
+		m_bestGamePoints = m_currentGamePoints;
 }

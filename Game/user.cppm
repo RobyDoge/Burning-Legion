@@ -3,20 +3,21 @@ import <string>;
 import points;
 
 
-namespace game {
-	
-	export class User {
+namespace game 
+{
+	export class User 
+	{
 	public:
 		User();												//default constructor
 		~User();											//destructor
 
-		std::string getName() const;						//returns m_name
-		std::string getPassword() const;					//returns m_password
-		Points getPoints() const;							//returns m_points
+		std::string GetName() const;						//returns m_name
+		std::string GetPassword() const;					//returns m_password
+		Points GetPoints() const;							//returns m_points
 
-		void setName(const std::string& name);				//sets m_name
-		void setPassword(const std::string& password);		//sets m_password
-		void setPoints(const Points& points);				//sets m_points
+		void SetName(const std::string& name);				//Sets m_name
+		void SetPassword(const std::string& password);		//Sets m_password
+		void SetPoints(const Points& points);				//Sets m_points
 
 
 	private:

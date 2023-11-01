@@ -7,18 +7,20 @@
 
 class Dictionary
 {
-private:
-	std::vector<std::pair < Word*, bool > > m_dictionary; //the boolean value checks if the word was already generated or not
-
 public:
 	Dictionary();
 	~Dictionary();
 
-	void readWordsFromFile(std::istream& wordList);
-	void addWord(Word* newWord);
+	void ReadWordsFromFile(std::istream& wordList);
+	void AddWord(Word* newWord);
+	
+	Word* GetRandomWord();
+	void DictionaryReSet();
 
-	Word* getRandomWord();
-	void dictionaryReset();
+
+private:
+	std::vector<std::pair < Word*, bool > > m_dictionary;	//the boolean value checks if the word was already generated or not
+
 
 };
 
