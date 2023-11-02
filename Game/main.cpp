@@ -13,18 +13,13 @@ int main()
 
 	Timer* timer = new Timer();
 	bool isRunning = true;
-	float elapsedTime = 0.0f;
 	float countDown = 60.0f;
+	timer->Reset();
 	while (isRunning) {
-		timer->Tick();
-		timer->Reset();
-		elapsedTime += timer->GetDeltaTime();
-		if (elapsedTime >= 1.0f) {
-			std::cout << countDown << std::endl;
+		if (timer->GetElapsedTime() >= 1.0f) {
+			std::cout << countDown<< std::endl;
 			countDown--;
-			elapsedTime = 0.0f;
+			timer->Reset();
 		}
-		if (countDown == 0)
-			std::cout << "stopRound()";
 	}
 }

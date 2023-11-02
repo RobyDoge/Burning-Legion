@@ -3,7 +3,7 @@
 class Timer
 {
 private:
-	std::chrono::system_clock::time_point m_startTime; 
+	std::chrono::high_resolution_clock::time_point m_startTime,m_lastTick,m_currentTime;
 	std::chrono::duration<float> m_deltaTime;
 	float m_timeScale;
 
@@ -13,10 +13,9 @@ public:
 	~Timer();
 	void Reset();
 	float GetDeltaTime();
-	void SetTimeScale(float t = 1.0f);
-	float GetTimeScale();
-	void Tick();
-	void CountDown(float countDowntime);
+	float GetElapsedTime();
+	void setTimeScale(float timeScale);
+	float getTimeScale();
 
 };
 
