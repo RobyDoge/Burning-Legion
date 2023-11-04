@@ -1,9 +1,10 @@
 export module word;
 import <string>;
-import <vector>;
+import <unordered_set>;
 import <fstream>;
 import <ranges>;
 import <algorithm>;
+import <random>;
 
 namespace game 
 {
@@ -18,10 +19,20 @@ namespace game
         void AddWord(std::string newWord);
         std::string GetRandomWord();
 
-        friend std::istream& operator >>(std::istream& wordFile, const std::vector<std::string>& wordList);
+        friend std::istream& operator >>(std::istream& wordFile, WordList& wordList);
 
     private:
-        std::vector<std::string> m_wordList;
+        std::unordered_set<std::string> m_wordList;
+        std::default_random_engine m_randomEngine;
     };
+
+    std::istream& operator>>(std::istream& wordFile, WordList& wordList)
+    {
+        std::string newWord;
+        while (wordFile >> newWord)
+            wordList.AddWord(newWord);
+
+        return wordFile;
+    }
 
 }

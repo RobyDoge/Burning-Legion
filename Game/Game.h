@@ -1,17 +1,22 @@
 #pragma once
-
+import <unordered_set>;
 import word;
+import <cstdint>;
 using game::WordList;
 import <vector>;
 
 class Game
-{
-private:
-	
+{	
 public:
-	Game();
-	~Game();
+	Game() = default;
+	~Game() = default;
 
-	void generateWordList();
+	void AddPlayer();
+	void generateCurrentWordList(WordList& baseWordList);
+
+private:
+	WordList m_currentWordList;
+	uint8_t m_players;
+	static constexpr uint8_t TURNS = 4;
 };
 

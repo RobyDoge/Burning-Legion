@@ -1,21 +1,22 @@
 import word;
 import <iostream>;
 import <algorithm>;
+import <random>;
+import <ctime>;
 
 
 using game::WordList;
 
-void WordList::AddWord(std::string newWord)
+void game::WordList::AddWord(std::string newWord)
 {
     m_wordList.emplace_back(newWord);
 }
 
-std::istream& operator>>(std::istream& wordFile, WordList& wordList)
+std::string game::WordList::GetRandomWord()
 {
-    std::string newWord;
-    while (wordFile >> newWord)
-        wordList.AddWord(newWord);
-
-    //std::sort(wordList.begin(), wordList.end());
-    return wordFile;
+    std::string newRandom;
+    if (m_wordList.empty())
+        return ""; // to add try...catch
+    std::uniform_int_distribution<> distribution(0, m_wordList.size() - 1);
+    return m_wordList[distribution(m_randomEngine)];
 }
