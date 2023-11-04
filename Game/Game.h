@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Word.h"
+import word;
+using game::Word;
+import <vector>;
 
 class Game
 {

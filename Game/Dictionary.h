@@ -3,7 +3,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Word.h"
+import word;
+using game::Word;
 
 class Dictionary
 {

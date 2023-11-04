@@ -147,13 +147,13 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="user.cppm" />
-    <ClCompile Include="Word.cpp" />
+    <ClCompile Include="word.cpp" />
+    <ClCompile Include="word.cppm" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Timer.h" />
-    <ClInclude Include="Word.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />
