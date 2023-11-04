@@ -139,7 +139,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Dictionary.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="points.cpp" />
@@ -151,7 +150,6 @@
     <ClCompile Include="word.cppm" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Dictionary.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>

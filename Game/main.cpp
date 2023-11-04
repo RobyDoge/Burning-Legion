@@ -1,11 +1,15 @@
 import points;
 import	user;
-#include "Dictionary.h"
+import word;
+
 #include "Timer.h"
 
 int main()
 {
-	game::Points a;
+	game::WordList a;
+
+	return 0;
+	/*game::Points a;
 	game::User b;
 	a.SetTurnPoints(1000);
 	b.SetPoints(a);
@@ -21,5 +25,5 @@ int main()
 			countDown--;
 			timer->Reset();
 		}
-	}
+	}*/
 }
