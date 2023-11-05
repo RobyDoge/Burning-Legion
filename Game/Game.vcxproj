@@ -140,6 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="login.cpp" />
+    <ClCompile Include="login.cppm" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="points.cpp" />
     <ClCompile Include="points.cppm" />
