@@ -1,13 +1,13 @@
 #include "Game.h"
 
-void Game::AddPlayer()
+void Game::AddPlayer(User newPlayer)
 {
-	m_players++;
+	m_players.push_back(newPlayer);
 }
 
-void Game::generateCurrentWordList(WordList& baseWordList)
+void Game::GenerateCurrentWordList(WordList& baseWordList)
 {
-	uint8_t wordsNeeded = TURNS * m_players;
+	uint8_t wordsNeeded = TURNS * m_players.size();
 	while(wordsNeeded)
 	{
 		wordsNeeded--;

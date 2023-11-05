@@ -2,14 +2,16 @@ import points;
 import	user;
 import word;
 
+#include <iostream>
 #include "Timer.h"
-
-
 
 int main()
 {
-	game::WordList a;
+	/*game::WordList a;
 
+	std::ifstream f("dummy.txt");
+	f >> a;
+	std::cout << a.GetRandomWord();*/
 	return 0;
 	/*game::Points a;
 	game::User b;

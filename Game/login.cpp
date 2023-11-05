@@ -1,4 +1,5 @@
 import login;
+import <iostream>;
 
 using game::Login;
 
@@ -16,7 +17,7 @@ void Login::ChangePassword(const std::string& newPassword)
     m_user.SetPassword(newPassword);
 }
 
-std::string Login::ReadPassword() const
+void Login::ReadPassword() const
 {
     std::string enteredPassword;
     std::cout << "Enter your password: ";

@@ -15,7 +15,7 @@ namespace game
 
         bool Authenticate(const std::string& password) const;
         void ChangePassword(const std::string& newPassword);
-        std::string ReadPassword() const;
+        void ReadPassword() const;
 
     private:
         User& m_user; 

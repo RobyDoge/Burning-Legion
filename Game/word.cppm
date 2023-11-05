@@ -2,8 +2,6 @@ export module word;
 import <string>;
 import <unordered_set>;
 import <fstream>;
-import <ranges>;
-import <algorithm>;
 import <random>;
 
 namespace game 
@@ -26,7 +24,7 @@ namespace game
         std::default_random_engine m_randomEngine;
     };
 
-    std::istream& operator>>(std::istream& wordFile, WordList& wordList)
+    export std::istream& operator>>(std::istream& wordFile, WordList& wordList)
     {
         std::string newWord;
         while (wordFile >> newWord)
@@ -34,5 +32,4 @@ namespace game
 
         return wordFile;
     }
-
 }
