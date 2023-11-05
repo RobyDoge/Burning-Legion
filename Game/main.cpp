@@ -1,12 +1,15 @@
 import points;
 import	user;
 import word;
+import round;
 
 #include <iostream>
 #include "Timer.h"
 
 int main()
 {
+	game::Round a;
+
 	/*game::WordList a;
 
 	std::ifstream f("dummy.txt");

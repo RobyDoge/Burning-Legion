@@ -145,7 +145,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="points.cpp" />
     <ClCompile Include="points.cppm" />
+    <ClCompile Include="round.cpp" />
+    <ClCompile Include="round.cppm" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="turn.cppm" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="user.cppm" />
     <ClCompile Include="word.cpp" />

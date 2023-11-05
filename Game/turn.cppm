@@ -5,6 +5,7 @@ import <vector>;
 import word;
 import <string>;
 
+using game::User;
 namespace  game
 {
 	//this class will be static because i don't want a to create an object of this class
@@ -12,7 +13,7 @@ namespace  game
 	export class Turn
 	{
 	public:
-		static void StartTurn(std::vector<std::pair<User, uint8_t>> vectorUsers, std::string toBeDrawWord);
+		static void StartTurn(std::vector<std::pair<game::User, uint8_t>> vectorUsers, std::string toBeDrawWord);
 
 	private:
 
