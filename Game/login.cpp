@@ -1,9 +1,14 @@
 import login;
+import user;
 import <iostream>;
 
-using game::Login;
 
-Login::Login(User& user) : m_user(user) {}
+using game::Login;
+using game::User;
+
+Login::Login(const User& user):
+	m_user{user}
+{}
 
 Login::~Login() = default;
 
@@ -17,7 +22,7 @@ void Login::ChangePassword(const std::string& newPassword)
     m_user.SetPassword(newPassword);
 }
 
-void Login::ReadPassword() const
+void Login::ReadPassword(std::ostream& output) const
 {
     std::string enteredPassword;
     std::cout << "Enter your password: ";
@@ -25,8 +30,7 @@ void Login::ReadPassword() const
     while ((c = std::getchar()) != '\n') {
         if (c != '\r') {
             enteredPassword.push_back(c);  
-            std::cout << "*"; 
+            output << "*";
         }
     }
-    std::cout << std::endl;
 }

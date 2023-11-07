@@ -1,36 +1,21 @@
-import points;
-import	user;
-import word;
+import login;
+import user;
 import round;
+import word;
+//#include "Game.h"
 
 #include <iostream>
 #include "Timer.h"
+import <fstream>;
 
 int main()
 {
-	game::Round a;
-
-	/*game::WordList a;
-
-	std::ifstream f("dummy.txt");
-	f >> a;
-	std::cout << a.GetRandomWord();*/
+	/*Game c;
+	 * de testat clasa game, mie(ROBY) imi da 100+ erori can incerc sa o rulez/adaug
+	 */
+	game::WordList a;
+	std::ifstream f("input.txt");
+	std::cout << a.GetRandomWord();
 	return 0;
-	/*game::Points a;
-	game::User b;
-	a.SetTurnPoints(1000);
-	b.SetPoints(a);
-	Dictionary c;
-
-	Timer* timer = new Timer();
-	bool isRunning = true;
-	float countDown = 60.0f;
-	timer->Reset();
-	while (isRunning) {
-		if (timer->GetElapsedTime() >= 1.0f) {
-			std::cout << countDown<< std::endl;
-			countDown--;
-			timer->Reset();
-		}
-	}*/
+	
 }

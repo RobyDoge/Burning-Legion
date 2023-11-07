@@ -14,16 +14,15 @@ namespace game
         WordList() = default;
         ~WordList() = default;
 
-        void AddWord(std::string newWord);
+        void AddWord(const std::string& newWord);
         std::string GetRandomWord();
 
-        friend std::istream& operator >>(std::istream& wordFile, WordList& wordList);
+        friend std::istream& operator>>(std::istream& wordFile, WordList& wordList);
 
     private:
         std::unordered_set<std::string> m_wordList;
         std::default_random_engine m_randomEngine;
     };
-
     export std::istream& operator>>(std::istream& wordFile, WordList& wordList)
     {
         std::string newWord;

@@ -1,6 +1,7 @@
 export module user;
-import <string>;
 import points;
+
+import <string>;
 
 
 namespace game 
