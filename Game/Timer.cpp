@@ -4,9 +4,15 @@
 Timer::Timer()
 {
 	Reset();
-	m_startTime = m_lastTick = m_currentTime = std::chrono::high_resolution_clock::now();
+	m_startTime = std::chrono::high_resolution_clock::now();
+	m_lastTick = std::chrono::high_resolution_clock::now();
+	m_currentTime = std::chrono::high_resolution_clock::now();
 	m_timeScale = 1.0f;
 	m_deltaTime = std::chrono::duration<float>(0.0f);
+}
+Timer::~Timer()
+{
+	//Destructor
 }
 
 void Timer::Reset()
