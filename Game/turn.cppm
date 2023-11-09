@@ -1,8 +1,8 @@
 export module turn;
 import round;
 import user;
-import <vector>;
 import word;
+import <vector>;
 import <string>;
 
 using game::User;

@@ -14,7 +14,7 @@ namespace game
 
 		std::string GetName() const;						//returns m_name
 		std::string GetPassword() const;					//returns m_password
-		Points GetPoints() const;							//returns m_points
+		Points& GetPoints();								//returns m_points
 
 		void SetName(const std::string& name);				//Sets m_name
 		void SetPassword(const std::string& password);		//Sets m_password

@@ -14,12 +14,12 @@ public:
 	Game() = default;
 	~Game() = default;
 
-	void AddPlayer(User newPlayer);
+	void AddPlayer(const User& newPlayer);
 	void GenerateCurrentWordList(WordList& baseWordList);
 
 private:
 	WordList m_currentWordList;
-	static constexpr uint8_t TURNS = 4;
+	static constexpr uint8_t ROUND = 4;
 	std::vector <User> m_players;
 };
 

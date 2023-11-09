@@ -1,5 +1,4 @@
 module user;
-import <format>;
 
 using game::User;
 using game::Points;
@@ -25,7 +24,7 @@ std::string User::GetPassword() const
     return m_password;
 }
 
-Points User::GetPoints() const
+Points& User::GetPoints()
 {
 
     return m_points;
