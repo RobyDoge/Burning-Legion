@@ -11,15 +11,15 @@ using game::User;
 class Game
 {	
 public:
-	Game() = default;
-	~Game() = default;
+	Game() = default;														//default constructor
+	~Game() = default;														//destructor
 
-	void AddPlayer(const User& newPlayer);
-	void GenerateCurrentWordList(WordList& baseWordList);
+	void AddPlayer(const User& newPlayer);									//adds players to m_player
+	void GenerateCurrentWordList(WordList& baseWordList);					//generates the words needed for the game from the word list
 
 private:
-	WordList m_currentWordList;
-	static constexpr uint8_t ROUND = 4;
-	std::vector <User> m_players;
+	WordList m_currentWordList;												//the needed words for the game
+	static constexpr uint8_t ROUND = 4;										//the number of rounds
+	std::vector <User> m_players;											//vector storing players
 };
 

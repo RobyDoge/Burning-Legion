@@ -11,17 +11,17 @@ namespace game
 
     public:
 
-        WordList() = default;
-        ~WordList() = default;
+        WordList() = default;											                //default constructor
+        ~WordList() = default;                                                          //destructor
 
-        void AddWord(const std::string& newWord);
-        std::string GetRandomWord();
+        void AddWord(const std::string& newWord);                                       //adds word to m_wordList
+        std::string GetRandomWord();                                                    //gets random word from m_wordList
 
-        friend std::istream& operator>>(std::istream& wordFile, WordList& wordList);
+        friend std::istream& operator>>(std::istream& wordFile, WordList& wordList);    //reads words from stream
 
     private:
-        std::unordered_set<std::string> m_wordList;
-        std::default_random_engine m_randomEngine;
+        std::unordered_set<std::string> m_wordList;                                     //the list of words (dictionary)
+        std::default_random_engine m_randomEngine;                                      //used to generate random numbers for GetRandomWord
     };
     export std::istream& operator>>(std::istream& wordFile, WordList& wordList)
     {
