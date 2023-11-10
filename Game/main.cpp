@@ -31,6 +31,7 @@ int main()
 
 	game::WordList a;
 	std::ifstream f("input.txt");
+	f >> a;
 	std::cout << a.GetRandomWord();
 	return 0;
 	

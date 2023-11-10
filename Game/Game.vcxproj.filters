@@ -51,6 +51,9 @@
     <ClCompile Include="round.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="WordDatabase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="points.cpp">
@@ -73,6 +76,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WordDatabase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
