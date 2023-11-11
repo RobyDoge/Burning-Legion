@@ -155,6 +155,8 @@
     <ClCompile Include="turn.cppm" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="user.cppm" />
+    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="utils.cppm" />
     <ClCompile Include="word.cpp" />
     <ClCompile Include="word.cppm" />
     <ClCompile Include="WordDatabase.cpp" />

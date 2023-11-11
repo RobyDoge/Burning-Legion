@@ -4,7 +4,7 @@ import <iostream>;
 import <random>;
 import <vector>;
 
-//#include <chrono>
+import <chrono>;
 
 using game::WordList;
 
