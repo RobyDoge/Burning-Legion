@@ -1,5 +1,6 @@
-#include "Timer.h"
+module timer;
 
+import <format>;
 
 Timer::Timer()
 {
@@ -8,7 +9,6 @@ Timer::Timer()
 	m_lastTick = std::chrono::high_resolution_clock::now();
 	m_currentTime = std::chrono::high_resolution_clock::now();
 	m_timeScale = 1.0f;
-	m_deltaTime = std::chrono::duration<float>(0.0f);
 }
 Timer::~Timer()
 {
@@ -35,7 +35,7 @@ void Timer::SetTimeScale(const float timeScale)
 
 float Timer::GetElapsedTime() const
 {
-	const std::chrono::duration<float> elapsed_time = (std::chrono::high_resolution_clock::now() - m_startTime)*m_timeScale;
+	const std::chrono::duration<float> elapsed_time = (std::chrono::high_resolution_clock::now() - m_startTime) * m_timeScale;
 	return elapsed_time.count();
 }
 
