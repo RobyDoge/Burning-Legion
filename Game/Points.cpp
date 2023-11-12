@@ -19,9 +19,9 @@ int16_t Points::GetCurrentGamePoints() const
 	return m_currentGamePoints;
 }
 
-void Points::SetCurrentGamePoints(const int16_t turnPoints)
+void Points::AddToCurrentGamePoints()
 {
-	m_currentGamePoints += turnPoints;
+	m_currentGamePoints += m_turnPoints;
 }
 
 int16_t Points::GetTurnPoints() const
@@ -68,18 +68,22 @@ void Points::AddPointsGuesser(const float& time)
 	m_turnPoints = (60 - static_cast<uint8_t>(time)) / 3 * 10;
 }
 
-
-void Points::AddPointsDrawer(const std::vector<float>& times)
+void Points::AddPointsDrawer(const ::std::vector<float>& times)
 {
-	if(times.size() == 0)
+	if (times.size() == 0)
 	{
 		m_turnPoints = -100;
 		return;
 	}
-	float sum=0;
-	for(const auto& time:times)
+	float sum = 0;
+	for (const auto& time : times)
 	{
 		sum += time;
 	}
-	m_turnPoints = (60 - static_cast<uint8_t>(sum/times.size()))/ 6 * 10;
+	m_turnPoints = (60 - static_cast<uint8_t>(sum / times.size())) / 6 * 10;
+}
+
+void Points::ResetTurnPoints()
+{
+	m_turnPoints = 0;
 }

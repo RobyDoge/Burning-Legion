@@ -9,8 +9,6 @@ namespace game
 
 	export class Points
 	{
-	private:
-		
 	public:
 		Points();												//default constructor
 		~Points();												//destructor
@@ -24,13 +22,15 @@ namespace game
 		//if T is a vector we use the second method
 		template <typename T>
 		void SetTurnPoints(const T& time);
-		void SetCurrentGamePoints(const int16_t turnPoints);	//adds the points obtain during a turn to the currentGamePoints
+		void ResetTurnPoints();									//sets the turnPoints to 0
+		void AddToCurrentGamePoints();							//adds the points obtain during a turn to the currentGamePoints
 		void AddMatch();										//adds the score of the game to the list and checks if the score is bigger then the all time best						
 
 
 	private:
 		void AddPointsGuesser(const float& time);				//depending on the time taken to guess this calculates the points
-		void AddPointsDrawer(const std::vector<float>& times);	//based on the average time of guess of a ll the other players this calculates the points.
+		void AddPointsDrawer(const std::vector<float>& times);	//based on the average time of guessing of all the other players this calculates the points for the drawer
+		
 
 		int16_t m_currentGamePoints;							//the points earned in the current game 
 		int16_t m_turnPoints;									//temporary points earned during a turn
@@ -42,11 +42,13 @@ namespace game
 	export template <typename T>
 	void Points::SetTurnPoints(const T& time)
 	{
+		
 		if constexpr (std::is_same_v<T, float>)
 		{
 			AddPointsGuesser(time);
+			return;
 		}
-		else if constexpr (std::is_same_v<T, std::vector<float>>)
+		if constexpr (std::is_same_v<T, std::vector<float>>)
 		{
 			AddPointsDrawer(time);
 		}

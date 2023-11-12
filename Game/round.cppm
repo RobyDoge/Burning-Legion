@@ -1,21 +1,36 @@
 export module round;
-import "Game.h";
 import user;
 import word;
-import <vector>;
+#include <vector>
+#include <string>
+import "Game.h";
 
-using game::User;
+using namespace game;
 namespace game
 {
-	//this class will be static because i don't want to create an object of this class
-	//and i will just start the drawing and modify the points of the users
+	//this class gets from Game a vector of the users and the words necessary for a round
 	export class Round
 	{
 	public:
+		enum class Role : uint8_t
+		{
+			Drawer,
+			Guesser,
+			Finished
+		};
 
-		static void StartRound(std::vector<User>& players, const WordList& wordList);
+		Round(std::vector<User>& players, const std::vector<std::string>& wordList);
+		void StartRound();
 
 	private:
+		std::vector<std::pair<User, Role>>& SetRoleForEachPlayer(const uint8_t drawerPosition) const;
+		void UpdateGamePoints();
+
+
+
+		std::vector<User> m_players;
+		std::vector<std::string> m_wordList;
+		uint8_t m_numberOfTurns;
 
 	};
 }

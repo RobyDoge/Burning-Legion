@@ -11,6 +11,7 @@ import utils;
 
 import <fstream>;
 
+using namespace game;
 int main()
 {
 //	Timer timer;															 //Create an instance of the Class
@@ -31,6 +32,8 @@ int main()
 	/*Game c;
 	 * de testat clasa game, mie(ROBY) imi da 100+ erori can incerc sa o rulez/adaug
 	 */
+	
+	User a, b, c, d;
 
 	return 0;
 	

@@ -1,9 +1,18 @@
 import turn;
+import user;
+import <string>;
+import <vector>;
 
 using game::Turn;
+using namespace game;
 
-//the only public funtion that will do everyting by calling other functions that are private
-void Turn::StartTurn(std::vector<std::pair<User, uint8_t>> vectorUsers, std::string toBeDrawWord)
+Turn::Turn(std::vector<std::pair<User, Round::Role>> players, const std::string& wordToBeDraw):
+	m_players{players},
+	m_wordToBeDrawn{wordToBeDraw}
 {
+}
 
+void Turn::StartTurn()
+{
+	
 }
