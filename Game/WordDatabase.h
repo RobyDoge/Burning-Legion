@@ -1,10 +1,12 @@
 #pragma once
 
+import word;
+using game::WordList;
+
 #include <string>
 #include <vector>
-
 #include <crow.h>
-	#include <sqlite_orm/sqlite_orm.h>
+#include <sqlite_orm/sqlite_orm.h>
 
 namespace sql = sqlite_orm;
 
@@ -31,16 +33,5 @@ inline auto CreateDictionary(const std::string& filename)		//creating database f
 using Dictionary = decltype(CreateDictionary(""));
 
 void PopulateDictionary(Dictionary& dictionary);
-
-class WordDatabase
-{
-public:
-	WordDatabase(Dictionary& dictionary);
-
-	crow::response operator() (const crow::request& req) const;
-
-private:
-
-	Dictionary& m_wordDatabase;
-};
+void CreateDatabase();
 

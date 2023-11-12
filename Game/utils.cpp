@@ -1,7 +1,11 @@
 import utils;
+import word;
 import<vector>;
 import<string>;
 import<unordered_map>;
+import <iostream>;
+import <fstream>;
+
 std::vector<std::string> Split(const std::string& str, const std::string& delim)
 {
     std::vector<std::string> result;
@@ -30,4 +34,12 @@ std::unordered_map<std::string, std::string> ParseUrlArgs(const std::string& url
             result[kvVector[0]] = kvVector[1];
     }
     return result;
+}
+
+void TestWord()
+{
+    game::WordList a;
+    std::ifstream f("input.txt");
+    f >> a;
+    std::cout << a.GetRandomWord();
 }

@@ -29,7 +29,7 @@ namespace game
         std::string newWord;
         while (wordFile >> newWord)
             wordList.AddWord(newWord);
-
+        
         return wordFile;
     }
 }

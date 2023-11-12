@@ -2,10 +2,12 @@ import login;
 import user;
 import round;
 import word;
-//#include "Game.h"
+import utils;
+#include "WordDatabase.h"
+#include "Game.h"
 
 #include <iostream>
-#include "../TimerDLL/timer.cppm"
+//#include "../TimerDLL/timer.cppm"
 
 import <fstream>;
 
@@ -30,10 +32,6 @@ int main()
 	 * de testat clasa game, mie(ROBY) imi da 100+ erori can incerc sa o rulez/adaug
 	 */
 
-	game::WordList a;
-	std::ifstream f("input.txt");
-	f >> a;
-	std::cout << a.GetRandomWord();
 	return 0;
 	
 }
