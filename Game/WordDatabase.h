@@ -12,12 +12,7 @@ struct WordFromDictionary									//structure that will contain the words from o
 {
 	uint16_t id;
 	std::string word;
-	enum class Difficulty : uint8_t							//parameter for game difficulty
-	{
-		Easy,
-		Medium,
-		Hard
-	}difficulty;
+	uint8_t difficulty;
 };
 
 inline auto CreateDictionary(const std::string& filename)		//creating database for dictionary
