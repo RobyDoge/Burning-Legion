@@ -1,8 +1,5 @@
 #pragma once
 
-import word;
-using game::WordList;
-
 #include <string>
 #include <vector>
 #include <crow.h>

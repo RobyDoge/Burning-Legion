@@ -1,5 +1,4 @@
 import utils;
-import word;
 import<vector>;
 import<string>;
 import<unordered_map>;
@@ -36,10 +35,3 @@ std::unordered_map<std::string, std::string> ParseUrlArgs(const std::string& url
     return result;
 }
 
-void TestWord()
-{
-    game::WordList a;
-    std::ifstream f("input.txt");
-    f >> a;
-    std::cout << a.GetRandomWord();
-}

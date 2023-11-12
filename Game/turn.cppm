@@ -1,7 +1,6 @@
 export module turn;
 import round;
 import user;
-import word;
 import <vector>;
 import <string>;
 
