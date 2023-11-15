@@ -1,12 +1,11 @@
 export module round;
 import user;
-import word;
-#include <vector>
-#include <string>
-import "Game.h";
+import <vector>;
+import <string>;
+import game;
 
-using namespace game;
-namespace game
+
+namespace server
 {
 	//this class gets from Game a vector of the users and the words necessary for a round
 	export class Round

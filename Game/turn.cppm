@@ -4,8 +4,8 @@ import user;
 import <vector>;
 import <string>;
 
-using namespace game;
-namespace  game
+
+namespace  server
 {
 	
 	export class Turn

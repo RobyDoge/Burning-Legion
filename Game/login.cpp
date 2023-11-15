@@ -3,8 +3,8 @@ import user;
 import <iostream>;
 
 
-using game::Login;
-using game::User;
+using server::Login;
+using server::User;
 
 Login::Login(const User& user):
 	m_user{user}

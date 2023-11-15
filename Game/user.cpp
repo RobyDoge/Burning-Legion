@@ -1,7 +1,7 @@
 module user;
 
-using game::User;
-using game::Points;
+using server::User;
+using server::Points;
 
 User::User()
 {

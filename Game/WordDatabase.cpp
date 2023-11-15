@@ -2,7 +2,10 @@
 #include<fstream>
 #include<iostream>
 #include<vector>
-import utils;
+
+import game;
+
+//import utils;
 
 
 void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filename)
@@ -26,11 +29,12 @@ void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filen
     dictionary.insert_range(words.begin(), words.end());
 }
 
-//void CreateDatabase()
-//{
-//    Dictionary db = CreateDictionary("words.sqlite");
-//    db.sync_schema();
-//    auto initalWordsCount = db.count<WordFromDictionary>();
-//    if (initalWordsCount == 0)
-//        PopulateDictionaryFromFile(db, "input.txt");
-//}
+Dictionary& CreateDatabase()
+{
+    Dictionary db = CreateDictionary(".sqlite");
+    db.sync_schema();
+    auto initalwordscount = db.count<WordFromDictionary>();
+    //if (initalwordscount == 0)
+        PopulateDictionaryFromFile(db, "input.txt"); 
+    return db;
+}

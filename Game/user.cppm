@@ -4,7 +4,7 @@ import points;
 import <string>;
 
 
-namespace game 
+namespace server 
 {
 	export class User 
 	{

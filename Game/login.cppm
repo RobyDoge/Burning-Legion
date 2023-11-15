@@ -4,9 +4,9 @@ import user;
 import <iostream>;
 import <string>;
 
-using game::User;
+using server::User;
 
-namespace game
+namespace server
 {
     export class Login
     {

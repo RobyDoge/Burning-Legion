@@ -1,14 +1,17 @@
-import turn;
+module turn;
 import user;
+import round;
 import <string>;
 import <vector>;
 
-using game::Turn;
-using namespace game;
+using server::Turn;
+using namespace server;
 
-Turn::Turn(std::vector<std::pair<User, Round::Role>> players, const std::string& wordToBeDraw):
-	m_players{players},
-	m_wordToBeDrawn{wordToBeDraw}
+
+
+Turn::Turn(std::vector<std::pair<User, Round::Role>>& players, const std::string& wordToBeDrawn)
+	: //m_players{ players },
+	m_wordToBeDrawn{ wordToBeDrawn }
 {
 }
 

@@ -3,7 +3,7 @@ import <cstdint>;
 import <list>;
 import <vector>;
 
-using game::Points;
+using server::Points;
 
 Points::Points():
 	m_currentGamePoints{0},

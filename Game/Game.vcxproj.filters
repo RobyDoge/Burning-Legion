@@ -18,14 +18,8 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="points.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="user.cppm">
       <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="user.cpp">
-      <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="login.cppm">
       <Filter>Header Files</Filter>
@@ -33,13 +27,7 @@
     <ClCompile Include="login.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="round.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="turn.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="round.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="WordDatabase.cpp">
@@ -51,6 +39,27 @@
     <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="turn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="round.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="round.cppm">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="points.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="user.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cppm">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="points.cpp">
@@ -59,9 +68,6 @@
     <ClCompile Include="points.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="points.cpp">
@@ -69,16 +75,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WordDatabase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
 </Project>

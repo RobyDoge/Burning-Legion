@@ -4,7 +4,7 @@ import <list>;
 import <type_traits>;
 import <vector>;
 
-namespace game
+namespace server
 {
 
 	export class Points

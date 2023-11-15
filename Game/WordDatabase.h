@@ -1,4 +1,4 @@
-#pragma once
+
 
 #include <string>
 #include <vector>
@@ -29,6 +29,6 @@ inline auto CreateDictionary(const std::string& filename)		//creating database f
 
 using Dictionary = decltype(CreateDictionary(""));
 
-void PopulateDictionary(Dictionary& dictionary);
-void CreateDatabase();
+void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filename);
+Dictionary& CreateDatabase();
 
