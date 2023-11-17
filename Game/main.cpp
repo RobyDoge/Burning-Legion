@@ -12,7 +12,7 @@ import <fstream>;
 
 using namespace server;
 int main()
-{
+{//comentariu
 	Timer timer;															 //Create an instance of the Class
 	timer.Reset();															 //Use the reset() method to set the startTime right before the Turn starts
 	int countDown = 60;														 //Set up a countDown 
