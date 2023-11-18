@@ -1,14 +1,15 @@
 ﻿#include "loginWindow.h"
 #include "gameWindow.h"
+#include "signupWindow.h"
+
 LoginWindow::LoginWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-    //ui.loginUsername->setPlaceholderText("Enter Username");
-    //ui.loginPassword->setPlaceholderText("Enter Password");
-
+    ui.loginUsername->setPlaceholderText("Username");
+    ui.loginPassword->setPlaceholderText("Password");
 	connect(ui.loginButton, &QPushButton::clicked, this, &LoginWindow::on_loginButton_clicked);
-    connect(ui.signinButton, &QPushButton::clicked, this, &LoginWindow::on_loginButton_clicked);
+    connect(ui.signinButton, &QPushButton::clicked, this, &LoginWindow::on_signinButton_clicked);
 
 }
 
@@ -31,6 +32,12 @@ void LoginWindow::on_loginButton_clicked()
     
     // Altfel:
     ui.messageLabel->setText("Username or Password incorrect");
+}
+void LoginWindow::on_signinButton_clicked() 
+{
+    SignupWindow* signupWindow = new SignupWindow(this);
+    signupWindow->show();
+    this->destroy();
 }
 void LoginWindow::openGameWindow()
 {
