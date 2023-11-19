@@ -10,12 +10,12 @@ using namespace server;
 
 
 Turn::Turn(std::vector<std::pair<User, Round::Role>>& players, const std::string& wordToBeDrawn)
-	: //m_players{ players },
+	: m_players{ players },
 	m_wordToBeDrawn{ wordToBeDrawn }
 {
 }
 
 void Turn::StartTurn()
 {
-	
+	m_players.first.GetPoints().SetTurnPoints(58.3);
 }

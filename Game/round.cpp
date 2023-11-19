@@ -10,9 +10,12 @@ using namespace server;
 
 
 Round::Round(std::vector<User>& players, const std::vector<std::string>& wordList):
-	m_players{players},
 	m_wordList{wordList}
 {
+	for(auto& player:players)
+	{
+		m_players.push_back({ player,Role::NoRole });
+	}
 	m_numberOfTurns = players.size();
 }
 
@@ -20,40 +23,38 @@ Round::Round(std::vector<User>& players, const std::vector<std::string>& wordLis
 
 void Round::StartRound()
 {
+	if(m_players.size() > m_wordList.size())
+	{
+		throw std::exception("Not Enough Words");
+	}
 	for(uint8_t iterator=0;iterator< m_numberOfTurns;iterator++)
 	{
-
-		/*Turn turn(SetRoleForEachPlayer(iterator), m_wordList[iterator]);
-		turn.StartTurn();*/
+		SetRoleForEachPlayer(iterator);
+		Turn turn(m_players, m_wordList[iterator]);
+		turn.StartTurn();
 	}
 	UpdateGamePoints();
 	//here we could create a method to show the game points but i don't know how to do it yet
 }
 
-std::vector<std::pair<User, Round::Role>>& Round::SetRoleForEachPlayer(const uint8_t drawerPosition) const
+void Round::SetRoleForEachPlayer(const uint8_t drawerPosition)
 {
-	std::vector<std::pair<User, Round::Role>> playersAndTheirRoles;
 	for (uint8_t iterator = 0; iterator < m_numberOfTurns; iterator++)
 	{
-		Role role;
-		if(iterator==drawerPosition)
+		if (iterator == drawerPosition)
 		{
-			role = Round::Role::Drawer;
+			m_players[iterator].second = Role::Drawer;
+			continue;
 		}
-		else
-		{
-			role = Round::Role::Guesser;
-		}
-		//playersAndTheirRoles.emplace_back({ m_players[iterator],role });
+		m_players[iterator].second = Role::Guesser;
 	}
-	return playersAndTheirRoles;
 }
 
 void Round::UpdateGamePoints()
 {
 	for(auto& player: m_players)
 	{
-		player.GetPoints().AddToCurrentGamePoints();
-		player.GetPoints().ResetTurnPoints();
+		player.first.GetPoints().AddToCurrentGamePoints();
+		player.first.GetPoints().ResetTurnPoints();
 	}
 }

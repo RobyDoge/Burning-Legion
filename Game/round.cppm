@@ -1,9 +1,8 @@
 export module round;
 import user;
+import game;
 import <vector>;
 import <string>;
-import game;
-
 
 namespace server
 {
@@ -15,21 +14,22 @@ namespace server
 		{
 			Drawer,				// player drawing the word
 			Guesser,			// player guessing the word
-			Finished			// player that guessed the word
+			Finished,			// player that guessed the word
+			NoRole				// for construing m_player at the begin
 		};
 
-		Round(std::vector<User>& players, const std::vector<std::string>& wordList);  //deafult constructor 
+		Round(std::vector<User>& players, const std::vector<std::string>& wordList);  //default constructor 
 		void StartRound();															  //function to start the round
 
 	private:
-		std::vector<std::pair<User, Role>>& SetRoleForEachPlayer(const uint8_t drawerPosition) const;  //assigns roles to players
-		void UpdateGamePoints();																	   //updates the game points
+		void SetRoleForEachPlayer(const uint8_t drawerPosition);						//assigns roles to players
+		void UpdateGamePoints();														//updates the game points
 
 
 
-		std::vector<User> m_players;				//vector storing the players
-		std::vector<std::string> m_wordList;		//vector storing the words for the round
-		uint8_t m_numberOfTurns;					//number of turns(players) for the round			
+		std::vector<std::pair<User, Role>> m_players;									//vector storing the players
+		std::vector<std::string> m_wordList;											//vector storing the words for the round
+		uint8_t m_numberOfTurns;														//number of turns(players) for the round			
 		
 	};
 }

@@ -29,7 +29,7 @@ int main()
 	//}
 
 
-	
+
 	Points a, b;
 	a.SetTurnPoints(23);
 	b = a;
@@ -39,6 +39,17 @@ int main()
 	d = c;
 
 	Game g;
+
+	std::vector<std::string> x;
+	std::vector<User> y;
+	x.push_back("Mami");
+	x.push_back("Tati");
+
+	y.push_back(c);
+	y.push_back(d);
+
+	Round r(y,x);
+	r.StartRound();
 	return 0;
 	
 }
