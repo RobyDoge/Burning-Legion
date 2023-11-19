@@ -14,6 +14,41 @@ Points::Points():
 
 Points::~Points() = default;
 
+Points::Points(const Points& other):
+	m_currentGamePoints{other.m_currentGamePoints},
+	m_turnPoints{other.m_turnPoints},
+	m_bestGamePoints{other.m_bestGamePoints},
+	m_lastMatchesPoints{other.m_lastMatchesPoints}
+{
+}
+
+Points& Points::operator=(const Points& other)
+{
+	Points tempPoints{ other };
+	Swap(tempPoints);
+	return *this;
+}
+
+Points::Points(Points&& other) noexcept
+{
+	this->Swap(other);
+}
+
+Points& Points::operator=(Points&& other) noexcept
+{
+	this->Swap(other);
+	return *this;
+}
+
+void Points::Swap(Points& other) noexcept
+{
+	using std::exchange;
+	m_bestGamePoints = exchange(other.m_bestGamePoints, m_bestGamePoints);
+	m_currentGamePoints = exchange(other.m_currentGamePoints, m_currentGamePoints);
+	m_turnPoints = exchange(other.m_turnPoints, m_turnPoints);
+	m_lastMatchesPoints = exchange(other.m_lastMatchesPoints, m_lastMatchesPoints);
+}
+
 int16_t Points::GetCurrentGamePoints() const
 {
 	return m_currentGamePoints;
