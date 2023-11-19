@@ -4,10 +4,7 @@ SignupWindow::SignupWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-	ui.signupUsernameLine->setPlaceholderText("Username");
-	ui.sigupPasswordLine->setPlaceholderText("Create Password");
 	ui.sigupPasswordLine->setEchoMode(QLineEdit::Password);
-	ui.sigupPasswordRepeatLine->setPlaceholderText("Confirm Password");
 	ui.sigupPasswordRepeatLine->setEchoMode(QLineEdit::Password);
 
 

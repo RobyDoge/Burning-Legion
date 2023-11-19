@@ -57,7 +57,7 @@ QPushButton#signinButton:pressed {
 </string>
     </property>
     <property name="text">
-     <string>Sign In</string>
+     <string>Sign Up</string>
     </property>
    </widget>
    <widget class="QPushButton" name="loginButton">
