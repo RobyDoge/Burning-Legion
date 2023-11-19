@@ -17,7 +17,6 @@ namespace server
 		Points(Points&& other) noexcept;						//move constructor
 		Points& operator=(Points&& other) noexcept;				//operator= for move 
 		void Swap(Points& other) noexcept;						//swap for copy and move operators
-		
 
 		int16_t GetCurrentGamePoints() const;					//getter for currentGamePoints
 		int16_t GetTurnPoints() const;							//getter for turnPoints
@@ -31,7 +30,6 @@ namespace server
 		void ResetTurnPoints();									//sets the turnPoints to 0
 		void AddToCurrentGamePoints();							//adds the points obtain during a turn to the currentGamePoints
 		void AddMatch();										//adds the score of the game to the list and checks if the score is bigger then the all time best						
-
 
 	private:
 		void AddPointsGuesser(const float& time);				//depending on the time taken to guess this calculates the points

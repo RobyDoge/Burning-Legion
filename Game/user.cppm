@@ -11,6 +11,9 @@ namespace server
 	public:
 		User();												//default constructor
 		~User();											//destructor
+		User(const User& other);							//copy constructor
+		User& operator=(const User& other);					//operator= for copy
+		void Swap(User& other) noexcept;					//swap for copy operators
 
 		std::string GetName() const;						//returns m_name
 		std::string GetPassword() const;					//returns m_password

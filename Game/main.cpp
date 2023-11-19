@@ -30,10 +30,13 @@ int main()
 
 
 	
-	Points a, b, c, d;
+	Points a, b;
 	a.SetTurnPoints(23);
 	b = a;
 
+	User c, d;
+	c.SetPoints(a);
+	d = c;
 
 	Game g;
 	return 0;
