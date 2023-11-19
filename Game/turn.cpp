@@ -17,5 +17,6 @@ Turn::Turn(std::vector<std::pair<User, Round::Role>>& players, const std::string
 
 void Turn::StartTurn()
 {
-	m_players.first.GetPoints().SetTurnPoints(58.3);
+	
+	m_players[0].first.GetPoints().SetTurnPoints(58.3);
 }
