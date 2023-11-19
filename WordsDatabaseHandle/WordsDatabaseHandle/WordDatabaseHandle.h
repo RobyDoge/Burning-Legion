@@ -38,5 +38,5 @@ public:
 
 	
 private:
-	Dictionary& db;
+	Dictionary& m_db;
 };

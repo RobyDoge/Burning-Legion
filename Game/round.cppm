@@ -15,7 +15,7 @@ namespace server
 			Drawer,				// player drawing the word
 			Guesser,			// player guessing the word
 			Finished,			// player that guessed the word
-			NoRole				// for construing m_player at the begin
+			NoRole				// for creating m_player at the begining
 		};
 
 		Round(std::vector<User>& players, const std::vector<std::string>& wordList);  //default constructor 

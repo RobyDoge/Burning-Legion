@@ -26,7 +26,7 @@ void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filen
 
 Dictionary& CreateDatabase()
 {
-    Dictionary db = CreateDictionary("database.sqlite");
+    static Dictionary db = CreateDictionary("database.sqlite");
     db.sync_schema();
     auto initalwordscount = db.count<WordFromDictionary>();
     if (initalwordscount == 0)
@@ -35,23 +35,26 @@ Dictionary& CreateDatabase()
 }
 
 WordDatabaseHandle::WordDatabaseHandle()
-    : db(CreateDatabase())
+    : m_db(CreateDatabase())
 {
+    auto initalwordscount = m_db.count<WordFromDictionary>();
+    std::cout << initalwordscount;
 }
 
 std::vector<std::string> WordDatabaseHandle::SelectWords(const uint8_t numberOfPlayers)
 {
-    std::vector<std::string> gneratedWords;
+    std::vector<std::string> generatedWords;
     unsigned char difficulty = '1';
     uint8_t wordsNeeded = 4 * numberOfPlayers;
-    auto rows = db.select(sqlite_orm::columns(&WordFromDictionary::word),
+    //auto initalwordscount = db.count<WordFromDictionary>();
+    auto rows = m_db.select(sqlite_orm::columns(&WordFromDictionary::word),
                           sqlite_orm::where(sqlite_orm::c( & WordFromDictionary::difficulty) == difficulty),
                           sqlite_orm::limit(wordsNeeded));
     
     
     for (const auto& row : rows)                // Add words from the database to the vector
     {
-        gneratedWords.push_back(std::get<0>(row));
+        generatedWords.push_back(std::get<0>(row));
     }
-    return gneratedWords;
+    return generatedWords;
 }
