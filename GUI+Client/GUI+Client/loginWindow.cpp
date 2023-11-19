@@ -6,8 +6,9 @@ LoginWindow::LoginWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-    ui.loginUsername->setPlaceholderText("Username");
+   
     ui.loginPassword->setPlaceholderText("Password");
+    ui.loginPassword->setEchoMode(QLineEdit::Password);
 	connect(ui.loginButton, &QPushButton::clicked, this, &LoginWindow::on_loginButton_clicked);
     connect(ui.signinButton, &QPushButton::clicked, this, &LoginWindow::on_signinButton_clicked);
 

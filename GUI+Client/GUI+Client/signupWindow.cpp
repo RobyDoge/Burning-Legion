@@ -6,7 +6,10 @@ SignupWindow::SignupWindow(QWidget *parent)
 	ui.setupUi(this);
 	ui.signupUsernameLine->setPlaceholderText("Username");
 	ui.sigupPasswordLine->setPlaceholderText("Create Password");
+	ui.sigupPasswordLine->setEchoMode(QLineEdit::Password);
 	ui.sigupPasswordRepeatLine->setPlaceholderText("Confirm Password");
+	ui.sigupPasswordRepeatLine->setEchoMode(QLineEdit::Password);
+
 
 	connect(ui.signupButton, &QPushButton::clicked, this, &SignupWindow::on_signupButton_clicked);
 	connect(ui.signupLogginButton, &QPushButton::clicked, this, &SignupWindow::on_signupLogginButton_clicked);
