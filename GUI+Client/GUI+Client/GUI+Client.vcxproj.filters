@@ -32,6 +32,9 @@
     <ClCompile Include="gameWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="signupWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="loginWindow.h">
@@ -40,12 +43,18 @@
     <QtMoc Include="gameWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="signupWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="loginWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="gameWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="signupWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
