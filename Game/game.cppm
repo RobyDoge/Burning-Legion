@@ -27,7 +27,7 @@ namespace server
 		Difficulty GetDifficulty() const;										//for checking the difficulty
 
 		void AddPlayer(const User& newPlayer);									//adds players to m_player
-		std::vector<std::string> GenerateNextWords();
+		std::vector<std::string>& GenerateNextWords();
 
 		void StartGame();
 

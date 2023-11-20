@@ -13,7 +13,9 @@ namespace server
 		~User();											//destructor
 		User(const User& other);							//copy constructor
 		User& operator=(const User& other);					//operator= for copy
-		void Swap(User& other) noexcept;					//swap for copy operators
+		User(User&& other) noexcept;
+		User& operator=(User&& other) noexcept;
+		void Swap(User& other) noexcept;					//swap for copy and move  operators
 
 		std::string GetName() const;						//returns m_name
 		std::string GetPassword() const;					//returns m_password

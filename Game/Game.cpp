@@ -1,9 +1,10 @@
 module game;
-using server::Game;
-using namespace server;
 import user;
 
-void server::Game::SetDifficulty(const Difficulty difficulty)
+using server::Game;
+using namespace server;
+
+void Game::SetDifficulty(const Difficulty difficulty)
 {
 	m_difficulty = difficulty;
 }
@@ -19,7 +20,7 @@ void Game::AddPlayer(const User& newPlayer)
 	m_players.push_back(newPlayer);
 }
 
-std::vector<std::string> server::Game::GenerateNextWords()
+std::vector<std::string>& Game::GenerateNextWords()
 {
 	std::vector<std::string> wordsForRound;
 	for(int i =0;i< m_players.size();i++)
@@ -34,8 +35,8 @@ void Game::StartGame()
 {
 	for(int i = 0;i<= ROUND;i++)
 	{
-		Round round(m_players, GenerateNextWords());
-		round.StartRound();
+		Round round;
+		round.StartRound(m_players, GenerateNextWords());
 	}
 	
 }
