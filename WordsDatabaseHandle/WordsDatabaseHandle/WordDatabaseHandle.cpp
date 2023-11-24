@@ -34,11 +34,15 @@ Dictionary& CreateDatabase()
     return db;
 }
 
-WordDatabaseHandle::WordDatabaseHandle()
-    : m_db(CreateDatabase())
+void WordDatabaseHandle::init()
 {
+    m_db.sync_schema();
     auto initalwordscount = m_db.count<WordFromDictionary>();
-    std::cout << initalwordscount;
+    if (initalwordscount == 0)
+        PopulateDictionaryFromFile(m_db, "input.txt");
+
+    auto initalwordscount2 = m_db.count<WordFromDictionary>();
+    std::cout << initalwordscount2;
 }
 
 std::vector<std::string> WordDatabaseHandle::SelectWords(const uint8_t numberOfPlayers)

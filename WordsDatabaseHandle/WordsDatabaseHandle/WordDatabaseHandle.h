@@ -33,10 +33,10 @@ Dictionary& CreateDatabase();
 class WordDatabaseHandle
 {
 public:
-	WordDatabaseHandle();
+	void init();
 	std::vector<std::string> SelectWords(const uint8_t wordsNeeded);
 
 	
 private:
-	Dictionary& m_db;
+	Dictionary m_db = CreateDictionary("database.sqlite");
 };
