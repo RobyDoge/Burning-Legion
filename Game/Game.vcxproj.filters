@@ -60,6 +60,9 @@
     <ClCompile Include="game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="routing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="points.cpp">
@@ -76,6 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WordDatabase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="routing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

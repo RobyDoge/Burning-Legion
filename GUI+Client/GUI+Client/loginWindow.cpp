@@ -1,6 +1,8 @@
 ﻿#include "loginWindow.h"
 #include "gameWindow.h"
 #include "signupWindow.h"
+#include <QString>
+
 
 LoginWindow::LoginWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -25,8 +27,7 @@ void LoginWindow::on_loginButton_clicked()
         return;
     }
 
-    // Verificați în baza de date dacă acest utilizator există
-    // Dacă da:
+    //m_loginClient.GetLoginResponse(m_username.toStdString(),m_password.toStdString());
     openGameWindow();
     
     // Altfel:

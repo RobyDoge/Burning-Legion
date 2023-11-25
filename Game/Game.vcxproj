@@ -153,6 +153,7 @@
     <ClCompile Include="points.cppm" />
     <ClCompile Include="round.cpp" />
     <ClCompile Include="round.cppm" />
+    <ClCompile Include="routing.cpp" />
     <ClCompile Include="turn.cpp" />
     <ClCompile Include="turn.cppm" />
     <ClCompile Include="user.cpp" />
@@ -162,13 +163,14 @@
     <ClCompile Include="WordDatabase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="routing.h" />
     <ClInclude Include="WordDatabase.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="TimerDLL\TimerDLL.vcxproj">
+    <ProjectReference Include="..\TimerDLL\TimerDLL.vcxproj">
       <Project>{475aaa9b-694f-4472-8cbf-a180e397ede3}</Project>
     </ProjectReference>
   </ItemGroup>

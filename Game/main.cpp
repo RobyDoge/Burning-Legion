@@ -6,11 +6,8 @@ import utils;
 import game;
 
 #include <iostream>
-<<<<<<< HEAD
 #include "./TimerDLL/Timer.h"
-=======
 //import timer;
->>>>>>> origin/main
 
 import <fstream>;
 

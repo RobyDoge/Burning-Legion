@@ -12,9 +12,9 @@ Login::Login(const User& user):
 
 Login::~Login() = default;
 
-bool Login::Authenticate(const std::string& password) const 
+bool Login::Authenticate(const std::string& username, const std::string& password) const
 {
-    return m_user.GetPassword() == password;
+    return (m_user.GetName() == username && m_user.GetPassword() == password);
 }
 
 void Login::ChangePassword(const std::string& newPassword)
