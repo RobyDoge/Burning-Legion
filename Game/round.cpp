@@ -1,6 +1,7 @@
 module round;
 import user;
 import turn;
+import <algorithm>;
 import <vector>;
 import <string>;
 
@@ -8,34 +9,27 @@ using server::Round;
 using namespace server;
 
 
-
-Round::Round(std::vector<User>& players, const std::vector<std::string>& wordList):
-	m_wordList{wordList}
+void Round::StartRound(std::vector<User>& players, std::vector<std::string>& wordList)
 {
-	for(auto& player:players)
-	{
-		m_players.push_back({ player,Role::NoRole });
-	}
-	m_numberOfTurns = players.size();
-}
+	Move(players, MoveDirection::FromGameToRound);
+	m_wordList = std::move(wordList);
+	m_numberOfTurns = m_players.size();
+	CheckWordListSize();
 
 
-
-void Round::StartRound()
-{
-	if(m_players.size() > m_wordList.size())
-	{
-		throw std::exception("Not Enough Words");
-	}
 	for(uint8_t iterator=0;iterator< m_numberOfTurns;iterator++)
 	{
 		SetRoleForEachPlayer(iterator);
-		Turn turn(m_players, m_wordList[iterator]);
-		turn.StartTurn();
+		Turn turn;
+		turn.StartTurn(m_players, m_wordList[iterator]);
+		UpdateGamePoints();
 	}
-	UpdateGamePoints();
+	
 	//here we could create a method to show the game points but i don't know how to do it yet
+
+	Move(players, MoveDirection::FromRoundToGame);
 }
+
 
 void Round::SetRoleForEachPlayer(const uint8_t drawerPosition)
 {
@@ -57,4 +51,43 @@ void Round::UpdateGamePoints()
 		player.first.GetPoints().AddToCurrentGamePoints();
 		player.first.GetPoints().ResetTurnPoints();
 	}
+}
+
+void Round::CheckWordListSize() const
+{
+	if (m_players.size() > m_wordList.size())
+	{
+		throw std::exception("Not Enough Words");
+	}
+}
+
+
+void Round::Move(std::vector<User>& players, MoveDirection moveDirection)
+{
+	if(moveDirection == MoveDirection::FromGameToRound)
+	{
+		m_players.clear();
+		m_players.resize(players.size());
+		std::transform(
+			players.begin(),
+			players.end(),
+			m_players.begin(),
+			[](User& user)
+			{
+				return std::make_pair(std::move(user), Role::NoRole);
+			}
+		);
+		players.clear();
+		return;
+	}
+	players.resize(m_players.size());
+	std::transform(
+		m_players.begin(),
+		m_players.end(),
+		players.begin(),
+		[](const std::pair<User&, Role> pair)
+		{
+		return std::move(pair.first);
+		}
+	);
 }

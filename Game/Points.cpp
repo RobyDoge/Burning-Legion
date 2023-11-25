@@ -95,12 +95,12 @@ void Points::AddPointsGuesser(const float& time)
 		m_turnPoints = 100;
 		return;
 	}
-	if (static_cast<uint8_t>(time) == 0)
+	if (static_cast<uint8_t>(time) == 60)
 	{
 		m_turnPoints = -50;
 		return;
 	}
-	m_turnPoints = (60 - static_cast<uint8_t>(time)) / 3 * 10;
+	m_turnPoints = (60 - static_cast<uint8_t>(time))/ 3 * 10;
 }
 
 void Points::AddPointsDrawer(const ::std::vector<float>& times)
@@ -115,7 +115,7 @@ void Points::AddPointsDrawer(const ::std::vector<float>& times)
 	{
 		sum += time;
 	}
-	m_turnPoints = (60 - static_cast<uint8_t>(sum / times.size())) / 6 * 10;
+	m_turnPoints = (60 - static_cast<uint8_t>(sum / times.size())) / 3 * 5;
 }
 
 void Points::ResetTurnPoints()

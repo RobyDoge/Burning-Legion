@@ -28,6 +28,17 @@ User& User::operator=(const User& other)
     return *this;
 }
 
+User::User(User&& other) noexcept
+{
+    this->Swap(other);
+}
+
+User& User::operator=(User&& other) noexcept
+{
+    this->Swap(other);
+    return *this;
+}
+
 void User::Swap(User& other) noexcept
 {
     using std::exchange;
