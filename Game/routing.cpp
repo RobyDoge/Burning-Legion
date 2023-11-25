@@ -11,7 +11,7 @@
 //
 //    CROW_ROUTE(m_app, "/login").methods(crow::HTTPMethod::Post)(
 //        [&userStorage](const crow::request& req) {
-//            return HandleLogin(req, &userStorage);
+//            return HandleLogin(req, userStorage);
 //        }
 //    );
 //

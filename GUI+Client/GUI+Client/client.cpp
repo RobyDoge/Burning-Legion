@@ -1,7 +1,7 @@
 ﻿//#include "client.h"
 //
 //
-//void Client::GetLoginResponse(const std::string& username, const std::string& password) 
+//long Client::GetLoginResponse(const std::string& username, const std::string& password)
 //{
 //    cpr::Response response = cpr::Post(
 //        cpr::Url{ "http://localhost:69420/login" },
@@ -11,11 +11,16 @@
 //        }
 //    );
 //
-//    if (response.status_code == 200) {
-//        std::cout << "Autentificare reușită\n";
-//    }
-//    else {
-//        std::cout << "Autentificare eșuată\n";
-//    }
+//    return response.status_code;
 //}
 //
+//long Client::ConfirmUsernameAvailable(const std::string& username) {
+//    cpr::Response response = cpr::Post(
+//        cpr::Url{ "http://localhost:69420/signup" }, 
+//        cpr::Payload{
+//            { "username", username }
+//        }
+//    );
+//
+//    return response.status_code;
+//}

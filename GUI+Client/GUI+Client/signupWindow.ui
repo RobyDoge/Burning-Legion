@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>749</width>
+    <width>699</width>
     <height>564</height>
    </rect>
   </property>
@@ -212,6 +212,19 @@ padding-bottom:7px;</string>
      <string>Confirm Password</string>
     </property>
    </widget>
+   <widget class="QLabel" name="signupUsernameCheckLabel">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>160</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>signupLogginButton</zorder>
    <zorder>signupUsernameLine</zorder>
    <zorder>sigupPasswordLine</zorder>
@@ -219,13 +232,14 @@ padding-bottom:7px;</string>
    <zorder>errorLabel</zorder>
    <zorder>label</zorder>
    <zorder>sigupPasswordRepeatLine</zorder>
+   <zorder>signupUsernameCheckLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>749</width>
+     <width>699</width>
      <height>22</height>
     </rect>
    </property>

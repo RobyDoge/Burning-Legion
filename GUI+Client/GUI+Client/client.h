@@ -7,7 +7,8 @@
 //{
 //public:
 //
-//	void GetLoginResponse(const std::string& username, const std::string& password);
+//	long GetLoginResponse(const std::string& username, const std::string& password);
+//	long ConfirmUsernameAvailable(const std::string& username);
 //
 //private:
 //
