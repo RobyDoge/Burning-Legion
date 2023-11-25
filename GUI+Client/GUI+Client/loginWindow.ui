@@ -22,61 +22,105 @@
    <string notr="true">background-color:rgba(255,255,255,255);</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="signinButton">
-    <property name="geometry">
-     <rect>
-      <x>430</x>
-      <y>350</y>
-      <width>75</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Yu Gothic UI Semibold</family>
-      <pointsize>10</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton#signinButton {
-    background-color: qlineargradient(spread: pad, x1: 0, y1: 0.505682, x2: 1, y2: 0.477, stop: 0 rgba(191,148,228,219), stop: 1 rgba(227,61,148 ,226));
-    border-radius: 5px;
-    color: rgba(255, 255, 255, 210);
-}
-
-QPushButton#signinButton:hover {
-    background-color: qlineargradient(spread: pad, x1: 0, y1: 0.505682, x2: 1, y2: 0.477, stop: 0 rgba(190, 86, 131, 219), stop: 1 rgba(219, 10, 91, 226));
-}
-
-QPushButton#signinButton:pressed {
-    padding-left: 5px;
-    padding-right: 5px;
-    background-color: rgba(150, 123, 111, 255);
-}
-</string>
-    </property>
-    <property name="text">
-     <string>Sign Up</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="loginButton">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>300</y>
-      <width>231</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton#loginButton {
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QFrame" name="frame">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>250</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QLineEdit" name="loginUsername">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>150</y>
+         <width>231</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(0, 0, 0, 0);
+border:none;
+border-bottom:2px solid rgba(46,82,101,200);
+color:rgba(0,0,0,240);
+padding-bottom:7px;
+font: 600 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="placeholderText">
+        <string>Username</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="loginPassword">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>200</y>
+         <width>231</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Yu Gothic UI Semibold</family>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(0, 0, 0, 0);
+border:none;
+border-bottom:2px solid rgba(46,82,101,200);
+color:rgba(0,0,0,240);
+padding-bottom:7px;</string>
+       </property>
+       <property name="placeholderText">
+        <string>Password</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QFrame" name="frame_2">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>200</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QPushButton" name="loginButton">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>0</y>
+         <width>231</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#loginButton {
     background-color: qlineargradient(spread: pad, x1: 0, y1: 0.505682, x2: 1, y2: 0.477, stop: 0 rgba(11, 131, 120, 219), stop: 1 rgba(85, 98, 112, 226));
     border-radius: 5px;
     color: rgba(255, 255, 255, 210);
@@ -92,101 +136,85 @@ QPushButton#loginButton:pressed {
     background-color: rgba(150, 123, 111, 255);
 }
 </string>
-    </property>
-    <property name="text">
-     <string>Log In</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="loginUsername">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>200</y>
-      <width>231</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgba(0, 0, 0, 0);
-border:none;
-border-bottom:2px solid rgba(46,82,101,200);
-color:rgba(0,0,0,240);
-padding-bottom:7px;
-font: 600 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="placeholderText">
-     <string>Username</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="loginPassword">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>250</y>
-      <width>231</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Yu Gothic UI Semibold</family>
-      <pointsize>10</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgba(0, 0, 0, 0);
-border:none;
-border-bottom:2px solid rgba(46,82,101,200);
-color:rgba(0,0,0,240);
-padding-bottom:7px;</string>
-    </property>
-    <property name="placeholderText">
-     <string>Password</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="messageLabel">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>400</y>
-      <width>381</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Aici o sa apara textul de ai gresit user / parola</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>350</y>
-      <width>141</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Yu Gothic UI Semibold</family>
-      <pointsize>10</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Don`t have an account?</string>
-    </property>
-   </widget>
-   <zorder>signinButton</zorder>
-   <zorder>loginUsername</zorder>
-   <zorder>loginPassword</zorder>
-   <zorder>loginButton</zorder>
-   <zorder>messageLabel</zorder>
-   <zorder>label</zorder>
+       </property>
+       <property name="text">
+        <string>Log In</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>50</y>
+         <width>141</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Yu Gothic UI Semibold</family>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Don`t have an account?</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="messageLabel">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>110</y>
+         <width>381</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Aici o sa apara textul de ai gresit user / parola</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="signinButton">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>50</y>
+         <width>75</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Yu Gothic UI Semibold</family>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#signinButton {
+    background-color: qlineargradient(spread: pad, x1: 0, y1: 0.505682, x2: 1, y2: 0.477, stop: 0 rgba(191,148,228,219), stop: 1 rgba(227,61,148 ,226));
+    border-radius: 5px;
+    color: rgba(255, 255, 255, 210);
+}
+
+QPushButton#signinButton:hover {
+    background-color: qlineargradient(spread: pad, x1: 0, y1: 0.505682, x2: 1, y2: 0.477, stop: 0 rgba(190, 86, 131, 219), stop: 1 rgba(219, 10, 91, 226));
+}
+
+QPushButton#signinButton:pressed {
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: rgba(150, 123, 111, 255);
+}
+</string>
+       </property>
+       <property name="text">
+        <string>Sign Up</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
