@@ -1,6 +1,5 @@
-module timer;
-
-import <format>;
+#include "Timer.h"
+#include <format>
 
 Timer::Timer()
 {

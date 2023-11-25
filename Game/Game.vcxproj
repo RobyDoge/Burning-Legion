@@ -167,7 +167,7 @@
     <Text Include="input.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TimerDLL\TimerDLL.vcxproj">
+    <ProjectReference Include="TimerDLL\TimerDLL.vcxproj">
       <Project>{475aaa9b-694f-4472-8cbf-a180e397ede3}</Project>
     </ProjectReference>
   </ItemGroup>

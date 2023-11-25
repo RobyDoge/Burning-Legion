@@ -6,7 +6,7 @@ import utils;
 import game;
 
 #include <iostream>
-import timer;
+#include "./TimerDLL/Timer.h"
 
 import <fstream>;
 

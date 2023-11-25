@@ -1,6 +1,5 @@
-export module timer;
-
-import <chrono>;
+#pragma once
+#include <chrono>
 
 /*
 This class has 2 main functionalities, getting the elapsed time and the delta time(when and if we will need to work with frames/second)
@@ -9,7 +8,7 @@ It can be made slower or faster (if we want the time to go 2x faster for example
 See how it can be used in main
 */
 
-export class __declspec(dllexport) Timer
+class __declspec(dllexport) Timer
 {
 public:
 	Timer();														 //Constructor

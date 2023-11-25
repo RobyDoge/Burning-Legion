@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="timer.cppm">
+    <ClCompile Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="timer.cpp">

@@ -24,15 +24,7 @@ void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filen
     dictionary.insert_range(words.begin(), words.end());
 }
 
-Dictionary& CreateDatabase()
-{
-    static Dictionary db = CreateDictionary("database.sqlite");
-    db.sync_schema();
-    auto initalwordscount = db.count<WordFromDictionary>();
-    if (initalwordscount == 0)
-        PopulateDictionaryFromFile(db, "input.txt");
-    return db;
-}
+
 
 void WordDatabaseHandle::init()
 {
