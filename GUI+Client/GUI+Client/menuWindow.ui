@@ -14,55 +14,152 @@
    <string>MenuWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="createLobbyButton">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>140</y>
-      <width>151</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="joinLobbyButton">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>220</y>
-      <width>151</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="joinLobbyCode">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>290</y>
-      <width>151</width>
-      <height>41</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>40</y>
-      <width>131</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Main Menu</string>
-    </property>
-   </widget>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Yu Gothic UI Semibold</family>
+        <pointsize>19</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Main Menu</string>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QFrame" name="frame">
+      <property name="minimumSize">
+       <size>
+        <width>400</width>
+        <height>200</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QPushButton" name="createLobbyButton">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>20</y>
+         <width>151</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Yu Gothic UI Semibold</family>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#createLobbyButton {
+    background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0.017, stop:0 rgba(109, 130, 255, 255), stop:1 rgba(255, 164, 164, 255));
+    border-radius: 5px;
+    color:rgb(255, 255, 255);
+}
+
+QPushButton#createLobbyButton:hover {
+    background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(0, 188, 239, 239), stop:0.994318 rgba(146, 255, 175, 246));
+}
+
+QPushButton#createLobbyButton:pressed {
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: rgb(203, 152, 196);
+}
+</string>
+       </property>
+       <property name="text">
+        <string>Create Lobby</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="joinLobbyButton">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>80</y>
+         <width>151</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Yu Gothic UI Semibold</family>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#joinLobbyButton {
+    background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(215, 0, 255, 239), stop:0.994318 rgba(146, 189, 255, 246));
+    border-radius: 5px;
+    color:rgb(255, 255, 255);
+}
+
+QPushButton#joinLobbyButton:hover {
+     background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(239, 123, 0, 239), stop:0.994318 rgba(255, 146, 235, 246));
+}
+
+QPushButton#joinLobbyButton:pressed {
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: rgb(164, 162, 253)
+}
+</string>
+       </property>
+       <property name="text">
+        <string>Join Lobby</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="joinLobbyCode">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>140</y>
+         <width>151</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Yu Gothic UI Semibold</family>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(0, 0, 0, 0);
+border:none;
+border-bottom:2px solid rgba(190,86,131,200);
+color:rgba(0,0,0,240);
+padding-bottom:7px;</string>
+       </property>
+       <property name="placeholderText">
+        <string>Code</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
