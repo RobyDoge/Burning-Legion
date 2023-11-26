@@ -93,6 +93,7 @@
     <ClCompile Include="gameWindow.cpp" />
     <ClCompile Include="loginWindow.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="menuWindow.cpp" />
     <ClCompile Include="signupWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +102,7 @@
   <ItemGroup>
     <QtUic Include="gameWindow.ui" />
     <QtUic Include="loginWindow.ui" />
+    <QtUic Include="menuWindow.ui" />
     <QtUic Include="signupWindow.ui" />
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h" />
+    <ClInclude Include="menuWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -1,6 +1,7 @@
 ﻿#include "loginWindow.h"
 #include "gameWindow.h"
 #include "signupWindow.h"
+#include "menuWindow.h"
 #include <QString>
 
 
@@ -28,7 +29,7 @@ void LoginWindow::on_loginButton_clicked()
     }
 
     //m_loginClient.GetLoginResponse(m_username.toStdString(),m_password.toStdString());
-    openGameWindow();
+    openMenuWindow();
     
     // Altfel:
     ui.messageLabel->setText("Username or Password incorrect");
@@ -39,9 +40,9 @@ void LoginWindow::on_signinButton_clicked()
     signupWindow->show();
     this->destroy();
 }
-void LoginWindow::openGameWindow()
+void LoginWindow::openMenuWindow()
 {
-    GameWindow* gameWindow = new GameWindow(this); 
-    gameWindow->show();
+    MenuWindow* menuWindow = new MenuWindow(this); 
+    menuWindow->show();
     this->destroy();
 }
