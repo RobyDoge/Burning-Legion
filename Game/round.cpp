@@ -9,25 +9,31 @@ using server::Round;
 using namespace server;
 
 
-void Round::StartRound(std::vector<User>& players, std::vector<std::string>& wordList)
+void Round::StartRound(std::vector<User>& players, std::queue<std::string>& wordList)
 {
 	Move(players, MoveDirection::FromGameToRound);
 	m_wordList = std::move(wordList);
 	m_numberOfTurns = m_players.size();
 	CheckWordListSize();
+	BeginRound();
 
-
-	for(uint8_t iterator=0;iterator< m_numberOfTurns;iterator++)
-	{
-		SetRoleForEachPlayer(iterator);
-		Turn turn;
-		turn.StartTurn(m_players, m_wordList[iterator]);
-		UpdateGamePoints();
-	}
+	
 	
 	//here we could create a method to show the game points but i don't know how to do it yet
 
 	Move(players, MoveDirection::FromRoundToGame);
+}
+
+void Round::BeginRound()
+{
+	for (uint8_t iterator = 0; iterator < m_numberOfTurns; iterator++)
+	{
+		SetRoleForEachPlayer(iterator);
+		Turn turn;
+		turn.StartTurn(m_players, m_wordList.front());
+		m_wordList.pop();
+		UpdateGamePoints();
+	}
 }
 
 

@@ -1,8 +1,9 @@
 #pragma once
 #define DATABASE_HANDLERS_H
 
+import game;
 #include <string>
-#include <vector>
+#include <queue>
 #include <filesystem>
 #include <crow.h>
 #include <sqlite_orm/sqlite_orm.h>
@@ -59,7 +60,7 @@ class WordDatabaseHandle
 {
 public:
 	void init();
-	std::vector<std::string> SelectWords(const uint8_t wordsNeeded);
+	std::queue<std::string> SelectWords(const uint8_t wordsNeeded,const server::Game::Difficulty difficulty);
 	void ClearDictionary();
 
 private:

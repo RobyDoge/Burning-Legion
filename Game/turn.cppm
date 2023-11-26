@@ -17,7 +17,6 @@ namespace  server
 		void StartTurn(std::vector<std::pair<User, Round::Role>>& players, const std::string& wordToBeDrawn);	//function to start the round
 
 
-
 	private:			
 		enum class MoveDirection : bool					//enum for knowing which way a move should be done
 		{
@@ -38,11 +37,10 @@ namespace  server
 		void AddPointsForEachPlayer();							//adds to each player their points based on the guessing time
 		void RemainingToTakenTime();							//converts the remaining time stored in guessingTime to how much it tool everyone to guess
 		//void BeginTurn();										//begins the turn
-	public:
 		//compare the two strings and based on how may characters are different returns a StringDifference
-		StringDifference Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord);
+		StringDifference Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord) const;
 		//based on the two input string returns a pair of a message to be written for everyone in chat and an optional message written only for player responsible for the second string
-		std::pair<std::string, std::optional<std::string>> VerifyInputWord(const std::string& wordToBeDrawn, const std::string& playerInputWord);
+		std::pair<std::string, std::optional<std::string>> VerifyInputWord(const std::string& wordToBeDrawn, const std::string& playerInputWord) const;
 
 	private:
 		std::vector<std::pair<User, Round::Role>> m_players;			//stores the players

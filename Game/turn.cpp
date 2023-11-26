@@ -53,7 +53,7 @@ void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const s
 //	}
 //}
 
-std::pair < std::string, std::optional<std::string>> Turn::VerifyInputWord(const std::string& wordToBeDrawn, const std::string& playerInputWord)
+std::pair < std::string, std::optional<std::string>> Turn::VerifyInputWord(const std::string& wordToBeDrawn, const std::string& playerInputWord) const
 {
 	const auto difference = Compare(wordToBeDrawn, playerInputWord);
 
@@ -70,7 +70,7 @@ std::pair < std::string, std::optional<std::string>> Turn::VerifyInputWord(const
 	}
 }
 
-Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord)
+Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord) const
 {
 	if (wordToBeDrawn.size() != playerInputWord.size())
 		return StringDifference::NotSimilar;

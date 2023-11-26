@@ -1,3 +1,5 @@
+import game;
+
 #include"DatabaseHandlers.h"
 #include<fstream>
 #include<iostream>
@@ -40,20 +42,19 @@ void WordDatabaseHandle::init()
     std::cout << initalwordscount2;
 }
 
-std::vector<std::string> WordDatabaseHandle::SelectWords(const uint8_t numberOfPlayers)
+std::queue<std::string> WordDatabaseHandle::SelectWords(const uint8_t numberOfPlayers, const server::Game::Difficulty difficulty)
 {
-    std::vector<std::string> generatedWords;
-    unsigned char difficulty = '1';
+    std::queue<std::string> generatedWords;
     uint8_t wordsNeeded = 4 * numberOfPlayers;
     //auto initalwordscount = db.count<WordFromDictionary>();
     auto rows = m_db.select(sqlite_orm::columns(&WordFromDictionary::word),
-        sqlite_orm::where(sqlite_orm::c(&WordFromDictionary::difficulty) == difficulty),
+        sqlite_orm::where(sqlite_orm::c(&WordFromDictionary::difficulty) == static_cast<unsigned char>(difficulty)),
         sqlite_orm::limit(wordsNeeded));
 
 
     for (const auto& row : rows)                // Add words from the database to the vector
     {
-        generatedWords.push_back(std::get<0>(row));
+        generatedWords.push(std::get<0>(row));
     }
     return generatedWords;
 }

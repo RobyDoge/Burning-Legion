@@ -1,5 +1,8 @@
 module game;
 import user;
+import <vector>;
+import <queue>;
+
 
 using server::Game;
 using namespace server;
@@ -20,13 +23,13 @@ void Game::AddPlayer(const User& newPlayer)
 	m_players.push_back(newPlayer);
 }
 
-std::vector<std::string>& Game::GenerateNextWords()
+std::queue<std::string>& Game::GenerateNextWords()
 {
-	std::vector<std::string> wordsForRound;
+	std::queue<std::string> wordsForRound;
 	for(int i =0;i< m_players.size();i++)
 	{
-		wordsForRound.emplace_back(m_currentWordList[m_currentWordList.size() - 1]);
-		m_currentWordList.pop_back();
+		wordsForRound.push(m_currentWordList.top());
+		m_currentWordList.pop();
 	}
 	return wordsForRound;
 }
