@@ -7,8 +7,6 @@ import game;
 
 void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filename)
 {
-   
-
     std::ifstream inputFile(filename);
     if (!inputFile.is_open())
     {
@@ -28,7 +26,13 @@ void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filen
     dictionary.insert_range(words.begin(), words.end());
 }
 
-void WordDatabaseHandle::init()
+void AddNewUser(UserDatabase& users, const std::string name, const std::string& password)
+{
+    uint16_t idCounter = 1;
+    users.insert(UserInfo{ idCounter++, name, password, "0", 0 });
+}
+
+void WordDatabaseHandle::Init()
 {
     time_t lastModifiedTime = 1700958134;            //will fix this magic number
     if (hasFileChanged("input.txt", lastModifiedTime))
@@ -62,5 +66,10 @@ std::queue<std::string> WordDatabaseHandle::SelectWords(const uint8_t numberOfPl
 void WordDatabaseHandle::ClearDictionary()
 {
     m_db.remove_all<WordFromDictionary>();
+}
 
+void UserDatabaseHandle::AddUser(std::string name, std::string& password)
+{
+    m_db.sync_schema();
+    AddNewUser(m_db, name, password);
 }

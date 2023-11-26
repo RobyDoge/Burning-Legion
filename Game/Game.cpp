@@ -28,7 +28,7 @@ std::queue<std::string>& Game::GenerateNextWords()
 	std::queue<std::string> wordsForRound;
 	for(int i =0;i< m_players.size();i++)
 	{
-		wordsForRound.push(m_currentWordList.top());
+		wordsForRound.push(m_currentWordList.front());
 		m_currentWordList.pop();
 	}
 	return wordsForRound;

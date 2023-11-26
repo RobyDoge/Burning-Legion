@@ -12,26 +12,6 @@ namespace fs = std::filesystem;
 namespace sql = sqlite_orm;
 
 
-struct WordFromDictionary									//structure that will contain the words from our database
-{
-	uint16_t id;
-	std::string word;
-	uint8_t difficulty;
-};
-
-inline auto CreateDictionary(const std::string& filename)		//creating database for dictionary
-{
-	return sql::make_storage(
-		filename,
-		sql::make_table(
-			"Words",
-			sql::make_column("id", &WordFromDictionary::id, sql::primary_key().autoincrement()),
-			sql::make_column("name", &WordFromDictionary::word),
-			sql::make_column("difficulty", &WordFromDictionary::difficulty)
-		)
-	);
-}
-
 inline bool hasFileChanged(const std::string& filename, time_t& lastModifiedTime) {
 	struct stat fileStat;
 
@@ -50,19 +30,76 @@ inline bool hasFileChanged(const std::string& filename, time_t& lastModifiedTime
 	return false; // File has not been modified
 }
 
+struct WordFromDictionary									//structure that will contain the words from our database
+{
+	uint16_t id;
+	std::string word;
+	uint8_t difficulty;
+};
+
+struct UserInfo									
+{
+	uint16_t id;
+	std::string name;
+	std::string password;
+	std::string last5;
+	int32_t best;
+};
+
+inline auto CreateDictionary(const std::string& filename)		//creating database for dictionary
+{
+	return sql::make_storage(
+		filename,
+		sql::make_table(
+			"Words",
+			sql::make_column("id", &WordFromDictionary::id, sql::primary_key().autoincrement()),
+			sql::make_column("name", &WordFromDictionary::word),
+			sql::make_column("difficulty", &WordFromDictionary::difficulty)
+		)
+	);
+}
+
+inline auto CreateUserDatabase(const std::string& filename)		
+{
+	return sql::make_storage(
+		filename,
+		sql::make_table(
+			"Words",
+			sql::make_column("id", &UserInfo::id, sql::primary_key().autoincrement()),
+			sql::make_column("name", &UserInfo::name),
+			sql::make_column("password", &UserInfo::password),
+			sql::make_column("last5", &UserInfo::last5),
+			sql::make_column("best", &UserInfo::best)
+		)
+	);
+}
 
 using Dictionary = decltype(CreateDictionary(""));
+using UserDatabase = decltype(CreateUserDatabase(""));
 
 void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filename);
-Dictionary& CreateDatabase();
+void AddNewUser(Dictionary& dictionary, const std::string& filename);
+//Dictionary& CreateDatabase();
 
 class WordDatabaseHandle
 {
 public:
-	void init();
+
+	void Init();
 	std::queue<std::string> SelectWords(const uint8_t wordsNeeded,const server::Game::Difficulty difficulty);
+
 	void ClearDictionary();
 
 private:
 	Dictionary m_db = CreateDictionary("database.sqlite");
+};
+
+class UserDatabaseHandle
+{
+public:
+	void AddUser(std::string name, std::string& password);
+	//std::vector<std::string> SelectUserInfo(const uint8_t wordsNeeded);
+
+private:
+	UserDatabase m_db = CreateUserDatabase("userDatabase.sqlite");
 };
