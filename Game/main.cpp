@@ -2,12 +2,10 @@ import login;
 import user;
 import round;
 import utils;
-#include "WordDatabase.h"
 import game;
 
-#include <iostream>
 #include "./TimerDLL/Timer.h"
-//import timer;
+#include "DatabaseHandlers.h"
 
 import <fstream>;
 
@@ -32,6 +30,10 @@ int main()
 
 	Round r;
 	r.StartRound(y,x);
+
+	WordDatabaseHandle handle;
+	handle.init();
+	std::vector<std::string> words = handle.SelectWords(2);
 	return 0;
 	
 }

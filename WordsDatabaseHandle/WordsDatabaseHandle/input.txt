@@ -1,7 +1,0 @@
-ana 1
-are 1
-multe 2 
-mere 1
-mari 1
-si 1
-rosii 3

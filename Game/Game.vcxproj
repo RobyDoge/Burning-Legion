@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DatabaseHandlers.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game.cppm" />
     <ClCompile Include="login.cpp" />
@@ -160,11 +161,10 @@
     <ClCompile Include="user.cppm" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="utils.cppm" />
-    <ClCompile Include="WordDatabase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DatabaseHandlers.h" />
     <ClInclude Include="routing.h" />
-    <ClInclude Include="WordDatabase.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />

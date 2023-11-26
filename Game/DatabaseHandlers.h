@@ -1,9 +1,15 @@
+#pragma once
+#define DATABASE_HANDLERS_H
+
 #include <string>
 #include <vector>
+#include <filesystem>
 #include <crow.h>
 #include <sqlite_orm/sqlite_orm.h>
 
+namespace fs = std::filesystem;
 namespace sql = sqlite_orm;
+
 
 struct WordFromDictionary									//structure that will contain the words from our database
 {
@@ -25,6 +31,25 @@ inline auto CreateDictionary(const std::string& filename)		//creating database f
 	);
 }
 
+inline bool hasFileChanged(const std::string& filename, time_t& lastModifiedTime) {
+	struct stat fileStat;
+
+	if (stat(filename.c_str(), &fileStat) != 0) {
+		// Error handling: Unable to get file status
+		std::cerr << "Error: Unable to get file status." << std::endl;
+		return false;
+	}
+
+	// Compare current modification time with the previous one
+	if (fileStat.st_mtime != lastModifiedTime) {
+		lastModifiedTime = fileStat.st_mtime; // Update last modified time
+		return true; // File has been modified
+	}
+
+	return false; // File has not been modified
+}
+
+
 using Dictionary = decltype(CreateDictionary(""));
 
 void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filename);
@@ -35,8 +60,8 @@ class WordDatabaseHandle
 public:
 	void init();
 	std::vector<std::string> SelectWords(const uint8_t wordsNeeded);
+	void ClearDictionary();
 
-	
 private:
 	Dictionary m_db = CreateDictionary("database.sqlite");
 };

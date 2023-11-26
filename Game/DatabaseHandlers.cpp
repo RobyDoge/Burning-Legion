@@ -1,10 +1,12 @@
-#include"WordDatabaseHandle.h"
+#include"DatabaseHandlers.h"
 #include<fstream>
 #include<iostream>
 #include<vector>
 
 void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filename)
 {
+   
+
     std::ifstream inputFile(filename);
     if (!inputFile.is_open())
     {
@@ -24,10 +26,11 @@ void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filen
     dictionary.insert_range(words.begin(), words.end());
 }
 
-
-
 void WordDatabaseHandle::init()
 {
+    time_t lastModifiedTime = 1700958134;            //will fix this magic number
+    if (hasFileChanged("input.txt", lastModifiedTime))
+        m_db.remove_all<WordFromDictionary>();
     m_db.sync_schema();
     auto initalwordscount = m_db.count<WordFromDictionary>();
     if (initalwordscount == 0)
@@ -44,13 +47,19 @@ std::vector<std::string> WordDatabaseHandle::SelectWords(const uint8_t numberOfP
     uint8_t wordsNeeded = 4 * numberOfPlayers;
     //auto initalwordscount = db.count<WordFromDictionary>();
     auto rows = m_db.select(sqlite_orm::columns(&WordFromDictionary::word),
-                          sqlite_orm::where(sqlite_orm::c( & WordFromDictionary::difficulty) == difficulty),
-                          sqlite_orm::limit(wordsNeeded));
-    
-    
+        sqlite_orm::where(sqlite_orm::c(&WordFromDictionary::difficulty) == difficulty),
+        sqlite_orm::limit(wordsNeeded));
+
+
     for (const auto& row : rows)                // Add words from the database to the vector
     {
         generatedWords.push_back(std::get<0>(row));
     }
     return generatedWords;
+}
+
+void WordDatabaseHandle::ClearDictionary()
+{
+    m_db.remove_all<WordFromDictionary>();
+
 }

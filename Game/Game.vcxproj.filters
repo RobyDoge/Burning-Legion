@@ -30,9 +30,6 @@
     <ClCompile Include="turn.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="WordDatabase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="utils.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
@@ -63,6 +60,9 @@
     <ClCompile Include="routing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DatabaseHandlers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="points.cpp">
@@ -78,10 +78,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WordDatabase.h">
+    <ClInclude Include="routing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="routing.h">
+    <ClInclude Include="DatabaseHandlers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
