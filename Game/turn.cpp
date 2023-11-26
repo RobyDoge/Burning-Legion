@@ -4,22 +4,21 @@ import round;
 import <string>;
 import <vector>;
 import <algorithm>;
+import <optional>;
 
-namespace server
-{
-	class User;
-}
+#include "TimerDLL/Timer.h"
 
 using server::Turn;
 using namespace server;
-
 
 
 void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const std::string& wordToBeDrawn)
 {
 	Move(players, MoveDirection::FromRoundToTurn);
 	GuessingTimesInitialization();
+	//BeginTurn();
 	
+
 	/*while (exista timp || nu au ghicit toti)
 		*verificare fieacre input
 			*gueser daca e corect cuvantul sau daca e apropape
@@ -28,13 +27,75 @@ void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const s
 		*eliminare din cenzura de la cuvant dupa x timp
 		*trimitiere catre fieacare user un update
 	*/
-	if (m_players[0].second == Round::Role::Drawer)
-		m_guessingTimes[1].first = 58;
-	else
-		m_guessingTimes[0].first = 0;
+
+	
+
 
 	AddPointsForEachPlayer();
 	Move(players, MoveDirection::FromTurnToRound);
+}
+
+//necesita cunostinte pe care inca nu le am (ROBY) dar se vor dobandii in cel mai scurt timp
+//void Turn::BeginTurn()
+//{
+//	Timer timer;
+//	uint16_t remainingTicks = TURN_LIMIT*100;
+//	uint8_t numberOfFinishedPlayers = 0;
+//
+//	timer.Reset();
+//	while (remainingTicks != 0 && numberOfFinishedPlayers != m_players.size() - 1) 
+//	{
+//		if (timer.GetElapsedTime() > 0.01)
+//		{
+//			remainingTicks--;
+//			timer.Reset();
+//		}
+//	}
+//}
+
+std::pair < std::string, std::optional<std::string>> Turn::VerifyInputWord(const std::string& wordToBeDrawn, const std::string& playerInputWord)
+{
+	const auto difference = Compare(wordToBeDrawn, playerInputWord);
+
+	switch(difference)
+	{
+	case StringDifference::Identical:
+		return { "guessed correctly!",std::nullopt };
+	case StringDifference::NotSimilar:
+		return { playerInputWord,std::nullopt };
+	case StringDifference::DifferByOneChar:
+		return{ playerInputWord,"YOU ARE SO CLOSE" };
+	case StringDifference::DifferByTwoChars:
+		return { playerInputWord,"YOU ARE CLOSE" };
+	}
+}
+
+Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord)
+{
+	if (wordToBeDrawn.size() != playerInputWord.size())
+		return StringDifference::NotSimilar;
+
+	auto mismatch = std::mismatch(wordToBeDrawn.begin(),
+	                                   wordToBeDrawn.end(),
+	                                   playerInputWord.begin());
+	if (mismatch.first == wordToBeDrawn.end())
+		return StringDifference::Identical;
+
+	int positionOfMismatch = mismatch.first - wordToBeDrawn.begin();
+	mismatch = std::mismatch(wordToBeDrawn.begin() + positionOfMismatch + 1,
+	                                    wordToBeDrawn.end(),
+	                                    playerInputWord.begin() + positionOfMismatch + 1);
+	if (mismatch.first == wordToBeDrawn.end())
+		return StringDifference::DifferByOneChar;
+
+	positionOfMismatch = mismatch.first - wordToBeDrawn.begin() ;
+	mismatch=std::mismatch(wordToBeDrawn.begin() + positionOfMismatch + 1,
+										wordToBeDrawn.end(),
+										playerInputWord.begin() + positionOfMismatch + 1);
+	if (mismatch.first == wordToBeDrawn.end())
+		return StringDifference::DifferByTwoChars;
+
+	return StringDifference::NotSimilar;
 }
 
 void Turn::Move(std::vector<std::pair<User, Round::Role>>& players, const MoveDirection moveDirection)

@@ -18,26 +18,26 @@ namespace server
 		};
 
 	public:
-		Round() = default;																			//default constructor 
+		Round() = default;																		//default constructor 
 		void StartRound(std::vector<User>& players, std::vector<std::string>& wordList);		//function to start the round
 
 
 	private:
-		enum class MoveDirection : bool
+		enum class MoveDirection : bool										//enum for knowing which way a move should be done
 		{
-			FromGameToRound,
-			FromRoundToGame
+			FromGameToRound,				//the information received from game are being moved to round
+			FromRoundToGame					//the information from round are being moved to back to game
 		};
 
 	private:
 		void SetRoleForEachPlayer(uint8_t drawerPosition);								//assigns roles to players
 		void UpdateGamePoints();														//updates the game points
-		void Move(std::vector<User>& players, MoveDirection moveDirection);
-		void CheckWordListSize() const;
+		void Move(std::vector<User>& players, MoveDirection moveDirection);				//either moves the elements from the vector to the class of vice versa
+		void CheckWordListSize() const;													//Throws an error in case there are not enough words
 
 	private:
-		std::vector<std::string> m_wordList;
-		std::vector<std::pair<User, Role>> m_players;									//vector storing the players
+		std::vector<std::string> m_wordList;											//vector for the words needed in the round
+		std::vector<std::pair<User, Role>> m_players;									//vector for the players and their roles
 		uint8_t m_numberOfTurns;														//number of turns(players) for the round			
 		
 	};
