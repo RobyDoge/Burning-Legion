@@ -16,7 +16,9 @@ LoginWindow::LoginWindow(QWidget *parent)
 }
 
 LoginWindow::~LoginWindow()
-{}
+{
+    this->destroy();
+}
 
 void LoginWindow::on_loginButton_clicked()
 {
@@ -27,13 +29,16 @@ void LoginWindow::on_loginButton_clicked()
         ui.messageLabel->setText("Please enter both username and password.");
         return;
     }
-
-    //m_loginClient.GetLoginResponse(m_username.toStdString(),m_password.toStdString());
-    openMenuWindow();
-    
-    // Altfel:
-    ui.messageLabel->setText("Username or Password incorrect");
+    // Using dummy username and password for now because .toStdString DOESNT WORK
+        std::string username = "gigel";
+        std::string password = "parola";
+    long response = m_loginClient.GetLoginResponse(username, password);
+    if (response == 200 || response == 201)
+        openMenuWindow();
+    else
+        ui.messageLabel->setText("Username or Password incorrect");
 }
+
 void LoginWindow::on_signinButton_clicked() 
 {
     SignupWindow* signupWindow = new SignupWindow(this);

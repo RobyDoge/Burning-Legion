@@ -2,7 +2,7 @@
 
 #include <QMainWindow>
 #include "ui_signupWindow.h"
-//#include "client.h"
+#include "client.h"
 
 class SignupWindow : public QMainWindow
 {
@@ -22,5 +22,5 @@ private:
 	QString m_username;
 	QString m_password;
 	QString m_confirmPassword;
-	//Client m_signupClient;
+	Client m_signupClient;
 };

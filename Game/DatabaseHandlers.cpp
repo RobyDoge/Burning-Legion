@@ -73,3 +73,15 @@ void UserDatabaseHandle::AddUser(std::string name, std::string& password)
     m_db.sync_schema();
     AddNewUser(m_db, name, password);
 }
+
+bool UserDatabaseHandle::Authenticate(const std::string &name, const std::string& password)
+{
+    //Check if user and password exist in database 
+    return true;
+}
+
+bool UserDatabaseHandle::CheckUsername(const std::string& name)
+{
+    //Check if userName already exists in the database 
+    return true;
+}
