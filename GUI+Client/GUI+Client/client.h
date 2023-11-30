@@ -7,13 +7,12 @@ class Client
 {
 public:
 
-	long GetLoginResponse( std::string username,  std::string password);
-	long ConfirmUsernameAvailable( std::string username);
+	long GetLoginResponse(const std::string& username, const std::string& password);
+	long ConfirmUsernameAvailable(const std::string& username);
+	long AddUser(const std::string& username, const std::string& password);
 
 private:
 
-	//cpr::Response m_loginResponse = cpr::Get(cpr::Url{ "http://localhost:69420/login" });
-	//cpr::Response m_signupResponse = cpr::Get(cpr::Url{ "http://localhost:69420/signup" });
 
 };
 

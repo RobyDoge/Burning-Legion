@@ -97,7 +97,7 @@ private:
 class UserDatabaseHandle
 {
 public:
-	void AddUser(std::string name, std::string& password);
+	void AddUser(const std::string& name, const std::string& password);
 	//std::vector<std::string> SelectUserInfo(const uint8_t wordsNeeded);
 	bool Authenticate(const std::string& name, const std::string& password);
 	bool CheckUsername(const std::string& name);

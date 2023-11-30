@@ -32,7 +32,8 @@ void LoginWindow::on_loginButton_clicked()
     // Using dummy username and password for now because .toStdString DOESNT WORK
         std::string username = "gigel";
         std::string password = "parola";
-    long response = m_loginClient.GetLoginResponse(username, password);
+    
+    long response = m_loginClient.GetLoginResponse(username, password); //Sends username and password to the server to check with the database  
     if (response == 200 || response == 201)
         openMenuWindow();
     else
@@ -41,7 +42,7 @@ void LoginWindow::on_loginButton_clicked()
 
 void LoginWindow::on_signinButton_clicked() 
 {
-    SignupWindow* signupWindow = new SignupWindow(this);
+    SignupWindow* signupWindow = new SignupWindow();
     signupWindow->show();
     this->destroy();
 }

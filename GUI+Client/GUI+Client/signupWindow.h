@@ -23,4 +23,5 @@ private:
 	QString m_password;
 	QString m_confirmPassword;
 	Client m_signupClient;
+
 };

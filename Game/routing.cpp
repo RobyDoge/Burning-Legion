@@ -13,7 +13,8 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
     CROW_ROUTE(m_app, "/login")
         .methods("POST"_method)
         ([&userStorage](const crow::request& req) {
-        // Obține datele trimise de client
+
+        //Get the data that was sent from the client
         auto jsonData = crow::json::load(req.body);
         if (!jsonData)
             return crow::response(400);
@@ -21,10 +22,10 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
         std::string username = jsonData["username"].s();
         std::string password = jsonData["password"].s();
 
-        // Verifică credențialele în baza de date (înlocuiește cu verificarea în baza ta de date)
+        //Check if the username and password exist in the database
         bool credentialsValid = userStorage.Authenticate(username, password);
 
-        // Returnează un răspuns în funcție de rezultatul verificării
+        //Return a response
         if (credentialsValid) {
             return crow::response(200, "OK");
         }
@@ -43,7 +44,6 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 
         std::string username = jsonData["username"].s();
 
-        // Verifică credențialele în baza de date (înlocuiește cu verificarea în baza ta de date)
         bool credentialsValid = userStorage.CheckUsername(username);
 
         // Returnează un răspuns în funcție de rezultatul verificării
@@ -54,6 +54,24 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
             return crow::response(401, "Unauthorized");
         }
             });
+
+
+    CROW_ROUTE(m_app, "/signupaccount")
+        .methods("POST"_method)
+        ([&userStorage](const crow::request& req) {
+        // Obține datele trimise de client
+        auto jsonData = crow::json::load(req.body);
+        if (!jsonData)
+            return crow::response(400);
+
+        std::string username = jsonData["username"].s();
+        std::string password = jsonData["password"].s();
+
+        userStorage.AddUser(username, password);
+
+        return crow::response(200, "OK");
+            });
+
 
 	m_app.port(18080).multithreaded().run();
 

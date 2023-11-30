@@ -68,7 +68,7 @@ void WordDatabaseHandle::ClearDictionary()
     m_db.remove_all<WordFromDictionary>();
 }
 
-void UserDatabaseHandle::AddUser(std::string name, std::string& password)
+void UserDatabaseHandle::AddUser(const std::string& name, const std::string& password)
 {
     m_db.sync_schema();
     AddNewUser(m_db, name, password);

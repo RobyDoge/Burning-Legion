@@ -15,20 +15,22 @@ SignupWindow::SignupWindow(QWidget *parent)
 }
 
 SignupWindow::~SignupWindow()
-{}
+{
+	this->destroy();
+}
 
 void SignupWindow::onUsernameEditingFinished() 
 {
 	m_username = ui.signupUsernameLine->text();
 	QString data = QCoreApplication::applicationDirPath();
-	QPixmap available(QCoreApplication::applicationDirPath() +"/Checked.png");
-	QPixmap notAvailable(QCoreApplication::applicationDirPath() +"/!Checked.png");
+	QPixmap available(QCoreApplication::applicationDirPath() +"/Checked.png");			//This should be moved to .h (i think) 
+	QPixmap notAvailable(QCoreApplication::applicationDirPath() +"/!Checked.png");      //Sets a pixmap to an image(for the available or not at username)
 
 	std::string username = "asfda";
 	long response = m_signupClient.ConfirmUsernameAvailable(username);
 	if (response == 200 || response == 201)
 	{
-		ui.signupUsernameCheckLabel->setPixmap(available);
+		ui.signupUsernameCheckLabel->setPixmap(available);								//The label becomes the image ( initally invisible)
 		ui.signupUsernameCheckLabel->setFixedSize(available.size());
 	}
 	else
@@ -43,6 +45,7 @@ void SignupWindow::onUsernameEditingFinished()
 void SignupWindow::on_signupButton_clicked() 
 {	
 	std::string dummy_username = "gigel";
+	std::string dummy_password = "asd";
 	m_password = ui.sigupPasswordLine->text();
 	m_confirmPassword = ui.sigupPasswordRepeatLine->text();
 	if (m_password!= m_confirmPassword)
@@ -51,9 +54,8 @@ void SignupWindow::on_signupButton_clicked()
 		return;
 	}
 
-	//on_signupLogginButton_clicked();
 
-	/*long response = m_signupClient.ConfirmUsernameAvailable(m_username.toStdString());
+	long response = m_signupClient.AddUser(dummy_username, dummy_password);
 
 	if (response == 200 || response == 201)
 	{
@@ -61,9 +63,9 @@ void SignupWindow::on_signupButton_clicked()
 	}
 	else 
 	{
-		ui.errorLabel->setText("Username already exists!");
+		ui.errorLabel->setText("Error while creating account!");
 		return;
-	}*/
+	}
 		
 }
 
