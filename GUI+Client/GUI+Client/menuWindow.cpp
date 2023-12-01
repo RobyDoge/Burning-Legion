@@ -13,22 +13,21 @@ MenuWindow::~MenuWindow()
 }
 
 
-void MenuWindow::openLobbywindow()
+void MenuWindow::openLobbyWindow()
 {
-    //to do when LobbyWindow is created
+    LobbyWindow* lobbyWindow = new LobbyWindow();
+    lobbyWindow->show();
+    this->destroy();
+    
 }
 
 void MenuWindow::createLobbyButton_clicked()
 {
-    /*
-    LobbyWindow* lobbyWindow=new LobbyWindow(this);
-    lobbyWindow->show();
-    this->destroy();
-    */
+    openLobbyWindow();
 }
 
 void MenuWindow::joinLobbyButton_clicked()
 {
     m_code = ui.joinLobbyCode->text();
-    //to do when LobbyWindow is created
+    openLobbyWindow();
 }

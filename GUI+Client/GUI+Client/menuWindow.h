@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include <QString>
 #include "ui_menuWindow.h"
+#include "lobbyWindow.h"
 
 class MenuWindow : public QMainWindow
 {
@@ -10,7 +11,7 @@ class MenuWindow : public QMainWindow
 public:
 	MenuWindow(QWidget *parent = nullptr);
 	~MenuWindow();
-	void openLobbywindow();
+	void openLobbyWindow();
 
 private slots:
 	void createLobbyButton_clicked();

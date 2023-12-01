@@ -41,6 +41,9 @@
     <ClCompile Include="menuWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="lobbyWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="loginWindow.h">
@@ -66,12 +69,18 @@
     <QtUic Include="menuWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="lobbyWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="menuWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lobbyWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
