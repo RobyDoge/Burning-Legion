@@ -6,20 +6,237 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>696</width>
+    <height>450</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>LobbyWindow</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QListWidget" name="playersListWidget">
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>300</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>500</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Yu Gothic UI Semibold</family>
+        <pointsize>10</pointsize>
+        <bold>true</bold>
+        <stylestrategy>NoAntialias</stylestrategy>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> QListWidget {
+background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(149, 150, 251, 188), stop:1 rgba(160, 255, 210, 166));
+border-radius:10px;
+ }
+
+QListWidget::item{
+height: 40px;
+padding: 5px;
+font-size: 16px;       
+text-align: center;
+}
+
+ QListWidget::item:hover {
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #FAFBFE, stop: 1 #DCDEF1);
+ }
+</string>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::NoSelection</enum>
+      </property>
+      <item>
+       <property name="text">
+        <string>Players</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>player1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>player 2</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+     <widget class="QFrame" name="frame">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>400</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QComboBox" name="difficultyBox">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>130</y>
+         <width>171</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>117</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI Semibold</family>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+         <stylestrategy>PreferDefault</stylestrategy>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"> QComboBox {
+     border-radius: 5px;
+     padding: 1px 18px 1px 3px;
+     min-width: 6em;
+background:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(251, 149, 232, 188), stop:1 rgba(160, 186, 255, 166));
+ }
+
+ QComboBox:editable {
+     background: white;
+ }
+
+ QComboBox:!editable, QComboBox::drop-down:editable {
+      background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(251, 149, 232, 188), stop:1 rgba(160, 186, 255, 166));
+                                  
+ }
+
+ /* QComboBox gets the &quot;on&quot; state when the popup is open */
+ QComboBox:!editable:on, QComboBox::drop-down:editable:on {
+     background:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(251, 149, 232, 188), stop:1 rgba(160, 186, 255, 166));
+ }
+
+ QComboBox:on { /* shift the text when the popup opens */
+     padding-top: 3px;
+     padding-left: 4px;
+ }
+
+ QComboBox::drop-down {
+     subcontrol-origin: padding;
+     subcontrol-position: top right;
+     width: 15px;
+
+     border-left-width: 1px;
+     border-left-color: darkgray;
+     border-left-style: solid; /* just a single line */
+     border-top-right-radius: 3px; /* same radius as the QComboBox */
+     border-bottom-right-radius: 3px;
+ }
+
+
+</string>
+       </property>
+       <property name="currentText">
+        <string/>
+       </property>
+       <property name="placeholderText">
+        <string>Difficulty</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>Easy</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Normal</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Hard</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>No Difficulty</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QPushButton" name="startGameButton">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>250</y>
+         <width>171</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>70</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Yu Gothic UI Semibold</family>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+         <stylestrategy>PreferDefault</stylestrategy>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#startGameButton {
+    background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(162, 236, 251, 188), stop:1 rgba(255, 160, 160, 166));
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+}
+
+QPushButton#startGameButton:hover {
+    background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(149, 212, 251, 188), stop:1 rgba(255, 160, 233, 166));
+}
+
+QPushButton#startGameButton:pressed {
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(251, 149, 149, 188), stop:1 rgba(255, 160, 160, 166));
+}
+</string>
+       </property>
+       <property name="text">
+        <string>Start Game</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>600</width>
+     <width>696</width>
      <height>22</height>
     </rect>
    </property>

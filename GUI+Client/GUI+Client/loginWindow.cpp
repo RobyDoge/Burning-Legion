@@ -36,6 +36,7 @@ void LoginWindow::loginButton_clicked()
         openMenuWindow();
     else
         ui.messageLabel->setText("Username or Password incorrect");
+    openMenuWindow();
 }
 
 void LoginWindow::signinButton_clicked() 
