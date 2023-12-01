@@ -8,8 +8,8 @@ SignupWindow::SignupWindow(QWidget *parent)
 	ui.sigupPasswordRepeatLine->setEchoMode(QLineEdit::Password);
 
 
-	connect(ui.signupButton, &QPushButton::clicked, this, &SignupWindow::on_signupButton_clicked);
-	connect(ui.signupLogginButton, &QPushButton::clicked, this, &SignupWindow::on_signupLogginButton_clicked);
+	connect(ui.signupButton, &QPushButton::clicked, this, &SignupWindow::signupButton_clicked);
+	connect(ui.signupLogginButton, &QPushButton::clicked, this, &SignupWindow::signupLogginButton_clicked);
 	connect(ui.signupUsernameLine, &QLineEdit::editingFinished, this, &SignupWindow::onUsernameEditingFinished);
 
 }
@@ -26,8 +26,7 @@ void SignupWindow::onUsernameEditingFinished()
 	QPixmap available(QCoreApplication::applicationDirPath() +"/Checked.png");			//This should be moved to .h (i think) 
 	QPixmap notAvailable(QCoreApplication::applicationDirPath() +"/!Checked.png");      //Sets a pixmap to an image(for the available or not at username)
 
-	std::string username = "asfda";
-	long response = m_signupClient.ConfirmUsernameAvailable(username);
+	long response = m_signupClient.ConfirmUsernameAvailable(m_username.toUtf8().constData());
 	if (response == 200 || response == 201)
 	{
 		ui.signupUsernameCheckLabel->setPixmap(available);								//The label becomes the image ( initally invisible)
@@ -42,10 +41,8 @@ void SignupWindow::onUsernameEditingFinished()
 
 }
 
-void SignupWindow::on_signupButton_clicked() 
+void SignupWindow::signupButton_clicked() 
 {	
-	std::string dummy_username = "gigel";
-	std::string dummy_password = "asd";
 	m_password = ui.sigupPasswordLine->text();
 	m_confirmPassword = ui.sigupPasswordRepeatLine->text();
 	if (m_password!= m_confirmPassword)
@@ -55,11 +52,11 @@ void SignupWindow::on_signupButton_clicked()
 	}
 
 
-	long response = m_signupClient.AddUser(dummy_username, dummy_password);
+	long response = m_signupClient.AddUser(m_username.toUtf8().constData(), m_password.toUtf8().constData());
 
 	if (response == 200 || response == 201)
 	{
-		on_signupLogginButton_clicked();
+		signupLogginButton_clicked();
 	}
 	else 
 	{
@@ -70,9 +67,10 @@ void SignupWindow::on_signupButton_clicked()
 }
 
 
-void SignupWindow::on_signupLogginButton_clicked() 
+void SignupWindow::signupLogginButton_clicked()
 {
-	this->destroy();
-	LoginWindow* loginWindoww = new LoginWindow();
+	LoginWindow* loginWindoww = new LoginWindow(this);
 	loginWindoww->show();
+	this->destroy();
+
 }

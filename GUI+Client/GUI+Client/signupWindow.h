@@ -13,8 +13,8 @@ public:
 	~SignupWindow();
 
 private slots:
-	void on_signupButton_clicked();
-	void on_signupLogginButton_clicked();
+	void signupButton_clicked();
+	void signupLogginButton_clicked();
 	void onUsernameEditingFinished();
  
 private:

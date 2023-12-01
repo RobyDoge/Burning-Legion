@@ -3,8 +3,8 @@ MenuWindow::MenuWindow(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
-    connect(ui.createLobbyButton, &QPushButton::clicked, this, &MenuWindow::on_createLobbyButton_clicked);
-    connect(ui.joinLobbyButton, &QPushButton::clicked, this, &MenuWindow::on_joinLobbyButton_clicked);
+    connect(ui.createLobbyButton, &QPushButton::clicked, this, &MenuWindow::createLobbyButton_clicked);
+    connect(ui.joinLobbyButton, &QPushButton::clicked, this, &MenuWindow::joinLobbyButton_clicked);
 
 }
 
@@ -18,7 +18,7 @@ void MenuWindow::openLobbywindow()
     //to do when LobbyWindow is created
 }
 
-void MenuWindow::on_createLobbyButton_clicked()
+void MenuWindow::createLobbyButton_clicked()
 {
     /*
     LobbyWindow* lobbyWindow=new LobbyWindow(this);
@@ -27,7 +27,7 @@ void MenuWindow::on_createLobbyButton_clicked()
     */
 }
 
-void MenuWindow::on_joinLobbyButton_clicked()
+void MenuWindow::joinLobbyButton_clicked()
 {
     m_code = ui.joinLobbyCode->text();
     //to do when LobbyWindow is created

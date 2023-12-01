@@ -11,8 +11,10 @@ public:
 	MenuWindow(QWidget *parent = nullptr);
 	~MenuWindow();
 	void openLobbywindow();
-	void on_createLobbyButton_clicked();
-	void on_joinLobbyButton_clicked();
+
+private slots:
+	void createLobbyButton_clicked();
+	void joinLobbyButton_clicked();
 
 private:
 	Ui::MenuWindowClass ui;
