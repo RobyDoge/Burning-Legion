@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include "ui_lobbyWindow.h"
 #include <vector>
+#include "gameWindow.h"
 class LobbyWindow : public QMainWindow
 {
 public:
