@@ -22,7 +22,8 @@ namespace server
     public:
         Lobby();                                                        //constructor;
         std::string GetIdLobby() const;                                 //retuns the lobby Id
-        void AddPlayer(const std::string& name, const uint16_t bestScore, const std::list<int16_t>& lastMatchesPoints);       //adds a player to the lobby
+        std::vector<User>& GetPlayers() const;
+    	void AddPlayer(const std::string& name, const uint16_t bestScore, const std::list<int16_t>& lastMatchesPoints);       //adds a player to the lobby
         void StartGame();                                                           //creates a Game and calls the startGame fucntion
         void SetDifficulty(const GameDifficulty difficulty);						//sets the game difficulty at the start of the game
         GameDifficulty GetDifficulty() const;										//for checking the difficulty
@@ -31,7 +32,7 @@ namespace server
         void GenerateIdLobby();                                                     //randomly generates a lobby id
     private:
         static constexpr uint8_t ID_SIZE = 5;
-        std::vector<User> m_players;
+        std::vector<User>& m_players;
         std::string m_idLobby;
         GameDifficulty m_difficulty;
     };

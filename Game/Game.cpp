@@ -8,6 +8,12 @@ import <cstdint>;
 
 using namespace server;
 
+Game::Game(Lobby& lobby)
+{
+	m_players = lobby.GetPlayers();
+	m_difficulty = lobby.GetDifficulty();
+}
+
 std::queue<std::string>& Game::GenerateNextWords()
 {
 	std::queue<std::string> wordsForRound{};

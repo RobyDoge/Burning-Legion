@@ -1,6 +1,6 @@
 module lobby;
 import user;
-import game;
+//import game;
 //import std;
 import <string>;
 import <ctime>;
@@ -16,6 +16,11 @@ Lobby::Lobby()
 std::string Lobby::GetIdLobby() const
 {
 	return m_idLobby;
+}
+
+std::vector<User>& Lobby::GetPlayers() const
+{
+    return m_players;
 }
 
 void Lobby::AddPlayer(const std::string& name, const uint16_t bestScore, const std::list<int16_t>& lastMatchesPoints)
@@ -44,9 +49,9 @@ void Lobby::GenerateIdLobby()
     }
 }
 
-void Lobby::StartGame()
+void Lobby::StartGame()     //this should NOT be here!!!!
 {
-    Game game{};
+    //Game game{};
     //game.Start();
 }
 

@@ -1,7 +1,7 @@
 export module game;
 import user;
 //import round;
-//import lobby;
+import lobby;
 
 import <cstdint>;
 //import std;
@@ -20,6 +20,7 @@ namespace server
 		static constexpr uint8_t NUMBER_OF_ROUNDS = 4;							//the number of rounds
 	public:
 		Game() = default;														//default constructor
+		Game(Lobby& lobby);
 		~Game() = default;														//destructor
 		//void Start(std::vector<User>& players,const Lobby::GameDifficulty difficulty);		//starts the turn 
 		std::queue<std::string>& GenerateNextWords();							//generates a random number of words based on the number of players
@@ -32,7 +33,7 @@ namespace server
 		uint8_t m_numberOfPlayers;											//number of players
 		//Lobby::GameDifficulty m_difficulty;									//game difficulty
 		std::queue<std::string> m_currentWordList;								//the needed words for the game
-		char m_difficulty;
-
+		Lobby::GameDifficulty m_difficulty;
+		std::vector<User>& m_players;
 	};
 }
