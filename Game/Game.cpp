@@ -2,7 +2,6 @@ module game;
 import user;
 import round;
 
-import <optional>;
 import <cstdint>;
 import std;
 
@@ -11,7 +10,7 @@ using namespace server;
 
 std::queue<std::string>& Game::GenerateNextWords()
 {
-	std::queue<std::string> wordsForRound;
+	std::queue<std::string> wordsForRound{};
 	for(int i =0;i< m_numberOfPlayers;i++)
 	{
 		wordsForRound.push(m_currentWordList.front());

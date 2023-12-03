@@ -1,13 +1,9 @@
 module round;
 import user;
 import turn;
-import <algorithm>;
-import <vector>;
-import <string>;
+import std;
 
-using server::Round;
 using namespace server;
-
 
 void Round::StartRound(std::vector<User>& players, std::queue<std::string>& wordList)
 {
@@ -27,7 +23,7 @@ void Round::BeginRound()
 	for (uint8_t iterator = 0; iterator < m_numberOfTurns; iterator++)
 	{
 		SetRoleForEachPlayer(iterator);
-		Turn turn;
+		Turn turn{};
 		turn.StartTurn(m_players, m_wordList.front());
 		m_wordList.pop();
 		UpdateGamePoints();

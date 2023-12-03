@@ -1,7 +1,7 @@
 export module user;
 export import points;
 
-import <string>;
+import std;
 
 
 namespace server 
@@ -25,7 +25,7 @@ namespace server
 
 
 	private:
-		std::string m_name;									//the name and display name of a user
-		Points m_points;									//an object for storing different type of points
+		std::string m_name{};									//the name and display name of a user
+		Points m_points{};									//an object for storing different type of points
 	};
 }

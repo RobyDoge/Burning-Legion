@@ -1,13 +1,9 @@
-import utils;
-import<vector>;
-import<string>;
-import<unordered_map>;
-import <iostream>;
-import <fstream>;
+module utils;
+import std;
 
 std::vector<std::string> Split(const std::string& str, const std::string& delim)
 {
-    std::vector<std::string> result;
+    std::vector<std::string> result{};
     size_t startIndex = 0;
 
     for (size_t found = str.find(delim); found != std::string::npos; found = str.find(delim, startIndex))

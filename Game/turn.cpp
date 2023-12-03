@@ -1,16 +1,10 @@
 module turn;
 import user;
 import round;
-import <string>;
-import <vector>;
-import <algorithm>;
-import <optional>;
-
+import std;
 #include "TimerDLL/Timer.h"
 
-using server::Turn;
 using namespace server;
-
 
 void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const std::string& wordToBeDrawn)
 {
@@ -53,11 +47,9 @@ void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const s
 //	}
 //}
 
-std::pair < std::string, std::optional<std::string>> Turn::VerifyInputWord(const std::string& wordToBeDrawn, const std::string& playerInputWord) const
+std::pair<std::string, std::optional<std::string>> Turn::VerifyInputWord(const std::string& wordToBeDrawn, const std::string& playerInputWord) const
 {
-	const auto difference = Compare(wordToBeDrawn, playerInputWord);
-
-	switch(difference)
+	switch(const auto difference = Compare(wordToBeDrawn, playerInputWord))
 	{
 	case StringDifference::Identical:
 		return { "guessed correctly!",std::nullopt };
@@ -75,13 +67,14 @@ Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std
 	if (wordToBeDrawn.size() != playerInputWord.size())
 		return StringDifference::NotSimilar;
 
-	auto mismatch = std::mismatch(wordToBeDrawn.begin(),
-	                                   wordToBeDrawn.end(),
-	                                   playerInputWord.begin());
+	auto mismatch{
+		std::mismatch(wordToBeDrawn.begin(),
+		wordToBeDrawn.end(),
+		playerInputWord.begin()) };
 	if (mismatch.first == wordToBeDrawn.end())
 		return StringDifference::Identical;
 
-	int positionOfMismatch = mismatch.first - wordToBeDrawn.begin();
+	int positionOfMismatch{ mismatch.first - wordToBeDrawn.begin() };
 	mismatch = std::mismatch(wordToBeDrawn.begin() + positionOfMismatch + 1,
 	                                    wordToBeDrawn.end(),
 	                                    playerInputWord.begin() + positionOfMismatch + 1);

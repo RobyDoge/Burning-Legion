@@ -1,9 +1,8 @@
 export module round;
 import user;
 import game;
-import <vector>;
-import <string>;
-import <queue>;
+import std;
+import <cstdint>;
 namespace server
 {
 	//this class gets from Game a vector of the users and the words necessary for a round
@@ -19,7 +18,7 @@ namespace server
 		};
 
 	public:
-		Round() = default;																		//default constructor 
+		Round() = default;																	//default constructor 
 		void StartRound(std::vector<User>& players, std::queue<std::string>& wordList);		//function to start the round
 
 
@@ -38,9 +37,8 @@ namespace server
 		void BeginRound();																//creates a number of turns equal to the size of players and updates the score
 
 	private:
-		std::queue<std::string> m_wordList;											//vector for the words needed in the round
-		std::vector<std::pair<User, Role>> m_players;									//vector for the players and their roles
-		uint8_t m_numberOfTurns;														//number of turns(players) for the round			
-		
+		std::queue<std::string> m_wordList{};											//vector for the words needed in the round
+		std::vector<std::pair<User, Role>> m_players{};									//vector for the players and their roles
+		uint8_t m_numberOfTurns{};														//number of turns(players) for the round			
 	};
 }

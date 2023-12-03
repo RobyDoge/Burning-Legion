@@ -18,7 +18,7 @@ std::string Lobby::GetIdLobby() const
 	return m_idLobby;
 }
 
-void Lobby::AddUser(const std::string& name, const uint16_t bestScore, const std::list<int16_t>& lastMatchesPoints)
+void Lobby::AddPlayer(const std::string& name, const uint16_t bestScore, const std::list<int16_t>& lastMatchesPoints)
 {
     User newUser;
     newUser.SetName(name);
@@ -31,15 +31,13 @@ void Lobby::AddUser(const std::string& name, const uint16_t bestScore, const std
 
 void Lobby::GenerateIdLobby()
 {
-    const std::string charset =
+    const std::string charset{ 
         "0123456789"
         "abcdefghijklmnopqrstuvwxyz"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	};
 	m_idLobby.reserve(ID_SIZE);
-
     srand(static_cast<unsigned int>(time(nullptr))); 
-
     for (int i = 0; i < ID_SIZE; ++i) 
     {
         m_idLobby += charset[rand() % charset.length()];
@@ -48,7 +46,7 @@ void Lobby::GenerateIdLobby()
 
 void Lobby::StartGame()
 {
-    Game game;
+    Game game{};
     game.Start();
 }
 
