@@ -1,4 +1,4 @@
-import lobby;
+//import lobby;
 
 #include"DatabaseHandlers.h"
 #include<fstream>
@@ -46,7 +46,7 @@ void WordDatabaseHandle::Init()
     std::cout << initalwordscount2;
 }
 
-std::queue<std::string> WordDatabaseHandle::SelectWords(const uint8_t numberOfPlayers, const server::Lobby::GameDifficulty difficulty)
+std::queue<std::string> WordDatabaseHandle::SelectWords(const uint8_t numberOfPlayers, const char difficulty)//server::Lobby::GameDifficulty difficulty)
 {
     std::queue<std::string> generatedWords;
     uint8_t wordsNeeded = 4 * numberOfPlayers;

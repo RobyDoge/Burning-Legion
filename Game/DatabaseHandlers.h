@@ -1,7 +1,7 @@
 #pragma once
 #define DATABASE_HANDLERS_H
 
-import lobby;
+//import lobby;
 #include <string>
 #include <queue>
 #include <filesystem>
@@ -86,7 +86,7 @@ class WordDatabaseHandle
 public:
 
 	void Init();
-	std::queue<std::string> SelectWords(const uint8_t wordsNeeded,const server::Lobby::GameDifficulty difficulty);
+	std::queue<std::string> SelectWords(const uint8_t wordsNeeded, const char difficulty); //server::Lobby::GameDifficulty difficulty);
 
 	void ClearDictionary();
 

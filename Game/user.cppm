@@ -1,5 +1,5 @@
 export module user;
-export import points;
+import points;
 
 //import std;
 import <string>;

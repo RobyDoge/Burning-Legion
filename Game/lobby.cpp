@@ -47,7 +47,7 @@ void Lobby::GenerateIdLobby()
 void Lobby::StartGame()
 {
     Game game{};
-    game.Start();
+    //game.Start();
 }
 
 void Lobby::SetDifficulty(const GameDifficulty difficulty)

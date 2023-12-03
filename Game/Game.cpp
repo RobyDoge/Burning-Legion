@@ -3,9 +3,9 @@ import user;
 import round;
 
 import <cstdint>;
-import std;
+//import std;
 
-#include "DatabaseHandlers.h"
+
 using namespace server;
 
 std::queue<std::string>& Game::GenerateNextWords()
@@ -21,24 +21,24 @@ std::queue<std::string>& Game::GenerateNextWords()
 
 void Game::CreateWordsForGame()
 {
-	m_currentWordList = WordDatabaseHandle::SelectWords(m_numberOfPlayers * NUMBER_OF_ROUNDS, m_difficulty);
+	//m_currentWordList = WordDatabaseHandle::SelectWords(m_numberOfPlayers * NUMBER_OF_ROUNDS, m_difficulty);
 }
 
-void Game::Start(std::vector<User>& players, const Lobby::GameDifficulty difficulty)
-{
-	m_difficulty = difficulty;
-	m_numberOfPlayers = players.size();
-	CreateWordsForGame();
-
-	for(int i = 0;i<= NUMBER_OF_ROUNDS;i++)
-	{
-		Round round;
-		round.StartRound(players, GenerateNextWords());
-	}
-	UpdateLastMatches(players);
-	auto topThreePlayers{ FindTheThreeWinners(players) };
-	//signal for showing the winners;
-}
+//void Game::Start(std::vector<User>& players, const Lobby::GameDifficulty difficulty)
+//{
+//	m_difficulty = difficulty;
+//	m_numberOfPlayers = players.size();
+//	CreateWordsForGame();
+//
+//	for(int i = 0;i<= NUMBER_OF_ROUNDS;i++)
+//	{
+//		Round round;
+//		round.StartRound(players, GenerateNextWords());
+//	}
+//	UpdateLastMatches(players);
+//	auto topThreePlayers{ FindTheThreeWinners(players) };
+//	//signal for showing the winners;
+//}
 
 void Game::UpdateLastMatches(std::vector<User>& players)
 {

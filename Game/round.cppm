@@ -1,8 +1,12 @@
 export module round;
 import user;
 import game;
-import std;
+//import std;
 import <cstdint>;
+import <vector>;
+import <queue>;
+
+
 namespace server
 {
 	//this class gets from Game a vector of the users and the words necessary for a round
@@ -37,8 +41,8 @@ namespace server
 		void BeginRound();																//creates a number of turns equal to the size of players and updates the score
 
 	private:
-		std::queue<std::string> m_wordList{};											//vector for the words needed in the round
-		std::vector<std::pair<User, Role>> m_players{};									//vector for the players and their roles
+		std::queue<std::string> m_wordList;											//vector for the words needed in the round
+		std::vector<std::pair<User, Role>> m_players;									//vector for the players and their roles
 		uint8_t m_numberOfTurns{};														//number of turns(players) for the round			
 	};
 }
