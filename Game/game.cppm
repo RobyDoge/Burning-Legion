@@ -23,6 +23,7 @@ namespace server
 		void CreateWordsForGame();
 		std::queue<std::string> m_currentWordList;								//the needed words for the game
 		void UpdateLastMatches(std::vector<User>& players);
+		std::array<std::optional<User>, 3> Game::FindTheThreeWinners(std::vector<User>& players);
 	private:
 		uint8_t m_numberOfPlayers;											//vector storing players
 		Lobby::GameDifficulty m_difficulty;										//game difficulty

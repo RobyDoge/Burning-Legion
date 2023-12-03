@@ -1,7 +1,10 @@
 module game;
 import user;
-import <vector>;
-import <queue>;
+import round;
+
+import <optional>;
+import <cstdint>;
+import std;
 
 #include "DatabaseHandlers.h"
 using namespace server;
@@ -17,7 +20,7 @@ std::queue<std::string>& Game::GenerateNextWords()
 	return wordsForRound;
 }
 
-void server::Game::CreateWordsForGame()
+void Game::CreateWordsForGame()
 {
 	m_currentWordList = WordDatabaseHandle::SelectWords(m_numberOfPlayers * NUMBER_OF_ROUNDS, m_difficulty);
 }
@@ -34,6 +37,7 @@ void Game::Start(std::vector<User>& players, const Lobby::GameDifficulty difficu
 		round.StartRound(players, GenerateNextWords());
 	}
 	UpdateLastMatches(players);
+	auto topThreePlayers{ FindTheThreeWinners(players) };
 	//signal for showing the winners;
 }
 
@@ -43,4 +47,35 @@ void Game::UpdateLastMatches(std::vector<User>& players)
 	{
 		player.GetPoints().AddMatch();
 	}
+}
+
+std::array<std::optional<User>, 3> Game::FindTheThreeWinners(std::vector<User>& players)
+{
+
+	if (players.size() == 1)
+	{
+		return { players[0], std::nullopt, std::nullopt };
+	}
+	if (players.size() == 2)
+	{
+		std::array<User, 2> winners{};
+		if (players[0].GetPoints().GetLastMatchesPoints().front() > players[1].GetPoints().GetLastMatchesPoints().front())
+		{
+			winners[0] = players[0];
+			winners[1] = players[1];
+		}
+		else
+		{
+			winners[0] = players[1];
+			winners[1] = players[0];
+		}
+		return { winners[0],winners[1],std::nullopt };
+	}
+	auto playerCopy{players};
+	std::partial_sort(playerCopy.begin(), playerCopy.begin() + 3, playerCopy.end(), [](User& first,User& second)
+	{
+		return first.GetPoints().GetLastMatchesPoints().front() > second.GetPoints().GetLastMatchesPoints().front();
+	});
+	return { playerCopy[0],playerCopy[1],playerCopy[2] };
+
 }

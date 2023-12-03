@@ -14,7 +14,8 @@ namespace server
         {
             Easy = 0b00,
             Medium = 0b01,
-            Hard = 0b10
+            Hard = 0b10,
+            NoDifficulty = 0b11
         };
     public:
         Lobby();
@@ -23,7 +24,6 @@ namespace server
         void StartGame();
         void SetDifficulty(const GameDifficulty difficulty);						//sets the game difficulty at the start of the game
         GameDifficulty GetDifficulty() const;										//for checking the difficulty
-
 
     private:
         void GenerateIdLobby();
