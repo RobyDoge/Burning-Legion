@@ -1,10 +1,10 @@
 module lobby;
 import user;
 import game;
-import std;
+//import std;
 import <string>;
-#include <ctime>
-#include <cstdlib>
+import <ctime>;
+import <cstdlib>;
 
 using namespace server;
 

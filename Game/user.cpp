@@ -6,7 +6,6 @@ using server::Points;
 User::User()
 {
     m_name = "";
-
 }
 
 User::~User()

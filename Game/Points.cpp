@@ -1,6 +1,9 @@
 module points;
 import <cstdint>;
-import std;
+//import std;
+
+import <list>;
+import <vector>;
 
 using server::Points;
 

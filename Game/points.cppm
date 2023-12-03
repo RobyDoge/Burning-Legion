@@ -1,7 +1,11 @@
 export module points;
 import <cstdint>;
 import <type_traits>;
-import std;
+//import std;
+
+import <list>;
+import <vector>;
+
 
 namespace server
 {

@@ -1,9 +1,11 @@
 export module lobby;
-export import user;
+import user;
 
 import <cstdint>;
-import std;
-
+//import std;
+import <string>;
+import <vector>;
+import <list>;
 
 namespace server
 {
@@ -29,8 +31,8 @@ namespace server
         void GenerateIdLobby();                                                     //randomly generates a lobby id
     private:
         static constexpr uint8_t ID_SIZE = 5;
-        std::vector<User> m_players{};
-        std::string m_idLobby{};
+        std::vector<User> m_players;
+        std::string m_idLobby;
         GameDifficulty m_difficulty;
     };
 }
