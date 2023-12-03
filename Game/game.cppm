@@ -1,13 +1,10 @@
 export module game;
-
-
 import user;
 import round;
+import lobby;
 
 import <cstdint>;
-import <vector>;
-import <string>;
-import <queue>;
+import std;
 
 namespace server
 {
@@ -15,32 +12,19 @@ namespace server
 	export class Game
 	{
 	public:
-		static constexpr uint8_t ROUND = 4;										//the number of rounds
-
-	public:
-		enum class Difficulty : uint8_t				//difficulty for the game
-		{
-			Easy = 0b00,			
-			Medium = 0b01,
-			Hard = 0b10
-		};																		
+		static constexpr uint8_t NUMBER_OF_ROUNDS = 4;										//the number of rounds
 	public:
 		Game() = default;														//default constructor
 		~Game() = default;														//destructor
-
-		void SetDifficulty(const Difficulty difficulty);						//sets the game difficulty at the start of the game
-		Difficulty GetDifficulty() const;										//for checking the difficulty
-
-		void AddPlayer(const User& newPlayer);									//adds players to m_player
+		void Start(std::vector<User>& players,const Lobby::GameDifficulty difficulty);
 		std::queue<std::string>& GenerateNextWords();							//generates a random number of words based on the number of players
 
-		void StartGame();
-
 	private:
+		void CreateWordsForGame();
 		std::queue<std::string> m_currentWordList;								//the needed words for the game
-
+		void UpdateLastMatches(std::vector<User>& players);
 	private:
-		std::vector <User> m_players;											//vector storing players
-		Difficulty m_difficulty;												//game difficulty
+		uint8_t m_numberOfPlayers;											//vector storing players
+		Lobby::GameDifficulty m_difficulty;										//game difficulty
 	};
 }

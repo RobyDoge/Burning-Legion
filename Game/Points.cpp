@@ -74,6 +74,16 @@ std::list<int16_t> Points::GetLastMatchesPoints() const
 	return m_lastMatchesPoints;
 }
 
+void Points::SetBestGamePoints(const int16_t bestGamePoints)
+{
+	m_bestGamePoints = bestGamePoints;
+}
+
+void Points::SetLastMatchesPoints(const std::list<int16_t>& lastMatchesPoints)
+{
+	m_lastMatchesPoints = lastMatchesPoints;
+}
+
 
 void Points::AddMatch()
 {

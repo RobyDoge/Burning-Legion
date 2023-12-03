@@ -1,6 +1,6 @@
 export module round;
 import user;
-//import game;
+import game;
 import <vector>;
 import <string>;
 import <queue>;
@@ -33,7 +33,7 @@ namespace server
 	private:
 		void SetRoleForEachPlayer(uint8_t drawerPosition);								//assigns roles to players
 		void UpdateGamePoints();														//updates the game points
-		void Move(std::vector<User>& players, MoveDirection moveDirection);				//either moves the elements from the vector to the class of vice versa
+		void Move(std::vector<User>& players, const MoveDirection moveDirection);		//either moves the elements from the vector to the class of vice versa
 		void CheckWordListSize() const;													//Throws an error in case there are not enough words
 		void BeginRound();																//creates a number of turns equal to the size of players and updates the score
 

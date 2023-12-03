@@ -27,6 +27,8 @@ namespace server
 		//if T is a vector we use the second method
 		template <typename T>
 		void SetTurnPoints(const T& time);
+		void SetBestGamePoints(const int16_t bestGamePoints);
+		void SetLastMatchesPoints(const std::list<int16_t>& lastMatchesPoints);
 		void ResetTurnPoints();									//sets the turnPoints to 0
 		void AddToCurrentGamePoints();							//adds the points obtain during a turn to the currentGamePoints
 		void AddMatch();										//adds the score of the game to the list and checks if the score is bigger then the all time best						

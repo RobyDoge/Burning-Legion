@@ -1,7 +1,7 @@
 #pragma once
 #define DATABASE_HANDLERS_H
 
-import game;
+import lobby;
 #include <string>
 #include <queue>
 #include <filesystem>
@@ -43,7 +43,7 @@ struct UserInfo
 	std::string name;
 	std::string password;
 	std::string last5;
-	int32_t best;
+	int16_t best;
 };
 
 inline auto CreateDictionary(const std::string& filename)		//creating database for dictionary
@@ -86,7 +86,7 @@ class WordDatabaseHandle
 public:
 
 	void Init();
-	std::queue<std::string> SelectWords(const uint8_t wordsNeeded,const server::Game::Difficulty difficulty);
+	std::queue<std::string> SelectWords(const uint8_t wordsNeeded,const server::Lobby::GameDifficulty difficulty);
 
 	void ClearDictionary();
 

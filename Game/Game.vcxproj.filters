@@ -21,10 +21,10 @@
     <ClCompile Include="user.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="login.cppm">
+    <ClCompile Include="lobby.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="login.cpp">
+    <ClCompile Include="lobby.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="turn.cppm">

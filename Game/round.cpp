@@ -16,8 +16,6 @@ void Round::StartRound(std::vector<User>& players, std::queue<std::string>& word
 	m_numberOfTurns = m_players.size();
 	CheckWordListSize();
 	BeginRound();
-
-	
 	
 	//here we could create a method to show the game points but i don't know how to do it yet
 
@@ -68,7 +66,7 @@ void Round::CheckWordListSize() const
 }
 
 
-void Round::Move(std::vector<User>& players, MoveDirection moveDirection)
+void Round::Move(std::vector<User>& players, const MoveDirection moveDirection)
 {
 	if(moveDirection == MoveDirection::FromGameToRound)
 	{
