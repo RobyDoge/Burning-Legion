@@ -24,7 +24,6 @@ namespace server
         std::string GetIdLobby() const;                                 //retuns the lobby Id
         std::vector<User>& GetPlayers();
     	void AddPlayer(const std::string& name, const uint16_t bestScore, const std::list<int16_t>& lastMatchesPoints);       //adds a player to the lobby
-        void StartGame();                                                           //creates a Game and calls the startGame fucntion
         void SetDifficulty(const GameDifficulty difficulty);						//sets the game difficulty at the start of the game
         GameDifficulty GetDifficulty() const;										//for checking the difficulty
 

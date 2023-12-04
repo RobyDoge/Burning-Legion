@@ -1,10 +1,7 @@
 module lobby;
 import user;
-//import game;
-//import std;
-import <string>;
-//import <ctime>;
-//import <cstdlib>;
+
+import std;
 
 using namespace server;
 
@@ -42,19 +39,15 @@ void Lobby::GenerateIdLobby()
         "abcdefghijklmnopqrstuvwxyz"
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	};
-	m_idLobby.reserve(ID_SIZE);
-    /*srand(static_cast<unsigned int>(time(nullptr))); 
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(0, charset.length() - 1);
     for (int i = 0; i < ID_SIZE; ++i) 
     {
-        m_idLobby += charset[rand() % charset.length()];
-    }*/
-    //uniform real distribution (lfc)
-}
-
-void Lobby::StartGame()     //this should NOT be here!!!!
-{
-    //Game game{};
-    //game.Start();
+        const int randomIndex = charset[distr(gen)];
+        m_idLobby.push_back(charset[randomIndex]);
+    }
+    
 }
 
 void Lobby::SetDifficulty(const GameDifficulty difficulty)
