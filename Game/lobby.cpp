@@ -3,22 +3,23 @@ import user;
 //import game;
 //import std;
 import <string>;
-import <ctime>;
-import <cstdlib>;
+//import <ctime>;
+//import <cstdlib>;
 
 using namespace server;
 
 Lobby::Lobby()
 {
-    GenerateIdLobby();
+    //GenerateIdLobby();
 }
 
 std::string Lobby::GetIdLobby() const
 {
+
 	return m_idLobby;
 }
 
-std::vector<User>& Lobby::GetPlayers() const
+std::vector<User>& Lobby::GetPlayers()
 {
     return m_players;
 }
@@ -42,11 +43,12 @@ void Lobby::GenerateIdLobby()
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	};
 	m_idLobby.reserve(ID_SIZE);
-    srand(static_cast<unsigned int>(time(nullptr))); 
+    /*srand(static_cast<unsigned int>(time(nullptr))); 
     for (int i = 0; i < ID_SIZE; ++i) 
     {
         m_idLobby += charset[rand() % charset.length()];
-    }
+    }*/
+    //uniform real distribution (lfc)
 }
 
 void Lobby::StartGame()     //this should NOT be here!!!!

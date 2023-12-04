@@ -27,22 +27,22 @@ Points::Points(const Points& other):
 Points& Points::operator=(const Points& other)
 {
 	Points tempPoints{ other };
-	Swap(tempPoints);
+	swap(tempPoints);
 	return *this;
 }
 
 Points::Points(Points&& other) noexcept
 {
-	this->Swap(other);
+	this->swap(other);
 }
 
 Points& Points::operator=(Points&& other) noexcept
 {
-	this->Swap(other);
+	this->swap(other);
 	return *this;
 }
 
-void Points::Swap(Points& other) noexcept
+void Points::swap(Points& other) noexcept
 {
 	using std::exchange;
 	m_bestGamePoints = exchange(other.m_bestGamePoints, m_bestGamePoints);
@@ -128,6 +128,11 @@ void Points::AddPointsDrawer(const std::vector<float>& times)
 		sum += time;
 	}
 	m_turnPoints = (60 - static_cast<uint8_t>(sum / times.size())) / 3 * 5;
+}
+
+void server::swap(Points& first, Points& second) noexcept
+{
+	first.swap(second);
 }
 
 void Points::ResetTurnPoints()

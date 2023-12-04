@@ -22,26 +22,26 @@ User::User(const User& other) :
 User& User::operator=(const User& other)
 {
     User tempUser{ other };
-    Swap(tempUser);
+    swap(tempUser);
     return *this;
 }
 
 User::User(User&& other) noexcept
 {
-    this->Swap(other);
+    this->swap(other);
 }
 
 User& User::operator=(User&& other) noexcept
 {
-    this->Swap(other);
+    this->swap(other);
     return *this;
 }
 
-void User::Swap(User& other) noexcept
+void User::swap(User& other) noexcept
 {
     using std::exchange;
     m_name = exchange(other.m_name, m_name);
-    m_points.Swap(other.m_points);
+    m_points.swap(other.m_points);
 }
 
 std::string User::GetName() const
@@ -64,4 +64,9 @@ void User::SetName(const std::string& name)
 void User::SetPoints(const Points& points)
 {
     m_points = points;
+}
+
+void server::swap(User& first, User& second) noexcept
+{
+    first.swap(second);
 }

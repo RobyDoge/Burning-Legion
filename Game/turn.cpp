@@ -6,11 +6,10 @@ import std;
 
 using namespace server;
 
-void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const std::string& wordToBeDrawn)
+void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const std::string& wordToBeGuessed)
 {
-	Move(players, MoveDirection::FromRoundToTurn);
-	GuessingTimesInitialization();
-	//BeginTurn();
+	GuessingTimeVectorInitialization(players);
+	//BeginTurn(wordToBeGuessed);
 	
 
 	/*while (exista timp || nu au ghicit toti)
@@ -25,12 +24,27 @@ void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const s
 	
 
 
-	AddPointsForEachPlayer();
-	Move(players, MoveDirection::FromTurnToRound);
+	AddPointsForEachPlayer(players);
 }
 
-//necesita cunostinte pe care inca nu le am (ROBY) dar se vor dobandii in cel mai scurt timp
-//void Turn::BeginTurn()
+
+void Turn::GuessingTimeVectorInitialization(const std::vector<std::pair<User, Round::Role>>& players)
+{
+	m_guessingTimes.resize(players.size());
+	for (uint8_t iterator = 0; iterator < players.size(); iterator++)
+	{
+		m_guessingTimes[iterator].second = players[iterator].first.GetName();
+		if (players[iterator].second == Round::Role::Drawer)
+		{
+			m_guessingTimes[iterator].first = -2;
+			continue;
+		}
+		m_guessingTimes[iterator].first = -1;
+	}
+}
+
+//necesita cunostinte pe care inca nu le am (ROBY), dar se vor dobandii in cel mai scurt timp
+//void Turn::BeginTurn(const std::string& wordToBeGuessed)
 //{
 //	Timer timer;
 //	uint16_t remainingTicks = TURN_LIMIT*100;
@@ -47,103 +61,80 @@ void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const s
 //	}
 //}
 
-std::pair<std::string, std::optional<std::string>> Turn::VerifyInputWord(const std::string& wordToBeDrawn, const std::string& playerInputWord) const
+std::pair<std::string, std::optional<std::string>> Turn::VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord) const
 {
-	switch(const auto difference = Compare(wordToBeDrawn, playerInputWord))
+	switch (const auto difference = Compare(wordToBeGuessed, playerInputWord))
 	{
 	case StringDifference::Identical:
-		return { "guessed correctly!",std::nullopt };
+		return { "guessed correctly!", std::nullopt };
 	case StringDifference::NotSimilar:
-		return { playerInputWord,std::nullopt };
+		return { playerInputWord, std::nullopt };
 	case StringDifference::DifferByOneChar:
-		return{ playerInputWord,"YOU ARE SO CLOSE" };
+		return { playerInputWord, "YOU ARE SO CLOSE" };
 	case StringDifference::DifferByTwoChars:
-		return { playerInputWord,"YOU ARE CLOSE" };
+		return { playerInputWord, "YOU ARE CLOSE" };
 	}
 }
+
 
 Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord) const
 {
 	if (wordToBeDrawn.size() != playerInputWord.size())
 		return StringDifference::NotSimilar;
 
-	auto mismatch{
+	auto mismatch=
 		std::mismatch(wordToBeDrawn.begin(),
 		wordToBeDrawn.end(),
-		playerInputWord.begin()) };
+		playerInputWord.begin()) ;
 	if (mismatch.first == wordToBeDrawn.end())
 		return StringDifference::Identical;
 
-	int positionOfMismatch{ mismatch.first - wordToBeDrawn.begin() };
-	mismatch = std::mismatch(wordToBeDrawn.begin() + positionOfMismatch + 1,
+	int positionOfMismatch= mismatch.first - wordToBeDrawn.begin() ;
+	auto mismatch1 = std::mismatch(wordToBeDrawn.begin() + positionOfMismatch + 1,
 	                                    wordToBeDrawn.end(),
 	                                    playerInputWord.begin() + positionOfMismatch + 1);
-	if (mismatch.first == wordToBeDrawn.end())
+	if (mismatch1.first == wordToBeDrawn.end())
 		return StringDifference::DifferByOneChar;
 
 	positionOfMismatch = mismatch.first - wordToBeDrawn.begin() ;
-	mismatch=std::mismatch(wordToBeDrawn.begin() + positionOfMismatch + 1,
+	auto mismatch2=std::mismatch(wordToBeDrawn.begin() + positionOfMismatch + 1,
 										wordToBeDrawn.end(),
 										playerInputWord.begin() + positionOfMismatch + 1);
-	if (mismatch.first == wordToBeDrawn.end())
+	if (mismatch2.first == wordToBeDrawn.end())
 		return StringDifference::DifferByTwoChars;
 
 	return StringDifference::NotSimilar;
 }
 
-void Turn::Move(std::vector<std::pair<User, Round::Role>>& players, const MoveDirection moveDirection)
-{
-	if (moveDirection == MoveDirection::FromRoundToTurn)
-	{
-		m_players = std::move(players);
-		return;
-	}
-	players = std::move(m_players);
-}
 
-void Turn::GuessingTimesInitialization()
+
+void Turn::AddPointsForEachPlayer(std::vector<std::pair<User, Round::Role>>& players)
 {
-	m_guessingTimes.resize(m_players.size());
-	for(uint8_t iterator = 0; iterator < m_players.size(); iterator++)
+	ConvertRemainingTimeToTakenTime();
+	for (uint8_t iterator = 0; iterator < players.size(); iterator++)
 	{
-		m_guessingTimes[iterator].second = m_players[iterator].first.GetName();
-		if (m_players[iterator].second == Round::Role::Drawer)
+		if (players[iterator].second != Round::Role::Drawer)
 		{
-			m_guessingTimes[iterator].first = -2;
+			players[iterator].first.GetPoints().SetTurnPoints(m_guessingTimes[iterator].first);
 			continue;
 		}
-		m_guessingTimes[iterator].first = -1;
-	}
-}
-
-
-void Turn::AddPointsForEachPlayer()
-{
-	RemainingToTakenTime();
-	for (uint8_t iterator = 0; iterator < m_players.size(); iterator++)
-	{
-		if (m_players[iterator].second == Round::Role::Drawer)
+		std::vector<float> floatVector;
+		for (uint8_t iterator2 = 0; iterator2 < m_guessingTimes.size(); iterator2++)
 		{
-			std::vector<float> floatVector;
-			for(uint8_t iterator2 = 0; iterator2 < m_guessingTimes.size(); iterator2++)
+			if (iterator == iterator2)
 			{
-				if(iterator==iterator2)
-				{
-					continue;
-				}
-				floatVector.push_back(m_guessingTimes[iterator2].first);
+				continue;
 			}
-			m_players[iterator].first.GetPoints().SetTurnPoints(floatVector);
-			continue;
+			floatVector.push_back(m_guessingTimes[iterator2].first);
 		}
-		m_players[iterator].first.GetPoints().SetTurnPoints(m_guessingTimes[iterator].first);
+		players[iterator].first.GetPoints().SetTurnPoints(floatVector);
 	}
 }
 
-void Turn::RemainingToTakenTime()
+void Turn::ConvertRemainingTimeToTakenTime()
 {
-	for(auto& guessTime:m_guessingTimes)
+	for(auto& remainingTime : m_guessingTimes | std::views::keys)
 	{
-		guessTime.first = TURN_LIMIT - guessTime.first;
+		remainingTime = TURN_LIMIT - remainingTime;
 	}
 }

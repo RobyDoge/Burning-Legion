@@ -1,23 +1,35 @@
 module game;
-import user;
 import round;
 
 import <cstdint>;
-//import std;
+import std;
 
+#include "DatabaseHandlers.h"
 
 using namespace server;
 
-Game::Game(Lobby& lobby)
+void Game::Start(std::vector<User>& players, const Lobby::GameDifficulty difficulty)
 {
-	m_players = lobby.GetPlayers();
-	m_difficulty = lobby.GetDifficulty();
+	m_difficulty = difficulty;
+	std::swap(m_players, players);
+	CreateWordsForGame();
+
+	for (int i = 0; i <= NUMBER_OF_ROUNDS; i++)
+	{
+		Round round{};
+		round.StartRound(players, GenerateNextWords());
+	}
+
+	UpdateLastMatches();
+	auto topThreePlayers{ FindTheThreeWinners() };
+	//de trimis catre server castigatorii;
+	std::swap(players, m_players);
 }
 
 std::queue<std::string>& Game::GenerateNextWords()
 {
 	std::queue<std::string> wordsForRound{};
-	for(int i =0;i< m_numberOfPlayers;i++)
+	for(int i =0;i< m_players.size();i++)
 	{
 		wordsForRound.push(m_currentWordList.front());
 		m_currentWordList.pop();
@@ -27,60 +39,38 @@ std::queue<std::string>& Game::GenerateNextWords()
 
 void Game::CreateWordsForGame()
 {
-	//m_currentWordList = WordDatabaseHandle::SelectWords(m_numberOfPlayers * NUMBER_OF_ROUNDS, m_difficulty);
+	m_currentWordList = WordDatabaseHandle::SelectWords(m_players.size() * NUMBER_OF_ROUNDS, m_difficulty);
 }
 
-//void Game::Start(std::vector<User>& players, const Lobby::GameDifficulty difficulty)
-//{
-//	m_difficulty = difficulty;
-//	m_numberOfPlayers = players.size();
-//	CreateWordsForGame();
-//
-//	for(int i = 0;i<= NUMBER_OF_ROUNDS;i++)
-//	{
-//		Round round;
-//		round.StartRound(players, GenerateNextWords());
-//	}
-//	UpdateLastMatches(players);
-//	auto topThreePlayers{ FindTheThreeWinners(players) };
-//	//signal for showing the winners;
-//}
-
-void Game::UpdateLastMatches(std::vector<User>& players)
+void Game::UpdateLastMatches()
 {
-	for(auto& player : players)
+	for(auto& player : m_players)
 	{
 		player.GetPoints().AddMatch();
 	}
 }
 
-std::array<std::optional<User>, 3> Game::FindTheThreeWinners(std::vector<User>& players)
+std::list<User> Game::FindTheThreeWinners()
 {
 
-	if (players.size() == 1)
+	if (m_players.size() == 1)
 	{
-		return { players[0], std::nullopt, std::nullopt };
+		return { m_players[0]};
 	}
-	if (players.size() == 2)
+	if (m_players.size() == 2)
 	{
-		std::array<User, 2> winners{};
-		if (players[0].GetPoints().GetLastMatchesPoints().front() > players[1].GetPoints().GetLastMatchesPoints().front())
+		
+		if (m_players[0].GetPoints().GetLastMatchesPoints().front() > m_players[1].GetPoints().GetLastMatchesPoints().front())
 		{
-			winners[0] = players[0];
-			winners[1] = players[1];
+			return{ m_players[0],m_players[1] };
 		}
-		else
-		{
-			winners[0] = players[1];
-			winners[1] = players[0];
-		}
-		return { winners[0],winners[1],std::nullopt };
+		return { m_players[1],m_players[0] };
 	}
-	auto playerCopy{players};
+	auto playerCopy{m_players};
 	std::partial_sort(playerCopy.begin(), playerCopy.begin() + 3, playerCopy.end(), [](User& first,User& second)
 	{
 		return first.GetPoints().GetLastMatchesPoints().front() > second.GetPoints().GetLastMatchesPoints().front();
 	});
-	return { playerCopy[0],playerCopy[1],playerCopy[2] };
 
+	return { playerCopy[0],playerCopy[1],playerCopy[2] };
 }

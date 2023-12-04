@@ -1,10 +1,7 @@
 export module round;
 import user;
-import game;
-//import std;
+import std;
 import <cstdint>;
-import <vector>;
-import <queue>;
 
 
 namespace server
@@ -37,11 +34,10 @@ namespace server
 		void SetRoleForEachPlayer(uint8_t drawerPosition);								//assigns roles to players
 		void UpdateGamePoints();														//updates the game points
 		void Move(std::vector<User>& players, const MoveDirection moveDirection);		//either moves the elements from the vector to the class of vice versa
-		void CheckWordListSize() const;													//Throws an error in case there are not enough words
-		void BeginRound();																//creates a number of turns equal to the size of players and updates the score
+		void CheckWordListSize(const std::queue<std::string>& wordList) const;			//Throws an error in case there are not enough words
+		void BeginRound(std::queue<std::string>& wordList);								//creates a number of turns equal to the size of players and updates the score
 
 	private:
-		std::queue<std::string> m_wordList;											//vector for the words needed in the round
 		std::vector<std::pair<User, Role>> m_players;									//vector for the players and their roles
 		uint8_t m_numberOfTurns{};														//number of turns(players) for the round			
 	};
