@@ -1,6 +1,7 @@
 export module round;
 import user;
-import std;
+import <vector>;
+import <queue>;
 import <cstdint>;
 
 
@@ -15,7 +16,7 @@ namespace server
 			Drawer = 0b00,					// player drawing the word
 			Guesser = 0b01,					// player guessing the word
 			Finished = 0b10,				// player that guessed the word
-			NoRole= 0b11					// for creating m_player at the beginning
+			NoRole = 0b11					// for creating m_player at the beginning
 		};
 
 	public:

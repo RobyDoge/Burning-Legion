@@ -1,4 +1,4 @@
-//import lobby;
+import lobby;
 
 #include"DatabaseHandlers.h"
 #include<fstream>
@@ -74,7 +74,7 @@ void UserDatabaseHandle::AddUser(const std::string& name, const std::string& pas
     AddNewUser(m_db, name, password);
 }
 
-bool UserDatabaseHandle::Authenticate(const std::string &name, const std::string& password)
+bool UserDatabaseHandle::Authenticate(const std::string& name, const std::string& password)
 {
     auto rows = m_db.select(sqlite_orm::columns(&UserInfo::id),
         sqlite_orm::where(
@@ -82,17 +82,17 @@ bool UserDatabaseHandle::Authenticate(const std::string &name, const std::string
                 sqlite_orm::c(&UserInfo::name) == name,
                 sqlite_orm::c(&UserInfo::password) == password
             )));
-    if(rows.empty())
+    if (rows.empty())
     {
         rows = m_db.select(sqlite_orm::columns(&UserInfo::id),
             sqlite_orm::where
             (sqlite_orm::c(&UserInfo::name) == name)
         );
-	    if(rows.empty())
-	    {
+        if (rows.empty())
+        {
             //user ul exista dar nu a pus bine parola
             return false;
-	    }
+        }
         //user ul nu exista
         return false;
     }
@@ -107,9 +107,9 @@ bool UserDatabaseHandle::CheckUsername(const std::string& name)
         sqlite_orm::where
         (sqlite_orm::c(&UserInfo::name) == name)
     );
-    if(rows.empty())
+    if (rows.empty())
     {
-	    //user ul nu exista, username disponibil
+        //user ul nu exista, username disponibil
         return false;
     }
     return true; //numele exista deja

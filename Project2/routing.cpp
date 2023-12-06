@@ -5,9 +5,9 @@ using namespace http;
 
 void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStorage)
 {
-	CROW_ROUTE(m_app, "/")([]() {
-		return "This is an example app of crow and sql-orm";
-		});
+    CROW_ROUTE(m_app, "/")([]() {
+        return "This is an example app of crow and sql-orm";
+        });
 
 
     CROW_ROUTE(m_app, "/login")
@@ -73,6 +73,6 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
             });
 
 
-	m_app.port(18080).multithreaded().run();
+    m_app.port(18080).multithreaded().run();
 
 }

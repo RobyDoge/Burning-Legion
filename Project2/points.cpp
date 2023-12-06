@@ -1,26 +1,24 @@
 module points;
 import <cstdint>;
-//import std;
-
 import <list>;
 import <vector>;
 
 using server::Points;
 
-Points::Points():
-	m_currentGamePoints{0},
-	m_turnPoints{0},
-	m_bestGamePoints{0}
+Points::Points() :
+	m_currentGamePoints{ 0 },
+	m_turnPoints{ 0 },
+	m_bestGamePoints{ 0 }
 {
 }
 
 Points::~Points() = default;
 
-Points::Points(const Points& other):
-	m_currentGamePoints{other.m_currentGamePoints},
-	m_turnPoints{other.m_turnPoints},
-	m_bestGamePoints{other.m_bestGamePoints},
-	m_lastMatchesPoints{other.m_lastMatchesPoints}
+Points::Points(const Points& other) :
+	m_currentGamePoints{ other.m_currentGamePoints },
+	m_turnPoints{ other.m_turnPoints },
+	m_bestGamePoints{ other.m_bestGamePoints },
+	m_lastMatchesPoints{ other.m_lastMatchesPoints }
 {
 }
 
@@ -89,10 +87,10 @@ void Points::SetLastMatchesPoints(const std::list<int16_t>& lastMatchesPoints)
 
 void Points::AddMatch()
 {
-	if(MAX_SIZE_OF_LAST_MATCHES ==m_lastMatchesPoints.size())
+	if (MAX_SIZE_OF_LAST_MATCHES == m_lastMatchesPoints.size())
 	{
 		m_lastMatchesPoints.pop_back();
-		
+
 	}
 	m_lastMatchesPoints.emplace_front(m_currentGamePoints);
 	if (m_currentGamePoints > m_bestGamePoints)
@@ -112,7 +110,7 @@ void Points::AddPointsGuesser(const float& time)
 		m_turnPoints = -50;
 		return;
 	}
-	m_turnPoints = (60 - static_cast<uint8_t>(time))/ 3 * 10;
+	m_turnPoints = (60 - static_cast<uint8_t>(time)) / 3 * 10;
 }
 
 void Points::AddPointsDrawer(const std::vector<float>& times)

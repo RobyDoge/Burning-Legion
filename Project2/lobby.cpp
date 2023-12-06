@@ -1,7 +1,7 @@
 module lobby;
 import user;
 
-import std;
+import <random>;
 
 using namespace server;
 
@@ -13,7 +13,7 @@ Lobby::Lobby()
 std::string Lobby::GetIdLobby() const
 {
 
-	return m_idLobby;
+    return m_idLobby;
 }
 
 std::vector<User>& Lobby::GetPlayers()
@@ -34,20 +34,20 @@ void Lobby::AddPlayer(const std::string& name, const uint16_t bestScore, const s
 
 void Lobby::GenerateIdLobby()
 {
-    const std::string charset{ 
+    const std::string charset{
         "0123456789"
         "abcdefghijklmnopqrstuvwxyz"
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	};
+    };
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distr(0, charset.length() - 1);
-    for (int i = 0; i < ID_SIZE; ++i) 
+    for (int i = 0; i < ID_SIZE; ++i)
     {
         const int randomIndex = charset[distr(gen)];
         m_idLobby.push_back(charset[randomIndex]);
     }
-    
+
 }
 
 void Lobby::SetDifficulty(const GameDifficulty difficulty)

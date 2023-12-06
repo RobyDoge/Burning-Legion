@@ -2,7 +2,8 @@ export module game;
 import user;
 import lobby;
 
-import std;
+import <queue>;
+
 import <cstdint>;
 
 
@@ -27,7 +28,7 @@ namespace server
 		void UpdateLastMatches();												//after the game ends it updates the history for each player
 		std::list<User> FindTheThreeWinners();		//return an array with up to top 3 players based on their score
 
-	private:					
+	private:
 		std::queue<std::string> m_currentWordList;				//the needed words for the game
 		Lobby::GameDifficulty m_difficulty;						//game difficulty
 		std::vector<User> m_players;

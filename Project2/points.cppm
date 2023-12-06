@@ -1,8 +1,6 @@
 export module points;
 import <cstdint>;
 import <type_traits>;
-//import std;
-
 import <list>;
 import <vector>;
 
@@ -41,7 +39,7 @@ namespace server
 	private:
 		void AddPointsGuesser(const float& time);				//depending on the time taken to guess this calculates the points
 		void AddPointsDrawer(const std::vector<float>& times);	//based on the average time of guessing of all the other players this calculates the points for the drawer
-		
+
 	private:
 		static constexpr uint8_t MAX_SIZE_OF_LAST_MATCHES = 5;	//the size of the lastMatches array
 
@@ -53,9 +51,9 @@ namespace server
 	};
 
 	export template <typename T>
-	void Points::SetTurnPoints(const T& time)
+		void Points::SetTurnPoints(const T& time)
 	{
-		
+
 		if constexpr (std::is_same_v<T, float> || std::is_same_v<T, int>)
 		{
 			AddPointsGuesser(time);

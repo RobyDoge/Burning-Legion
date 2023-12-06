@@ -1,11 +1,10 @@
 export module user;
 export import points;
-//import std;
 import <string>;
 
-namespace server 
+namespace server
 {
-	export class User 
+	export class User
 	{
 	public:
 		User();												//default constructor

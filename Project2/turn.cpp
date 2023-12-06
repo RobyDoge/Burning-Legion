@@ -1,8 +1,9 @@
 module turn;
 import user;
 import round;
-import std;
-#include "TimerDLL/Timer.h"
+import <vector>;
+
+//#include "TimerDLL/Timer.h"
 
 using namespace server;
 
@@ -10,7 +11,7 @@ void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const s
 {
 	GuessingTimeVectorInitialization(players);
 	//BeginTurn(wordToBeGuessed);
-	
+
 
 	/*while (exista timp || nu au ghicit toti)
 		*verificare fieacre input
@@ -21,7 +22,7 @@ void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const s
 		*trimitiere catre fieacare user un update
 	*/
 
-	
+
 
 
 	AddPointsForEachPlayer(players);
@@ -82,24 +83,24 @@ Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std
 	if (wordToBeDrawn.size() != playerInputWord.size())
 		return StringDifference::NotSimilar;
 
-	auto mismatch=
+	auto mismatch =
 		std::mismatch(wordToBeDrawn.begin(),
-		wordToBeDrawn.end(),
-		playerInputWord.begin()) ;
+			wordToBeDrawn.end(),
+			playerInputWord.begin());
 	if (mismatch.first == wordToBeDrawn.end())
 		return StringDifference::Identical;
 
-	int positionOfMismatch= mismatch.first - wordToBeDrawn.begin() ;
+	int positionOfMismatch = mismatch.first - wordToBeDrawn.begin();
 	auto mismatch1 = std::mismatch(wordToBeDrawn.begin() + positionOfMismatch + 1,
-	                                    wordToBeDrawn.end(),
-	                                    playerInputWord.begin() + positionOfMismatch + 1);
+		wordToBeDrawn.end(),
+		playerInputWord.begin() + positionOfMismatch + 1);
 	if (mismatch1.first == wordToBeDrawn.end())
 		return StringDifference::DifferByOneChar;
 
-	positionOfMismatch = mismatch.first - wordToBeDrawn.begin() ;
-	auto mismatch2=std::mismatch(wordToBeDrawn.begin() + positionOfMismatch + 1,
-										wordToBeDrawn.end(),
-										playerInputWord.begin() + positionOfMismatch + 1);
+	positionOfMismatch = mismatch.first - wordToBeDrawn.begin();
+	auto mismatch2 = std::mismatch(wordToBeDrawn.begin() + positionOfMismatch + 1,
+		wordToBeDrawn.end(),
+		playerInputWord.begin() + positionOfMismatch + 1);
 	if (mismatch2.first == wordToBeDrawn.end())
 		return StringDifference::DifferByTwoChars;
 
@@ -133,8 +134,8 @@ void Turn::AddPointsForEachPlayer(std::vector<std::pair<User, Round::Role>>& pla
 
 void Turn::ConvertRemainingTimeToTakenTime()
 {
-	for(auto& remainingTime : m_guessingTimes | std::views::keys)
+	/*for (auto& remainingTime : m_guessingTimes | std::views::keys)
 	{
 		remainingTime = TURN_LIMIT - remainingTime;
-	}
+	}*/
 }

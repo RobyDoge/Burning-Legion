@@ -1,7 +1,6 @@
 #pragma once
 #define DATABASE_HANDLERS_H
-
-//import lobby;
+import lobby;
 #include <string>
 #include <queue>
 #include <filesystem>
@@ -11,17 +10,16 @@
 namespace fs = std::filesystem;
 namespace sql = sqlite_orm;
 
-
 inline bool hasFileChanged(const std::string& filename, time_t& lastModifiedTime) {
 	struct stat fileStat;
 
 	if (stat(filename.c_str(), &fileStat) != 0) {
-		// Error handling: Unable to get file status
+		 //Error handling: Unable to get file status
 		std::cerr << "Error: Unable to get file status." << std::endl;
 		return false;
 	}
 
-	// Compare current modification time with the previous one
+	 //Compare current modification time with the previous one
 	if (fileStat.st_mtime != lastModifiedTime) {
 		lastModifiedTime = fileStat.st_mtime; // Update last modified time
 		return true; // File has been modified
@@ -37,7 +35,7 @@ struct WordFromDictionary									//structure that will contain the words from o
 	uint8_t difficulty;
 };
 
-struct UserInfo									
+struct UserInfo
 {
 	uint16_t id;
 	std::string name;
@@ -59,7 +57,7 @@ inline auto CreateDictionary(const std::string& filename)		//creating database f
 	);
 }
 
-inline auto CreateUserDatabase(const std::string& filename)		
+inline auto CreateUserDatabase(const std::string& filename)
 {
 	return sql::make_storage(
 		filename,
@@ -79,7 +77,7 @@ using UserDatabase = decltype(CreateUserDatabase(""));
 
 void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filename);
 void AddNewUser(Dictionary& dictionary, const std::string& filename);
-//Dictionary& CreateDatabase();
+Dictionary& CreateDatabase();
 
 class WordDatabaseHandle
 {
@@ -98,7 +96,7 @@ class UserDatabaseHandle
 {
 public:
 	void AddUser(const std::string& name, const std::string& password);
-	//std::vector<std::string> SelectUserInfo(const uint8_t wordsNeeded);
+	std::vector<std::string> SelectUserInfo(const uint8_t wordsNeeded);
 	bool Authenticate(const std::string& name, const std::string& password);
 	bool CheckUsername(const std::string& name);
 

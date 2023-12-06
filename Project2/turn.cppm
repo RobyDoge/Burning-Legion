@@ -2,11 +2,14 @@ export module turn;
 import user;
 import round;
 import <cstdint>;
-import std;
+import <vector>;
+import <optional>;
+import <string>;
+import <iostream>;
 
 namespace  server
 {
-	
+
 	export class Turn
 	{
 	public:
@@ -17,7 +20,7 @@ namespace  server
 		void StartTurn(std::vector<std::pair<User, Round::Role>>& players, const std::string& wordToBeDrawn);	//function to start the round
 
 
-	private:			
+	private:
 		enum class StringDifference : uint8_t			//used for returning how different  are two strings
 		{
 			NotSimilar = 0b00,					//not at all
@@ -38,6 +41,6 @@ namespace  server
 		std::pair<std::string, std::optional<std::string>> VerifyInputWord(const std::string& wordToBeDrawn, const std::string& playerInputWord) const;
 
 	private:
-		std::vector<std::pair<float,std::string>> m_guessingTimes{};		//stores the time taken for guessing
+		std::vector<std::pair<float, std::string>> m_guessingTimes{};		//stores the time taken for guessing
 	};
 }

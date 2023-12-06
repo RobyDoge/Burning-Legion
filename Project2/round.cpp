@@ -1,7 +1,8 @@
 module round;
 import user;
 import turn;
-import std;
+import <vector>;
+import <queue>;
 
 using namespace server;
 
@@ -11,7 +12,7 @@ void Round::StartRound(std::vector<User>& players, std::queue<std::string>& word
 	m_numberOfTurns = m_players.size();
 	CheckWordListSize(wordList);
 	BeginRound(wordList);
-	
+
 	//here we could create a method to show the game points but i don't know how to do it yet
 
 	Move(players, MoveDirection::FromRoundToGame);
@@ -45,11 +46,11 @@ void Round::SetRoleForEachPlayer(const uint8_t drawerPosition)
 
 void Round::UpdateGamePoints()
 {
-	for(auto& [user, role] : m_players)
+	/*for(auto& [user, role] : m_players)
 	{
 		user.GetPoints().AddToCurrentGamePoints();
 		user.GetPoints().ResetTurnPoints();
-	}
+	}*/
 }
 
 void Round::CheckWordListSize(const std::queue<std::string>& wordList) const
@@ -64,7 +65,7 @@ void Round::CheckWordListSize(const std::queue<std::string>& wordList) const
 
 void Round::Move(std::vector<User>& players, const MoveDirection moveDirection)
 {
-	if(moveDirection == MoveDirection::FromGameToRound)
+	if (moveDirection == MoveDirection::FromGameToRound)
 	{
 		m_players.clear();
 		m_players.resize(players.size());
@@ -74,7 +75,7 @@ void Round::Move(std::vector<User>& players, const MoveDirection moveDirection)
 			m_players.begin(),
 			[](User& user)
 			{
-				return std::make_pair<User,Role>(std::move(user), Role::NoRole);
+				return std::make_pair<User, Role>(std::move(user), Role::NoRole);
 			}
 		);
 		players.clear();
@@ -87,7 +88,7 @@ void Round::Move(std::vector<User>& players, const MoveDirection moveDirection)
 		players.begin(),
 		[](const std::pair<User&, Role> pair)
 		{
-		return std::move(pair.first);
+			return std::move(pair.first);
 		}
 	);
 }
