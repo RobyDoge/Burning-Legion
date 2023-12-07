@@ -4,8 +4,10 @@
 #include "ui_gameWindow.h"
 #include <QPainter>
 #include <QMouseEvent>
-const int MATRIX_WIDTH = 640; 
-const int MATRIX_HEIGHT = 480;
+#include <QScreen>
+#include <QGuiApplication>
+const int WIDTH = 800; 
+const int HEIGHT = 600;
 
 class GameWindow : public QMainWindow
 {
@@ -26,5 +28,6 @@ private:
     Ui::gameWindowClass ui;
     QVector<QVector<QPoint>> lines; 
     QVector<QPoint> currentLine; 
+    void resizeToScreenSize();
     bool isDrawing; 
 };
