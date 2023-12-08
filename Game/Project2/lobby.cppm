@@ -2,9 +2,7 @@ export module lobby;
 import user;
 
 import <cstdint>;
-import <string>;
-import <vector>;
-import <list>;
+import std;
 
 namespace server
 {
@@ -22,14 +20,17 @@ namespace server
         Lobby();                                                        //constructor;
         std::string GetIdLobby() const;                                 //retuns the lobby Id
         std::vector<User>& GetPlayers();
-        void AddPlayer(const std::string& name, const uint16_t bestScore, const std::list<int16_t>& lastMatchesPoints);       //adds a player to the lobby
+        void AddPlayer(const std::string& name, const uint16_t bestScore, const std::deque<int16_t>& lastMatchesPoints);       //adds a player to the lobby
         void SetDifficulty(const GameDifficulty difficulty);						//sets the game difficulty at the start of the game
         GameDifficulty GetDifficulty() const;										//for checking the difficulty
 
     private:
         void GenerateIdLobby();                                                     //randomly generates a lobby id
+
     private:
         static constexpr uint8_t ID_SIZE = 5;
+
+    private:
         std::vector<User> m_players{};
         std::string m_idLobby;
         GameDifficulty m_difficulty;

@@ -1,6 +1,6 @@
 export module user;
 export import points;
-import <string>;
+import std;
 
 namespace server
 {
