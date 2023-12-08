@@ -1,6 +1,8 @@
 module points;
 import <cstdint>;
-import std;
+import <list>;
+import <vector>;
+
 using server::Points;
 
 Points::Points() :
@@ -67,7 +69,7 @@ int16_t Points::GetBestGamePoints() const
 	return m_bestGamePoints;
 }
 
-std::deque<int16_t> Points::GetLastMatchesPoints() const
+std::list<int16_t> Points::GetLastMatchesPoints() const
 {
 	return m_lastMatchesPoints;
 }
@@ -77,7 +79,7 @@ void Points::SetBestGamePoints(const int16_t bestGamePoints)
 	m_bestGamePoints = bestGamePoints;
 }
 
-void Points::SetLastMatchesPoints(const std::deque<int16_t>& lastMatchesPoints)
+void Points::SetLastMatchesPoints(const std::list<int16_t>& lastMatchesPoints)
 {
 	m_lastMatchesPoints = lastMatchesPoints;
 }

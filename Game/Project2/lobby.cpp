@@ -1,14 +1,13 @@
 module lobby;
 import user;
 
-import std;
 import <random>;
 
 using namespace server;
 
 Lobby::Lobby()
 {
-    GenerateIdLobby();
+    //GenerateIdLobby();
 }
 
 std::string Lobby::GetIdLobby() const
@@ -22,7 +21,7 @@ std::vector<User>& Lobby::GetPlayers()
     return m_players;
 }
 
-void Lobby::AddPlayer(const std::string& name, const uint16_t bestScore, const std::deque<int16_t>& lastMatchesPoints)
+void Lobby::AddPlayer(const std::string& name, const uint16_t bestScore, const std::list<int16_t>& lastMatchesPoints)
 {
     User newUser;
     newUser.SetName(name);
