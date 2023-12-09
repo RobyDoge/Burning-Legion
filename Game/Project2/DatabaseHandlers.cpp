@@ -1,5 +1,3 @@
-import lobby;
-
 #include"DatabaseHandlers.h"
 #include<fstream>
 #include<iostream>

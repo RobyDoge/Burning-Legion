@@ -1,11 +1,11 @@
 export module turn;
 import user;
 import round;
+
+import std;
 import <cstdint>;
-import <vector>;
-import <optional>;
-import <string>;
-import <iostream>;
+
+
 
 namespace  server
 {
@@ -38,7 +38,7 @@ namespace  server
 		//compare the two strings and based on how may characters are different returns a StringDifference
 		StringDifference Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord) const;
 		//returns {message to be written in chat, optional message to be displayed only to the player that gave the input}
-		std::pair<std::string, std::optional<std::string>> VerifyInputWord(const std::string& wordToBeDrawn, const std::string& playerInputWord) const;
+		std::pair<std::string, std::optional<std::string>> VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord) const;
 
 	private:
 		std::vector<std::pair<float, std::string>> m_guessingTimes{};		//stores the time taken for guessing

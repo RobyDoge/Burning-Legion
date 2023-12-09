@@ -1,8 +1,8 @@
 module round;
 import user;
 import turn;
-import <vector>;
-import <queue>;
+
+import std;
 
 using namespace server;
 

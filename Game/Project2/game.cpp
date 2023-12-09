@@ -1,10 +1,9 @@
 module game;
 import round;
 
+import std;
 import <cstdint>;
-import <vector>;
-import <queue>;
-import <list>;
+
 //#include "DatabaseHandlers.h"
 
 using namespace server;
@@ -57,6 +56,7 @@ std::list<User> Game::FindTheThreeWinners()
 	{
 		return { m_players[0] };
 	}
+
 	if (m_players.size() == 2)
 	{
 
@@ -66,6 +66,7 @@ std::list<User> Game::FindTheThreeWinners()
 		}
 		return { m_players[1],m_players[0] };
 	}
+
 	auto playerCopy{ m_players };
 	std::partial_sort(playerCopy.begin(), playerCopy.begin() + 3, playerCopy.end(), [](User& first, User& second)
 		{

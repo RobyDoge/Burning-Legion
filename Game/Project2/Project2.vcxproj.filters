@@ -63,7 +63,7 @@
     <ClCompile Include="DatabaseHandlers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="routing.cpp">
+    <ClCompile Include="Routing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,7 +71,7 @@
     <ClInclude Include="DatabaseHandlers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="routing.h">
+    <ClInclude Include="Routing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

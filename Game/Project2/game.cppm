@@ -2,8 +2,7 @@ export module game;
 import user;
 import lobby;
 
-import <queue>;
-
+import std;
 import <cstdint>;
 
 
@@ -17,7 +16,7 @@ namespace server
 
 	public:
 		Game() = default;														//default constructor
-		~Game();																//destructor
+		~Game() = default;														//destructor
 
 		void Start(std::vector<User>& players, const Lobby::GameDifficulty difficulty);		//starts the turn with info from lobby
 		std::queue<std::string>& GenerateNextWords();							//generates a random number of words based on the number of players
@@ -29,8 +28,8 @@ namespace server
 		std::list<User> FindTheThreeWinners();		//return an array with up to top 3 players based on their score
 
 	private:
-		std::queue<std::string> m_currentWordList;				//the needed words for the game
-		Lobby::GameDifficulty m_difficulty;						//game difficulty
-		std::vector<User> m_players;
+		std::queue<std::string> m_currentWordList{};				//the needed words for the game
+		Lobby::GameDifficulty m_difficulty{};						//game difficulty
+		std::vector<User> m_players{};
 	};
 }

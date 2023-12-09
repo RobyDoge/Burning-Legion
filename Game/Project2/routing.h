@@ -1,3 +1,4 @@
+#pragma once
 #include <crow.h>
 #include "DatabaseHandlers.h"
 
@@ -7,9 +8,10 @@ namespace http
 	{
 	public:
 		void Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStorage);		//Creates all the paths and stuff
-		std::string GetLastUsername();
-		bool GetGameStart();
-		uint8_t GetDifficulty();
+		std::string GetLastUsername() const;
+		bool GetGameStart() const;
+		uint8_t GetDifficulty() const;
+
 	private:
 		crow::SimpleApp m_app;
 		std::string m_lastUsername;

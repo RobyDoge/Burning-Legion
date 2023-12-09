@@ -1,7 +1,8 @@
 module turn;
 import user;
 import round;
-import <vector>;
+
+import std;
 
 //#include "TimerDLL/Timer.h"
 
@@ -75,6 +76,8 @@ std::pair<std::string, std::optional<std::string>> Turn::VerifyInputWord(const s
 	case StringDifference::DifferByTwoChars:
 		return { playerInputWord, "YOU ARE CLOSE" };
 	}
+
+	return {};
 }
 
 

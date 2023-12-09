@@ -1,18 +1,9 @@
 module points;
+
+import std;
 import <cstdint>;
-import <list>;
-import <vector>;
 
 using server::Points;
-
-Points::Points() :
-	m_currentGamePoints{ 0 },
-	m_turnPoints{ 0 },
-	m_bestGamePoints{ 0 }
-{
-}
-
-Points::~Points() = default;
 
 Points::Points(const Points& other) :
 	m_currentGamePoints{ other.m_currentGamePoints },
@@ -69,7 +60,7 @@ int16_t Points::GetBestGamePoints() const
 	return m_bestGamePoints;
 }
 
-std::list<int16_t> Points::GetLastMatchesPoints() const
+std::deque<int16_t> Points::GetLastMatchesPoints() const
 {
 	return m_lastMatchesPoints;
 }
@@ -79,7 +70,7 @@ void Points::SetBestGamePoints(const int16_t bestGamePoints)
 	m_bestGamePoints = bestGamePoints;
 }
 
-void Points::SetLastMatchesPoints(const std::list<int16_t>& lastMatchesPoints)
+void Points::SetLastMatchesPoints(const std::deque<int16_t>& lastMatchesPoints)
 {
 	m_lastMatchesPoints = lastMatchesPoints;
 }
@@ -100,17 +91,17 @@ void Points::AddMatch()
 
 void Points::AddPointsGuesser(const float& time)
 {
-	if (static_cast<uint8_t>(time) < 30)
+	if (static_cast<std::uint8_t>(time) < 30)
 	{
 		m_turnPoints = 100;
 		return;
 	}
-	if (static_cast<uint8_t>(time) == 60)
+	if (static_cast<std::uint8_t>(time) == 60)
 	{
 		m_turnPoints = -50;
 		return;
 	}
-	m_turnPoints = (60 - static_cast<uint8_t>(time)) / 3 * 10;
+	m_turnPoints = (60 - static_cast<std::uint8_t>(time)) / 3 * 10;
 }
 
 void Points::AddPointsDrawer(const std::vector<float>& times)
@@ -125,7 +116,7 @@ void Points::AddPointsDrawer(const std::vector<float>& times)
 	{
 		sum += time;
 	}
-	m_turnPoints = (60 - static_cast<uint8_t>(sum / times.size())) / 3 * 5;
+	m_turnPoints = (60 - static_cast<std::uint8_t>(sum / times.size())) / 3 * 5;
 }
 
 void server::swap(Points& first, Points& second) noexcept

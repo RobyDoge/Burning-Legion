@@ -1,5 +1,6 @@
-﻿#include "routing.h"
+﻿#include "Routing.h"
 #include "iostream"
+
 using namespace http;
 
 
@@ -90,17 +91,17 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 
 }
 
-std::string http::Routing::GetLastUsername()
+std::string http::Routing::GetLastUsername() const
 {
 	return m_lastUsername;
 }
 
-bool http::Routing::GetGameStart()
+bool http::Routing::GetGameStart() const
 {
 	return m_gameStart;
 }
 
-uint8_t http::Routing::GetDifficulty()
+uint8_t http::Routing::GetDifficulty() const
 {
 	return m_difficulty;
 }

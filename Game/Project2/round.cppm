@@ -1,7 +1,7 @@
 export module round;
 import user;
-import <vector>;
-import <queue>;
+
+import std;
 import <cstdint>;
 
 

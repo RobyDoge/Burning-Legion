@@ -5,25 +5,29 @@ import game;
 import turn;
 import lobby;
 
-#include "timer.h"
+//#include "Timer.h"
+//#include "routing.h"
 #include "DatabaseHandlers.h"
-#include "routing.h"
-import <fstream>;
 
 using namespace server;
 int main()
 {
-	Timer t;
+	//Timer t;
 	/*WordDatabaseHandle handle;
 	handle.init();
 	std::vector<std::string> words = handle.SelectWords(2);*/
 
 	WordDatabaseHandle wordStorage;
 	UserDatabaseHandle userStorage;
-	http::Routing r;
+
+	Game game;
+
+	return 23;
+
+	/*http::Routing r;
 	std::string currentUser = "";
-	r.Run(wordStorage, userStorage);
-	Lobby lobby;
+	r.Run(wordStorage, userStorage);*/
+
 	////Cat playerii sunt in lobby 
 	//while (r.GetGameStart() != true)
 	//{
@@ -54,6 +58,6 @@ int main()
 
 
 
-	return 0;
+
 
 }
