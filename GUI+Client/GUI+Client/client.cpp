@@ -36,3 +36,8 @@ long Client::AddUser(const std::string& username, const std::string& password)
 
     return response.status_code;
 }
+//
+//std::vector<std::string> Client::FetchPlayersInLobby()
+//{
+//	
+//}

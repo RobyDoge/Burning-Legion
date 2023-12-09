@@ -3,6 +3,7 @@ import round;
 import utils;
 import game;
 import turn;
+import lobby;
 
 #include "timer.h"
 #include "DatabaseHandlers.h"
@@ -20,7 +21,39 @@ int main()
 	WordDatabaseHandle wordStorage;
 	UserDatabaseHandle userStorage;
 	http::Routing r;
+	std::string currentUser = "";
 	r.Run(wordStorage, userStorage);
+	Lobby lobby;
+	////Cat playerii sunt in lobby 
+	//while (r.GetGameStart() != true)
+	//{
+	//	if (currentUser != r.GetLastUsername())
+	//	{
+	//		lobby.AddPlayer(currentUser, userStorage.GetBestScore(currentUser), userStorage.GetLastMatchesPoints(currentUser)); // functiile astea 2 trb adaugate stef 
+	//		currentUser = r.GetLastUsername();
+	//	}
+	//	//lobby.SetDifficulty(r.GetDifficulty()); -> Sa modifice roby setdifficulty sa ia un int
+	//}
+	//Game game;
+	//game.Start(lobby.GetPlayers(), lobby.GetDifficulty());
+	//for (int i = 0; i <= game.NUMBER_OF_ROUNDS; i++)
+	//{
+	//	Round round{};
+	//	round.StartRound(game.GetPlayers(), game.GenerateNextWords());
+
+	//	for (uint8_t iterator = 0; iterator < m_numberOfTurns; iterator++)
+	//	{
+	//		SetRoleForEachPlayer(iterator);
+	//		Turn turn{};
+	//		turn.StartTurn(m_players, wordList.front());
+
+	//		wordList.pop();
+	//		UpdateGamePoints();
+	//	}
+	//}
+
+
+
 	return 0;
 
 }

@@ -72,7 +72,35 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
         return crow::response(200, "OK");
             });
 
+    CROW_ROUTE(m_app, "/lobbySetupUsers")
+        .methods("POST"_method)
+        ([&userStorage, this](const crow::request& req) {
+        // Obține datele trimise de client
+        auto jsonData = crow::json::load(req.body);
+        if (!jsonData)
+            return crow::response(400);
+
+        m_lastUsername = jsonData["userid"].s();
+
+        // Returnează un răspuns simplu
+        return crow::response(200, "OK");
+            });
 
     m_app.port(18080).multithreaded().run();
 
+}
+
+std::string http::Routing::GetLastUsername()
+{
+	return m_lastUsername;
+}
+
+bool http::Routing::GetGameStart()
+{
+	return m_gameStart;
+}
+
+uint8_t http::Routing::GetDifficulty()
+{
+	return m_difficulty;
 }

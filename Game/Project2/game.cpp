@@ -14,7 +14,6 @@ void Game::Start(std::vector<User>& players, const Lobby::GameDifficulty difficu
 	m_difficulty = difficulty;
 	std::swap(m_players, players);
 	CreateWordsForGame();
-
 	for (int i = 0; i <= NUMBER_OF_ROUNDS; i++)
 	{
 		Round round{};

@@ -99,7 +99,8 @@ public:
 	std::vector<std::string> SelectUserInfo(const uint8_t wordsNeeded);
 	bool Authenticate(const std::string& name, const std::string& password);
 	bool CheckUsername(const std::string& name);
-
+	uint16_t GetBestScore(const std::string& name);
+	std::list<int16_t> GetLastMatchesPoints(const std::string& name);
 
 private:
 	UserDatabase m_db = CreateUserDatabase("userDatabase.sqlite");

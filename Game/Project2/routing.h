@@ -7,10 +7,13 @@ namespace http
 	{
 	public:
 		void Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStorage);		//Creates all the paths and stuff
-
-	private:
-
+		std::string GetLastUsername();
+		bool GetGameStart();
+		uint8_t GetDifficulty();
 	private:
 		crow::SimpleApp m_app;
+		std::string m_lastUsername;
+		bool m_gameStart = false;
+		uint8_t m_difficulty = 0;
 	};
 }
