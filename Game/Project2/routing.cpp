@@ -63,20 +63,6 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 		                                   return crow::response(200, "OK");
 	                                   });
 
-        ([&userStorage](const crow::request& req) {
-        // Obține datele trimise de client
-        auto jsonData = crow::json::load(req.body);
-        if (!jsonData)
-            return crow::response(400);
-
-        std::string username = jsonData["username"].s();
-        std::string password = jsonData["password"].s();
-
-        userStorage.AddUser(username, password);
-
-        return crow::response(200, "OK");
-            });
-
     CROW_ROUTE(m_app, "/mainMenu")
         .methods("POST"_method)
         ([&userStorage](const crow::request& req) {
@@ -97,8 +83,6 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
         for (const auto& points : lastmatches) {
             responseJson.push_back(crow::json::wvalue{ {"points", points} });
         }
-
-
         // Returnează un răspuns HTTP cu codul de stare 200 și obiectul JSON
         return crow::json::wvalue{ responseJson };
             });
@@ -122,7 +106,7 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 
 }
 
-std::string http::Routing::GetLastUsername()
+std::string Routing::GetLastUsername() const
 {
 	return m_lastUsername;
 }

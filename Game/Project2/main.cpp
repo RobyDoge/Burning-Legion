@@ -25,11 +25,9 @@ int main()
 	Lobby lobby;
 	lobby.SetDifficulty(3);
 
-	return 80;
-
-	/*http::Routing r;
+	http::Routing r;
 	std::string currentUser = "";
-	r.Run(wordStorage, userStorage);*/
+	r.Run(wordStorage, userStorage);
 
 	////Cat playerii sunt in lobby 
 	//while (r.GetGameStart() != true)
