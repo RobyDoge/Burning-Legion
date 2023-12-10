@@ -1,6 +1,7 @@
 module points;
 
-import std;
+import <deque>;
+import <vector>;
 import <cstdint>;
 
 using server::Points;

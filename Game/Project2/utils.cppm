@@ -1,5 +1,7 @@
 export module utils;
-import std;
+import <vector>;
+import <string>;
+import <unordered_map>;
 
 export std::vector<std::string> Split(const std::string& str, const std::string& delim); //splits a string returning a vector of substrings separated by the delimiter
 

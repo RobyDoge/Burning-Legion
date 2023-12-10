@@ -6,8 +6,8 @@ import turn;
 import lobby;
 
 //#include "Timer.h"
-//#include "routing.h"
-#include "DatabaseHandlers.h"
+#include "routing.h"
+
 
 using namespace server;
 int main()
@@ -21,8 +21,10 @@ int main()
 	UserDatabaseHandle userStorage;
 
 	Game game;
+	Lobby lobby;
+	lobby.SetDifficulty(3);
 
-	return 23;
+	return 80;
 
 	/*http::Routing r;
 	std::string currentUser = "";

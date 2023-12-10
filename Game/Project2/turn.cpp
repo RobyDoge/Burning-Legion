@@ -2,7 +2,13 @@ module turn;
 import user;
 import round;
 
-import std;
+import <vector>;
+import <string>;
+import <utility>;
+import <optional>;
+import <algorithm>;
+import <string>;
+import <ranges>;
 
 //#include "TimerDLL/Timer.h"
 
@@ -83,28 +89,28 @@ std::pair<std::string, std::optional<std::string>> Turn::VerifyInputWord(const s
 
 Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord) const
 {
-	if (wordToBeDrawn.size() != playerInputWord.size())
+	if (wordToBeDrawn.length() != playerInputWord.length())
 		return StringDifference::NotSimilar;
 
-	auto mismatch =
+	auto positionIteratorOfMismatch =
 		std::mismatch(wordToBeDrawn.begin(),
 			wordToBeDrawn.end(),
 			playerInputWord.begin());
-	if (mismatch.first == wordToBeDrawn.end())
+	if (positionIteratorOfMismatch.first == wordToBeDrawn.end())
 		return StringDifference::Identical;
 
-	int positionOfMismatch = mismatch.first - wordToBeDrawn.begin();
-	auto mismatch1 = std::mismatch(wordToBeDrawn.begin() + positionOfMismatch + 1,
+	int positionOfMismatch = positionIteratorOfMismatch.first - wordToBeDrawn.begin();
+	positionIteratorOfMismatch = std::mismatch(wordToBeDrawn.begin() + positionOfMismatch + 1,
 		wordToBeDrawn.end(),
 		playerInputWord.begin() + positionOfMismatch + 1);
-	if (mismatch1.first == wordToBeDrawn.end())
+	if (positionIteratorOfMismatch.first == wordToBeDrawn.end())
 		return StringDifference::DifferByOneChar;
 
-	positionOfMismatch = mismatch.first - wordToBeDrawn.begin();
-	auto mismatch2 = std::mismatch(wordToBeDrawn.begin() + positionOfMismatch + 1,
+	positionOfMismatch = positionIteratorOfMismatch.first - wordToBeDrawn.begin();
+	positionIteratorOfMismatch = std::mismatch(wordToBeDrawn.begin() + positionOfMismatch + 1,
 		wordToBeDrawn.end(),
 		playerInputWord.begin() + positionOfMismatch + 1);
-	if (mismatch2.first == wordToBeDrawn.end())
+	if (positionIteratorOfMismatch.first == wordToBeDrawn.end())
 		return StringDifference::DifferByTwoChars;
 
 	return StringDifference::NotSimilar;
@@ -137,8 +143,8 @@ void Turn::AddPointsForEachPlayer(std::vector<std::pair<User, Round::Role>>& pla
 
 void Turn::ConvertRemainingTimeToTakenTime()
 {
-	/*for (auto& remainingTime : m_guessingTimes | std::views::keys)
+	for (auto& remainingTime : m_guessingTimes | std::views::keys)
 	{
 		remainingTime = TURN_LIMIT - remainingTime;
-	}*/
+	}
 }

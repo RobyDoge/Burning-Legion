@@ -2,7 +2,10 @@ export module turn;
 import user;
 import round;
 
-import std;
+import <vector>;
+import <utility>;
+import <optional>;
+import <string>;
 import <cstdint>;
 
 
@@ -17,6 +20,7 @@ namespace  server
 
 	public:
 		Turn() = default;
+		~Turn() = default;
 		void StartTurn(std::vector<std::pair<User, Round::Role>>& players, const std::string& wordToBeDrawn);	//function to start the round
 
 

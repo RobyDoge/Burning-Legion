@@ -1,8 +1,12 @@
+
 export module game;
 import user;
 import lobby;
 
-import std;
+import <vector>;
+import <queue>;
+import <list>;
+import <string>;
 import <cstdint>;
 
 

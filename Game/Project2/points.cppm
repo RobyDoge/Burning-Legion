@@ -1,6 +1,8 @@
 export module points;
 
-import std;
+import <type_traits>;
+import <deque>;
+import <vector>;
 import <cstdint>;
 
 namespace server

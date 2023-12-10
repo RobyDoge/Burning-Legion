@@ -1,7 +1,10 @@
 module game;
 import round;
 
-import std;
+import <vector>;
+import <string>;
+import <list>;
+
 import <cstdint>;
 
 //#include "DatabaseHandlers.h"

@@ -1,7 +1,10 @@
 module lobby;
 import user;
 
-import std;
+import <random>;
+import <deque>;
+import <string>;
+import <string>;
 import <cstdint>;
 
 using namespace server;
@@ -51,9 +54,23 @@ void Lobby::GenerateIdLobby()
 
 }
 
-void Lobby::SetDifficulty(const GameDifficulty difficulty)
+void Lobby::SetDifficulty(const uint8_t difficulty)
 {
-    m_difficulty = difficulty;
+    switch (difficulty)
+    {
+    case 1:
+        m_difficulty = GameDifficulty::Easy;
+        return;
+    case 2:
+        m_difficulty = GameDifficulty::Medium;
+        return;
+    case 3:
+        m_difficulty = GameDifficulty::Hard;
+        return;
+    default:
+        m_difficulty = GameDifficulty::NoDifficulty;
+    }
+    
 }
 
 Lobby::GameDifficulty Lobby::GetDifficulty() const

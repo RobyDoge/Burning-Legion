@@ -1,6 +1,5 @@
 module user;
 
-import std;
 
 using server::User;
 using server::Points;

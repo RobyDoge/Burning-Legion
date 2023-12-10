@@ -1,7 +1,9 @@
 export module lobby;
 import user;
 
-import std;
+import <vector>;
+import <deque>;
+import <string>;
 import <cstdint>;
 
 namespace server
@@ -22,7 +24,7 @@ namespace server
         std::string GetIdLobby() const;                                 //retuns the lobby Id
         std::vector<User>& GetPlayers();
         void AddPlayer(const std::string& name, const uint16_t bestScore, const std::deque<int16_t>& lastMatchesPoints);       //adds a player to the lobby
-        void SetDifficulty(const GameDifficulty difficulty);						//sets the game difficulty at the start of the game
+        void SetDifficulty(const uint8_t difficulty);						//sets the game difficulty at the start of the game
         GameDifficulty GetDifficulty() const;										//for checking the difficulty
 
 
