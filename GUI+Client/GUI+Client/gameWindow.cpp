@@ -8,10 +8,36 @@ GameWindow::GameWindow(QWidget *parent)
 	setAttribute(Qt::WA_StaticContents); 
     isDrawing = false;
     resizeToScreenSize();
+
+
+    connect(ui.sendButton, &QPushButton::clicked, this, &GameWindow::on_sendButton_clicked);
+    connect(ui.inputField, &QLineEdit::returnPressed, this, &GameWindow::on_inputField_returnPressed);
+    connect(ui.inputField, &QLineEdit::textChanged, this, &GameWindow::updateCharCount);
 }
 
 GameWindow::~GameWindow()
 {}
+
+//need to add function to display a message with the player that is drawing
+//function to display a message that the player is close or that he has guessed the word
+
+void GameWindow::on_sendButton_clicked() {
+
+    QString playerMessage = ui.inputField->text();
+    QString message = "Player: " + playerMessage; 
+    if(!playerMessage.isEmpty())
+        ui.messageArea->append(message);
+    ui.inputField->clear();
+}
+
+void GameWindow::on_inputField_returnPressed() {
+    on_sendButton_clicked();
+}
+
+void GameWindow::updateCharCount() {
+    int charCount = ui.inputField->text().length();
+    ui.charCountLabel->setText( QString::number(charCount));
+}
 void GameWindow::resizeToScreenSize() {
     QScreen* primaryScreen = QGuiApplication::primaryScreen();
     QRect screenGeometry = primaryScreen->geometry();
