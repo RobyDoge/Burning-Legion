@@ -22,21 +22,22 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::loginButton_clicked()
 {
-    m_username = ui.loginUsername->text();
-    m_password = ui.loginPassword->text();
+    m_username = ui.loginUsername->text().toUtf8().constData();
+    m_password = ui.loginPassword->text().toUtf8().constData();
 
-    if (m_username.isEmpty() || m_password.isEmpty()) {
+	if (m_username.empty() || m_password.empty())
+	{
         ui.messageLabel->setText("Please enter both username and password.");
         return;
     }
 
-    long response = m_loginClient.GetLoginResponse(m_username.toUtf8().constData(), m_password.toUtf8().constData()); 
+    long response = m_loginClient.GetLoginResponse(m_username, m_password); 
     //Sends username and password to the server to check with the database  
     if (response == 200 || response == 201)
-        openMenuWindow();
+        openMenuWindow(m_username);
     else
         ui.messageLabel->setText("Username or Password incorrect");
-    openMenuWindow();
+    openMenuWindow(m_username);
 }
 
 void LoginWindow::signinButton_clicked() 
@@ -45,9 +46,14 @@ void LoginWindow::signinButton_clicked()
     signupWindow->show();
     this->destroy();
 }
-void LoginWindow::openMenuWindow()
+void LoginWindow::openMenuWindow(std::string username)
 {
-    MenuWindow* menuWindow = new MenuWindow(this); 
+    MenuWindow* menuWindow = new MenuWindow(username,this); 
     menuWindow->show();
     this->destroy();
+}
+
+std::string LoginWindow::GetUsername()
+{
+	return m_username;
 }

@@ -2,6 +2,7 @@
 #include<fstream>
 #include<iostream>
 #include<vector>
+#include<list>
 
 void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filename)
 {
@@ -111,4 +112,15 @@ bool UserDatabaseHandle::CheckUsername(const std::string& name)
         return false;
     }
     return true; //numele exista deja
+}
+
+uint16_t UserDatabaseHandle::GetBestScore(const std::string& name)
+{
+    return 12;
+}
+
+std::list<int16_t> UserDatabaseHandle::GetLastMatchesPoints(const std::string& name)
+{
+	std::list<int16_t> points = { 1,2,3,4,5 };
+    return points;
 }

@@ -13,6 +13,7 @@ LobbyWindow::~LobbyWindow()
 {
 	this->destroy();
 }
+
 void LobbyWindow::startGameButton_clicked()
 {
     m_difficulty = ui.difficultyBox->currentText();
@@ -20,6 +21,7 @@ void LobbyWindow::startGameButton_clicked()
     gameWindow->show();
     this->destroy();
 }
+
 void LobbyWindow::UpdatePlayersListWidget(QListWidget* listWidget)
 {
     listWidget->clear();
