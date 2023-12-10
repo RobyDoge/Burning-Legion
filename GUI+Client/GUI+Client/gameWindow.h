@@ -24,6 +24,11 @@ protected:
     void mouseReleaseEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* event) override;
 
+private slots:
+    void on_sendButton_clicked();
+    void on_inputField_returnPressed();
+    void updateCharCount();
+
 private:
     Ui::gameWindowClass ui;
     QVector<QVector<QPoint>> lines; 
