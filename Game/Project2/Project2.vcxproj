@@ -160,6 +160,9 @@
       <Project>{0be65086-c26c-48e9-9ce7-972afb6dc682}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="input.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

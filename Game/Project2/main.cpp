@@ -19,6 +19,7 @@ int main()
 	std::vector<std::string> words = handle.SelectWords(2);*/
 
 	WordDatabaseHandle wordStorage;
+	wordStorage.Init();
 	UserDatabaseHandle userStorage;
 
 	Game game;

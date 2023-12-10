@@ -34,9 +34,10 @@ void AddNewUser(UserDatabase& users, const std::string name, const std::string& 
 void WordDatabaseHandle::Init()
 {
     time_t lastModifiedTime = 1700958134;            //will fix this magic number
-    if (hasFileChanged("input.txt", lastModifiedTime))
-        m_db.remove_all<WordFromDictionary>();
+    //if (hasFileChanged("input.txt", lastModifiedTime))
+      //  m_db.remove_all<WordFromDictionary>();
     m_db.sync_schema();
+
     auto initalwordscount = m_db.count<WordFromDictionary>();
     if (initalwordscount == 0)
         PopulateDictionaryFromFile(m_db, "input.txt");
