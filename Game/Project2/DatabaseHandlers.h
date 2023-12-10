@@ -85,11 +85,11 @@ class WordDatabaseHandle
 public:
 
 	void Init();
-	std::queue<std::string> SelectWords(const uint8_t wordsNeeded, const uint8_t difficulty, const std::string language); //server::Lobby::GameDifficulty difficulty);
+	std::queue<std::string> SelectWords(uint8_t wordsNeeded, uint8_t difficulty, std::string language); //server::Lobby::GameDifficulty difficulty);
 
 	void ClearDictionary();
 
-private:
+//private:
 	Dictionary m_db = CreateDictionary("database.sqlite");
 };
 

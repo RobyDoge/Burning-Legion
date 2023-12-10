@@ -523,7 +523,7 @@ the_sword_of_damocles 2
 the_tide_turns 2
 the_water_under_the_bridge 2
 the_wolf_in_sheep's_clothing 2
-eng -1
+eng 3
 ro
 a_fi_sau_a_nu_fi 0
 nu_judeca_cartea_dupa_coperta 0
@@ -1022,7 +1022,7 @@ ceasornic 0
 radian 0
 ceva 0
 veveriță 0
-ro -1
+ro 3
 esp
 manzana 0
 libro 0
@@ -1514,4 +1514,4 @@ rincón 1
 encrucijada 1
 alquimia 1
 esmeralda 1
-esp -1
+esp 3

@@ -20,8 +20,9 @@ int main()
 
 	WordDatabaseHandle wordStorage;
 	wordStorage.Init();
+	auto nr = wordStorage.m_db.count<WordFromDictionary>();
 	std::string s{ "eng" };
-	std::queue<std::string> words = wordStorage.SelectWords(5, 2, s);
+	std::queue<std::string> words = wordStorage.SelectWords(5, 48, s);
 	UserDatabaseHandle userStorage;
 
 	Game game;

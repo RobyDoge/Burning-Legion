@@ -22,8 +22,8 @@ void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filen
     inputFile >> language;
     while (inputFile >> word >> difficulty)
     {
-        if (word.compare(language)&&difficulty == -1)
-            inputFile >> language;
+        if (word.compare(language) && difficulty == '3')
+            inputFile >> language >> word >> difficulty;
         words.emplace_back(WordFromDictionary{ idCounter++, word, difficulty ,language});
     }
 
@@ -38,8 +38,8 @@ void AddNewUser(UserDatabase& users, const std::string name, const std::string& 
 
 void WordDatabaseHandle::Init()
 {
-    time_t lastModifiedTime = 1702233024;            //will fix this magic number
-    if (hasFileChanged("input.txt", lastModifiedTime))
+    //time_t lastModifiedTime = 1702233024;            //will fix this magic number
+    //if (hasFileChanged("input.txt", lastModifiedTime))
         m_db.remove_all<WordFromDictionary>();
     m_db.sync_schema();
 
@@ -51,7 +51,7 @@ void WordDatabaseHandle::Init()
     std::cout << initalwordscount2;
 }
 
-std::queue<std::string> WordDatabaseHandle::SelectWords(const uint8_t wordsNeeded, const uint8_t difficulty, const std::string language)//server::Lobby::GameDifficulty difficulty)
+std::queue<std::string> WordDatabaseHandle::SelectWords(uint8_t wordsNeeded, uint8_t difficulty, std::string language)//server::Lobby::GameDifficulty difficulty
 {
     std::queue<std::string> generatedWords;
     auto rows = m_db.select(sqlite_orm::columns(&WordFromDictionary::word),
@@ -61,9 +61,9 @@ std::queue<std::string> WordDatabaseHandle::SelectWords(const uint8_t wordsNeede
                 sqlite_orm::c(&WordFromDictionary::language) == language
             )),
         sqlite_orm::limit(wordsNeeded));
+    auto initalwordscount2 = m_db.count<WordFromDictionary>();
 
-
-    for (const auto& row : rows)                // Add words from the database to the vector
+     for (const auto& row : rows)                // Add words from the database to the vector
     {
         generatedWords.push(std::get<0>(row));
     }
@@ -122,13 +122,36 @@ bool UserDatabaseHandle::CheckUsername(const std::string& name)
     return true; //numele exista deja
 }
 
-uint16_t UserDatabaseHandle::GetBestScore(const std::string& name)
+uint16_t UserDatabaseHandle::GetBestScore(const std::string& name) // this should be id not name
 {
-    return 12;
+    auto result = m_db.select(sqlite_orm::columns(&UserInfo::best),
+        sqlite_orm::where(sqlite_orm::c(&UserInfo::name) == name));
+
+    //if (!result.empty()) {
+     //   return result.front();
+    //}
+    return 0;
 }
 
 std::list<int16_t> UserDatabaseHandle::GetLastMatchesPoints(const std::string& name)
 {
-	std::list<int16_t> points = { 1,2,3,4,5 };
-    return points;
+    auto result = m_db.select(sqlite_orm::columns(&UserInfo::last5),
+        sqlite_orm::where(sqlite_orm::c(&UserInfo::name) == name));
+
+    /*if (!result.empty()) {
+
+        std::string last5String = result.front();
+
+        std::list<int16_t> points;
+        size_t pos = 0;
+        while ((pos = last5String.find(',')) != std::string::npos) {
+            points.push_back(std::stoi(last5String.substr(0, pos)));
+            last5String.erase(0, pos + 1);
+        }
+        points.push_back(std::stoi(last5String));
+
+        return points;
+    }*/
+
+    return {};
 }
