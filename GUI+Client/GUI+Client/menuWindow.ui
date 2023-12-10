@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>853</width>
+    <width>858</width>
     <height>556</height>
    </rect>
   </property>
@@ -14,33 +14,93 @@
    <string>MenuWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item alignment="Qt::AlignHCenter">
-     <widget class="QLabel" name="label">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QFrame" name="frame_2">
       <property name="minimumSize">
        <size>
-        <width>0</width>
-        <height>100</height>
+        <width>400</width>
+        <height>400</height>
        </size>
       </property>
-      <property name="font">
-       <font>
-        <family>Yu Gothic UI Semibold</family>
-        <pointsize>19</pointsize>
-        <bold>true</bold>
-       </font>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
       </property>
-      <property name="text">
-       <string>Main Menu</string>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
       </property>
+      <widget class="QListWidget" name="scoreList">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>130</y>
+         <width>241</width>
+         <height>361</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Yu Gothic UI Semibold</family>
+         <pointsize>11</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"> QListWidget {
+background-color:qlineargradient(spread:pad, x1:0.432, y1:0.664773, x2:1, y2:0, stop:0 rgba(255, 124, 225, 186), stop:1 rgba(112, 107, 255, 138));
+border-radius:10px;
+ }
+
+QListWidget::item{
+height: 40px;
+padding: 5px;
+font-size: 16px;       
+text-align: center;
+}
+
+ QListWidget::item:hover {
+     background: qlineargradient(spread:pad, x1:0.432, y1:0.664773, x2:1, y2:0, stop:0 rgba(255, 124, 225, 186), stop:1 rgba(112, 107, 255, 138));
+ }
+</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="usernameLabel">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>20</y>
+         <width>121</width>
+         <height>100</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>100</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Yu Gothic UI Semibold</family>
+         <pointsize>19</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>Username</string>
+       </property>
+      </widget>
      </widget>
     </item>
-    <item alignment="Qt::AlignHCenter">
+    <item>
      <widget class="QFrame" name="frame">
       <property name="minimumSize">
        <size>
         <width>400</width>
-        <height>200</height>
+        <height>400</height>
        </size>
       </property>
       <property name="font">
@@ -57,8 +117,8 @@
       <widget class="QPushButton" name="createLobbyButton">
        <property name="geometry">
         <rect>
-         <x>130</x>
-         <y>20</y>
+         <x>90</x>
+         <y>220</y>
          <width>151</width>
          <height>41</height>
         </rect>
@@ -95,8 +155,8 @@ QPushButton#createLobbyButton:pressed {
       <widget class="QPushButton" name="joinLobbyButton">
        <property name="geometry">
         <rect>
-         <x>130</x>
-         <y>80</y>
+         <x>90</x>
+         <y>280</y>
          <width>151</width>
          <height>41</height>
         </rect>
@@ -133,8 +193,8 @@ QPushButton#joinLobbyButton:pressed {
       <widget class="QLineEdit" name="joinLobbyCode">
        <property name="geometry">
         <rect>
-         <x>130</x>
-         <y>140</y>
+         <x>90</x>
+         <y>340</y>
          <width>151</width>
          <height>41</height>
         </rect>
@@ -157,6 +217,32 @@ padding-bottom:7px;</string>
         <string>Code</string>
        </property>
       </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>50</y>
+         <width>130</width>
+         <height>135</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>100</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Yu Gothic UI Semibold</family>
+         <pointsize>19</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Main Menu</string>
+       </property>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -166,7 +252,7 @@ padding-bottom:7px;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>853</width>
+     <width>858</width>
      <height>22</height>
     </rect>
    </property>
