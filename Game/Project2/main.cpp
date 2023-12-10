@@ -20,6 +20,8 @@ int main()
 
 	WordDatabaseHandle wordStorage;
 	wordStorage.Init();
+	std::string s{ "eng" };
+	std::queue<std::string> words = wordStorage.SelectWords(5, 2, s);
 	UserDatabaseHandle userStorage;
 
 	Game game;

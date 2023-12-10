@@ -32,6 +32,7 @@ struct WordFromDictionary									//structure that will contain the words from o
 	uint16_t id;
 	std::string word;
 	uint8_t difficulty;
+	std::string language;
 };
 
 struct UserInfo
@@ -51,7 +52,8 @@ inline auto CreateDictionary(const std::string& filename)		//creating database f
 			"Words",
 			sql::make_column("id", &WordFromDictionary::id, sql::primary_key().autoincrement()),
 			sql::make_column("name", &WordFromDictionary::word),
-			sql::make_column("difficulty", &WordFromDictionary::difficulty)
+			sql::make_column("difficulty", &WordFromDictionary::difficulty),
+			sql::make_column("language", &WordFromDictionary::language)
 		)
 	);
 }
@@ -83,7 +85,7 @@ class WordDatabaseHandle
 public:
 
 	void Init();
-	std::queue<std::string> SelectWords(const uint8_t wordsNeeded, const char difficulty); //server::Lobby::GameDifficulty difficulty);
+	std::queue<std::string> SelectWords(const uint8_t wordsNeeded, const uint8_t difficulty, const std::string language); //server::Lobby::GameDifficulty difficulty);
 
 	void ClearDictionary();
 

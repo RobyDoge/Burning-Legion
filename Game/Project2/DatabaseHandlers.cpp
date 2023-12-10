@@ -16,10 +16,15 @@ void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filen
     uint16_t idCounter = 1;
 
     std::string word;
+    std::string language;
     uint8_t difficulty;
+
+    inputFile >> language;
     while (inputFile >> word >> difficulty)
     {
-        words.emplace_back(WordFromDictionary{ idCounter++, word, difficulty });
+        if (word.compare(language)&&difficulty == -1)
+            inputFile >> language;
+        words.emplace_back(WordFromDictionary{ idCounter++, word, difficulty ,language});
     }
 
     dictionary.insert_range(words.begin(), words.end());
@@ -33,9 +38,9 @@ void AddNewUser(UserDatabase& users, const std::string name, const std::string& 
 
 void WordDatabaseHandle::Init()
 {
-    time_t lastModifiedTime = 1700958134;            //will fix this magic number
-    //if (hasFileChanged("input.txt", lastModifiedTime))
-      //  m_db.remove_all<WordFromDictionary>();
+    time_t lastModifiedTime = 1702233024;            //will fix this magic number
+    if (hasFileChanged("input.txt", lastModifiedTime))
+        m_db.remove_all<WordFromDictionary>();
     m_db.sync_schema();
 
     auto initalwordscount = m_db.count<WordFromDictionary>();
@@ -46,13 +51,15 @@ void WordDatabaseHandle::Init()
     std::cout << initalwordscount2;
 }
 
-std::queue<std::string> WordDatabaseHandle::SelectWords(const uint8_t numberOfPlayers, const char difficulty)//server::Lobby::GameDifficulty difficulty)
+std::queue<std::string> WordDatabaseHandle::SelectWords(const uint8_t wordsNeeded, const uint8_t difficulty, const std::string language)//server::Lobby::GameDifficulty difficulty)
 {
     std::queue<std::string> generatedWords;
-    uint8_t wordsNeeded = 4 * numberOfPlayers;
-    //auto initalwordscount = db.count<WordFromDictionary>();
     auto rows = m_db.select(sqlite_orm::columns(&WordFromDictionary::word),
-        sqlite_orm::where(sqlite_orm::c(&WordFromDictionary::difficulty) == static_cast<unsigned char>(difficulty)),
+        sqlite_orm::where(
+            sqlite_orm::and_(
+                sqlite_orm::c(&WordFromDictionary::difficulty) == difficulty,
+                sqlite_orm::c(&WordFromDictionary::language) == language
+            )),
         sqlite_orm::limit(wordsNeeded));
 
 
