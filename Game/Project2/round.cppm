@@ -24,6 +24,7 @@ namespace server
 	public:
 		Round() = default;																	//default constructor 
 		void StartRound(std::vector<User>& players, std::queue<std::string>& wordList);		//function to start the round
+		void SetRoleForEachPlayer(uint8_t drawerPosition);					//assigns roles to players
 
 
 	private:
@@ -34,7 +35,6 @@ namespace server
 		};
 
 	private:
-		void SetRoleForEachPlayer(uint8_t drawerPosition);								//assigns roles to players
 		void UpdateGamePoints();														//updates the game points
 		void Move(std::vector<User>& players, const MoveDirection moveDirection);		//either moves the elements from the vector to the class of vice versa
 		void CheckWordListSize(const std::queue<std::string>& wordList) const;			//Throws an error in case there are not enough words

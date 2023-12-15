@@ -66,12 +66,18 @@
     <ClCompile Include="Routing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gameHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DatabaseHandlers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Routing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gameHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -74,7 +74,7 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 
         // Obține cel mai bun scor și ultimele puncte ale utilizatorului din userStorage
         uint16_t bestscores = userStorage.GetBestScore(username);
-        std::list<int16_t> lastmatches= userStorage.GetLastMatchesPoints(username);
+        std::deque<int16_t> lastmatches= userStorage.GetLastMatchesPoints(username);
 
         // Construiește un obiect JSON pentru răspuns
         std::vector<crow::json::wvalue> responseJson;

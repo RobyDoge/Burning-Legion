@@ -133,7 +133,7 @@ uint16_t UserDatabaseHandle::GetBestScore(const std::string& name) // this shoul
     return 0;
 }
 
-std::list<int16_t> UserDatabaseHandle::GetLastMatchesPoints(const std::string& name)
+std::deque<int16_t> UserDatabaseHandle::GetLastMatchesPoints(const std::string& name)
 {
     auto result = m_db.select(sqlite_orm::columns(&UserInfo::last5),
         sqlite_orm::where(sqlite_orm::c(&UserInfo::name) == name));
