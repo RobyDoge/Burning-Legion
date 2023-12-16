@@ -16,16 +16,16 @@ void Game::Start(std::vector<User>& players, const Lobby::GameDifficulty difficu
 	m_difficulty = difficulty;
 	std::swap(m_players, players);
 	CreateWordsForGame();
-	for (int i = 0; i <= NUMBER_OF_ROUNDS; i++)
-	{
-		Round round{};
-		round.StartRound(players, GenerateNextWords());
-	}
+	//for (int i = 0; i <= NUMBER_OF_ROUNDS; i++)
+	//{
+	//	Round round{};
+	//	round.StartRound(players, GenerateNextWords());
+	//}
 
-	UpdateLastMatches();
-	auto topThreePlayers{ FindTheThreeWinners() };
-	//de trimis catre server castigatorii;
-	std::swap(players, m_players);
+	//UpdateLastMatches();
+	//auto topThreePlayers{ FindTheThreeWinners() };
+	////de trimis catre server castigatorii;
+	//std::swap(players, m_players);
 }
 
 std::queue<std::string>& Game::GenerateNextWords()

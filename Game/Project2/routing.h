@@ -1,7 +1,7 @@
 #pragma once
 #include <crow.h>
 #include "DatabaseHandlers.h"
-
+#include "gameHandler.h"
 namespace http
 {
 	class Routing
@@ -20,5 +20,6 @@ namespace http
 		uint8_t m_difficulty = 0;
 		std::string m_lobbyId;
 		std::vector<std::string> m_playerList;
+
 	};
 }
