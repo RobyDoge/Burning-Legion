@@ -31,6 +31,7 @@ private slots:
     void inputField_returnPressed();
     void updateCharCount();
     void updatePenWidth();
+    void clearDrawingArea();
 
 private:
     Ui::gameWindowClass ui;
@@ -40,9 +41,13 @@ private:
     bool isDrawing; 
     int currentPenWidth;
     QMap<int, int> lineWidths; 
+    QMap<int, QColor> lineColor;
 
     void addNewLine(const QVector<QPoint>& newLine);
     int lastUpdatedLineIndex = -1;
+
+    QColor currentPenColor; 
+    void changePenColor();
    
 
 

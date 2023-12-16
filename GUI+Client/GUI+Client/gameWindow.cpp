@@ -9,7 +9,7 @@ GameWindow::GameWindow(QWidget* parent)
     setAttribute(Qt::WA_StaticContents);
     isDrawing = false;
     resizeToScreenSize();
-
+    
 
     connect(ui.sendButton, &QPushButton::clicked, this, &GameWindow::sendButton_clicked);
     connect(ui.inputField, &QLineEdit::returnPressed, this, &GameWindow::inputField_returnPressed);
@@ -17,11 +17,13 @@ GameWindow::GameWindow(QWidget* parent)
 
     connect(ui.penWidthSlider, &QSlider::sliderMoved, this, [this](int value) {
         QPoint sliderPos = ui.penWidthSlider->mapToGlobal(QPoint(0, -30));
-        sliderPos.setX(sliderPos.x() + 10 * value); // Adjust X position based on slider value, multiplied by 2 for faster movement
+        sliderPos.setX(sliderPos.x() + 10 * value); 
         QToolTip::showText(sliderPos, QString::number(value));
         });
 
     connect(ui.penWidthSlider, &QSlider::valueChanged, this, &GameWindow::updatePenWidth);
+    connect(ui.colorPickerButton, &QPushButton::clicked, this, &GameWindow::changePenColor);
+    connect(ui.clearButton, &QPushButton::clicked, this, &GameWindow::clearDrawingArea);
    
    
 }
@@ -85,7 +87,8 @@ void GameWindow::mouseMoveEvent(QMouseEvent* event)
             if (!currentLine.empty()) {
                 QPoint lastPoint = currentLine.back();
                 currentLine.append(currentPos);
-                lineWidths[lines.size()] = currentPenWidth; // Store the width for the current line using the line index
+                lineWidths[lines.size()] = currentPenWidth; 
+                lineColor[lines.size()] = currentPenColor;
                 update();
             }
         }
@@ -94,15 +97,16 @@ void GameWindow::mouseMoveEvent(QMouseEvent* event)
 
 void GameWindow::mouseReleaseEvent(QMouseEvent* event)
 {
-    if (event->button() == Qt::LeftButton && isDrawing) {
+    if (event->button() == Qt::LeftButton && isDrawing)
+    {
         isDrawing = false;
 
-        lines.append(currentLine); // Save the current line to the list of lines
-        lineWidths[lines.size() - 1] = currentPenWidth; // Set the width for the current line using its index
+        lines.append(currentLine); 
+        lineWidths[lines.size() - 1] = currentPenWidth;
+        lineColor[lines.size() - 1] = currentPenColor;
+        currentLine.clear(); 
 
-        currentLine.clear(); // Clear the current line's points after finishing
-
-        update(); // Trigger repaint to include the updated line in the drawing
+        update(); 
     }
 }
 
@@ -116,39 +120,58 @@ void GameWindow::paintEvent(QPaintEvent* event) {
     QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
     painter.drawRect(drawingArea);
 
-    // Draw existing lines with their respective widths
+   if(!lines.empty())
     for (int i = 0; i < lines.size(); ++i) {
         const QVector<QPoint>& line = lines[i];
 
         QPen pen;
         pen.setColor(Qt::black);
-        pen.setWidth(lineWidths.value(i, 1)); // Use the stored width for this line index, default to 1 if not found
+        pen.setWidth(lineWidths.value(i, 1));
+        pen.setColor(lineColor.value(i,1));
         painter.setPen(pen);
-
         for (int j = 1; j < line.size(); ++j) {
             painter.drawLine(line[j - 1], line[j]);
         }
     }
 
-    // Draw the current line being drawn with the updated width
     if (isDrawing && !currentLine.isEmpty()) {
-        // Draw the current line with the updated pen width
+
         QPen pen;
         pen.setColor(Qt::black);
-        pen.setWidth(currentPenWidth); // Use the current pen width for the current line
+        pen.setWidth(currentPenWidth); 
+        pen.setColor(currentPenColor);
         painter.setPen(pen);
-
-        for (int i = 1; i < currentLine.size(); ++i) {
-            painter.drawLine(currentLine[i - 1], currentLine[i]);
-        }
+        if(currentLine.size()>1)
+            for (int i = 1; i < currentLine.size(); ++i) 
+                painter.drawLine(currentLine[i - 1], currentLine[i]);
+        
     }
 
     QWidget::paintEvent(event);
 }
 
 void GameWindow::updatePenWidth() {
-    // Update the pen width when the slider value changes
+
     currentPenWidth = ui.penWidthSlider->value();
     ui.messageArea->append(QString::number(ui.penWidthSlider->value()));
-    update(); // Trigger a repaint to apply the new pen width to subsequent drawings
+    update(); 
+}
+
+void GameWindow::changePenColor() {
+    QColorDialog colorDialog(this);
+    QColor chosenColor = colorDialog.getColor(currentPenColor, this, "Choose Pen Color");
+
+    if (chosenColor.isValid()) {
+        currentPenColor = chosenColor;
+        // Optionally, update UI or perform any actions with the new color
+        update(); // Trigger a repaint to apply the new color to subsequent drawings
+    }
+}
+void GameWindow::clearDrawingArea() {
+    //lines.clear(); // Clear the stored lines
+    lineWidths.clear(); // Clear the stored line widths
+    lineColor.clear();
+    lines.clear();
+    
+    update(); // Trigger a repaint to clear the drawing area
 }
