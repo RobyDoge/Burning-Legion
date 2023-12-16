@@ -17,17 +17,22 @@ void GameHandler::Start()
 	auto nr = m_wordStorage.m_db.count<WordFromDictionary>();
 	std::string s{ "eng" };
 	std::queue<std::string> words = m_wordStorage.SelectWords(5, 48, s);
-
+	std::vector<std::string> playerList;
 	m_routing.Run(m_wordStorage, m_userStorage);
 	std::string currentUser = m_routing.GetLastUsername();
+	m_lobby.GenerateIdLobby();
+	m_routing.SetLobbyId(m_lobby.GetIdLobby());
 	m_lobby.AddPlayer(currentUser, m_userStorage.GetBestScore(currentUser), m_userStorage.GetLastMatchesPoints(currentUser));
-	//Aici posibil semnal catre client ca currentuser e lobby owner si in client doar el o sa poata schimba dificultatea
+	playerList.push_back(currentUser);
+	m_routing.UpdatePlayerList(playerList);
 	while (m_routing.GetGameStart() != true)
 	{
 		if (currentUser != m_routing.GetLastUsername())
 		{
 			m_lobby.AddPlayer(currentUser, m_userStorage.GetBestScore(currentUser), m_userStorage.GetLastMatchesPoints(currentUser)); // functiile astea 2 trb adaugate stef 
 			currentUser = m_routing.GetLastUsername();
+			playerList.push_back(currentUser);
+			m_routing.UpdatePlayerList(playerList);
 		}
 		m_lobby.SetDifficulty(m_routing.GetDifficulty());
 	}
@@ -42,7 +47,7 @@ void GameHandler::Start()
 		for (uint8_t iterator = 0; iterator < m_numberOfTurns; iterator++)
 		{
 			std::string wordToBeGuessed = words.front();
-			//Trimite la server word
+			//Trimite la client word
 			round.SetRoleForEachPlayer(iterator);
 			Turn turn{};
 			//turn.GuessingTimeVectorInitialization(players); -> Nu stiu ce face asta????

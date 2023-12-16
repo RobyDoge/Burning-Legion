@@ -70,3 +70,20 @@ std::pair<uint16_t, std::list< int16_t>> Client::GetBestScoreAndLastMatchesPoint
 	return std::make_pair(bestScore, list);
 }
 
+std::vector<std::string> Client::GetPlayersVector()
+{
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbyPlayerVector" },
+        cpr::Header{ {"Content-Type", "application/json"} });
+
+    auto playersReceived = crow::json::load(response.text);
+    bool ok = true;
+    uint16_t bestScore;
+    std::vector<std::string> players;
+    for (const auto& player : playersReceived)
+    {
+
+        players.push_back(player["player"].s());
+    }
+
+    return players;
+}

@@ -26,10 +26,10 @@ namespace server
         void AddPlayer(const std::string& name, const uint16_t bestScore, const std::deque<int16_t>& lastMatchesPoints);       //adds a player to the lobby
         void SetDifficulty(const uint8_t difficulty);						//sets the game difficulty at the start of the game
         GameDifficulty GetDifficulty() const;										//for checking the difficulty
+        void GenerateIdLobby();                                                     //randomly generates a lobby id
 
 
     private:
-        void GenerateIdLobby();                                                     //randomly generates a lobby id
 
     private:
         static constexpr uint8_t ID_SIZE{};

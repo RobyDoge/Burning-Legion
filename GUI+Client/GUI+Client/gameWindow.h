@@ -25,8 +25,8 @@ protected:
     void paintEvent(QPaintEvent* event) override;
 
 private slots:
-    void on_sendButton_clicked();
-    void on_inputField_returnPressed();
+    void sendButton_clicked();
+    void inputField_returnPressed();
     void updateCharCount();
 
 private:
@@ -35,4 +35,5 @@ private:
     QVector<QPoint> currentLine; 
     void resizeToScreenSize();
     bool isDrawing; 
+
 };

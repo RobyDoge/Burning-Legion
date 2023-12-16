@@ -1,9 +1,10 @@
 #include "lobbyWindow.h"
 
-LobbyWindow::LobbyWindow(QWidget *parent)
-	: QMainWindow(parent)
+LobbyWindow::LobbyWindow(std::string username,QWidget *parent)
+	: m_username(username),QMainWindow(parent)
 {
 	ui.setupUi(this);
+	m_client.SendUsername(m_username);
 	connect(ui.startGameButton, &QPushButton::clicked, this, &LobbyWindow::startGameButton_clicked);
     for (int i = 0; i < ui.playersListWidget->count(); ++i) 
         ui.playersListWidget->item(i)->setTextAlignment(Qt::AlignCenter);  
@@ -34,6 +35,6 @@ void LobbyWindow::UpdatePlayersListWidget(QListWidget* listWidget)
 
 }
 void LobbyWindow::PlayerJoinedLobby() {
-    //add players whenever they join a lobby
+	m_players = m_client.GetPlayersVector();
     UpdatePlayersListWidget(ui.playersListWidget);
 }

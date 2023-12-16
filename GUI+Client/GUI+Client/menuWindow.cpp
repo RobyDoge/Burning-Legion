@@ -16,7 +16,7 @@ MenuWindow::~MenuWindow()
 
 void MenuWindow::openLobbyWindow()
 {
-    LobbyWindow* lobbyWindow = new LobbyWindow();
+    LobbyWindow* lobbyWindow = new LobbyWindow(m_username);
     lobbyWindow->show();
     this->destroy();
     

@@ -66,27 +66,33 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
     CROW_ROUTE(m_app, "/mainMenu")
         .methods("POST"_method)
         ([&userStorage](const crow::request& req) {
-        // Încercare de a obține datele JSON trimise de client
         auto jsonData = crow::json::load(req.body);
 
-        // Extrage username-ul din datele JSON
         std::string username = jsonData["username"].s();
 
-        // Obține cel mai bun scor și ultimele puncte ale utilizatorului din userStorage
         uint16_t bestscores = userStorage.GetBestScore(username);
         std::deque<int16_t> lastmatches= userStorage.GetLastMatchesPoints(username);
 
-        // Construiește un obiect JSON pentru răspuns
         std::vector<crow::json::wvalue> responseJson;
         responseJson.push_back(crow::json::wvalue{ { "bestscores", bestscores } });
-        // Adaugă lista de int-uri în obiectul JSON sub cheia "lastmatches"
+
         for (const auto& points : lastmatches) {
             responseJson.push_back(crow::json::wvalue{ {"points", points} });
         }
-        // Returnează un răspuns HTTP cu codul de stare 200 și obiectul JSON
+
         return crow::json::wvalue{ responseJson };
             });
 
+    CROW_ROUTE(m_app, "/lobbyPlayerVector")
+        .methods("POST"_method)
+        ([&userStorage,this](const crow::request& req) {
+        std::vector<crow::json::wvalue> responseJson;
+
+        for (const auto& player : m_playerList) {
+            responseJson.push_back(crow::json::wvalue{ {"player", player} });
+        }
+        return crow::json::wvalue{ responseJson };
+            });
 
     CROW_ROUTE(m_app, "/lobbySetupUsers")
         .methods("POST"_method)
@@ -96,7 +102,7 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
         if (!jsonData)
             return crow::response(400);
 
-        m_lastUsername = jsonData["userid"].s();
+        m_lastUsername = jsonData["username"].s();
 
         return crow::response(200, "OK");
             });
@@ -106,6 +112,10 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 
 }
 
+void Routing::UpdatePlayerList(std::vector<std::string>& playerList)
+{
+	m_playerList = playerList;
+}
 std::string Routing::GetLastUsername() const
 {
 	return m_lastUsername;
@@ -119,4 +129,9 @@ bool Routing::GetGameStart() const
 uint8_t Routing::GetDifficulty() const
 {
 	return m_difficulty;
+}
+
+void http::Routing::SetLobbyId(const std::string& lobbyId)
+{
+	m_lobbyId = lobbyId;
 }
