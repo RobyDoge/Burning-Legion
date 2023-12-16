@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1558</width>
-    <height>781</height>
+    <width>1584</width>
+    <height>909</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -131,13 +131,41 @@ border:1px solid rgb(0, 0, 0);
      <string>0</string>
     </property>
    </widget>
+   <widget class="QSlider" name="penWidthSlider">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>730</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>10</number>
+    </property>
+    <property name="pageStep">
+     <number>1</number>
+    </property>
+    <property name="sliderPosition">
+     <number>1</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::NoTicks</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1558</width>
+     <width>1584</width>
      <height>22</height>
     </rect>
    </property>

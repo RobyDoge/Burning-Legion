@@ -6,6 +6,8 @@
 #include <QMouseEvent>
 #include <QScreen>
 #include <QGuiApplication>
+#include<QMap>
+#include <QColor>
 const int WIDTH = 800; 
 const int HEIGHT = 600;
 
@@ -28,6 +30,7 @@ private slots:
     void sendButton_clicked();
     void inputField_returnPressed();
     void updateCharCount();
+    void updatePenWidth();
 
 private:
     Ui::gameWindowClass ui;
@@ -35,5 +38,12 @@ private:
     QVector<QPoint> currentLine; 
     void resizeToScreenSize();
     bool isDrawing; 
+    int currentPenWidth;
+    QMap<int, int> lineWidths; 
+
+    void addNewLine(const QVector<QPoint>& newLine);
+    int lastUpdatedLineIndex = -1;
+   
+
 
 };
