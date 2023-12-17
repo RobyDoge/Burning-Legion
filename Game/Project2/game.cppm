@@ -21,19 +21,23 @@ namespace game_logic
 	public:
 		Game() = default;														//default constructor
 		~Game() = default;														//destructor
+		Game(std::vector<Player>& players, Lobby::GameDifficulty difficulty,Lobby::GameLanguage language);	//constructor with info from lobby)
 
-		void Start(std::vector<Player>& players, const Lobby::GameDifficulty difficulty);		//starts the turn with info from lobby
-		std::queue<std::string>& GenerateNextWords();							//generates a random number of words based on the number of players
-
+		Turn GetTurn(uint8_t drawerPosition);									//returns the current turn
+		std::string GetNextWord();							//generates a random number of words based on the number of players
+		std::queue<Player> GetWinners();		//return an array with up to top 3 players based on their score
 
 	private:
-		void CreateWordsForGame();												//from the word database populates currentWordList
+
+		void CreateWordsForGame(const Lobby::GameDifficulty difficulty, const Lobby::GameLanguage language);												//from the word database populates currentWordList
 		void UpdateLastMatches();												//after the game ends it updates the history for each player
-		std::list<Player> FindTheThreeWinners();		//return an array with up to top 3 players based on their score
+		
 
 	private:
-		std::queue<std::string> m_currentWordList{};				//the needed words for the game
-		Lobby::GameDifficulty m_difficulty{};						//game difficulty
 		std::vector<Player> m_players{};
+		std::queue<std::string> m_currentWordList{};				//the needed words for the game
+								
+		
+
 	};
 }

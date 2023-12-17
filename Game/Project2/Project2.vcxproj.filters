@@ -25,18 +25,21 @@
     <Filter Include="Header Files\GameLogic Namespace">
       <UniqueIdentifier>{3a55e44b-364e-4ea4-8a14-ed1dee61044a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Database">
+      <UniqueIdentifier>{7128f362-0e83-4693-bbe1-153d20480791}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Database">
+      <UniqueIdentifier>{949dad55-80c9-456f-8dcf-8468c9471996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AUX">
+      <UniqueIdentifier>{bc3fb7a0-6251-48d7-a021-00f14e885123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AUX">
+      <UniqueIdentifier>{e9790e81-3c00-49dc-9689-4cc049eac4e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="utils.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DatabaseHandlers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gameHandlerOld.cpp">
@@ -78,11 +81,17 @@
     <ClCompile Include="player.cpp">
       <Filter>Source Files\GameLogic Namespace</Filter>
     </ClCompile>
+    <ClCompile Include="DatabaseHandlers.cpp">
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cppm">
+      <Filter>Header Files\AUX</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Source Files\AUX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DatabaseHandlers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gameHandlerOld.h">
       <Filter>Header Files\Server Namespace</Filter>
     </ClInclude>
@@ -91,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="Routing.h">
       <Filter>Header Files\Server Namespace</Filter>
+    </ClInclude>
+    <ClInclude Include="DatabaseHandlers.h">
+      <Filter>Header Files\Database</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

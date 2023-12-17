@@ -10,35 +10,28 @@ import <cstdint>;
 
 using namespace game_logic;
 
-//void Game::Start(std::vector<User>& players, const Lobby::GameDifficulty difficulty /* limba*/)
-//{
-//	m_difficulty = difficulty;
-//	std::swap(m_players, players);
-//	CreateWordsForGame();
-//	//for (int i = 0; i <= NUMBER_OF_ROUNDS; i++)
-//	//{
-//	//	Round round{};
-//	//	round.StartRound(players, GenerateNextWords());
-//	//}
-//
-//	//UpdateLastMatches();
-//	//auto topThreePlayers{ FindTheThreeWinners() };
-//	////de trimis catre game_logic castigatorii;
-//	//std::swap(players, m_players);
-//}
-
-std::queue<std::string>& Game::GenerateNextWords()
+Game::Game(std::vector<Player>& players, const Lobby::GameDifficulty difficulty, const Lobby::GameLanguage language):
+	m_players{players}
 {
-	std::queue<std::string> wordsForRound{};
-	for (int i = 0; i < m_players.size(); i++)
-	{
-		wordsForRound.push(m_currentWordList.front());
-		m_currentWordList.pop();
-	}
+	CreateWordsForGame(difficulty,language);
+}
+
+Turn Game::GetTurn(const uint8_t drawerPosition)
+{
+	Turn turn{m_players,m_currentWordList.front(),drawerPosition };
+	m_currentWordList.pop();
+
+	return turn;
+}
+
+std::string Game::GetNextWord()
+{
+	std::string wordsForRound{ m_currentWordList.front() };
+	m_currentWordList.pop();
 	return wordsForRound;
 }
 
-void Game::CreateWordsForGame()
+void Game::CreateWordsForGame(const Lobby::GameDifficulty difficulty, const Lobby::GameLanguage language)
 {
 	//m_currentWordList = WordDatabaseHandle::SelectWords(m_players.size() * NUMBER_OF_ROUNDS, m_difficulty);
 }
@@ -51,7 +44,7 @@ void Game::UpdateLastMatches()
 	}
 }
 
-std::list<Player> Game::FindTheThreeWinners()
+std::queue<Player> Game::GetWinners()		//return an array with up to top 3 players based on their score
 {
 
 	if (m_players.size() == 1)
@@ -62,7 +55,7 @@ std::list<Player> Game::FindTheThreeWinners()
 	if (m_players.size() == 2)
 	{
 
-		if (m_players[0].GetPoints().GetLastMatchesPoints().front() > m_players[1].GetPoints().GetLastMatchesPoints().front())
+		if (m_players[0].GetPoints().GetCurrentGamePoints() > m_players[1].GetPoints().GetCurrentGamePoints())
 		{
 			return{ m_players[0],m_players[1] };
 		}
@@ -72,7 +65,7 @@ std::list<Player> Game::FindTheThreeWinners()
 	std::vector<Player> playerCopy{ m_players };
 	std::partial_sort(playerCopy.begin(), playerCopy.begin() + 3, playerCopy.end(), [](Player& first, Player& second)
 		{
-			return first.GetPoints().GetLastMatchesPoints().front() > second.GetPoints().GetLastMatchesPoints().front();
+			return first.GetPoints().GetCurrentGamePoints() > second.GetPoints().GetCurrentGamePoints();
 		});
 
 	return { playerCopy[0],playerCopy[1],playerCopy[2] };

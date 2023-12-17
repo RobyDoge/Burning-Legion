@@ -6,8 +6,7 @@ import lobby;
 #include <string>
 
 
-using game_logic::Game;
-using game_logic::Lobby;
+using namespace game_logic;
 
 namespace server
 {

@@ -17,8 +17,7 @@ public:
 	float GetDeltaTime();											 //Calculate the time difference between frames
 	float GetElapsedTime() const;								     //Get the total elapsed time since the timer started
 	float GetTimeScale() const;										 //Get the time scale for the timer
-	void  SetTimeScale(float timeScale);								 //Set the time scale for the timer
-
+	void  SetTimeScale(float timeScale);							//Set the time scale for the timer
 
 	void Reset();													 //Resets all variables to the time point when the method was called
 
