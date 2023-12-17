@@ -2,8 +2,6 @@ module turn;
 import player;
 import game;
 
-//routing
-
 import <vector>;
 import <string>;
 import <utility>;
@@ -12,7 +10,7 @@ import <algorithm>;
 import <string>;
 import <ranges>;
 
-//#include "TimerDLL/Timer.h"
+
 
 using namespace game_logic;
 
@@ -21,6 +19,11 @@ Turn::Turn(std::vector<Player>& players, const std::string& wordToBeDrawn, const
 	Move(players, MoveDirection::FromGameToTurn);
 	GuessingTimeVectorInitialization(drawerPosition);
 
+}
+
+void Turn::ReturnPlayers(std::vector<Player>& players)
+{
+	Move(players, MoveDirection::FromTurnToGame);
 }
 
 void Turn::Move(std::vector<Player>& players, const MoveDirection moveDirection)
@@ -41,6 +44,7 @@ void Turn::Move(std::vector<Player>& players, const MoveDirection moveDirection)
 		players.clear();
 		return;
 	}
+
 	players.resize(m_players.size());
 	std::transform(
 		m_players.begin(),
@@ -117,14 +121,14 @@ Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std
 
 
 
-void Turn::AddPointsForEachPlayer(std::vector<std::pair<Player, Round::Role>>& players)
+void Turn::AddPointsForEachPlayer(std::vector<std::pair<Player, Role>>& players)
 {
 	ConvertRemainingTimeToTakenTime();
 	for (uint8_t iterator = 0; iterator < players.size(); iterator++)
 	{
-		if (players[iterator].second != Round::Role::Drawer)
+		if (players[iterator].second != Role::Drawer)
 		{
-			players[iterator].first.GetPoints().SetTurnPoints(m_guessingTimes[iterator].first);
+			players[iterator].first.GetPoints().AddToTurnPoints(m_guessingTimes[iterator].first);
 			continue;
 		}
 		std::vector<float> floatVector;
@@ -136,7 +140,7 @@ void Turn::AddPointsForEachPlayer(std::vector<std::pair<Player, Round::Role>>& p
 			}
 			floatVector.push_back(m_guessingTimes[iterator2].first);
 		}
-		players[iterator].first.GetPoints().SetTurnPoints(floatVector);
+		players[iterator].first.GetPoints().AddToTurnPoints(floatVector);
 	}
 }
 

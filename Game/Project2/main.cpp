@@ -15,12 +15,13 @@ int main()
 	return 0;
 }
 */
+
 /*
  * for testing
  * the next main function should be used
- * after testing, the main function should be changed to the one above
+ * after testing all the functions, the main function should be changed to the one above
+ * to be created a list of all the functions that have been tested
  */
-
 
 int main()
 {

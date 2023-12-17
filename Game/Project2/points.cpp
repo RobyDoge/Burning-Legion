@@ -7,10 +7,8 @@ import <cstdint>;
 using game_logic::Points;
 
 Points::Points(const Points& other) :
-	m_currentGamePoints{ other.m_currentGamePoints },
-	m_turnPoints{ other.m_turnPoints },
-	m_bestGamePoints{ other.m_bestGamePoints },
-	m_lastMatchesPoints{ other.m_lastMatchesPoints }
+	m_gamePoints{ other.m_gamePoints },
+	m_turnPoints{ other.m_turnPoints }
 {
 }
 
@@ -35,20 +33,20 @@ Points& Points::operator=(Points&& other) noexcept
 void Points::swap(Points& other) noexcept
 {
 	using std::exchange;
-	m_currentGamePoints = exchange(other.m_currentGamePoints, m_currentGamePoints);
+	m_gamePoints = exchange(other.m_gamePoints, m_gamePoints);
 	m_turnPoints = exchange(other.m_turnPoints, m_turnPoints);
 
 }
 
 int16_t Points::GetCurrentGamePoints() const
 {
-	return m_currentGamePoints;
+	return m_gamePoints;
 }
 
-void Points::AddToGamePoints()
+void Points::UpdateScore()
 {
 	m_gamePoints += m_turnPoints;
-	m_currentGamePoints = 0;
+	m_turnPoints = 0;
 }
 
 int16_t Points::GetTurnPoints() const

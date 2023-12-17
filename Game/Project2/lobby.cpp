@@ -23,7 +23,7 @@ void Lobby::AddPlayer(const std::string& name)
 
 void Lobby::RemovePlayer(const std::string& name)
 {
-    auto playerToBeDeleted = std::ranges::find(m_players, name);
+    auto playerToBeDeleted = std::ranges::find_if(m_players, [&name](const Player& player) { return player.GetName() == name; });
     if (playerToBeDeleted == m_players.end())
     {
         //TODO: throw exception

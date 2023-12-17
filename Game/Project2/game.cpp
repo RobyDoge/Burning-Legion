@@ -5,14 +5,25 @@ import <vector>;
 import <string>;
 import <list>;
 import <cstdint>;
+import <ranges>;
 
 //#include "DatabaseHandlers.h"
 
 using namespace game_logic;
 
-Game::Game(std::vector<Player>& players, const Lobby::GameDifficulty difficulty, const Lobby::GameLanguage language):
-	m_players{players}
+Game::~Game()
 {
+	//TODO: Open The Connection to the database
+
+	//TODO: Update the database with the new scores
+	//TODO: Update the database with the new images
+
+	//TODO:: Close the connection to the database
+}
+
+Game::Game(std::vector<Player>& players, const Lobby::GameDifficulty difficulty, const Lobby::GameLanguage language)
+{
+	std::swap(m_players, players);
 	CreateWordsForGame(difficulty,language);
 }
 
@@ -33,23 +44,16 @@ std::string Game::GetNextWord()
 
 void Game::CreateWordsForGame(const Lobby::GameDifficulty difficulty, const Lobby::GameLanguage language)
 {
+	//TODO: Open The Connection to the database
 	//m_currentWordList = WordDatabaseHandle::SelectWords(m_players.size() * NUMBER_OF_ROUNDS, m_difficulty);
-}
-
-void Game::UpdateLastMatches()
-{
-	for (auto& player : m_players)
-	{
-		player.GetPoints().AddMatch();
-	}
+	//TODO:: Close the connection to the database
 }
 
 std::queue<Player> Game::GetWinners()		//return an array with up to top 3 players based on their score
 {
-
 	if (m_players.size() == 1)
 	{
-		return { m_players[0] };
+		return{m_players.begin(),m_players.begin()+1};
 	}
 
 	if (m_players.size() == 2)
@@ -57,9 +61,9 @@ std::queue<Player> Game::GetWinners()		//return an array with up to top 3 player
 
 		if (m_players[0].GetPoints().GetCurrentGamePoints() > m_players[1].GetPoints().GetCurrentGamePoints())
 		{
-			return{ m_players[0],m_players[1] };
+			return { m_players.begin(),m_players.begin() + 2};
 		}
-		return { m_players[1],m_players[0] };
+		return { m_players.rbegin().base(),m_players.rbegin().base() + 2};
 	}
 
 	std::vector<Player> playerCopy{ m_players };
@@ -68,5 +72,24 @@ std::queue<Player> Game::GetWinners()		//return an array with up to top 3 player
 			return first.GetPoints().GetCurrentGamePoints() > second.GetPoints().GetCurrentGamePoints();
 		});
 
-	return { playerCopy[0],playerCopy[1],playerCopy[2] };
+	return { playerCopy.begin(),playerCopy.begin() + 3 };
+}
+
+void Game::EndTurn(Turn& turn)
+{
+	UpdateScoreForAllPlayers();
+	turn.ReturnPlayers(m_players);
+}
+
+void game_logic::Game::EndGame(std::vector<Player>& players)
+{
+	std::swap(m_players, players);
+}
+
+void Game::UpdateScoreForAllPlayers()
+{
+	std::ranges::for_each(m_players, [](Player& player)
+		{
+			player.GetPoints().UpdateScore();
+		});
 }

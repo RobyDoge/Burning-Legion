@@ -24,7 +24,7 @@ namespace game_logic
 		//if T is a vector we use the second method
 		template <typename T>
 		void AddToTurnPoints(const T& time);				//sets the turnPoints based on the time taken to guess the word
-		void AddToGamePoints();							//adds the points obtain during a turn to the currentGamePoints
+		void UpdateScore();							//adds the points obtain during a turn to the currentGamePoints
 
 		int16_t GetCurrentGamePoints() const;					//getter for currentGamePoints
 		int16_t GetTurnPoints() const;							//getter for turnPoints

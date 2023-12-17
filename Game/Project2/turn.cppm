@@ -8,21 +8,20 @@ import <optional>;
 import <string>;
 import <cstdint>;
 
-
-
 namespace  game_logic
 {
 
 	export class Turn
 	{
 	public:
-		static constexpr uint8_t TURN_LIMIT = 60;							//the duration for a turn
+		static constexpr uint8_t TURN_LIMIT{ 60 };							//the duration for a turn
 
 	public:
 		Turn() = default;
 		Turn(std::vector<Player>& players, const std::string& wordToBeGuessed,const uint8_t drawerPosition);
 		~Turn() = default;
 		std::pair<std::string, std::optional<std::string>> VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord) const;
+		void ReturnPlayers(std::vector<Player>& players);
 
 	private:
 		enum class StringDifference : uint8_t	//used for returning how different  are two strings

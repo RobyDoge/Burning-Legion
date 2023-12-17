@@ -19,22 +19,24 @@ namespace game_logic
 		static constexpr uint8_t NUMBER_OF_ROUNDS = 4;							//the number of rounds
 
 	public:
-		Game() = default;														//default constructor
-		~Game() = default;														//destructor
+		Game() = default;											//default constructor
+		~Game();													//destructor
 		Game(std::vector<Player>& players, Lobby::GameDifficulty difficulty,Lobby::GameLanguage language);	//constructor with info from lobby)
 
-		Turn GetTurn(uint8_t drawerPosition);									//returns the current turn
-		std::string GetNextWord();							//generates a random number of words based on the number of players
+
+		Turn GetTurn(uint8_t drawerPosition);	//returns the current turn
+		std::string GetNextWord();				//generates a random number of words based on the number of players
 		std::queue<Player> GetWinners();		//return an array with up to top 3 players based on their score
+		void EndTurn(Turn& turn);				//ends the current turn
+		void EndGame(std::vector<Player>& players);							//ends the game
 
 	private:
-
-		void CreateWordsForGame(const Lobby::GameDifficulty difficulty, const Lobby::GameLanguage language);												//from the word database populates currentWordList
-		void UpdateLastMatches();												//after the game ends it updates the history for each player
+		void UpdateScoreForAllPlayers();										//updates the score for all players
+		void CreateWordsForGame(const Lobby::GameDifficulty difficulty, const Lobby::GameLanguage language);  //creates the words for the game
 		
 
 	private:
-		std::vector<Player> m_players{};
+		std::vector<Player> m_players{};							//the players in the game
 		std::queue<std::string> m_currentWordList{};				//the needed words for the game
 								
 		

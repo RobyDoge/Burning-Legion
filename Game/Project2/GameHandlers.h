@@ -14,7 +14,7 @@ namespace server
 	{
 	public:
 		GameHandlers() = default;
-		~GameHandlers();
+		~GameHandlers() = default;
 
 		void CreateLobby();
 		void AddUserToLobby(const std::string& username);
