@@ -31,6 +31,8 @@ import lobby;
 using namespace server;
 int main()
 {
+	UserDatabaseHandle udbh;
+	udbh.AddUser("Andrei", "pwd");
 	/*
 	 *testing environment
 	 */
