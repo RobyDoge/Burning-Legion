@@ -24,6 +24,10 @@ GameWindow::GameWindow(QWidget* parent)
     connect(ui.penWidthSlider, &QSlider::valueChanged, this, &GameWindow::updatePenWidth);
     connect(ui.colorPickerButton, &QPushButton::clicked, this, &GameWindow::changePenColor);
     connect(ui.clearButton, &QPushButton::clicked, this, &GameWindow::clearDrawingArea);
+    int xPos = (width() - WIDTH) / 2;
+    int yPos = (height() - HEIGHT) / 2;
+
+    QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
    
    
 }
@@ -118,6 +122,7 @@ void GameWindow::paintEvent(QPaintEvent* event) {
     int yPos = (height() - HEIGHT) / 2;
 
     QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
+    painter.setBrush(Qt::white);
     painter.drawRect(drawingArea);
 
    if(!lines.empty())
@@ -146,14 +151,13 @@ void GameWindow::paintEvent(QPaintEvent* event) {
                 painter.drawLine(currentLine[i - 1], currentLine[i]);
         
     }
-
+    
     QWidget::paintEvent(event);
 }
 
 void GameWindow::updatePenWidth() {
 
     currentPenWidth = ui.penWidthSlider->value();
-    ui.messageArea->append(QString::number(ui.penWidthSlider->value()));
     update(); 
 }
 
@@ -163,15 +167,14 @@ void GameWindow::changePenColor() {
 
     if (chosenColor.isValid()) {
         currentPenColor = chosenColor;
-        // Optionally, update UI or perform any actions with the new color
-        update(); // Trigger a repaint to apply the new color to subsequent drawings
+        update(); 
     }
 }
 void GameWindow::clearDrawingArea() {
     //lines.clear(); // Clear the stored lines
     lineWidths.clear(); // Clear the stored line widths
     lineColor.clear();
-    lines.clear();
+    for (auto& line : lines) line.clear();
     
     update(); // Trigger a repaint to clear the drawing area
 }

@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1584</width>
-    <height>909</height>
+    <width>1810</width>
+    <height>912</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>gameWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(162, 236, 251, 188), stop:1 rgba(255, 160, 160, 166));</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTextEdit" name="messageArea">
@@ -33,7 +36,8 @@
     <property name="styleSheet">
      <string notr="true">border-radius: 10px;
  padding: 5px;
-border:1px solid rgb(0, 0, 0);</string>
+border:1px solid rgb(0, 0, 0);
+background-color: transparent;</string>
     </property>
     <property name="readOnly">
      <bool>true</bool>
@@ -63,7 +67,8 @@ border:1px solid rgb(0, 0, 0);</string>
     <property name="styleSheet">
      <string notr="true">border-radius: 10px; 
 padding: 5px;
-border: 1px solid rgb(0, 0, 0);</string>
+border: 1px solid rgb(0, 0, 0);
+background-color: transparent;</string>
     </property>
     <property name="inputMask">
      <string/>
@@ -105,6 +110,7 @@ border: 1px solid rgb(0, 0, 0);</string>
     border-radius: 5px;
     color: rgb(0, 0, 0);
 border:1px solid rgb(0, 0, 0);
+background-color: transparent;
 }
 </string>
     </property>
@@ -127,6 +133,9 @@ border:1px solid rgb(0, 0, 0);
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
     <property name="text">
      <string>0</string>
     </property>
@@ -134,11 +143,14 @@ border:1px solid rgb(0, 0, 0);
    <widget class="QSlider" name="penWidthSlider">
     <property name="geometry">
      <rect>
-      <x>840</x>
-      <y>740</y>
+      <x>680</x>
+      <y>750</y>
       <width>121</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
     </property>
     <property name="minimum">
      <number>1</number>
@@ -162,8 +174,8 @@ border:1px solid rgb(0, 0, 0);
    <widget class="QPushButton" name="colorPickerButton">
     <property name="geometry">
      <rect>
-      <x>1000</x>
-      <y>730</y>
+      <x>840</x>
+      <y>740</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -213,15 +225,21 @@ QPushButton#colorPickerButton:pressed {
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
     <property name="text">
      <string>60</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QPushButton" name="clearButton">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>730</y>
+      <x>550</x>
+      <y>740</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -255,13 +273,105 @@ QPushButton#clearButton:pressed {
      <string>Clear</string>
     </property>
    </widget>
+   <widget class="QLabel" name="wordtoGuess">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>40</y>
+      <width>471</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic UI Semibold</family>
+      <pointsize>26</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string>Cuvant de ghicit</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="gamePlayersList">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>150</y>
+      <width>200</width>
+      <height>551</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>200</width>
+      <height>300</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>200</width>
+      <height>800</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic UI Semibold</family>
+      <pointsize>10</pointsize>
+      <bold>true</bold>
+      <stylestrategy>NoAntialias</stylestrategy>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"> QListWidget {
+background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(149, 150, 251, 188), stop:1 rgba(160, 255, 210, 166));
+border-radius:10px;
+ }
+
+QListWidget::item{
+height: 40px;
+padding: 5px;
+font-size: 16px;       
+text-align: center;
+}
+
+ QListWidget::item:hover {
+     background: qlineargradient(spread:pad, x1:0.432, y1:0.664773, x2:1, y2:0, stop:0 rgba(255, 124, 225, 186), stop:1 rgba(112, 107, 255, 138));
+ }
+</string>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::NoSelection</enum>
+    </property>
+    <item>
+     <property name="text">
+      <string>Players</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>player1</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>player 2</string>
+     </property>
+    </item>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1584</width>
+     <width>1810</width>
      <height>22</height>
     </rect>
    </property>
