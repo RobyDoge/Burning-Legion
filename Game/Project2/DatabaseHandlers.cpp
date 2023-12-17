@@ -91,22 +91,22 @@ std::queue<std::string> WordDatabaseHandle::SelectWords(uint8_t numberOfPlayers,
      std::set<std::size_t> chosenIndices;
 
      // Generate unique random indices
-     while (chosenIndices.size() < numberOfPlayers * 4 + 2) {
-         chosenIndices.insert(dis(gen));
-     }
-
-     for(const auto index : chosenIndices)
+     while (chosenIndices.size() < numberOfPlayers * 4 + 2)
      {
-         auto elements = m_db.select(sqlite_orm::columns(&WordFromDictionary::word),
-             sqlite_orm::where(
-                 sqlite_orm::c(&WordFromDictionary::id) == index)
-         );
-
-
-         for (const auto& element : elements)                // Add words from the database to an queue
+         auto index = dis(gen);
+         if (chosenIndices.insert(index).second)
          {
-             generatedWords.emplace(std::get<0>(element));
+             // Insertion succeeded, index is unique
+             auto elements = m_db.select(sqlite_orm::columns(&WordFromDictionary::word),
+                 sqlite_orm::where(
+                     sqlite_orm::c(&WordFromDictionary::id) == wordIds[index]
+                     )
+             );
 
+             for (const auto& element : elements)
+             {
+                 generatedWords.emplace(std::get<0>(element));
+             }
          }
      }
 
