@@ -3,7 +3,7 @@ export import points;
 
 import <string>;
 
-namespace server
+namespace game_logic
 {
 	export class User
 	{

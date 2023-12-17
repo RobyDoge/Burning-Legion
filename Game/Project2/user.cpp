@@ -1,8 +1,8 @@
 module user;
 
 
-using server::User;
-using server::Points;
+using game_logic::User;
+using game_logic::Points;
 
 User::User()
 {
@@ -67,7 +67,7 @@ void User::SetPoints(const Points& points)
     m_points = points;
 }
 
-void server::swap(User& first, User& second) noexcept
+void game_logic::swap(User& first, User& second) noexcept
 {
     first.swap(second);
 }

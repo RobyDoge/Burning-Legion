@@ -6,7 +6,7 @@ import <vector>;
 import <queue>;
 import <string>;
 
-using namespace server;
+using namespace game_logic;
 
 void Round::StartRound(std::vector<User>& players, std::queue<std::string>& wordList)
 {

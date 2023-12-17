@@ -1,4 +1,4 @@
-export module lobby;
+﻿export module lobby;
 import user;
 
 import <vector>;
@@ -6,7 +6,8 @@ import <deque>;
 import <string>;
 import <cstdint>;
 
-namespace server
+
+namespace game_logic
 {
     export class Lobby
     {
@@ -18,26 +19,33 @@ namespace server
             Medium = 0b10,
             Hard = 0b11
         };
+        enum class GameLanguage : uint8_t				//language for the game
+        {
+            English = 0b00,
+            Romanian = 0b01,
+            Spanish = 0b10
+        };
 
     public:
-        Lobby();                                                        //constructor;
-        std::string GetIdLobby() const;                                 //retuns the lobby Id
-        std::vector<User>& GetPlayers();
-        void AddPlayer(const std::string& name, const uint16_t bestScore, const std::deque<int16_t>& lastMatchesPoints);       //adds a player to the lobby
-        void SetDifficulty(const uint8_t difficulty);						//sets the game difficulty at the start of the game
-        GameDifficulty GetDifficulty() const;										//for checking the difficulty
-        void GenerateIdLobby();                                                     //randomly generates a lobby id
+        Lobby() = default;
+        ~Lobby() = default;
 
+        void SetDifficulty(const uint8_t difficulty);				//sets the game difficulty at the start of the game
+        void SetLanguage(const uint8_t language);              //sets the game language at the start of the game
+        void SetPlayers(const std::vector<User>& players);  	    //sets the players at the start of the game
 
-    private:
+        GameLanguage GetLanguage() const;                           //for checking the language 
+        GameDifficulty GetDifficulty() const;						//for checking the difficulty
+        std::vector<User> GetPlayers() const;						//for checking the players
 
-    private:
-        static constexpr uint8_t ID_SIZE{};
+        void AddUser(const std::string& name);                      //adds a player to the lobby
+        void RemoveUser(const std::string& name);                   //removes a player from the lobby
 
     private:
         std::vector<User> m_players{};
-        std::string m_idLobby{};
         GameDifficulty m_difficulty{};
+        GameLanguage m_language{};
     };
-}
 
+
+}

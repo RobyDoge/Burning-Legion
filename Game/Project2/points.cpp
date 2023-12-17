@@ -4,7 +4,7 @@ import <deque>;
 import <vector>;
 import <cstdint>;
 
-using server::Points;
+using game_logic::Points;
 
 Points::Points(const Points& other) :
 	m_currentGamePoints{ other.m_currentGamePoints },
@@ -120,7 +120,7 @@ void Points::AddPointsDrawer(const std::vector<float>& times)
 	m_turnPoints = (60 - static_cast<std::uint8_t>(sum / times.size())) / 3 * 5;
 }
 
-void server::swap(Points& first, Points& second) noexcept
+void game_logic::swap(Points& first, Points& second) noexcept
 {
 	first.swap(second);
 }

@@ -85,7 +85,7 @@ class WordDatabaseHandle
 public:
 
 	void Init();
-	std::queue<std::string> SelectWords(uint8_t wordsNeeded, uint8_t difficulty, std::string language); //server::Lobby::GameDifficulty difficulty);
+	std::queue<std::string> SelectWords(uint8_t wordsNeeded, uint8_t difficulty, std::string language); //game_logic::Lobby::GameDifficulty difficulty);
 
 	void ClearDictionary();
 

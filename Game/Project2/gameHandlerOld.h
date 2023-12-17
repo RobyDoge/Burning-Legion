@@ -4,22 +4,26 @@ import lobby;
 #include "timer.h"
 #include "DatabaseHandlers.h"
 
+using game_logic::Game;
+using game_logic::Lobby;
+
 namespace server {
 
 	class GameHandler {
 
 	public:
-		GameHandler();
-		~GameHandler();
+		//GameHandler();
+		//~GameHandler();
 
 		void Start();
-		void HandleLobby(const std::string& action, std::string lobbyId);
-		void AddUserToLobby(const std::string& username);
+		//void HandleLobby(const std::string& action, std::string lobbyId);
+		//void AddUserToLobby(const std::string& username);
 		void FetchPlayerMessage(std::string playerMessage);
-		void SetDifficuly(int difficulty);
+		void SetDifficulty(int difficulty);
 		void StartGame();
-		void SetWordToBeGuessed(std::string wordToBeGuessed);
+		void SetWordToBeGuessed(const std::string& wordToBeGuessed);
 		std::string GetWordToBeGuessed();
+
 	private:
 		Game m_game;
 		Lobby* m_currentLobby;

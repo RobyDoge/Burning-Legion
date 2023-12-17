@@ -4,14 +4,13 @@ import round;
 import <vector>;
 import <string>;
 import <list>;
-
 import <cstdint>;
 
 //#include "DatabaseHandlers.h"
 
-using namespace server;
+using namespace game_logic;
 
-void Game::Start(std::vector<User>& players, const Lobby::GameDifficulty difficulty)
+void Game::Start(std::vector<User>& players, const Lobby::GameDifficulty difficulty /* limba*/)
 {
 	m_difficulty = difficulty;
 	std::swap(m_players, players);
@@ -24,7 +23,7 @@ void Game::Start(std::vector<User>& players, const Lobby::GameDifficulty difficu
 
 	//UpdateLastMatches();
 	//auto topThreePlayers{ FindTheThreeWinners() };
-	////de trimis catre server castigatorii;
+	////de trimis catre game_logic castigatorii;
 	//std::swap(players, m_players);
 }
 

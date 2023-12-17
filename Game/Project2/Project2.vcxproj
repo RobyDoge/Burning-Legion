@@ -136,7 +136,8 @@
     <ClCompile Include="DatabaseHandlers.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game.cppm" />
-    <ClCompile Include="gameHandler.cpp" />
+    <ClCompile Include="gameHandlerOld.cpp" />
+    <ClCompile Include="GameHandlers.cpp" />
     <ClCompile Include="lobby.cpp" />
     <ClCompile Include="lobby.cppm" />
     <ClCompile Include="main.cpp" />
@@ -154,7 +155,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DatabaseHandlers.h" />
-    <ClInclude Include="gameHandler.h" />
+    <ClInclude Include="gameHandlerOld.h" />
+    <ClInclude Include="GameHandlers.h" />
     <ClInclude Include="Routing.h" />
   </ItemGroup>
   <ItemGroup>

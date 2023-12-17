@@ -5,7 +5,7 @@ import <deque>;
 import <vector>;
 import <cstdint>;
 
-namespace server
+namespace game_logic
 {
 
 	export class Points

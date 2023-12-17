@@ -2,6 +2,8 @@ module turn;
 import user;
 import round;
 
+//routing
+
 import <vector>;
 import <string>;
 import <utility>;
@@ -12,7 +14,7 @@ import <ranges>;
 
 //#include "TimerDLL/Timer.h"
 
-using namespace server;
+using namespace game_logic;
 
 void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const std::string& wordToBeGuessed)
 {
@@ -28,9 +30,6 @@ void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const s
 		*eliminare din cenzura de la cuvant dupa x timp
 		*trimitiere catre fieacare user un update
 	*/
-
-
-
 
 	AddPointsForEachPlayer(players);
 }
@@ -63,6 +62,7 @@ void Turn::GuessingTimeVectorInitialization(const std::vector<std::pair<User, Ro
 //	{
 //		if (timer.GetElapsedTime() > 0.01)
 //		{
+			/* auto update = Routing.GetUpdates()*/
 //			remainingTicks--;
 //			timer.Reset();
 //		}

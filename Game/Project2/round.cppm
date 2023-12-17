@@ -7,7 +7,7 @@ import <string>;
 import <cstdint>;
 
 
-namespace server
+namespace game_logic
 {
 	//this class gets from Game a vector of the users and the words necessary for a round
 	export class Round

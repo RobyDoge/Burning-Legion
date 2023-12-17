@@ -13,45 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Server Namespace">
+      <UniqueIdentifier>{a99abf93-d49a-4a28-88e5-97815a821be2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server Namespace">
+      <UniqueIdentifier>{c92966a4-27cf-45e3-869f-4701934a3310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameLogic Namespace">
+      <UniqueIdentifier>{75cba2bf-c210-49f5-a3be-3aff7ea16b3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameLogic Namespace">
+      <UniqueIdentifier>{3a55e44b-364e-4ea4-8a14-ed1dee61044a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="game.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="user.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lobby.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="points.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="turn.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lobby.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="points.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="turn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="user.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="round.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="round.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="utils.cppm">
@@ -63,22 +39,64 @@
     <ClCompile Include="DatabaseHandlers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Routing.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="gameHandlerOld.cpp">
+      <Filter>Source Files\Server Namespace</Filter>
     </ClCompile>
-    <ClCompile Include="gameHandler.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GameHandlers.cpp">
+      <Filter>Source Files\Server Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="Routing.cpp">
+      <Filter>Source Files\Server Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Source Files\GameLogic Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="points.cpp">
+      <Filter>Source Files\GameLogic Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="round.cpp">
+      <Filter>Source Files\GameLogic Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="turn.cpp">
+      <Filter>Source Files\GameLogic Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="user.cpp">
+      <Filter>Source Files\GameLogic Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cppm">
+      <Filter>Header Files\GameLogic Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="points.cppm">
+      <Filter>Header Files\GameLogic Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="round.cppm">
+      <Filter>Header Files\GameLogic Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="turn.cppm">
+      <Filter>Header Files\GameLogic Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="user.cppm">
+      <Filter>Header Files\GameLogic Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="lobby.cppm">
+      <Filter>Header Files\GameLogic Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="lobby.cpp">
+      <Filter>Source Files\GameLogic Namespace</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DatabaseHandlers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Routing.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="gameHandlerOld.h">
+      <Filter>Header Files\Server Namespace</Filter>
     </ClInclude>
-    <ClInclude Include="gameHandler.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="GameHandlers.h">
+      <Filter>Header Files\Server Namespace</Filter>
+    </ClInclude>
+    <ClInclude Include="Routing.h">
+      <Filter>Header Files\Server Namespace</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

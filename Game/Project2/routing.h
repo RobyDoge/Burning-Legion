@@ -1,8 +1,9 @@
 #pragma once
 #include <crow.h>
 #include "DatabaseHandlers.h"
-#include "gameHandler.h"
-namespace http
+#include "gameHandlerOld.h"
+#include "GameHandlers.h"
+namespace server
 {
 	class Routing
 	{
@@ -10,7 +11,7 @@ namespace http
 		void Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStorage);		//Creates all the paths and stuff
 		std::string GetLastUsername() const;
 		bool GetGameStart() const;
-		void UpdatePlayerList(std::vector<std::string>& playerList);
+		void UpdatePlayerList(const std::vector<std::string>& playerList);
 		uint8_t GetDifficulty() const;
 		void SetLobbyId(const std::string& lobbyId);
 	private:

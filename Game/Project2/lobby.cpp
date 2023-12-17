@@ -1,4 +1,4 @@
-module lobby;
+﻿module lobby;
 import user;
 
 import <random>;
@@ -7,51 +7,31 @@ import <string>;
 import <string>;
 import <cstdint>;
 
-using namespace server;
-
-Lobby::Lobby()
-{
-    //GenerateIdLobby();
-}
-
-std::string Lobby::GetIdLobby() const
-{
-
-    return m_idLobby;
-}
+using namespace game_logic;
 
 std::vector<User>& Lobby::GetPlayers()
 {
     return m_players;
 }
 
-void Lobby::AddPlayer(const std::string& name, const uint16_t bestScore, const std::deque<int16_t>& lastMatchesPoints)
+void Lobby::AddUser(const std::string& name)
 {
-    User newUser;
+    User newUser{};
     newUser.SetName(name);
-    Points newPoints;
-    newPoints.SetBestGamePoints(bestScore);
-    newPoints.SetLastMatchesPoints(lastMatchesPoints);
+    const Points newPoints{};
     newUser.SetPoints(newPoints);
     m_players.emplace_back(newUser);
 }
 
-void Lobby::GenerateIdLobby()
+void Lobby::RemoveUser(const std::string& name)
 {
-    const std::string charset{
-        "0123456789"
-        "abcdefghijklmnopqrstuvwxyz"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    };
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distr(0, charset.length() - 1);
-    for (int i = 0; i < ID_SIZE; ++i)
+    auto playerToBeDeleted = std::ranges::find(m_players, name);
+    if (playerToBeDeleted == m_players.end())
     {
-        const int randomIndex = charset[distr(gen)];
-        m_idLobby.push_back(charset[randomIndex]);
+        //TODO: throw exception
+        return;
     }
-
+    m_players.erase(playerToBeDeleted);
 }
 
 void Lobby::SetDifficulty(const uint8_t difficulty)
@@ -70,10 +50,30 @@ void Lobby::SetDifficulty(const uint8_t difficulty)
     default:
         m_difficulty = GameDifficulty::NoDifficulty;
     }
-    
+}
+
+Lobby::GameLanguage Lobby::GetLanguage() const
+{
+    return m_language;
+}
+
+void Lobby::SetLanguage(const uint8_t language)
+{
+    switch (language)
+    {
+    case 1:
+       m_language = GameLanguage::Romanian;
+        return;
+    case 2:
+        m_language = GameLanguage::Spanish;
+        return;
+    default:
+        m_language = GameLanguage::English;
+    }
 }
 
 Lobby::GameDifficulty Lobby::GetDifficulty() const
 {
     return m_difficulty;
 }
+

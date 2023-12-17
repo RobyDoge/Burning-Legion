@@ -10,7 +10,7 @@ import <string>;
 import <cstdint>;
 
 
-namespace server
+namespace game_logic
 {
 	//this class takes care of the game functionality
 	export class Game

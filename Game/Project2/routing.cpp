@@ -1,7 +1,9 @@
 ﻿#include "Routing.h"
 #include "ostream"
 
-using namespace http;
+
+
+using namespace server;
 
 
 void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStorage)
@@ -112,7 +114,7 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 
 }
 
-void Routing::UpdatePlayerList(std::vector<std::string>& playerList)
+void Routing::UpdatePlayerList(const std::vector<std::string>& playerList)
 {
 	m_playerList = playerList;
 }
@@ -131,7 +133,7 @@ uint8_t Routing::GetDifficulty() const
 	return m_difficulty;
 }
 
-void http::Routing::SetLobbyId(const std::string& lobbyId)
+void Routing::SetLobbyId(const std::string& lobbyId)
 {
 	m_lobbyId = lobbyId;
 }
