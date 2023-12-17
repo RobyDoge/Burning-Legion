@@ -33,7 +33,7 @@ void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filen
 void AddNewUser(UserDatabase& users, const std::string name, const std::string& password)
 {
     uint16_t idCounter = 1;
-    users.insert(UserInfo{ idCounter++, name, password, "0", 0 });
+    users.insert(UserInfo{ idCounter, name, password, '0' });
 }
 
 void WordDatabaseHandle::Init()
@@ -80,6 +80,11 @@ void UserDatabaseHandle::AddUser(const std::string& name, const std::string& pas
     m_db.sync_schema();
     AddNewUser(m_db, name, password);
 }
+
+//std::vector<std::string> UserDatabaseHandle::SelectUserInfo(const uint8_t wordsNeeded)
+//{
+    //return;
+//}
 
 bool UserDatabaseHandle::Authenticate(const std::string& name, const std::string& password)
 {
@@ -135,8 +140,8 @@ uint16_t UserDatabaseHandle::GetBestScore(const std::string& name) // this shoul
 
 std::deque<int16_t> UserDatabaseHandle::GetLastMatchesPoints(const std::string& name)
 {
-    auto result = m_db.select(sqlite_orm::columns(&UserInfo::last5),
-        sqlite_orm::where(sqlite_orm::c(&UserInfo::name) == name));
+    //auto result = m_db.select(sqlite_orm::columns(&UserInfo::last5),
+      //  sqlite_orm::where(sqlite_orm::c(&UserInfo::name) == name));
 
     /*if (!result.empty()) {
 
@@ -155,3 +160,5 @@ std::deque<int16_t> UserDatabaseHandle::GetLastMatchesPoints(const std::string& 
 
     return {};
 }
+
+

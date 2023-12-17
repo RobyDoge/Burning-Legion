@@ -23,8 +23,12 @@ int main()
  * to be created a list of all the functions that have been tested
  */
 
+#include "DatabaseHandlers.h"
+
 int main()
 {
+	UserDatabaseHandle udbh;
+	udbh.AddUser("Andrei", "pwd");
 	/*
 	 *testing environment
 	 */

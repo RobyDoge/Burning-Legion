@@ -40,8 +40,19 @@ struct UserInfo
 	uint16_t id;
 	std::string name;
 	std::string password;
-	std::string last5;
+	//std::string last5;
 	int16_t best;
+};
+
+struct MatchData
+{
+	uint64_t id;
+	uint16_t uid;
+	int32_t score;
+	std::string R1IMG;
+	std::string R2IMG;
+	std::string R3IMG;
+	std::string R4IMG;
 };
 
 inline auto CreateDictionary(const std::string& filename)		//creating database for dictionary
@@ -63,14 +74,24 @@ inline auto CreateUserDatabase(const std::string& filename)
 	return sql::make_storage(
 		filename,
 		sql::make_table(
-			"Words",
+			"User",
 			sql::make_column("id", &UserInfo::id, sql::primary_key().autoincrement()),
 			sql::make_column("name", &UserInfo::name),
 			sql::make_column("password", &UserInfo::password),
-			sql::make_column("last5", &UserInfo::last5),
 			sql::make_column("best", &UserInfo::best)
+		),
+		sql::make_table(
+			"Match",
+			sql::make_column("id", &MatchData::id, sql::primary_key().autoincrement()),
+			sql::make_column("uid", &MatchData::uid, sql::foreign_key(&UserInfo::id).references(&MatchData::uid)),		//cannot make this foreign key explicitly
+			sql::make_column("score", &MatchData::score),
+			sql::make_column("R1IMG", &MatchData::R1IMG),
+			sql::make_column("R2IMG", &MatchData::R2IMG),
+			sql::make_column("R3IMG", &MatchData::R3IMG),
+			sql::make_column("R4IMG", &MatchData::R4IMG)
 		)
 	);
+
 }
 
 using Dictionary = decltype(CreateDictionary(""));
@@ -102,6 +123,7 @@ public:
 	bool CheckUsername(const std::string& name);
 	uint16_t GetBestScore(const std::string& name);
 	std::deque<int16_t> GetLastMatchesPoints(const std::string& name);
+
 
 private:
 	UserDatabase m_db = CreateUserDatabase("userDatabase.sqlite");
