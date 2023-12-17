@@ -50,9 +50,9 @@ void Lobby::SetDifficulty(const uint8_t difficulty)
     }
 }
 
-Lobby::GameLanguage Lobby::GetLanguage() const
+uint8_t Lobby::GetLanguage() const
 {
-    return m_language;
+    return static_cast<uint8_t>(m_language);
 }
 
 void Lobby::SetLanguage(const uint8_t language)
@@ -70,8 +70,8 @@ void Lobby::SetLanguage(const uint8_t language)
     }
 }
 
-Lobby::GameDifficulty Lobby::GetDifficulty() const
+uint8_t Lobby::GetDifficulty() const
 {
-    return m_difficulty;
+    return static_cast<uint8_t>(m_difficulty);
 }
 

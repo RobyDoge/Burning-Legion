@@ -2,7 +2,6 @@
 #include "ostream"
 
 
-
 using namespace server;
 
 
@@ -44,7 +43,8 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 			                            return crow::response(400);
 
 		                            // Returnează un răspuns în funcție de rezultatul verificării
-		                            if (const std::string username = jsonData["username"].s(); userStorage.CheckUsername(username))
+		                            if (const std::string username = jsonData["username"].s(); userStorage.
+			                            CheckUsername(username))
 		                            {
 			                            return crow::response(200, "OK");
 		                            }
@@ -60,64 +60,68 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 		                                   const auto jsonData = crow::json::load(req.body);
 		                                   if (!jsonData)
 			                                   return crow::response(400);
-		                                   userStorage.AddUser( jsonData["username"].s() , jsonData["password"].s());
+		                                   userStorage.AddUser(jsonData["username"].s(), jsonData["password"].s());
 
 		                                   return crow::response(200, "OK");
 	                                   });
 
-    CROW_ROUTE(m_app, "/mainMenu")
+	CROW_ROUTE(m_app, "/mainMenu")
         .methods("POST"_method)
-        ([&userStorage](const crow::request& req) {
-        auto jsonData = crow::json::load(req.body);
+	                              ([&userStorage](const crow::request& req)
+	                              {
+		                              auto jsonData = crow::json::load(req.body);
 
-        std::string username = jsonData["username"].s();
+		                              std::string username = jsonData["username"].s();
 
-        uint16_t bestscores = userStorage.GetBestScore(username);
-        std::deque<int16_t> lastmatches= userStorage.GetLastMatchesPoints(username);
+		                              uint16_t bestscores = userStorage.GetBestScore(username);
+		                              std::deque<int16_t> lastmatches = userStorage.GetLastMatchesPoints(username);
 
-        std::vector<crow::json::wvalue> responseJson;
-        responseJson.push_back(crow::json::wvalue{ { "bestscores", bestscores } });
+		                              std::vector<crow::json::wvalue> responseJson;
+		                              responseJson.push_back(crow::json::wvalue{{"bestscores", bestscores}});
 
-        for (const auto& points : lastmatches) {
-            responseJson.push_back(crow::json::wvalue{ {"points", points} });
-        }
+		                              for (const auto& points : lastmatches)
+		                              {
+			                              responseJson.push_back(crow::json::wvalue{{"points", points}});
+		                              }
 
-        return crow::json::wvalue{ responseJson };
-            });
+		                              return crow::json::wvalue{responseJson};
+	                              });
 
-    CROW_ROUTE(m_app, "/lobbyPlayerVector")
+	CROW_ROUTE(m_app, "/lobbyPlayerVector")
         .methods("POST"_method)
-        ([&userStorage,this](const crow::request& req) {
-        std::vector<crow::json::wvalue> responseJson;
+	                                       ([&userStorage,this](const crow::request& req)
+	                                       {
+		                                       std::vector<crow::json::wvalue> responseJson;
 
-        for (const auto& player : m_playerList) {
-            responseJson.push_back(crow::json::wvalue{ {"player", player} });
-        }
-        return crow::json::wvalue{ responseJson };
-            });
+		                                       for (const auto& player : m_playerList)
+		                                       {
+			                                       responseJson.push_back(crow::json::wvalue{{"player", player}});
+		                                       }
+		                                       return crow::json::wvalue{responseJson};
+	                                       });
 
-    CROW_ROUTE(m_app, "/lobbySetupUsers")
+	CROW_ROUTE(m_app, "/lobbySetupUsers")
         .methods("POST"_method)
-        ([this](const crow::request& req) {
+	                                     ([this](const crow::request& req)
+	                                     {
+		                                     auto jsonData = crow::json::load(req.body);
+		                                     if (!jsonData)
+			                                     return crow::response(400);
 
-        auto jsonData = crow::json::load(req.body);
-        if (!jsonData)
-            return crow::response(400);
+		                                     m_lastUsername = jsonData["username"].s();
 
-        m_lastUsername = jsonData["username"].s();
-
-        return crow::response(200, "OK");
-            });
+		                                     return crow::response(200, "OK");
+	                                     });
 
 
-    m_app.port(18080).multithreaded().run();
-
+	m_app.port(18080).multithreaded().run();
 }
 
 void Routing::UpdatePlayerList(const std::vector<std::string>& playerList)
 {
 	m_playerList = playerList;
 }
+
 std::string Routing::GetLastUsername() const
 {
 	return m_lastUsername;

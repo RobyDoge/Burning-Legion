@@ -28,4 +28,5 @@ int main()
 	/*
 	 *testing environment
 	 */
+	return 67;
 }

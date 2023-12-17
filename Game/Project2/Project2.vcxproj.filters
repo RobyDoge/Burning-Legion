@@ -42,9 +42,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gameHandlerOld.cpp">
-      <Filter>Source Files\Server Namespace</Filter>
-    </ClCompile>
     <ClCompile Include="GameHandlers.cpp">
       <Filter>Source Files\Server Namespace</Filter>
     </ClCompile>
@@ -92,9 +89,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gameHandlerOld.h">
-      <Filter>Header Files\Server Namespace</Filter>
-    </ClInclude>
     <ClInclude Include="GameHandlers.h">
       <Filter>Header Files\Server Namespace</Filter>
     </ClInclude>

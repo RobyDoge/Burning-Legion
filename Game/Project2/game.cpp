@@ -7,24 +7,13 @@ import <list>;
 import <cstdint>;
 import <ranges>;
 
-//#include "DatabaseHandlers.h"
-
 using namespace game_logic;
 
-Game::~Game()
+
+Game::Game(std::vector<Player>& players, const std::queue<std::string>& words) 
 {
-	//TODO: Open The Connection to the database
-
-	//TODO: Update the database with the new scores
-	//TODO: Update the database with the new images
-
-	//TODO:: Close the connection to the database
-}
-
-Game::Game(std::vector<Player>& players, const Lobby::GameDifficulty difficulty, const Lobby::GameLanguage language)
-{
+	m_currentWordList = words;
 	std::swap(m_players, players);
-	CreateWordsForGame(difficulty,language);
 }
 
 Turn Game::GetTurn(const uint8_t drawerPosition)
@@ -40,13 +29,6 @@ std::string Game::GetNextWord()
 	std::string wordsForRound{ m_currentWordList.front() };
 	m_currentWordList.pop();
 	return wordsForRound;
-}
-
-void Game::CreateWordsForGame(const Lobby::GameDifficulty difficulty, const Lobby::GameLanguage language)
-{
-	//TODO: Open The Connection to the database
-	//m_currentWordList = WordDatabaseHandle::SelectWords(m_players.size() * NUMBER_OF_ROUNDS, m_difficulty);
-	//TODO:: Close the connection to the database
 }
 
 std::queue<Player> Game::GetWinners()		//return an array with up to top 3 players based on their score

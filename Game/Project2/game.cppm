@@ -20,8 +20,8 @@ namespace game_logic
 
 	public:
 		Game() = default;											//default constructor
-		~Game();													//destructor
-		Game(std::vector<Player>& players, Lobby::GameDifficulty difficulty,Lobby::GameLanguage language);	//constructor with info from lobby)
+		~Game()= default;													//destructor
+		Game(std::vector<Player>& players, const std::queue<std::string>& words);	//constructor with info from lobby
 
 
 		Turn GetTurn(uint8_t drawerPosition);	//returns the current turn
@@ -32,7 +32,6 @@ namespace game_logic
 
 	private:
 		void UpdateScoreForAllPlayers();										//updates the score for all players
-		void CreateWordsForGame(const Lobby::GameDifficulty difficulty, const Lobby::GameLanguage language);  //creates the words for the game
 		
 
 	private:

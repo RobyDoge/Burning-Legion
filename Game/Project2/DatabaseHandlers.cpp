@@ -51,7 +51,7 @@ void WordDatabaseHandle::Init()
     std::cout << initalwordscount2;
 }
 
-std::queue<std::string> WordDatabaseHandle::SelectWords(uint8_t wordsNeeded, uint8_t difficulty, std::string language)//server::Lobby::GameDifficulty difficulty
+std::queue<std::string> WordDatabaseHandle::SelectWords(uint8_t wordsNeeded, uint8_t difficulty, uint8_t language)//server::Lobby::GameDifficulty difficulty
 {
     std::queue<std::string> generatedWords;
     auto rows = m_db.select(sqlite_orm::columns(&WordFromDictionary::word),

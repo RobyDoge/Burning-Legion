@@ -34,8 +34,8 @@ namespace game_logic
         void SetLanguage(const uint8_t language);              //sets the game language at the start of the game
         void SetPlayers(const std::vector<Player>& players);  	    //sets the players at the start of the game
 
-        GameLanguage GetLanguage() const;                           //for checking the language 
-        GameDifficulty GetDifficulty() const;						//for checking the difficulty
+        uint8_t GetLanguage() const;                           //for checking the language 
+        uint8_t GetDifficulty() const;						//for checking the difficulty
         std::vector<Player>& GetPlayers();						//for checking the players
 
         void AddPlayer(const std::string& name);                      //adds a player to the lobby

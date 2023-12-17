@@ -4,6 +4,7 @@ import lobby;
 
 #include "GameHandlers.h"
 #include "Timer.h"
+#include "DatabaseHandlers.h"
 
 using namespace game_logic;
 using server::GameHandlers;
@@ -13,29 +14,35 @@ void GameHandlers::CreateLobby()
 	m_lobby = std::make_unique<Lobby>();
 }
 
-void GameHandlers::AddUserToLobby(const std::string& username)
+void GameHandlers::AddUserToLobby(const std::string& username) const
 {
 	m_lobby->AddPlayer(username);
 }
 
-void GameHandlers::RemoveUserFromLobby(const std::string& username)
+void GameHandlers::RemoveUserFromLobby(const std::string& username) const
 {
 	m_lobby->RemovePlayer(username);
 }
 
-void GameHandlers::SetDifficulty(int difficulty)
+void GameHandlers::SetDifficulty(const int difficulty) const
 {
 	m_lobby->SetDifficulty(difficulty);
 }
 
-void GameHandlers::SetLanguage(int language)
+void GameHandlers::SetLanguage(const int language) const
 {
 	m_lobby->SetLanguage(language);
 }
 
 void GameHandlers::StartGame()
 {
-	m_game = std::make_unique<Game>(m_lobby->GetPlayers(), m_lobby->GetDifficulty(), m_lobby->GetLanguage());
+	m_game = std::make_unique<Game>(m_lobby->GetPlayers(), 
+		CreateWordsNeeded(
+			static_cast<uint8_t>(static_cast<uint8_t>(m_lobby->GetPlayers().size()) * m_game->NUMBER_OF_ROUNDS),
+			m_lobby->GetDifficulty(), m_lobby->GetLanguage())
+		);
+
+
 	for(uint8_t _{};_<m_game->NUMBER_OF_ROUNDS;_++)
 	{
 		for(uint8_t drawerPosition{};drawerPosition<m_lobby->GetPlayers().size();drawerPosition++)
@@ -52,7 +59,7 @@ void GameHandlers::StartGame()
 			timer.Reset();
 			while(true && secondsPassed< turn.TURN_LIMIT)
 			{
-				//TODO: Receive TextBox Input From Clients And Analyze It
+				//TODO: Receive TextBox Input From Clients And Analyze It,add points to the player who guessed the word
 
 				if(timer.GetElapsedTime()>0.1)
 				{
@@ -83,6 +90,15 @@ void GameHandlers::StartGame()
 	//TODO: Send Winners To Clients
 
 	m_game->EndGame(m_lobby->GetPlayers());
+
+	//TODO: Update Database
+}
+
+std::queue<std::string> GameHandlers::CreateWordsNeeded(const uint8_t wordsNeeded,const uint8_t difficulty, const uint8_t language) const
+{
+	WordDatabaseHandle wordDbHandle;
+	auto aux = wordDbHandle.SelectWords(wordsNeeded, difficulty, language);
+	return aux;
 }
 
 
