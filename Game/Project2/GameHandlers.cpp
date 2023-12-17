@@ -24,6 +24,11 @@ void GameHandlers::RemoveUserFromLobby(const std::string& username) const
 	m_lobby->RemovePlayer(username);
 }
 
+std::vector<std::string> GameHandlers::GetUsersNames() const
+{
+	return m_lobby->GetUsersNames();
+}
+
 void GameHandlers::SetDifficulty(const int difficulty) const
 {
 	m_lobby->SetDifficulty(difficulty);

@@ -37,16 +37,6 @@ long Client::AddUser(const std::string& username, const std::string& password)
     return response.status_code;
 }
 
-long Client::SendUsername(const std::string& username) {
-
-    std::string json_data = R"({"username": ")" + username + R"("})";
-
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbySetupUsers" },
-        cpr::Header{ {"Content-Type", "application/json"} },
-        cpr::Body{ json_data });
-
-    return response.status_code;
-}
 
 std::pair<uint16_t, std::list< int16_t>> Client::GetBestScoreAndLastMatchesPoints(const std::string& username) 
 {
@@ -70,20 +60,33 @@ std::pair<uint16_t, std::list< int16_t>> Client::GetBestScoreAndLastMatchesPoint
 	return std::make_pair(bestScore, list);
 }
 
-std::vector<std::string> Client::GetPlayersVector()
+
+void Client::SendUsername(const std::string& username)
 {
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbyPlayerVector" },
+
+    std::string json_data = R"({"username": ")" + username + R"("})";
+
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbyGetUsers" },
+        cpr::Header{ {"Content-Type", "application/json"} },
+        cpr::Body{ json_data });
+
+
+}
+
+
+std::vector<std::string> Client::GetPlayersVector(const std::string& username)
+{
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbySendUsers" },
         cpr::Header{ {"Content-Type", "application/json"} });
 
-    auto playersReceived = crow::json::load(response.text);
-    bool ok = true;
-    uint16_t bestScore;
-    std::vector<std::string> players;
-    for (const auto& player : playersReceived)
+    auto usersReceived = crow::json::load(response.text);
+
+    std::vector<std::string> users;
+    for (const auto& user : usersReceived)
     {
 
-        players.push_back(player["player"].s());
+        users.push_back(user["user"].s());
     }
 
-    return players;
+    return users;
 }

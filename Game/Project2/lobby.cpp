@@ -12,6 +12,11 @@ std::vector<Player>& Lobby::GetPlayers()
     return m_players;
 }
 
+std::vector<std::string>& Lobby::GetUsersNames()
+{
+	return m_usersNames;
+}
+
 void Lobby::AddPlayer(const std::string& name)
 {
     Player newUser{};
@@ -19,6 +24,8 @@ void Lobby::AddPlayer(const std::string& name)
     const Points newPoints{};
     newUser.SetPoints(newPoints);
     m_players.emplace_back(newUser);
+    m_usersNames.push_back(name);
+
 }
 
 void Lobby::RemovePlayer(const std::string& name)
@@ -30,6 +37,7 @@ void Lobby::RemovePlayer(const std::string& name)
         return;
     }
     m_players.erase(playerToBeDeleted);
+	m_usersNames.erase(std::remove(m_usersNames.begin(), m_usersNames.end(), name), m_usersNames.end());
 }
 
 void Lobby::SetDifficulty(const uint8_t difficulty)

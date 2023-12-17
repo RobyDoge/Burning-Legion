@@ -1,13 +1,29 @@
 #include "lobbyWindow.h"
+#include <thread>
+#include <chrono>
 
+
+void LobbyWindow::startUpdatingThread() {
+    std::thread updateThread([this]() {
+        while (true) {
+
+            m_players = m_client.GetPlayersVector(m_username);
+            emit PlayerJoinedLobby();
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
+        });
+
+    updateThread.detach(); 
+}
 LobbyWindow::LobbyWindow(std::string username,QWidget *parent)
 	: m_username(username),QMainWindow(parent)
 {
 	ui.setupUi(this);
-	m_client.SendUsername(m_username);
+	m_client.SendUsername(username);
 	connect(ui.startGameButton, &QPushButton::clicked, this, &LobbyWindow::startGameButton_clicked);
     for (int i = 0; i < ui.playersListWidget->count(); ++i) 
         ui.playersListWidget->item(i)->setTextAlignment(Qt::AlignCenter);  
+    startUpdatingThread();
 }
 
 LobbyWindow::~LobbyWindow()
@@ -26,15 +42,12 @@ void LobbyWindow::startGameButton_clicked()
 void LobbyWindow::UpdatePlayersListWidget(QListWidget* listWidget)
 {
     listWidget->clear();
-    //std::vector<std::string> players = client.FetchPlayersInLobby();
-    //if(m_players.size()==1) the first player that joins the lobby becomes the admin
         
     for (const std::string& playerName:m_players) {
-        listWidget->addItem(QString::fromStdString(playerName));
+        listWidget->addItem(QString(playerName.c_str()));
     }
 
 }
 void LobbyWindow::PlayerJoinedLobby() {
-	m_players = m_client.GetPlayersVector();
     UpdatePlayersListWidget(ui.playersListWidget);
 }

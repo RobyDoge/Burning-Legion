@@ -37,14 +37,19 @@ namespace game_logic
         uint8_t GetLanguage() const;                           //for checking the language 
         uint8_t GetDifficulty() const;						//for checking the difficulty
         std::vector<Player>& GetPlayers();						//for checking the players
+		std::vector<std::string>& GetUsersNames();
 
         void AddPlayer(const std::string& name);                      //adds a player to the lobby
-        void RemovePlayer(const std::string& name);                   //removes a player from the lobby
+        void RemovePlayer(const std::string& name);     
+        //removes a player from the lobby
 
     private:
         std::vector<Player> m_players{};
         GameDifficulty m_difficulty{};
         GameLanguage m_language{};
+        std::vector<std::string> m_usersNames;
+        int a;
+
     };
 
 
