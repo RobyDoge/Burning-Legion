@@ -16,7 +16,7 @@ import <ranges>;
 
 using namespace game_logic;
 
-void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const std::string& wordToBeGuessed)
+void Turn::StartTurn(std::vector<std::pair<Player, Round::Role>>& players, const std::string& wordToBeGuessed)
 {
 	GuessingTimeVectorInitialization(players);
 	//BeginTurn(wordToBeGuessed);
@@ -35,7 +35,7 @@ void Turn::StartTurn(std::vector<std::pair<User, Round::Role>>& players, const s
 }
 
 
-void Turn::GuessingTimeVectorInitialization(const std::vector<std::pair<User, Round::Role>>& players)
+void Turn::GuessingTimeVectorInitialization(const std::vector<std::pair<Player, Round::Role>>& players)
 {
 	m_guessingTimes.resize(players.size());
 	for (uint8_t iterator = 0; iterator < players.size(); iterator++)
@@ -118,7 +118,7 @@ Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std
 
 
 
-void Turn::AddPointsForEachPlayer(std::vector<std::pair<User, Round::Role>>& players)
+void Turn::AddPointsForEachPlayer(std::vector<std::pair<Player, Round::Role>>& players)
 {
 	ConvertRemainingTimeToTakenTime();
 	for (uint8_t iterator = 0; iterator < players.size(); iterator++)

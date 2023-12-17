@@ -9,21 +9,21 @@ import <cstdint>;
 
 using namespace game_logic;
 
-std::vector<User>& Lobby::GetPlayers()
+std::vector<Player>& Lobby::GetPlayers()
 {
     return m_players;
 }
 
-void Lobby::AddUser(const std::string& name)
+void Lobby::AddPlayer(const std::string& name)
 {
-    User newUser{};
+    Player newUser{};
     newUser.SetName(name);
     const Points newPoints{};
     newUser.SetPoints(newPoints);
     m_players.emplace_back(newUser);
 }
 
-void Lobby::RemoveUser(const std::string& name)
+void Lobby::RemovePlayer(const std::string& name)
 {
     auto playerToBeDeleted = std::ranges::find(m_players, name);
     if (playerToBeDeleted == m_players.end())

@@ -65,5 +65,5 @@ namespace game_logic
 		}
 	}
 
-	export void swap(Points& first, Points& second) noexcept;		//overload std::swap for two User objects;
+	export void swap(Points& first, Points& second) noexcept;		//overload std::swap for two Player objects;
 }

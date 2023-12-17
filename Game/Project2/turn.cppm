@@ -21,7 +21,7 @@ namespace  game_logic
 	public:
 		Turn() = default;
 		~Turn() = default;
-		void StartTurn(std::vector<std::pair<User, Round::Role>>& players, const std::string& wordToBeDrawn);	//function to start the round
+		void StartTurn(std::vector<std::pair<Player, Round::Role>>& players, const std::string& wordToBeDrawn);	//function to start the round
 		std::pair<std::string, std::optional<std::string>> VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord) const;
 
 
@@ -35,8 +35,8 @@ namespace  game_logic
 		};
 
 	private:
-		void GuessingTimeVectorInitialization(const std::vector<std::pair<User, Round::Role>>& players);		//intializes the vector for guessing times
-		void AddPointsForEachPlayer(std::vector<std::pair<User, Round::Role>>& players);						//adds to each player their points based on the guessing time
+		void GuessingTimeVectorInitialization(const std::vector<std::pair<Player, Round::Role>>& players);		//intializes the vector for guessing times
+		void AddPointsForEachPlayer(std::vector<std::pair<Player, Round::Role>>& players);						//adds to each player their points based on the guessing time
 		void ConvertRemainingTimeToTakenTime();							//converts the remaining time stored in guessingTimes to how much it tool everyone to guess
 		//void BeginTurn(const std::string& wordToBeGuessed);			//begins the turn
 
