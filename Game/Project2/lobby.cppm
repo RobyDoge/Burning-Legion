@@ -1,5 +1,5 @@
 ﻿export module lobby;
-import user;
+import Player;
 
 import <vector>;
 import <deque>;

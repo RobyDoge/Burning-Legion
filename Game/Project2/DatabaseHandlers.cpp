@@ -97,10 +97,10 @@ bool UserDatabaseHandle::Authenticate(const std::string& name, const std::string
         );
         if (rows.empty())
         {
-            //user ul exista dar nu a pus bine parola
+            //Player ul exista dar nu a pus bine parola
             return false;
         }
-        //user ul nu exista
+        //Player ul nu exista
         return false;
     }
     return true;//username ul si parola exista
@@ -116,7 +116,7 @@ bool UserDatabaseHandle::CheckUsername(const std::string& name)
     );
     if (rows.empty())
     {
-        //user ul nu exista, username disponibil
+        //Player ul nu exista, username disponibil
         return false;
     }
     return true; //numele exista deja

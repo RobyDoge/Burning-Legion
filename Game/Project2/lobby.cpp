@@ -1,5 +1,5 @@
 ﻿module lobby;
-import user;
+import Player;
 
 import <random>;
 import <deque>;

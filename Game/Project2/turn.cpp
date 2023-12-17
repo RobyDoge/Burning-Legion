@@ -1,5 +1,5 @@
 module turn;
-import user;
+import Player;
 import round;
 
 //routing
@@ -28,7 +28,7 @@ void Turn::StartTurn(std::vector<std::pair<Player, Round::Role>>& players, const
 				*daca e correct sa ii fie adaugat timpul in vector pe pozitia corespunzatoare
 				*revocare drept de scriere
 		*eliminare din cenzura de la cuvant dupa x timp
-		*trimitiere catre fieacare user un update
+		*trimitiere catre fieacare Player un update
 	*/
 
 	AddPointsForEachPlayer(players);
