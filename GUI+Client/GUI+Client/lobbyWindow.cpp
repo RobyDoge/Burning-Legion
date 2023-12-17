@@ -15,6 +15,10 @@ void LobbyWindow::startUpdatingThread() {
 
     updateThread.detach(); 
 }
+void LobbyWindow::stopUpdatingThread()
+{
+    stopThread.store(true);
+}
 LobbyWindow::LobbyWindow(std::string username,QWidget *parent)
 	: m_username(username),QMainWindow(parent)
 {
@@ -29,6 +33,7 @@ LobbyWindow::LobbyWindow(std::string username,QWidget *parent)
 LobbyWindow::~LobbyWindow()
 {
 	this->destroy();
+	stopUpdatingThread();
 }
 
 void LobbyWindow::startGameButton_clicked()
