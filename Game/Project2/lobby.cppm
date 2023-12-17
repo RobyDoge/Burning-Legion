@@ -1,5 +1,5 @@
 ﻿export module lobby;
-import Player;
+import player;
 
 import <vector>;
 import <deque>;
@@ -36,7 +36,7 @@ namespace game_logic
 
         GameLanguage GetLanguage() const;                           //for checking the language 
         GameDifficulty GetDifficulty() const;						//for checking the difficulty
-        std::vector<Player> GetPlayers() const;						//for checking the players
+        std::vector<Player>& GetPlayers() const;						//for checking the players
 
         void AddPlayer(const std::string& name);                      //adds a player to the lobby
         void RemovePlayer(const std::string& name);                   //removes a player from the lobby

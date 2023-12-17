@@ -1,3 +1,4 @@
+#pragma once
 import game;
 import lobby;
 

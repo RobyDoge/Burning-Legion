@@ -1,5 +1,7 @@
 #include "GameHandlers.h"
+import turn;
 
+using game_logic::Turn;
 using game_logic::Game;
 using game_logic::Lobby;
 using server::GameHandlers;

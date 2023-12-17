@@ -54,13 +54,7 @@
     <ClCompile Include="points.cpp">
       <Filter>Source Files\GameLogic Namespace</Filter>
     </ClCompile>
-    <ClCompile Include="round.cpp">
-      <Filter>Source Files\GameLogic Namespace</Filter>
-    </ClCompile>
     <ClCompile Include="turn.cpp">
-      <Filter>Source Files\GameLogic Namespace</Filter>
-    </ClCompile>
-    <ClCompile Include="user.cpp">
       <Filter>Source Files\GameLogic Namespace</Filter>
     </ClCompile>
     <ClCompile Include="game.cppm">
@@ -69,19 +63,19 @@
     <ClCompile Include="points.cppm">
       <Filter>Header Files\GameLogic Namespace</Filter>
     </ClCompile>
-    <ClCompile Include="round.cppm">
-      <Filter>Header Files\GameLogic Namespace</Filter>
-    </ClCompile>
     <ClCompile Include="turn.cppm">
-      <Filter>Header Files\GameLogic Namespace</Filter>
-    </ClCompile>
-    <ClCompile Include="user.cppm">
       <Filter>Header Files\GameLogic Namespace</Filter>
     </ClCompile>
     <ClCompile Include="lobby.cppm">
       <Filter>Header Files\GameLogic Namespace</Filter>
     </ClCompile>
     <ClCompile Include="lobby.cpp">
+      <Filter>Source Files\GameLogic Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cppm">
+      <Filter>Header Files\GameLogic Namespace</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
       <Filter>Source Files\GameLogic Namespace</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,5 +1,5 @@
 module game;
-import round;
+import turn;
 
 import <vector>;
 import <string>;
@@ -10,22 +10,22 @@ import <cstdint>;
 
 using namespace game_logic;
 
-void Game::Start(std::vector<User>& players, const Lobby::GameDifficulty difficulty /* limba*/)
-{
-	m_difficulty = difficulty;
-	std::swap(m_players, players);
-	CreateWordsForGame();
-	//for (int i = 0; i <= NUMBER_OF_ROUNDS; i++)
-	//{
-	//	Round round{};
-	//	round.StartRound(players, GenerateNextWords());
-	//}
-
-	//UpdateLastMatches();
-	//auto topThreePlayers{ FindTheThreeWinners() };
-	////de trimis catre game_logic castigatorii;
-	//std::swap(players, m_players);
-}
+//void Game::Start(std::vector<User>& players, const Lobby::GameDifficulty difficulty /* limba*/)
+//{
+//	m_difficulty = difficulty;
+//	std::swap(m_players, players);
+//	CreateWordsForGame();
+//	//for (int i = 0; i <= NUMBER_OF_ROUNDS; i++)
+//	//{
+//	//	Round round{};
+//	//	round.StartRound(players, GenerateNextWords());
+//	//}
+//
+//	//UpdateLastMatches();
+//	//auto topThreePlayers{ FindTheThreeWinners() };
+//	////de trimis catre game_logic castigatorii;
+//	//std::swap(players, m_players);
+//}
 
 std::queue<std::string>& Game::GenerateNextWords()
 {
@@ -51,7 +51,7 @@ void Game::UpdateLastMatches()
 	}
 }
 
-std::list<User> Game::FindTheThreeWinners()
+std::list<Player> Game::FindTheThreeWinners()
 {
 
 	if (m_players.size() == 1)
@@ -69,8 +69,8 @@ std::list<User> Game::FindTheThreeWinners()
 		return { m_players[1],m_players[0] };
 	}
 
-	auto playerCopy{ m_players };
-	std::partial_sort(playerCopy.begin(), playerCopy.begin() + 3, playerCopy.end(), [](User& first, User& second)
+	std::vector<Player> playerCopy{ m_players };
+	std::partial_sort(playerCopy.begin(), playerCopy.begin() + 3, playerCopy.end(), [](Player& first, Player& second)
 		{
 			return first.GetPoints().GetLastMatchesPoints().front() > second.GetPoints().GetLastMatchesPoints().front();
 		});

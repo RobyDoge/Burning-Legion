@@ -1,7 +1,7 @@
-
 export module game;
-import user;
+import player;
 import lobby;
+import turn;
 
 import <vector>;
 import <queue>;
@@ -22,18 +22,18 @@ namespace game_logic
 		Game() = default;														//default constructor
 		~Game() = default;														//destructor
 
-		void Start(std::vector<User>& players, const Lobby::GameDifficulty difficulty);		//starts the turn with info from lobby
+		void Start(std::vector<Player>& players, const Lobby::GameDifficulty difficulty);		//starts the turn with info from lobby
 		std::queue<std::string>& GenerateNextWords();							//generates a random number of words based on the number of players
 
 
 	private:
 		void CreateWordsForGame();												//from the word database populates currentWordList
 		void UpdateLastMatches();												//after the game ends it updates the history for each player
-		std::list<User> FindTheThreeWinners();		//return an array with up to top 3 players based on their score
+		std::list<Player> FindTheThreeWinners();		//return an array with up to top 3 players based on their score
 
 	private:
 		std::queue<std::string> m_currentWordList{};				//the needed words for the game
 		Lobby::GameDifficulty m_difficulty{};						//game difficulty
-		std::vector<User> m_players{};
+		std::vector<Player> m_players{};
 	};
 }

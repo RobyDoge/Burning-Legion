@@ -1,6 +1,6 @@
 export module turn;
-import Player;
-import round;
+import player;
+
 
 import <vector>;
 import <utility>;

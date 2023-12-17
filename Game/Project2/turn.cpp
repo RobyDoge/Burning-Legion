@@ -1,6 +1,6 @@
 module turn;
-import Player;
-import round;
+import player;
+import game;
 
 //routing
 
@@ -16,7 +16,7 @@ import <ranges>;
 
 using namespace game_logic;
 
-void Turn::StartTurn(std::vector<std::pair<Player, Round::Role>>& players, const std::string& wordToBeGuessed)
+void Turn::StartTurn(std::vector<std::pair<Player, Game::Role>>& players, const std::string& wordToBeGuessed)
 {
 	GuessingTimeVectorInitialization(players);
 	//BeginTurn(wordToBeGuessed);

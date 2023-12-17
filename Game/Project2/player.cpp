@@ -1,4 +1,4 @@
-module user;
+module player;
 
 
 using game_logic::Player;

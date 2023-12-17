@@ -1,8 +1,6 @@
 ﻿module lobby;
-import Player;
+import player;
 
-import <random>;
-import <deque>;
 import <string>;
 import <string>;
 import <cstdint>;

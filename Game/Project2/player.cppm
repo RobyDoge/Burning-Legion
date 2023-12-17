@@ -1,4 +1,4 @@
-export module user;
+export module player;
 export import points;
 
 import <string>;
