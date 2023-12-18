@@ -99,3 +99,13 @@ std::vector<std::string> Client::GetPlayersVector(const std::string& username)
 
     return users;
 }
+
+uint8_t Client::GetDifficulty()
+{
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbyGetDifficulty" },
+        cpr::Header{ {"Content-Type", "application/json"} });
+
+    auto diff = crow::json::load(response.text);
+
+	return diff["difficulty"].i();
+}

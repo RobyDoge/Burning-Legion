@@ -34,6 +34,11 @@ void GameHandlers::SetDifficulty(const int difficulty) const
 	m_lobby->SetDifficulty(difficulty);
 }
 
+uint8_t GameHandlers::GetDifficulty()
+{
+	return m_lobby->GetDifficulty();
+}
+
 void GameHandlers::SetLanguage(const int language) const
 {
 	m_lobby->SetLanguage(language);

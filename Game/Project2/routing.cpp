@@ -113,6 +113,14 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 											 }
 											 return crow::json::wvalue{ responseJson };
 	                                     });
+	CROW_ROUTE(m_app, "/lobbyGetDifficulty")
+		.methods("POST"_method)
+										([this](const crow::request& req)
+											{
+												crow::json::wvalue responseJson=crow::json::wvalue{ {"difficulty", m_gameHandlers.GetDifficulty()}};
+												return crow::json::wvalue{ responseJson };
+
+											});
 
 	CROW_ROUTE(m_app, "/lobbySetDifficulty")
 		.methods("POST"_method)

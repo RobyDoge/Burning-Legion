@@ -18,6 +18,7 @@ private:
 	void UpdatePlayersListWidget(QListWidget* listWidget);
 	void PlayerJoinedLobby();
 	uint8_t ConvertToInt(const std::string& difficulty);
+	void PlayerChangedDifficulty();
 
 private slots:
 
@@ -27,7 +28,7 @@ private:
 	Ui::lobbyClass ui;
 	std::vector<std::string> m_players;
 	std::string m_username;
-	QString m_difficulty;
+	uint8_t m_difficulty;
 	Client m_client;
 	std::atomic<bool> stopThread;
 };

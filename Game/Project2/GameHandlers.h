@@ -22,6 +22,7 @@ namespace server
 		void RemoveUserFromLobby(const std::string& username) const;
 		std::vector<std::string> GetUsersNames() const;
 		void SetDifficulty(int difficulty) const;
+		uint8_t GetDifficulty();
 		void SetLanguage(int language) const;
 
 		void StartGame();
