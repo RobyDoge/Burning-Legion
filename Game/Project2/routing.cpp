@@ -114,6 +114,16 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 											 return crow::json::wvalue{ responseJson };
 	                                     });
 
+	CROW_ROUTE(m_app, "/lobbySetDifficulty")
+		.methods("POST"_method)
+										([this](const crow::request& req)
+											{
+												const auto jsonData = crow::json::load(req.body);
+												if (!jsonData)
+													return crow::response(400);
+												m_gameHandlers.SetDifficulty(jsonData["difficulty"].i());
+												return crow::response(200, "OK");
+											});
 
 	m_app.port(18080).multithreaded().run();
 }

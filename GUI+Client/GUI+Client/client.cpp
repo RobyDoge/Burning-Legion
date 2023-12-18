@@ -73,6 +73,15 @@ void Client::SendUsername(const std::string& username)
 
 }
 
+void Client::SendDifficulty(uint8_t difficulty)
+{
+	std::string json_data = R"({"difficulty": ")" + std::to_string(difficulty) + R"("})";
+
+	auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbySetDifficulty" },
+		cpr::Header{ {"Content-Type", "application/json"} },
+		cpr::Body{ json_data });
+}
+
 
 std::vector<std::string> Client::GetPlayersVector(const std::string& username)
 {

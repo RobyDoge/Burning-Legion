@@ -17,11 +17,12 @@ private:
 	void stopUpdatingThread();
 	void UpdatePlayersListWidget(QListWidget* listWidget);
 	void PlayerJoinedLobby();
+	uint8_t ConvertToInt(const std::string& difficulty);
 
 private slots:
 
 	void startGameButton_clicked();
-
+	void difficultyBoxIndexChanged();
 private:
 	Ui::lobbyClass ui;
 	std::vector<std::string> m_players;

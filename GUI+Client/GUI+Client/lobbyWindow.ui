@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>696</width>
-    <height>450</height>
+    <height>473</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -163,6 +163,11 @@ background:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(251, 
        </property>
        <item>
         <property name="text">
+         <string>No Difficulty</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>Easy</string>
         </property>
        </item>
@@ -174,11 +179,6 @@ background:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(251, 
        <item>
         <property name="text">
          <string>Hard</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>No Difficulty</string>
         </property>
        </item>
       </widget>
