@@ -132,6 +132,13 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 												m_gameHandlers.SetDifficulty(jsonData["difficulty"].i());
 												return crow::response(200, "OK");
 											});
+	CROW_ROUTE(m_app, "/startRound/WordToBeGuessed")
+		.methods("POST"_method)
+										([this](const crow::request& req)
+											{
+												crow::json::wvalue responseJson = crow::json::wvalue{ {"WordToBeGuessed", m_gameHandlers.GetWordToBeGuessed()} };
+												return crow::json::wvalue{ responseJson };
+											});
 
 	m_app.port(18080).multithreaded().run();
 }

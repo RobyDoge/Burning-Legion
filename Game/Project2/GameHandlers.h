@@ -22,11 +22,12 @@ namespace server
 		void RemoveUserFromLobby(const std::string& username) const;
 		std::vector<std::string> GetUsersNames() const;
 		void SetDifficulty(int difficulty) const;
-		uint8_t GetDifficulty();
 		void SetLanguage(int language) const;
 
-		void StartGame();
+		uint8_t GetDifficulty();
+		std::string GetWordToBeGuessed();
 
+		void StartGame();
 
 	private:
 		std::queue<std::string> CreateWordsNeeded(const uint8_t wordsNeeded, const uint8_t difficulty, const uint8_t language) const;
@@ -34,6 +35,7 @@ namespace server
 	private:
 		std::unique_ptr<Lobby> m_lobby{ std::make_unique<Lobby>() };
 		std::unique_ptr<Game> m_game{};
+		std::string m_wordToBeGuessed;
 
 	};
 };

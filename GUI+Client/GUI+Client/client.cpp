@@ -109,3 +109,13 @@ uint8_t Client::GetDifficulty()
 
 	return diff["difficulty"].i();
 }
+
+std::string Client::GetWordToBeGuessed()
+{
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startRound/WordToBeGuessed" },
+        cpr::Header{ {"Content-Type", "application/json"} });
+
+    auto word = crow::json::load(response.text);
+
+    return word["WordToBeGuessed"].s();
+}
