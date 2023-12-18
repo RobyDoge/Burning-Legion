@@ -26,6 +26,12 @@ protected:
     void mouseReleaseEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* event) override;
 
+private:
+
+    void resizeToScreenSize();
+    void addNewLine(const QVector<QPoint>& newLine);
+    void changePenColor();
+
 private slots:
     void sendButton_clicked();
     void inputField_returnPressed();
@@ -37,18 +43,15 @@ private:
     Ui::gameWindowClass ui;
     QVector<QVector<QPoint>> lines; 
     QVector<QPoint> currentLine; 
-    void resizeToScreenSize();
-    bool isDrawing; 
     int currentPenWidth;
     QMap<int, int> lineWidths; 
     QMap<int, QColor> lineColor;
 
-    void addNewLine(const QVector<QPoint>& newLine);
     int lastUpdatedLineIndex = -1;
 
     QColor currentPenColor; 
-    void changePenColor();
    
 
+    bool isDrawing; 
 
 };

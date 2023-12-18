@@ -23,8 +23,12 @@ int main()
  * to be created a list of all the functions that have been tested
  */
 
+#include "routing.h"
 #include "DatabaseHandlers.h"
+#include <memory>
 
+import lobby;
+using namespace server;
 int main()
 {
 	UserDatabaseHandle udbh;
@@ -32,5 +36,10 @@ int main()
 	/*
 	 *testing environment
 	 */
+	UserDatabaseHandle userHandler;
+	WordDatabaseHandle wordHandler;
+
+	Routing r;
+	r.Run(wordHandler,userHandler);
 	return 67;
 }

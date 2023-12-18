@@ -86,58 +86,59 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 
 		                              return crow::json::wvalue{responseJson};
 	                              });
+	CROW_ROUTE(m_app, "/lobbyGetUsers")
+		.methods("POST"_method)
+										([this](const crow::request& req)
+											{
+												const auto jsonData = crow::json::load(req.body);
+												if (!jsonData)
+													return crow::response(400);
 
-	CROW_ROUTE(m_app, "/lobbyPlayerVector")
-        .methods("POST"_method)
-	                                       ([&userStorage,this](const crow::request& req)
-	                                       {
-		                                       std::vector<crow::json::wvalue> responseJson;
+												m_gameHandlers.AddUserToLobby ( jsonData["username"].s());
+												
+												return crow::response(200, "valid");
+											});
 
-		                                       for (const auto& player : m_playerList)
-		                                       {
-			                                       responseJson.push_back(crow::json::wvalue{{"player", player}});
-		                                       }
-		                                       return crow::json::wvalue{responseJson};
-	                                       });
-
-	CROW_ROUTE(m_app, "/lobbySetupUsers")
+	CROW_ROUTE(m_app, "/lobbySendUsers")
         .methods("POST"_method)
 	                                     ([this](const crow::request& req)
 	                                     {
-		                                     auto jsonData = crow::json::load(req.body);
-		                                     if (!jsonData)
-			                                     return crow::response(400);
-
-		                                     m_lastUsername = jsonData["username"].s();
-
-		                                     return crow::response(200, "OK");
+		                                 
+											 std::vector<crow::json::wvalue> responseJson;
+											 std::vector<std::string> users = m_gameHandlers.GetUsersNames();
+											 for (const auto& user : users)
+											 {
+												 std::cout << user;
+												 responseJson.push_back(crow::json::wvalue{ {"user", user} });
+											 }
+											 return crow::json::wvalue{ responseJson };
 	                                     });
+	CROW_ROUTE(m_app, "/lobbyGetDifficulty")
+		.methods("POST"_method)
+										([this](const crow::request& req)
+											{
+												crow::json::wvalue responseJson=crow::json::wvalue{ {"difficulty", m_gameHandlers.GetDifficulty()}};
+												return crow::json::wvalue{ responseJson };
 
+											});
+
+	CROW_ROUTE(m_app, "/lobbySetDifficulty")
+		.methods("POST"_method)
+										([this](const crow::request& req)
+											{
+												const auto jsonData = crow::json::load(req.body);
+												if (!jsonData)
+													return crow::response(400);
+												m_gameHandlers.SetDifficulty(jsonData["difficulty"].i());
+												return crow::response(200, "OK");
+											});
+	CROW_ROUTE(m_app, "/startRound/WordToBeGuessed")
+		.methods("POST"_method)
+										([this](const crow::request& req)
+											{
+												crow::json::wvalue responseJson = crow::json::wvalue{ {"WordToBeGuessed", m_gameHandlers.GetWordToBeGuessed()} };
+												return crow::json::wvalue{ responseJson };
+											});
 
 	m_app.port(18080).multithreaded().run();
-}
-
-void Routing::UpdatePlayerList(const std::vector<std::string>& playerList)
-{
-	m_playerList = playerList;
-}
-
-std::string Routing::GetLastUsername() const
-{
-	return m_lastUsername;
-}
-
-bool Routing::GetGameStart() const
-{
-	return m_gameStart;
-}
-
-uint8_t Routing::GetDifficulty() const
-{
-	return m_difficulty;
-}
-
-void Routing::SetLobbyId(const std::string& lobbyId)
-{
-	m_lobbyId = lobbyId;
 }

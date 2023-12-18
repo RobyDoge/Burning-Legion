@@ -14,6 +14,7 @@ void GameHandlers::CreateLobby()
 	m_lobby = std::make_unique<Lobby>();
 }
 
+
 void GameHandlers::AddUserToLobby(const std::string& username) const
 {
 	m_lobby->AddPlayer(username);
@@ -24,14 +25,30 @@ void GameHandlers::RemoveUserFromLobby(const std::string& username) const
 	m_lobby->RemovePlayer(username);
 }
 
+std::vector<std::string> GameHandlers::GetUsersNames() const
+{
+	return m_lobby->GetUsersNames();
+}
+
 void GameHandlers::SetDifficulty(const int difficulty) const
 {
 	m_lobby->SetDifficulty(difficulty);
 }
 
+uint8_t GameHandlers::GetDifficulty()
+{
+	return m_lobby->GetDifficulty();
+}
+
 void GameHandlers::SetLanguage(const int language) const
 {
 	m_lobby->SetLanguage(language);
+}
+
+
+std::string GameHandlers::GetWordToBeGuessed()
+{
+	return m_wordToBeGuessed;
 }
 
 void GameHandlers::StartGame()
@@ -51,7 +68,7 @@ void GameHandlers::StartGame()
 			Timer timer{};
 			uint8_t secondsPassed{};
 			uint8_t ticksPassed{};
-			std::string wordToBeGuessed{ m_game->GetNextWord() };
+			m_wordToBeGuessed = m_game->GetNextWord();
 
 
 			//TODO: Send Word Censored To Be Guessed To Clients (except drawer) And Send Uncensored Word To Drawer

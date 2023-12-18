@@ -11,12 +11,15 @@ public:
 	long GetLoginResponse(const std::string& username, const std::string& password);
 	long ConfirmUsernameAvailable(const std::string& username);
 	long AddUser(const std::string& username, const std::string& password);
-	long SendUsername(const std::string& username);
+	void SendUsername(const std::string& username);
+	void SendDifficulty(uint8_t difficulty);
+	
 	std::pair<uint16_t, std::list< int16_t> > GetBestScoreAndLastMatchesPoints(const std::string& username);
-	std::vector<std::string> GetPlayersVector();
+	std::vector<std::string> GetPlayersVector(const std::string& username);
+	uint8_t GetDifficulty();
+	std::string GetWordToBeGuessed();
 	//std::vector<std::string> FetchPlayersInLobby();  //This is supposed to fetch the usernames of all players in lobby
 private:
-
 
 };
 
