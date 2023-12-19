@@ -9,6 +9,7 @@
 namespace fs = std::filesystem;
 namespace sql = sqlite_orm;
 
+//used for file cheking
 inline bool hasFileChanged(const std::string& filename, time_t& lastModifiedTime) {
 	struct stat fileStat;
 
@@ -25,9 +26,10 @@ inline bool hasFileChanged(const std::string& filename, time_t& lastModifiedTime
 	}
 
 	return false; // File has not been modified
-}
+}			
 
-struct WordFromDictionary									//structure that will contain the words from our database
+//structure that will contain the words from our database
+struct WordFromDictionary
 {
 	uint16_t id;
 	std::string word;
@@ -35,15 +37,16 @@ struct WordFromDictionary									//structure that will contain the words from o
 	std::string language;
 };
 
+//structure for user information
 struct UserInfo
 {
 	uint16_t id;
 	std::string name;
 	std::string password;
-	//std::string last5;
 	int16_t best;
 };
 
+//structure for storing the images and the score
 struct MatchData
 {
 	uint64_t id;
@@ -55,7 +58,8 @@ struct MatchData
 	std::string R4IMG;
 };
 
-inline auto CreateDictionary(const std::string& filename)		//creating database for dictionary
+//creating database for dictionary
+inline auto CreateDictionary(const std::string& filename)		
 {
 	return sql::make_storage(
 		filename,
@@ -69,6 +73,7 @@ inline auto CreateDictionary(const std::string& filename)		//creating database f
 	);
 }
 
+//creating database for users (tables for information and matches list)
 inline auto CreateUserDatabase(const std::string& filename)
 {
 	return sql::make_storage(
@@ -83,7 +88,7 @@ inline auto CreateUserDatabase(const std::string& filename)
 		sql::make_table(
 			"Match",
 			sql::make_column("id", &MatchData::id, sql::primary_key().autoincrement()),
-			sql::make_column("uid", &MatchData::uid, sql::foreign_key(&UserInfo::id).references(&MatchData::uid)),		//cannot make this foreign key explicitly
+			sql::make_column("uid", &MatchData::uid, sql::foreign_key(&UserInfo::id).references(&MatchData::uid)),		
 			sql::make_column("score", &MatchData::score),
 			sql::make_column("R1IMG", &MatchData::R1IMG),
 			sql::make_column("R2IMG", &MatchData::R2IMG),
@@ -97,22 +102,26 @@ inline auto CreateUserDatabase(const std::string& filename)
 using Dictionary = decltype(CreateDictionary(""));
 using UserDatabase = decltype(CreateUserDatabase(""));
 
-void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filename);
-void AddNewUser(Dictionary& dictionary, const std::string& filename);
-Dictionary& CreateDatabase();
+void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filename);		//adding all the words to the database
+void AddNewUser(Dictionary& dictionary, const std::string& filename);						//ading one user at a time in the UserInfo table
 
+//word database class:
+// - calls PopulateDictionaryFromFile method via Init()
+// - could empty database if needed via ClearDictionary()
+// - getting the needed word list via SelectWords()
 class WordDatabaseHandle
 {
 public:
 
 	void Init();
-	std::queue<std::string> SelectWords(uint8_t wordsNeeded, uint8_t difficulty, uint8_t language); //game_logic::Lobby::GameDifficulty difficulty);
+	std::queue<std::string> SelectWords(uint8_t numberOfPlayers, uint8_t difficulty, uint8_t language);
 
 	void ClearDictionary();
 
-//private:
+private:
 	Dictionary m_db = CreateDictionary("database.sqlite");
 };
+
 
 class UserDatabaseHandle
 {
