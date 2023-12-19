@@ -1,7 +1,7 @@
 #include "lobbyWindow.h"
 #include <thread>
 #include <chrono>
-
+#include "menuWindow.h"
 
 void LobbyWindow::startUpdatingThread() {
     std::thread updateThread([this]() {
