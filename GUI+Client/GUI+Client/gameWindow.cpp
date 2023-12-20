@@ -1,6 +1,7 @@
 ﻿#include "gameWindow.h"
 #include<QToolTip>
 #include<QColorDialog>
+
 GameWindow::GameWindow(QWidget* parent)
     : QMainWindow(parent)
 {
@@ -39,12 +40,16 @@ GameWindow::~GameWindow()
 //function to display a message that the player is close or that he has guessed the word
 
 void GameWindow::sendButton_clicked() {
-
-    QString playerMessage = ui.inputField->text();
-    QString message = "Player: " + playerMessage;
-    if (!playerMessage.isEmpty())
-        ui.messageArea->append(message);
-    ui.inputField->clear();
+    if (!isDrawing)
+    {
+        QString playerMessage = ui.inputField->text();
+        QString message = "Player: " + playerMessage;
+        if (!playerMessage.isEmpty())
+            ui.messageArea->append(message);
+        ui.inputField->clear();
+        playerMessage = m_client.SendMessage(playerMessage);
+		ui.messageArea->append("Player: " + playerMessage);
+    }
 }
 
 void GameWindow::inputField_returnPressed() {
@@ -178,3 +183,37 @@ void GameWindow::clearDrawingArea() {
     
     update(); // Trigger a repaint to clear the drawing area
 }
+
+void GameWindow::ClearChat()
+{
+	ui.messageArea->clear();
+}
+
+std::string GameWindow::WordToCensor(std::string word)
+{
+	for (auto letter : word)
+		word.replace(word.find(letter), 1, "*");
+	m_wordToCensor = word;
+    return word;
+}
+void GameWindow::UpdateWordCensorship(char letter,int position)
+{
+	m_wordToCensor[position] = letter;
+	ui.wordtoGuess->setText(QString(m_wordToCensor.c_str()));
+}
+void GameWindow::StartRound()
+{
+    clearDrawingArea();
+	ClearChat();
+	ui.timerLabel->setText("60");
+    if (m_username == m_client.GetDrawer())
+        isDrawing = true;
+    else
+        isDrawing = false;
+
+	if (isDrawing)
+		ui.wordtoGuess->setText(QString(m_client.GetWordToBeGuessed().c_str()));
+	else 
+        ui.wordtoGuess->setText(QString(WordToCensor(m_client.GetWordToBeGuessed()).c_str()));
+}
+

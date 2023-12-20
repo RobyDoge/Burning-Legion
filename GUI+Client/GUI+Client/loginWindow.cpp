@@ -1,9 +1,7 @@
 ﻿#include "loginWindow.h"
-#include "gameWindow.h"
 #include "signupWindow.h"
 #include "menuWindow.h"
 #include <QString>
-
 
 LoginWindow::LoginWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -47,7 +45,7 @@ void LoginWindow::signinButton_clicked()
 }
 void LoginWindow::openMenuWindow(std::string username)
 {
-    MenuWindow* menuWindow = new MenuWindow(username,this); 
+    MenuWindow* menuWindow = new MenuWindow(username); 
     menuWindow->show();
     this->destroy();
 }

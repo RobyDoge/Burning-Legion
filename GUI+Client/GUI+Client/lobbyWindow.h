@@ -3,9 +3,8 @@
 #include <QMainWindow>
 #include "ui_lobbyWindow.h"
 #include <vector>
-#include "gameWindow.h"
 #include "client.h"
-#include "menuWindow.h"
+
 
 class LobbyWindow : public QMainWindow
 {

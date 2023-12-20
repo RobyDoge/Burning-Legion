@@ -119,3 +119,18 @@ std::string Client::GetWordToBeGuessed()
 
     return word["WordToBeGuessed"].s();
 }
+
+std::string Client::GetDrawer()
+{
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startRound/Drawer" },
+        cpr::Header{ {"Content-Type", "application/json"} });
+
+    auto word = crow::json::load(response.text);
+
+    return word["Drawer"].s();
+}
+
+std::string Client::SendMessage(const std::string& message)
+{
+    return std::string();
+}

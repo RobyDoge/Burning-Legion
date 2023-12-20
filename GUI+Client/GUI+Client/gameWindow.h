@@ -1,7 +1,9 @@
 #pragma once
 
-#include <QMainWindow>
 #include "ui_gameWindow.h"
+#include "client.h"
+
+#include <QMainWindow>
 #include <QPainter>
 #include <QMouseEvent>
 #include <QScreen>
@@ -31,6 +33,13 @@ private:
     void resizeToScreenSize();
     void addNewLine(const QVector<QPoint>& newLine);
     void changePenColor();
+    void UpdateWordCensorship(char letter, int position);
+
+private:
+
+	void StartRound();
+    void ClearChat();
+	std::string WordToCensor(std::string word);
 
 private slots:
     void sendButton_clicked();
@@ -46,12 +55,13 @@ private:
     int currentPenWidth;
     QMap<int, int> lineWidths; 
     QMap<int, QColor> lineColor;
-
     int lastUpdatedLineIndex = -1;
-
     QColor currentPenColor; 
    
-
-    bool isDrawing; 
-
+private:
+    bool isDrawing;
+    Client m_client;
+    std::string m_username;
+    std::vector<std::string> m_players;
+	std::string m_wordToCensor;
 };

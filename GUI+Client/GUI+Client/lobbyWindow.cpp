@@ -1,7 +1,8 @@
 #include "lobbyWindow.h"
+#include "menuWindow.h"
+#include "gameWindow.h"
 #include <thread>
 #include <chrono>
-#include "menuWindow.h"
 
 void LobbyWindow::startUpdatingThread() {
     std::thread updateThread([this]() {
@@ -17,10 +18,12 @@ void LobbyWindow::startUpdatingThread() {
 
     updateThread.detach(); 
 }
+
 void LobbyWindow::stopUpdatingThread()
 {
     stopThread.store(true);
 }
+
 LobbyWindow::LobbyWindow(std::string username,QWidget *parent)
 	: m_username(username),QMainWindow(parent)
 {

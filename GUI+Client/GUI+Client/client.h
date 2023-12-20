@@ -18,6 +18,7 @@ public:
 	std::vector<std::string> GetPlayersVector(const std::string& username);
 	uint8_t GetDifficulty();
 	std::string GetWordToBeGuessed();
+	std::string GetDrawer();
 	//std::vector<std::string> FetchPlayersInLobby();  //This is supposed to fetch the usernames of all players in lobby
 private:
 
