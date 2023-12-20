@@ -47,8 +47,8 @@ void GameWindow::sendButton_clicked() {
         if (!playerMessage.isEmpty())
             ui.messageArea->append(message);
         ui.inputField->clear();
-        playerMessage = m_client.SendMessage(playerMessage);
-		ui.messageArea->append("Player: " + playerMessage);
+        playerMessage = QString(m_client.SendPlayerMessage(playerMessage.toUtf8().constData()).c_str());
+        ui.messageArea->append("Player: " + playerMessage);
     }
 }
 
@@ -201,7 +201,7 @@ void GameWindow::UpdateWordCensorship(char letter,int position)
 	m_wordToCensor[position] = letter;
 	ui.wordtoGuess->setText(QString(m_wordToCensor.c_str()));
 }
-void GameWindow::StartRound()
+void GameWindow::StartTurn()
 {
     clearDrawingArea();
 	ClearChat();

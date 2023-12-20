@@ -37,7 +37,7 @@ private:
 
 private:
 
-	void StartRound();
+	void StartTurn();
     void ClearChat();
 	std::string WordToCensor(std::string word);
 

@@ -105,9 +105,7 @@ uint8_t Client::GetDifficulty()
     auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbyGetDifficulty" },
         cpr::Header{ {"Content-Type", "application/json"} });
 
-    auto diff = crow::json::load(response.text);
-
-	return diff["difficulty"].i();
+	return crow::json::load(response.text)["difficulty"].i();
 }
 
 std::string Client::GetWordToBeGuessed()
@@ -115,9 +113,7 @@ std::string Client::GetWordToBeGuessed()
     auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startRound/WordToBeGuessed" },
         cpr::Header{ {"Content-Type", "application/json"} });
 
-    auto word = crow::json::load(response.text);
-
-    return word["WordToBeGuessed"].s();
+    return crow::json::load(response.text)["WordToBeGuessed"].s();
 }
 
 std::string Client::GetDrawer()
@@ -125,12 +121,18 @@ std::string Client::GetDrawer()
     auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startRound/Drawer" },
         cpr::Header{ {"Content-Type", "application/json"} });
 
-    auto word = crow::json::load(response.text);
-
-    return word["Drawer"].s();
+    return crow::json::load(response.text)["Drawer"].s();
 }
 
-std::string Client::SendMessage(const std::string& message)
+std::string Client::SendPlayerMessage(const std::string& message)
 {
-    return std::string();
+    std::string json_data = R"({"message": ")" + message + R"("})";
+
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/GetMessage" },
+        cpr::Header{ {"Content-Type", "application/json"} },
+        cpr::Body{ json_data });
+
+    return crow::json::load(response.text)["messsage"].s();
+
+
 }
