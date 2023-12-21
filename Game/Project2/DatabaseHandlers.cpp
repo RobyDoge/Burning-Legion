@@ -20,10 +20,14 @@ void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filen
     std::string language;
     uint8_t difficulty;
 
+    inputFile.get();
+    inputFile.get();
+    inputFile.get();
+
     inputFile >> language;
     while (inputFile >> word >> difficulty)
     {
-        if (word.compare(language) && difficulty == '3')
+        if (!word.compare(language) && difficulty == '3')
             inputFile >> language >> word >> difficulty;
         words.emplace_back(WordFromDictionary{ idCounter++, word, difficulty ,language});
     }
@@ -39,6 +43,7 @@ void WordDatabaseHandle::Init()
     m_db.sync_schema();
 
     auto initalwordscount = m_db.count<WordFromDictionary>();
+
     if (initalwordscount == 0)
         PopulateDictionaryFromFile(m_db, "input.txt");
 }
@@ -116,6 +121,11 @@ std::queue<std::string> WordDatabaseHandle::SelectWords(uint8_t numberOfPlayers,
     }
 
     return generatedWords;
+}
+
+bool WordDatabaseHandle::IsInitialized()
+{
+    return m_db.count<WordFromDictionary>();
 }
 
 void WordDatabaseHandle::ClearDictionary()
@@ -210,6 +220,16 @@ std::deque<int16_t> UserDatabaseHandle::GetLastMatchesPoints(const std::string& 
     }*/
 
     return {};
+}
+
+void UserDatabaseHandle::ClearUserDatabase()
+{
+    m_db.remove_all<UserInfo>();
+}
+
+void UserDatabaseHandle::ClearMatchDatabase()
+{
+    m_db.remove_all<MatchData>();
 }
 
 

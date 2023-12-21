@@ -54,6 +54,8 @@ std::string GameHandlers::GetWordToBeGuessed()
 std::queue<std::string> GameHandlers::CreateWordsNeeded(const uint8_t wordsNeeded,const uint8_t difficulty, const uint8_t language) const
 {
 	WordDatabaseHandle wordDbHandle;
+	if (!wordDbHandle.IsInitialized())
+		wordDbHandle.Init();
 	return wordDbHandle.SelectWords(wordsNeeded, difficulty, language);
 	 
 }

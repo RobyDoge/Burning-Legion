@@ -115,7 +115,7 @@ public:
 
 	void Init();
 	std::queue<std::string> SelectWords(uint8_t numberOfPlayers, uint8_t difficulty, uint8_t language);
-
+	bool IsInitialized();
 	void ClearDictionary();
 
 private:
@@ -133,6 +133,8 @@ public:
 	uint16_t GetBestScore(const std::string& name);
 	std::deque<int16_t> GetLastMatchesPoints(const std::string& name);
 
+	void ClearUserDatabase();
+	void ClearMatchDatabase();
 
 private:
 	UserDatabase m_db = CreateUserDatabase("userDatabase.sqlite");
