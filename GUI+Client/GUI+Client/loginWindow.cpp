@@ -1,5 +1,5 @@
 ﻿#include "LoginWindow.h"
-#include "SignupWindow.h"
+#include "SignUpWindow.h"
 #include "MenuWindow.h"
 #include <QString>
 
@@ -37,7 +37,7 @@ void LoginWindow::LoginButton_Clicked()
 
 void LoginWindow::SigninButton_Clicked() 
 {
-	auto* signUpWindow = new SignupWindow();
+	auto* signUpWindow = new SignUpWindow();
     signUpWindow->show();
     this->destroy();
 }

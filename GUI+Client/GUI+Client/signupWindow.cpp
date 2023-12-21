@@ -1,6 +1,7 @@
-#include "SignupWindow.h"
+#include "SignUpWindow.h"
 #include "LoginWindow.h"
-SignupWindow::SignupWindow(QWidget *parent)
+
+SignUpWindow::SignUpWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
@@ -8,32 +9,26 @@ SignupWindow::SignupWindow(QWidget *parent)
 	ui.sigupPasswordRepeatLine->setEchoMode(QLineEdit::Password);
 
 
-	connect(ui.signupButton, &QPushButton::clicked, this, &SignupWindow::signupButton_clicked);
-	connect(ui.signupLogginButton, &QPushButton::clicked, this, &SignupWindow::signupLogginButton_clicked);
-	connect(ui.signupUsernameLine, &QLineEdit::editingFinished, this, &SignupWindow::onUsernameEditingFinished);
+	connect(ui.signupButton, &QPushButton::clicked, this, &SignUpWindow::SignUpButton_Clicked);
+	connect(ui.signupLogginButton, &QPushButton::clicked, this, &SignUpWindow::SignUpLoginButton_Clicked);
+	connect(ui.signupUsernameLine, &QLineEdit::editingFinished, this, &SignUpWindow::Username_LineEditingFinished);
 
 }
 
-SignupWindow::~SignupWindow()
-{
-	this->destroy();
-}
-
-void SignupWindow::onUsernameEditingFinished() 
+void SignUpWindow::Username_LineEditingFinished() 
 {
 	m_username = ui.signupUsernameLine->text();
 	QString data = QCoreApplication::applicationDirPath();
-	QPixmap available(QCoreApplication::applicationDirPath() +"/Checked.png");			//This should be moved to .h (i think) 
-	QPixmap notAvailable(QCoreApplication::applicationDirPath() +"/!Checked.png");      //Sets a pixmap to an image(for the available or not at username)
-
-	long response = m_signupClient.ConfirmUsernameAvailable(m_username.toUtf8().constData());
-	if (response == 200 || response == 201)
+	if (const long response = m_signUpClient.ConfirmUsernameAvailable(m_username.toUtf8().constData()); 
+		response == 200 || response == 201)
 	{
+		const QPixmap available(QCoreApplication::applicationDirPath() + "/Checked.png");			//This should be moved to .h (i think) 
 		ui.signupUsernameCheckLabel->setPixmap(available);								//The label becomes the image ( initally invisible)
 		ui.signupUsernameCheckLabel->setFixedSize(available.size());
 	}
 	else
 	{
+		const QPixmap notAvailable(QCoreApplication::applicationDirPath() + "/!Checked.png");      //Sets a pixmap to an image(for the available or not at username)
 		ui.signupUsernameCheckLabel->setPixmap(notAvailable);
 		ui.signupUsernameCheckLabel->setFixedSize(notAvailable.size());
 
@@ -41,7 +36,7 @@ void SignupWindow::onUsernameEditingFinished()
 
 }
 
-void SignupWindow::signupButton_clicked() 
+void SignUpWindow::SignUpButton_Clicked() 
 {	
 	m_password = ui.sigupPasswordLine->text();
 	m_confirmPassword = ui.sigupPasswordRepeatLine->text();
@@ -51,26 +46,20 @@ void SignupWindow::signupButton_clicked()
 		return;
 	}
 
-
-	long response = m_signupClient.AddUser(m_username.toUtf8().constData(), m_password.toUtf8().constData());
-
-	if (response == 200 || response == 201)
+	if (const long response = m_signUpClient.AddUser(m_username.toUtf8().constData(), m_password.toUtf8().constData()); 
+		response == 200 || response == 201)
 	{
-		signupLogginButton_clicked();
-	}
-	else 
-	{
-		ui.errorLabel->setText("Error while creating account!");
+		SignUpLoginButton_Clicked();
 		return;
 	}
-		
+	ui.errorLabel->setText("Error while creating account!");
 }
 
 
-void SignupWindow::signupLogginButton_clicked()
+void SignUpWindow::SignUpLoginButton_Clicked()
 {
-	LoginWindow* loginWindoww = new LoginWindow(this);
-	loginWindoww->show();
+	auto loginWindow = new LoginWindow(this);
+	loginWindow->show();
 	this->destroy();
 
 }

@@ -101,7 +101,7 @@
     <ClCompile Include="LoginWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuWindow.cpp" />
-    <ClCompile Include="SignupWindow.cpp" />
+    <ClCompile Include="SignUpWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LoginWindow.h" />
@@ -117,7 +117,7 @@
     <QtMoc Include="GameWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="SignupWindow.h" />
+    <QtMoc Include="SignUpWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />

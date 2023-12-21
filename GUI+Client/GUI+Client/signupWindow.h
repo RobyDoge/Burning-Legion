@@ -4,24 +4,24 @@
 #include "ui_signupWindow.h"
 #include "Client.h"
 
-class SignupWindow : public QMainWindow
+class SignUpWindow : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	SignupWindow(QWidget *parent = nullptr);
-	~SignupWindow();
+	SignUpWindow(QWidget *parent = nullptr);
+	~SignUpWindow() override = default;
 
 private slots:
-	void signupButton_clicked();
-	void signupLogginButton_clicked();
-	void onUsernameEditingFinished();
+	void SignUpButton_Clicked();
+	void SignUpLoginButton_Clicked();
+	void Username_LineEditingFinished();
  
 private:
 	Ui::signupWindowClass ui;
-	QString m_username;
-	QString m_password;
-	QString m_confirmPassword;
-	Client m_signupClient;
+	QString m_username{};
+	QString m_password{};
+	QString m_confirmPassword{};
+	Client m_signUpClient{};
 
 };

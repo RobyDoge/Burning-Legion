@@ -32,7 +32,7 @@
     <ClCompile Include="GameWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SignupWindow.cpp">
+    <ClCompile Include="SignUpWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Client.cpp">
@@ -52,7 +52,7 @@
     <QtMoc Include="GameWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="SignupWindow.h">
+    <QtMoc Include="SignUpWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
