@@ -15,7 +15,7 @@ SignUpWindow::SignUpWindow(QWidget *parent)
 
 }
 
-void SignUpWindow::Username_LineEditingFinished() 
+bool SignUpWindow::Username_LineEditingFinished() 
 {
 	m_username = ui.signupUsernameLine->text();
 	QString data = QCoreApplication::applicationDirPath();
@@ -25,13 +25,14 @@ void SignUpWindow::Username_LineEditingFinished()
 		const QPixmap available(QCoreApplication::applicationDirPath() + "/Checked.png");			//This should be moved to .h (i think) 
 		ui.signupUsernameCheckLabel->setPixmap(available);								//The label becomes the image ( initally invisible)
 		ui.signupUsernameCheckLabel->setFixedSize(available.size());
+		return true;
 	}
 	else
 	{
 		const QPixmap notAvailable(QCoreApplication::applicationDirPath() + "/!Checked.png");      //Sets a pixmap to an image(for the available or not at username)
 		ui.signupUsernameCheckLabel->setPixmap(notAvailable);
 		ui.signupUsernameCheckLabel->setFixedSize(notAvailable.size());
-
+		return false;
 	}
 
 }
@@ -46,22 +47,22 @@ void SignUpWindow::SignUpButton_Clicked()
 		return;
 	}
 
-	const QPixmap notAvailable(QCoreApplication::applicationDirPath() + "/!Checked.png");      //Sets a pixmap to an image(for the available or not at username)
-	if (ui.signupUsernameCheckLabel->pixmap().toImage() == notAvailable.toImage())
-	{
-		ui.errorLabel->setText("Username is not available!");
-		return;
-	}
 
-	if (const long response = m_signUpClient.AddUser(m_username.toUtf8().constData(), m_password.toUtf8().constData()); 
-		response == 200 || response == 201)
+	if (Username_LineEditingFinished())
 	{
-		CreateLoginWindow();
+		if (const long response = m_signUpClient.AddUser(m_username.toUtf8().constData(), m_password.toUtf8().constData());
+			response == 200 || response == 201)
+		{
+			CreateLoginWindow();
+			return;
+		}
+		ui.errorLabel->setText("Error while creating account!");
 	}
 	else
 	{
-		ui.errorLabel->setText("Error while creating account!");
+		ui.errorLabel->setText("Username is not available!");
 	}
+	
 }
 
 void SignUpWindow::CreateLoginWindow()

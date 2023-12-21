@@ -224,6 +224,7 @@ std::deque<int16_t> UserDatabaseHandle::GetLastMatchesPoints(const std::string& 
 
 void UserDatabaseHandle::ClearUserDatabase()
 {
+    ClearMatchDatabase();
     m_db.remove_all<UserInfo>();
 }
 
@@ -231,5 +232,3 @@ void UserDatabaseHandle::ClearMatchDatabase()
 {
     m_db.remove_all<MatchData>();
 }
-
-

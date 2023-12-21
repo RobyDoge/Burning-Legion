@@ -15,7 +15,7 @@ public:
 private slots:
 	void SignUpButton_Clicked();
 	void LoginButton_Clicked();
-	void Username_LineEditingFinished();
+	bool Username_LineEditingFinished();
 
 private:
 	void CreateLoginWindow();

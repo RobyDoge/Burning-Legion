@@ -28,11 +28,9 @@ void LoginWindow::LoginButton_Clicked()
         response == 200 || response == 201)
     {
 	    OpenMenuWindow(m_username);
+        return;
     }
-    else
-    {
-	    ui.messageLabel->setText("Username or Password incorrect");
-    }
+	ui.messageLabel->setText("Username or Password incorrect");
 }
 
 void LoginWindow::SigninButton_Clicked() 
