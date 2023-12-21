@@ -46,13 +46,22 @@ void SignUpWindow::SignUpButton_Clicked()
 		return;
 	}
 
+	const QPixmap notAvailable(QCoreApplication::applicationDirPath() + "/!Checked.png");      //Sets a pixmap to an image(for the available or not at username)
+	if (ui.signupUsernameCheckLabel->pixmap().toImage() == notAvailable.toImage())
+	{
+		ui.errorLabel->setText("Username is not available!");
+		return;
+	}
+
 	if (const long response = m_signUpClient.AddUser(m_username.toUtf8().constData(), m_password.toUtf8().constData()); 
 		response == 200 || response == 201)
 	{
 		CreateLoginWindow();
-		return;
 	}
-	ui.errorLabel->setText("Error while creating account!");
+	else
+	{
+		ui.errorLabel->setText("Error while creating account!");
+	}
 }
 
 void SignUpWindow::CreateLoginWindow()

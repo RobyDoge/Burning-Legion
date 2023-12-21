@@ -183,9 +183,9 @@ bool UserDatabaseHandle::CheckUsername(const std::string& name)
     if (rows.empty())
     {
         //Player ul nu exista, username disponibil
-        return false;
+        return true;
     }
-    return true; //numele exista deja
+    return false; //numele exista deja
 }
 
 uint16_t UserDatabaseHandle::GetBestScore(const std::string& name) // this should be id not name

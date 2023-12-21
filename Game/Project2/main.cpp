@@ -25,6 +25,9 @@ int main()
 using namespace server;
 int main()
 {
+	UserDatabaseHandle udbh;
+	udbh.ClearUserDatabase();
+
 	/*
 	 *testing environment
 	 */
