@@ -34,6 +34,10 @@ private:
     void addNewLine(const QVector<QPoint>& newLine);
     void changePenColor();
     void UpdateWordCensorship(char letter, int position);
+    void GetGameStatus();
+    void GetTurnStatus();
+    void ShowPointWindow();
+    void ShowEndWindow();
 
 private:
 
@@ -60,6 +64,8 @@ private:
    
 private:
     bool isDrawing;
+    bool m_gameEnded;
+    bool m_turnEnded;
     Client m_client;
     std::string m_username;
     std::vector<std::string> m_players;

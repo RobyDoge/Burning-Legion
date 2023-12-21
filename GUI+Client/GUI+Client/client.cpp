@@ -136,3 +136,21 @@ std::string Client::SendPlayerMessage(const std::string& message)
 
 
 }
+
+bool Client::GetGameStatus()
+{
+    return false;
+}
+
+bool Client::GetTurnStatus()
+{
+    return false;
+}
+
+void Client::StartGame()
+{
+}
+
+void Client::StartTurn()
+{
+}

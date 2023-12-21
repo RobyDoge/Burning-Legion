@@ -1,6 +1,37 @@
 ﻿#include "gameWindow.h"
+#include <chrono>
 #include<QToolTip>
 #include<QColorDialog>
+
+
+
+void GameWindow::GetGameStatus() {
+    std::thread gameStatusThread([this]() {
+        while (true) {
+
+            m_gameEnded = m_client.GetGameStatus();
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
+        });
+
+    gameStatusThread.detach();
+}
+
+
+void GameWindow::GetTurnStatus() {
+    std::thread turnStatusThread([this]() {
+        while (true) {
+
+            m_turnEnded = m_client.GetTurnStatus();
+            if (false)
+            emit StartTurn();
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
+        });
+
+    turnStatusThread.detach();
+}
+
 
 GameWindow::GameWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -215,5 +246,23 @@ void GameWindow::StartTurn()
 		ui.wordtoGuess->setText(QString(m_client.GetWordToBeGuessed().c_str()));
 	else 
         ui.wordtoGuess->setText(QString(WordToCensor(m_client.GetWordToBeGuessed()).c_str()));
+	m_client.StartTurn();
+    while (true)
+    {
+	 if (m_gameEnded) 
+         ShowEndWindow();
+	 if (m_turnEnded)
+         ShowPointWindow();
+
+     }
+}
+
+void GameWindow::ShowPointWindow()
+{
+    return;
+}
+void GameWindow::ShowEndWindow()
+{
+    return;
 }
 

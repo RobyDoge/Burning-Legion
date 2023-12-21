@@ -20,7 +20,11 @@ public:
 	std::string GetWordToBeGuessed();
 	std::string GetDrawer();
 	std::string SendPlayerMessage(const std::string& message);
-	//std::vector<std::string> FetchPlayersInLobby();  //This is supposed to fetch the usernames of all players in lobby
+	bool GetGameStatus();
+	bool GetTurnStatus();
+	void StartGame();
+	void StartTurn();
+
 private:
 
 };
