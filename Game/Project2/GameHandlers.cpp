@@ -51,8 +51,32 @@ std::string GameHandlers::GetWordToBeGuessed()
 	return m_wordToBeGuessed;
 }
 
+std::queue<std::string> GameHandlers::CreateWordsNeeded(const uint8_t wordsNeeded,const uint8_t difficulty, const uint8_t language) const
+{
+	WordDatabaseHandle wordDbHandle;
+	auto aux = wordDbHandle.SelectWords(wordsNeeded, difficulty, language);
+	return aux;
+}
+
+
+std::string GameHandlers::CheckMessage(const std::string& message)
+{
+	return m_currentTurn->VerifyInputWord(m_wordToBeGuessed, message);
+
+}
+
+bool server::GameHandlers::GetGameStatus()
+{
+	return m_gameEnded;
+}
+
+bool server::GameHandlers::GetTurnStatus()
+{
+	return m_turnEnded;
+}
 void GameHandlers::StartGame()
 {
+	m_gameEnded = false;
 	m_game = std::make_unique<Game>(m_lobby->GetPlayers(), 
 		CreateWordsNeeded(
 			static_cast<uint8_t>(static_cast<uint8_t>(m_lobby->GetPlayers().size()) * m_game->NUMBER_OF_ROUNDS),
@@ -64,7 +88,9 @@ void GameHandlers::StartGame()
 	{
 		for(uint8_t drawerPosition{};drawerPosition<m_lobby->GetPlayers().size();drawerPosition++)
 		{
+			m_turnEnded = false;
 			Turn turn{ m_game->GetTurn(drawerPosition) };
+			m_currentTurn = &turn;
 			Timer timer{};
 			uint8_t secondsPassed{};
 			uint8_t ticksPassed{};
@@ -97,7 +123,9 @@ void GameHandlers::StartGame()
 					ticksPassed=0;
 				}
 			}
+			
 			m_game->EndTurn(turn);
+			m_turnEnded = true;
 			//TODO: Send Score To Clients
 			//TODO: Save The Drawing
 		}
@@ -106,16 +134,9 @@ void GameHandlers::StartGame()
 	auto winners{ m_game->GetWinners() };
 	//TODO: Send Winners To Clients
 
+	//gameend
 	m_game->EndGame(m_lobby->GetPlayers());
+	m_gameEnded = true;
 
 	//TODO: Update Database
 }
-
-std::queue<std::string> GameHandlers::CreateWordsNeeded(const uint8_t wordsNeeded,const uint8_t difficulty, const uint8_t language) const
-{
-	WordDatabaseHandle wordDbHandle;
-	auto aux = wordDbHandle.SelectWords(wordsNeeded, difficulty, language);
-	return aux;
-}
-
-

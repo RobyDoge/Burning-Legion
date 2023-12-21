@@ -72,18 +72,19 @@ void Turn::GuessingTimeVectorInitialization(const uint8_t drawerPosition)
 	}
 }
 
-std::pair<std::string, std::optional<std::string>> Turn::VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord) const
+
+std::string Turn::VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord) const
 {
 	switch (Compare(wordToBeGuessed, playerInputWord))
 	{
 	case StringDifference::Identical:
-		return { "guessed correctly!", std::nullopt };
+		return "guessed correctly!";
 	case StringDifference::DifferByOneChar:
-		return { playerInputWord, "YOU ARE SO CLOSE" };
+		return "YOU ARE SO CLOSE";
 	case StringDifference::DifferByTwoChars:
-		return { playerInputWord, "YOU ARE CLOSE" };
+		return "YOU ARE CLOSE";
 	default:
-		return { playerInputWord, std::nullopt };
+		return playerInputWord;
 	}
 
 	return {};

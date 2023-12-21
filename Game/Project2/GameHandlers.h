@@ -1,6 +1,8 @@
 #pragma once
 import game;
 import lobby;
+import turn;
+
 
 #include <memory>
 #include <string>
@@ -26,7 +28,9 @@ namespace server
 
 		uint8_t GetDifficulty();
 		std::string GetWordToBeGuessed();
-
+		std::string CheckMessage(const std::string & message);
+		bool GetGameStatus();
+		bool GetTurnStatus();
 		void StartGame();
 
 	private:
@@ -36,7 +40,9 @@ namespace server
 		std::unique_ptr<Lobby> m_lobby{ std::make_unique<Lobby>() };
 		std::unique_ptr<Game> m_game{};
 		std::string m_wordToBeGuessed;
-
+		bool m_gameEnded = false;
+		bool m_turnEnded = false;
+		Turn* m_currentTurn;
 	};
 };
 

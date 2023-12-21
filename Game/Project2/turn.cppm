@@ -20,7 +20,7 @@ namespace  game_logic
 		Turn() = default;
 		Turn(std::vector<Player>& players, const std::string& wordToBeGuessed,const uint8_t drawerPosition);
 		~Turn() = default;
-		std::pair<std::string, std::optional<std::string>> VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord) const;
+		std::string VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord) const;
 		void ReturnPlayers(std::vector<Player>& players);
 
 	private:
