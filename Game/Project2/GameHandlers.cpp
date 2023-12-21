@@ -90,7 +90,7 @@ void GameHandlers::StartGame()
 		{
 			m_turnEnded = false;
 			Turn turn{ m_game->GetTurn(drawerPosition) };
-			m_currentTurn = &turn;
+			m_currentTurn = std::make_shared<Turn>(turn);
 			Timer timer{};
 			uint8_t secondsPassed{};
 			uint8_t ticksPassed{};
@@ -124,7 +124,7 @@ void GameHandlers::StartGame()
 				}
 			}
 			
-			m_game->EndTurn(turn);
+			m_game->EndTurn(m_currentTurn);
 			m_turnEnded = true;
 			//TODO: Send Score To Clients
 			//TODO: Save The Drawing

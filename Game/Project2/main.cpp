@@ -31,8 +31,6 @@ import lobby;
 using namespace server;
 int main()
 {
-	UserDatabaseHandle udbh;
-	udbh.AddUser("Andrei", "pwd");
 	/*
 	 *testing environment
 	 */
@@ -40,6 +38,6 @@ int main()
 	WordDatabaseHandle wordHandler;
 
 	Routing r;
-	r.Run(wordHandler,userHandler);
-	return 67;
+	//r.Run(wordHandler,userHandler);
+	return 49;
 }

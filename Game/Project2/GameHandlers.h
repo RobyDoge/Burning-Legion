@@ -42,7 +42,7 @@ namespace server
 		std::string m_wordToBeGuessed;
 		bool m_gameEnded = false;
 		bool m_turnEnded = false;
-		Turn* m_currentTurn;
+		std::shared_ptr<Turn> m_currentTurn{};
 	};
 };
 

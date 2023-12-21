@@ -6,7 +6,7 @@ import <string>;
 import <list>;
 import <cstdint>;
 import <ranges>;
-
+import <algorithm>;
 using namespace game_logic;
 
 
@@ -57,20 +57,35 @@ std::queue<Player> Game::GetWinners()		//return an array with up to top 3 player
 	return { playerCopy.begin(),playerCopy.begin() + 3 };
 }
 
-void Game::EndTurn(Turn& turn)
+Game::GameStatus Game::GetGameStatus() const
 {
-	UpdateScoreForAllPlayers();
-	turn.ReturnPlayers(m_players);
+	return m_gameStatus;
 }
 
-void game_logic::Game::EndGame(std::vector<Player>& players)
+void Game::SwitchGameStatus()
+{
+	m_gameStatus = static_cast<GameStatus>(!static_cast<bool>(m_gameStatus));
+}
+
+void Game::EndTurn(std::shared_ptr<Turn> turn)
+{
+	UpdateScoreForAllPlayers();
+	turn->ReturnPlayers(m_players);
+	if(turn->GetTurnStatus()==Turn::TurnStatus::NotOver)
+	{
+		turn->SwitchTurnStatus();
+	}
+}
+
+void Game::EndGame(std::vector<Player>& players)
 {
 	std::swap(m_players, players);
+	m_gameStatus = GameStatus::Over;
 }
 
 void Game::UpdateScoreForAllPlayers()
 {
-	std::ranges::for_each(m_players, [](Player& player)
+	std::for_each(m_players.begin(),m_players.end(), [](Player& player)
 		{
 			player.GetPoints().UpdateScore();
 		});

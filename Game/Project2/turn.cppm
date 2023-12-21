@@ -17,11 +17,20 @@ namespace  game_logic
 		static constexpr uint8_t TURN_LIMIT{ 60 };							//the duration for a turn
 
 	public:
+		enum class TurnStatus : bool	//enum for knowing if the turn is over
+		{
+			NotOver = false,
+			Over = true
+		};
+
+	public:
 		Turn() = default;
 		Turn(std::vector<Player>& players, const std::string& wordToBeGuessed,const uint8_t drawerPosition);
 		~Turn() = default;
 		std::string VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord) const;
 		void ReturnPlayers(std::vector<Player>& players);
+		TurnStatus GetTurnStatus() const;
+		void SwitchTurnStatus();
 
 	private:
 		enum class StringDifference : uint8_t	//used for returning how different  are two strings
@@ -54,5 +63,6 @@ namespace  game_logic
 	private:
 		std::vector<std::pair<Player, Role>> m_players{};			//stores the players and their roles
 		std::vector<std::pair<float, std::string>> m_guessingTimes{};		//stores the time taken for guessing
+		TurnStatus m_turnStatus{ TurnStatus::NotOver };				//stores if the turn is over
 	};
 }

@@ -78,16 +78,25 @@ std::string Turn::VerifyInputWord(const std::string& wordToBeGuessed, const std:
 	switch (Compare(wordToBeGuessed, playerInputWord))
 	{
 	case StringDifference::Identical:
-		return "guessed correctly!";
+		return "Correct Guess";
 	case StringDifference::DifferByOneChar:
-		return "YOU ARE SO CLOSE";
+		return "Very Close";
 	case StringDifference::DifferByTwoChars:
-		return "YOU ARE CLOSE";
+		return "Close";
 	default:
 		return playerInputWord;
 	}
+}
 
-	return {};
+Turn::TurnStatus Turn::GetTurnStatus() const
+{
+		return m_turnStatus;
+}
+
+
+void Turn::SwitchTurnStatus()
+{
+	m_turnStatus = static_cast<TurnStatus>(!static_cast<bool>(m_turnStatus));
 }
 
 
