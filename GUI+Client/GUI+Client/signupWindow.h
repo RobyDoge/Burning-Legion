@@ -14,9 +14,13 @@ public:
 
 private slots:
 	void SignUpButton_Clicked();
-	void SignUpLoginButton_Clicked();
+	void LoginButton_Clicked();
 	void Username_LineEditingFinished();
- 
+
+private:
+	void CreateLoginWindow();
+
+
 private:
 	Ui::signupWindowClass ui;
 	QString m_username{};

@@ -45,7 +45,7 @@ void LoginWindow::OpenMenuWindow(const std::string& username)
 {
 	auto* menuWindow = new MenuWindow(username); 
     menuWindow->show();
-    this->deleteLater();
+    this->destroy();
 }
 
 std::string LoginWindow::GetUsername()

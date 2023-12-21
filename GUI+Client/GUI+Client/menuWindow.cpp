@@ -9,11 +9,6 @@ MenuWindow::MenuWindow(std::string username,QWidget* parent)
 	GetBestScoreAndLastMatches();
 }
 
-MenuWindow::~MenuWindow()
-{
-}
-
-
 void MenuWindow::openLobbyWindow()
 {
     LobbyWindow* lobbyWindow = new LobbyWindow(m_username);

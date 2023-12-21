@@ -12,11 +12,12 @@ class MenuWindow : public QMainWindow
 
 public:
 	MenuWindow(std::string username , QWidget *parent = nullptr);
-	~MenuWindow();
+	~MenuWindow() override = default;
 	void openLobbyWindow();
 
 private:
 	void GetBestScoreAndLastMatches();
+
 private slots:
 	void createLobbyButton_clicked();
 	void joinLobbyButton_clicked();

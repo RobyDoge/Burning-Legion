@@ -10,7 +10,7 @@ SignUpWindow::SignUpWindow(QWidget *parent)
 
 
 	connect(ui.signupButton, &QPushButton::clicked, this, &SignUpWindow::SignUpButton_Clicked);
-	connect(ui.signupLogginButton, &QPushButton::clicked, this, &SignUpWindow::SignUpLoginButton_Clicked);
+	connect(ui.signupLogginButton, &QPushButton::clicked, this, &SignUpWindow::LoginButton_Clicked);
 	connect(ui.signupUsernameLine, &QLineEdit::editingFinished, this, &SignUpWindow::Username_LineEditingFinished);
 
 }
@@ -49,16 +49,23 @@ void SignUpWindow::SignUpButton_Clicked()
 	if (const long response = m_signUpClient.AddUser(m_username.toUtf8().constData(), m_password.toUtf8().constData()); 
 		response == 200 || response == 201)
 	{
-		SignUpLoginButton_Clicked();
+		CreateLoginWindow();
 		return;
 	}
 	ui.errorLabel->setText("Error while creating account!");
 }
 
-
-void SignUpWindow::SignUpLoginButton_Clicked()
+void SignUpWindow::CreateLoginWindow()
 {
-	auto loginWindow = new LoginWindow(this);
+	auto* loginWindow = new LoginWindow();
+	loginWindow->show();
+	this->destroy();
+}
+
+
+void SignUpWindow::LoginButton_Clicked()
+{
+	auto* loginWindow = new LoginWindow();
 	loginWindow->show();
 	this->destroy();
 
