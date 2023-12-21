@@ -5,11 +5,8 @@
 using namespace server;
 int main()
 {
-	
-	GameHandler handler{};
-	Routing r{ handler };
+	Routing r;
 	r.run(
-	//other necessary params for this function
 	);
 
 	return 0;
@@ -24,20 +21,15 @@ int main()
  */
 
 #include "routing.h"
-#include "DatabaseHandlers.h"
-#include <memory>
 
-import lobby;
 using namespace server;
 int main()
 {
 	/*
 	 *testing environment
 	 */
-	UserDatabaseHandle userHandler;
-	WordDatabaseHandle wordHandler;
-
+	
 	Routing r;
-	//r.Run(wordHandler,userHandler);
-	return 49;
+	r.Run();
+	return 9;
 }

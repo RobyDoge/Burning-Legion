@@ -9,11 +9,11 @@ import lobby;
 using namespace game_logic;
 using server::GameHandlers;
 
+
 void GameHandlers::CreateLobby()
 {
 	m_lobby = std::make_unique<Lobby>();
 }
-
 
 void GameHandlers::AddUserToLobby(const std::string& username) const
 {
@@ -35,7 +35,7 @@ void GameHandlers::SetDifficulty(const int difficulty) const
 	m_lobby->SetDifficulty(difficulty);
 }
 
-uint8_t GameHandlers::GetDifficulty()
+uint8_t GameHandlers::GetDifficulty() const
 {
 	return m_lobby->GetDifficulty();
 }
@@ -54,29 +54,28 @@ std::string GameHandlers::GetWordToBeGuessed()
 std::queue<std::string> GameHandlers::CreateWordsNeeded(const uint8_t wordsNeeded,const uint8_t difficulty, const uint8_t language) const
 {
 	WordDatabaseHandle wordDbHandle;
-	auto aux = wordDbHandle.SelectWords(wordsNeeded, difficulty, language);
-	return aux;
+	return wordDbHandle.SelectWords(wordsNeeded, difficulty, language);
+	 
 }
 
 
-std::string GameHandlers::CheckMessage(const std::string& message)
+std::string GameHandlers::CheckMessage(const std::string& message) const
 {
 	return m_currentTurn->VerifyInputWord(m_wordToBeGuessed, message);
 
 }
 
-bool server::GameHandlers::GetGameStatus()
+bool GameHandlers::GetGameStatus() const
 {
-	return m_gameEnded;
+	return static_cast<bool>(m_game->GetGameStatus());
 }
 
-bool server::GameHandlers::GetTurnStatus()
+bool GameHandlers::GetTurnStatus() const
 {
-	return m_turnEnded;
+	return static_cast<bool>(m_currentTurn->GetTurnStatus());
 }
 void GameHandlers::StartGame()
 {
-	m_gameEnded = false;
 	m_game = std::make_unique<Game>(m_lobby->GetPlayers(), 
 		CreateWordsNeeded(
 			static_cast<uint8_t>(static_cast<uint8_t>(m_lobby->GetPlayers().size()) * m_game->NUMBER_OF_ROUNDS),
@@ -84,11 +83,10 @@ void GameHandlers::StartGame()
 		);
 
 
-	for(uint8_t _{};_<m_game->NUMBER_OF_ROUNDS;_++)
+	for(uint8_t _{};_<m_game->NUMBER_OF_ROUNDS;++_)
 	{
 		for(uint8_t drawerPosition{};drawerPosition<m_lobby->GetPlayers().size();drawerPosition++)
 		{
-			m_turnEnded = false;
 			Turn turn{ m_game->GetTurn(drawerPosition) };
 			m_currentTurn = std::make_shared<Turn>(turn);
 			Timer timer{};
@@ -106,7 +104,7 @@ void GameHandlers::StartGame()
 
 				if(timer.GetElapsedTime()>0.1)
 				{
-					ticksPassed++;
+					++ticksPassed;
 
 					//TODO: Send Last Received Drawing To Clients
 
@@ -114,7 +112,7 @@ void GameHandlers::StartGame()
 				}
 				if(ticksPassed==10)
 				{
-					secondsPassed++;
+					++secondsPassed;
 
 					uint8_t currentTime{ static_cast<uint8_t>(turn.TURN_LIMIT - secondsPassed) };
 
@@ -125,7 +123,6 @@ void GameHandlers::StartGame()
 			}
 			
 			m_game->EndTurn(m_currentTurn);
-			m_turnEnded = true;
 			//TODO: Send Score To Clients
 			//TODO: Save The Drawing
 		}
@@ -134,9 +131,8 @@ void GameHandlers::StartGame()
 	auto winners{ m_game->GetWinners() };
 	//TODO: Send Winners To Clients
 
-	//gameend
+	//game end
 	m_game->EndGame(m_lobby->GetPlayers());
-	m_gameEnded = true;
 
 	//TODO: Update Database
 }

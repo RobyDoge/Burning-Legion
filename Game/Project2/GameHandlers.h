@@ -26,11 +26,11 @@ namespace server
 		void SetDifficulty(int difficulty) const;
 		void SetLanguage(int language) const;
 
-		uint8_t GetDifficulty();
+		uint8_t GetDifficulty() const;
 		std::string GetWordToBeGuessed();
-		std::string CheckMessage(const std::string & message);
-		bool GetGameStatus();
-		bool GetTurnStatus();
+		std::string CheckMessage(const std::string & message) const;
+		bool GetGameStatus() const;
+		bool GetTurnStatus() const;
 		void StartGame();
 
 	private:
@@ -39,10 +39,8 @@ namespace server
 	private:
 		std::unique_ptr<Lobby> m_lobby{ std::make_unique<Lobby>() };
 		std::unique_ptr<Game> m_game{};
-		std::string m_wordToBeGuessed;
-		bool m_gameEnded = false;
-		bool m_turnEnded = false;
 		std::shared_ptr<Turn> m_currentTurn{};
+		std::string m_wordToBeGuessed{};
 	};
 };
 

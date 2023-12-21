@@ -5,7 +5,7 @@
 using namespace server;
 
 
-void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStorage)
+void Routing::Run()
 {
 	CROW_ROUTE(m_app, "/")([]()
 	{
@@ -15,18 +15,15 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 
 	CROW_ROUTE(m_app, "/login")
         .methods("POST"_method)
-	                           ([&userStorage](const crow::request& req)
+	                           ([this](const crow::request& req)
 	                           {
 		                           //Get the data that was sent from the client
 		                           const auto jsonData = crow::json::load(req.body);
 		                           if (!jsonData)
 			                           return crow::response(400);
 
-		                           const std::string username = jsonData["username"].s();
-		                           const std::string password = jsonData["password"].s();
-
 		                           //Check if the username and password exist in the database
-		                           if (userStorage.Authenticate(username, password))
+		                           if (m_userStorage.Authenticate(jsonData["username"].s(), jsonData["password"].s()))
 		                           {
 			                           return crow::response(200, "OK");
 		                           }
@@ -35,7 +32,7 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 
 	CROW_ROUTE(m_app, "/signup")
         .methods("POST"_method)
-	                            ([&userStorage](const crow::request& req)
+	                            ([this](const crow::request& req)
 	                            {
 		                            // Obține datele trimise de client
 		                            const auto jsonData = crow::json::load(req.body);
@@ -43,8 +40,7 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 			                            return crow::response(400);
 
 		                            // Returnează un răspuns în funcție de rezultatul verificării
-		                            if (const std::string username = jsonData["username"].s(); userStorage.
-			                            CheckUsername(username))
+		                            if (m_userStorage.CheckUsername(jsonData["username"].s()))
 		                            {
 			                            return crow::response(200, "OK");
 		                            }
@@ -54,27 +50,27 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 
 	CROW_ROUTE(m_app, "/signupaccount")
         .methods("POST"_method)
-	                                   ([&userStorage](const crow::request& req)
+	                                   ([this](const crow::request& req)
 	                                   {
 		                                   // Obține datele trimise de client
 		                                   const auto jsonData = crow::json::load(req.body);
 		                                   if (!jsonData)
 			                                   return crow::response(400);
-		                                   userStorage.AddUser(jsonData["username"].s(), jsonData["password"].s());
+		                                   m_userStorage.AddUser(jsonData["username"].s(), jsonData["password"].s());
 
 		                                   return crow::response(200, "OK");
 	                                   });
 
 	CROW_ROUTE(m_app, "/mainMenu")
         .methods("POST"_method)
-	                              ([&userStorage](const crow::request& req)
+	                              ([this](const crow::request& req)
 	                              {
-		                              auto jsonData = crow::json::load(req.body);
+		                              const auto jsonData = crow::json::load(req.body);
 
 		                              std::string username = jsonData["username"].s();
 
-		                              uint16_t bestscores = userStorage.GetBestScore(username);
-		                              std::deque<int16_t> lastmatches = userStorage.GetLastMatchesPoints(username);
+		                              uint16_t bestscores = m_userStorage.GetBestScore(username);
+		                              std::deque<int16_t> lastmatches = m_userStorage.GetLastMatchesPoints(username);
 
 		                              std::vector<crow::json::wvalue> responseJson;
 		                              responseJson.push_back(crow::json::wvalue{{"bestscores", bestscores}});
@@ -88,94 +84,101 @@ void Routing::Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStora
 	                              });
 	CROW_ROUTE(m_app, "/lobbyGetUsers")
 		.methods("POST"_method)
-										([this](const crow::request& req)
-											{
-												const auto jsonData = crow::json::load(req.body);
-												if (!jsonData)
-													return crow::response(400);
+	                                   ([this](const crow::request& req)
+	                                   {
+		                                   const auto jsonData = crow::json::load(req.body);
+		                                   if (!jsonData)
+			                                   return crow::response(400);
 
-												m_gameHandlers.AddUserToLobby ( jsonData["username"].s());
-												
-												return crow::response(200, "valid");
-											});
+		                                   m_gameHandlers.AddUserToLobby(jsonData["username"].s());
+
+		                                   return crow::response(200, "valid");
+	                                   });
 
 	CROW_ROUTE(m_app, "/lobbySendUsers")
         .methods("POST"_method)
-	                                     ([this](const crow::request& req)
-	                                     {
-		                                 
-											 std::vector<crow::json::wvalue> responseJson;
-											 std::vector<std::string> users = m_gameHandlers.GetUsersNames();
-											 for (const auto& user : users)
-											 {
-												 std::cout << user;
-												 responseJson.push_back(crow::json::wvalue{ {"user", user} });
-											 }
-											 return crow::json::wvalue{ responseJson };
-	                                     });
+	                                    ([this](const crow::request& req)
+	                                    {
+		                                    std::vector<crow::json::wvalue> responseJson;
+		                                    std::vector<std::string> users = m_gameHandlers.GetUsersNames();
+		                                    for (const auto& user : users)
+		                                    {
+			                                    std::cout << user;
+			                                    responseJson.push_back(crow::json::wvalue{{"user", user}});
+		                                    }
+		                                    return crow::json::wvalue{responseJson};
+	                                    });
 	CROW_ROUTE(m_app, "/lobbyGetDifficulty")
 		.methods("POST"_method)
-										([this](const crow::request& req)
-											{
-												crow::json::wvalue responseJson=crow::json::wvalue{ {"difficulty", m_gameHandlers.GetDifficulty()}};
-												return crow::json::wvalue{ responseJson };
-
-											});
+	                                        ([this](const crow::request& req)
+	                                        {
+		                                        const auto responseJson = crow::json::wvalue{
+			                                        {"difficulty", m_gameHandlers.GetDifficulty()}
+		                                        };
+		                                        return crow::json::wvalue{responseJson};
+	                                        });
 
 	CROW_ROUTE(m_app, "/lobbySetDifficulty")
 		.methods("POST"_method)
-										([this](const crow::request& req)
-											{
-												const auto jsonData = crow::json::load(req.body);
-												if (!jsonData)
-													return crow::response(400);
-												m_gameHandlers.SetDifficulty(jsonData["difficulty"].i());
-												return crow::response(200, "OK");
-											});
+	                                        ([this](const crow::request& req)
+	                                        {
+		                                        const auto jsonData = crow::json::load(req.body);
+		                                        if (!jsonData)
+			                                        return crow::response(400);
+
+		                                        m_gameHandlers.SetDifficulty(jsonData["difficulty"].i());
+		                                        return crow::response(200, "OK");
+	                                        });
 	CROW_ROUTE(m_app, "/startGame")
 		.methods("POST"_method)
-										([this](const crow::request& req)
-											{
-												const auto jsonData = crow::json::load(req.body);
-												if (!jsonData)
-													return crow::response(400);
-												m_gameHandlers.StartGame();
-												return crow::response(200, "OK");
-											});
+	                               ([this](const crow::request& req)
+	                               {
+		                               if (crow::json::load(req.body))
+			                               return crow::response(400);
+
+		                               m_gameHandlers.StartGame();
+		                               return crow::response(200, "OK");
+	                               });
 
 	CROW_ROUTE(m_app, "/startTurn/GetTurnStatus")
 		.methods("POST"_method)
-										([this](const crow::request& req)
-											{
-												crow::json::wvalue responseJson = crow::json::wvalue{ {"turnStatus", m_gameHandlers.GetTurnStatus()} };
-												return crow::json::wvalue{ responseJson };
-											});
+	                                             ([this](const crow::request& req)
+	                                             {
+		                                             const auto responseJson = crow::json::wvalue{
+			                                             {"turnStatus", m_gameHandlers.GetTurnStatus()}
+		                                             };
+		                                             return crow::json::wvalue{responseJson};
+	                                             });
 	CROW_ROUTE(m_app, "/startGame/GetGameStatus")
 		.methods("POST"_method)
-										([this](const crow::request& req)
-											{
-												crow::json::wvalue responseJson = crow::json::wvalue{ {"gameStatus", m_gameHandlers.GetGameStatus()} };
-												return crow::json::wvalue{ responseJson };
-											});
+	                                             ([this](const crow::request& req)
+	                                             {
+		                                             const auto responseJson = crow::json::wvalue{
+			                                             {"gameStatus", m_gameHandlers.GetGameStatus()}
+		                                             };
+		                                             return crow::json::wvalue{responseJson};
+	                                             });
 
 	CROW_ROUTE(m_app, "/startTurn/WordToBeGuessed")
 		.methods("POST"_method)
-										([this](const crow::request& req)
-											{
-												crow::json::wvalue responseJson = crow::json::wvalue{ {"WordToBeGuessed", m_gameHandlers.GetWordToBeGuessed()} };
-												return crow::json::wvalue{ responseJson };
-											});
+	                                               ([this](const crow::request& req)
+	                                               {
+		                                               const auto responseJson = crow::json::wvalue{
+			                                               {"WordToBeGuessed", m_gameHandlers.GetWordToBeGuessed()}
+		                                               };
+		                                               return crow::json::wvalue{responseJson};
+	                                               });
 
 	CROW_ROUTE(m_app, "/startTurn/GetMessage")
 		.methods("POST"_method)
-		([this](const crow::request& req)
-			{
-				const auto jsonData = crow::json::load(req.body);
-				crow::json::wvalue responseJson = crow::json::wvalue{ {"message", m_gameHandlers.CheckMessage(jsonData["message"].s())} };
-				return crow::json::wvalue{ responseJson };
-
-			});
-
+	                                          ([this](const crow::request& req)
+	                                          {
+		                                          const auto jsonData = crow::json::load(req.body);
+		                                          const auto responseJson = crow::json::wvalue{
+			                                          {"message", m_gameHandlers.CheckMessage(jsonData["message"].s())}
+		                                          };
+		                                          return crow::json::wvalue{responseJson};
+	                                          });
 
 
 	m_app.port(18080).multithreaded().run();

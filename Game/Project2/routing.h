@@ -8,11 +8,12 @@ namespace server
 	{
 	public:
 
-		void Run(WordDatabaseHandle& wordStorage, UserDatabaseHandle& userStorage);		//Creates all the paths and stuff
+		void Run();		//Creates all the paths and stuff
 
 	private:
 		crow::SimpleApp m_app;
 		GameHandlers m_gameHandlers;
+		UserDatabaseHandle m_userStorage;
 
 	};
 }
