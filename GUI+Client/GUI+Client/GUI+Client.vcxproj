@@ -95,16 +95,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="client.cpp" />
-    <ClCompile Include="gameWindow.cpp" />
-    <ClCompile Include="lobbyWindow.cpp" />
-    <ClCompile Include="loginWindow.cpp" />
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="GameWindow.cpp" />
+    <ClCompile Include="LobbyWindow.cpp" />
+    <ClCompile Include="LoginWindow.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="menuWindow.cpp" />
-    <ClCompile Include="signupWindow.cpp" />
+    <ClCompile Include="MenuWindow.cpp" />
+    <ClCompile Include="SignupWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="loginWindow.h" />
+    <QtMoc Include="LoginWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="gameWindow.ui" />
@@ -114,15 +114,15 @@
     <QtUic Include="signupWindow.ui" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="gameWindow.h" />
+    <QtMoc Include="GameWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="signupWindow.h" />
+    <QtMoc Include="SignupWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="client.h" />
-    <ClInclude Include="lobbyWindow.h" />
-    <ClInclude Include="menuWindow.h" />
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="LobbyWindow.h" />
+    <ClInclude Include="MenuWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

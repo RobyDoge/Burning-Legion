@@ -2,7 +2,7 @@
 
 #include <QMainWindow>
 #include "ui_signupWindow.h"
-#include "client.h"
+#include "Client.h"
 
 class SignupWindow : public QMainWindow
 {

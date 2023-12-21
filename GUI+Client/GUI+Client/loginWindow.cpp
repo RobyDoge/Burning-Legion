@@ -1,6 +1,6 @@
-﻿#include "loginWindow.h"
-#include "signupWindow.h"
-#include "menuWindow.h"
+﻿#include "LoginWindow.h"
+#include "SignupWindow.h"
+#include "MenuWindow.h"
 #include <QString>
 
 LoginWindow::LoginWindow(QWidget *parent)
@@ -8,17 +8,11 @@ LoginWindow::LoginWindow(QWidget *parent)
 {
 	ui.setupUi(this);
     ui.loginPassword->setEchoMode(QLineEdit::Password);
-	connect(ui.loginButton, &QPushButton::clicked, this, &LoginWindow::loginButton_clicked);
-    connect(ui.signinButton, &QPushButton::clicked, this, &LoginWindow::signinButton_clicked);
+	connect(ui.loginButton, &QPushButton::clicked, this, &LoginWindow::LoginButton_Clicked);
+    connect(ui.signinButton, &QPushButton::clicked, this, &LoginWindow::SigninButton_Clicked);
 
 }
-
-LoginWindow::~LoginWindow()
-{
-    this->destroy();
-}
-
-void LoginWindow::loginButton_clicked()
+void LoginWindow::LoginButton_Clicked()
 {
     m_username = ui.loginUsername->text().toUtf8().constData();
     m_password = ui.loginPassword->text().toUtf8().constData();
@@ -29,25 +23,29 @@ void LoginWindow::loginButton_clicked()
         return;
     }
 
-    long response = m_loginClient.GetLoginResponse(m_username, m_password); 
     //Sends username and password to the server to check with the database  
-    if (response == 200 || response == 201)
-        openMenuWindow(m_username);
+    if (const long response = m_loginClient.GetLoginResponse(m_username, m_password); 
+        response == 200 || response == 201)
+    {
+	    OpenMenuWindow(m_username);
+    }
     else
-        ui.messageLabel->setText("Username or Password incorrect");
+    {
+	    ui.messageLabel->setText("Username or Password incorrect");
+    }
 }
 
-void LoginWindow::signinButton_clicked() 
+void LoginWindow::SigninButton_Clicked() 
 {
-    SignupWindow* signupWindow = new SignupWindow();
-    signupWindow->show();
+	auto* signUpWindow = new SignupWindow();
+    signUpWindow->show();
     this->destroy();
 }
-void LoginWindow::openMenuWindow(std::string username)
+void LoginWindow::OpenMenuWindow(const std::string& username)
 {
-    MenuWindow* menuWindow = new MenuWindow(username); 
+	auto* menuWindow = new MenuWindow(username); 
     menuWindow->show();
-    this->destroy();
+    this->deleteLater();
 }
 
 std::string LoginWindow::GetUsername()

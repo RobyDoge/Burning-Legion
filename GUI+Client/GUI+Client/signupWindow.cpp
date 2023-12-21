@@ -1,5 +1,5 @@
-#include "signupWindow.h"
-#include "loginWindow.h"
+#include "SignupWindow.h"
+#include "LoginWindow.h"
 SignupWindow::SignupWindow(QWidget *parent)
 	: QMainWindow(parent)
 {

@@ -26,33 +26,33 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="loginWindow.cpp">
+    <ClCompile Include="LoginWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gameWindow.cpp">
+    <ClCompile Include="GameWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="signupWindow.cpp">
+    <ClCompile Include="SignupWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="client.cpp">
+    <ClCompile Include="Client.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="menuWindow.cpp">
+    <ClCompile Include="MenuWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lobbyWindow.cpp">
+    <ClCompile Include="LobbyWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="loginWindow.h">
+    <QtMoc Include="LoginWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="gameWindow.h">
+    <QtMoc Include="GameWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="signupWindow.h">
+    <QtMoc Include="SignupWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -74,13 +74,13 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="client.h">
+    <ClInclude Include="Client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="menuWindow.h">
+    <ClInclude Include="MenuWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lobbyWindow.h">
+    <ClInclude Include="LobbyWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

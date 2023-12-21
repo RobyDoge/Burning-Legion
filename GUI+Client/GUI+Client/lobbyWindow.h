@@ -3,7 +3,7 @@
 #include <QMainWindow>
 #include "ui_lobbyWindow.h"
 #include <vector>
-#include "client.h"
+#include "Client.h"
 
 
 class LobbyWindow : public QMainWindow

@@ -1,4 +1,4 @@
-﻿#include "gameWindow.h"
+﻿#include "GameWindow.h"
 #include <chrono>
 #include<QToolTip>
 #include<QColorDialog>

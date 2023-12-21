@@ -3,8 +3,8 @@
 #include <QMainWindow>
 #include <QString>
 #include "ui_menuWindow.h"
-#include "lobbyWindow.h"
-#include "client.h"
+#include "LobbyWindow.h"
+#include "Client.h"
 #include <list>
 
 class MenuWindow : public QMainWindow

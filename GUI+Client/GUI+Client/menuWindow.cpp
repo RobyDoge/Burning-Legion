@@ -1,4 +1,4 @@
-#include "menuWindow.h"
+#include "MenuWindow.h"
 MenuWindow::MenuWindow(std::string username,QWidget* parent)
     : m_username (username) , QMainWindow(parent)
 {

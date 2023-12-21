@@ -1,6 +1,6 @@
-#include "lobbyWindow.h"
-#include "menuWindow.h"
-#include "gameWindow.h"
+#include "LobbyWindow.h"
+#include "MenuWindow.h"
+#include "GameWindow.h"
 #include <thread>
 #include <chrono>
 

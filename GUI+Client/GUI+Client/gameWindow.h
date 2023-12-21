@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ui_gameWindow.h"
-#include "client.h"
+#include "Client.h"
 
 #include <QMainWindow>
 #include <QPainter>

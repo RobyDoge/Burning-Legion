@@ -1,6 +1,7 @@
-#include "loginWindow.h"
+#include "LoginWindow.h"
 #include <QtWidgets/QApplication>
 #include <qwidget.h>
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
