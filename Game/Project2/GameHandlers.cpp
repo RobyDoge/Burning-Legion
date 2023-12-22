@@ -45,6 +45,10 @@ void GameHandlers::SetLanguage(const int language) const
 	m_lobby->SetLanguage(language);
 }
 
+uint8_t GameHandlers::GetLanguage() const
+{
+	return m_lobby->GetLanguage();
+}
 
 std::string GameHandlers::GetWordToBeGuessed()
 {

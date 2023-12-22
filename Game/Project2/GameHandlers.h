@@ -25,7 +25,8 @@ namespace server
 		std::vector<std::string> GetUsersNames() const;
 		void SetDifficulty(int difficulty) const;
 		void SetLanguage(int language) const;
-
+		
+		uint8_t GetLanguage() const;
 		uint8_t GetDifficulty() const;
 		std::string GetWordToBeGuessed();
 		std::string CheckMessage(const std::string & message) const;

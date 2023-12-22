@@ -82,6 +82,15 @@ void Client::SendDifficulty(uint8_t difficulty)
 		cpr::Body{ json_data });
 }
 
+void Client::SendLanguage(uint8_t language)
+{
+    std::string json_data = R"({"language": ")" + std::to_string(language) + R"("})";
+
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbySetLanguage" },
+        cpr::Header{ {"Content-Type", "application/json"} },
+        cpr::Body{ json_data });
+}
+
 
 std::vector<std::string> Client::GetPlayersVector(const std::string& username)
 {
@@ -106,6 +115,14 @@ uint8_t Client::GetDifficulty()
         cpr::Header{ {"Content-Type", "application/json"} });
 
 	return crow::json::load(response.text)["difficulty"].i();
+}
+
+uint8_t Client::GetLanguage()
+{
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbyGetLanguage" },
+        cpr::Header{ {"Content-Type", "application/json"} });
+
+    return crow::json::load(response.text)["language"].i();
 }
 
 std::string Client::GetWordToBeGuessed()

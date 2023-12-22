@@ -141,6 +141,29 @@ void Routing::Run()
 		                                        m_gameHandlers.SetDifficulty(jsonData["difficulty"].i());
 		                                        return crow::response(200, "OK");
 	                                        });
+
+	CROW_ROUTE(m_app, "/lobbyGetLanguage")
+		.methods("POST"_method)
+											([this](const crow::request& req)
+											{
+												const auto responseJson = crow::json::wvalue{
+												{"language", m_gameHandlers.GetLanguage()}
+												};
+												return crow::json::wvalue{ responseJson };
+											});
+
+	CROW_ROUTE(m_app, "/lobbySetLanguage")
+		.methods("POST"_method)
+											([this](const crow::request& req)
+											{
+												const auto jsonData = crow::json::load(req.body);
+												if (!jsonData)
+													return crow::response(400);
+
+												m_gameHandlers.SetDifficulty(jsonData["language"].i());
+												return crow::response(200, "Language set successfully");
+											});
+
 	CROW_ROUTE(m_app, "/startGame")
 		.methods("POST"_method)
 	                               ([this](const crow::request& req)

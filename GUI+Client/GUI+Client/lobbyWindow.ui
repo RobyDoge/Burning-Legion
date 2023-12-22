@@ -227,6 +227,93 @@ QPushButton#startGameButton:pressed {
         <string>Start Game</string>
        </property>
       </widget>
+      <widget class="QComboBox" name="languageBox">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>20</y>
+         <width>171</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>117</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI Semibold</family>
+         <pointsize>10</pointsize>
+         <bold>true</bold>
+         <stylestrategy>PreferDefault</stylestrategy>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"> QComboBox {
+     border-radius: 5px;
+     padding: 1px 18px 1px 3px;
+     min-width: 6em;
+background:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(251, 149, 232, 188), stop:1 rgba(160, 186, 255, 166));
+ }
+
+ QComboBox:editable {
+     background: white;
+ }
+
+ QComboBox:!editable, QComboBox::drop-down:editable {
+      background: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(251, 149, 232, 188), stop:1 rgba(160, 186, 255, 166));
+                                  
+ }
+
+ /* QComboBox gets the &quot;on&quot; state when the popup is open */
+ QComboBox:!editable:on, QComboBox::drop-down:editable:on {
+     background:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(251, 149, 232, 188), stop:1 rgba(160, 186, 255, 166));
+ }
+
+ QComboBox:on { /* shift the text when the popup opens */
+     padding-top: 3px;
+     padding-left: 4px;
+ }
+
+ QComboBox::drop-down {
+     subcontrol-origin: padding;
+     subcontrol-position: top right;
+     width: 15px;
+
+     border-left-width: 1px;
+     border-left-color: darkgray;
+     border-left-style: solid; /* just a single line */
+     border-top-right-radius: 3px; /* same radius as the QComboBox */
+     border-bottom-right-radius: 3px;
+ }
+
+
+</string>
+       </property>
+       <property name="currentText">
+        <string/>
+       </property>
+       <property name="placeholderText">
+        <string>Language</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>Romanian</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Spanish</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>English</string>
+        </property>
+       </item>
+      </widget>
      </widget>
     </item>
    </layout>
