@@ -6,7 +6,7 @@
 
 void LobbyWindow::startUpdatingThread() {
     std::thread updateThread([this]() {
-        while (true) {
+        while (stopThread) {
 
             m_players = m_client.GetPlayersVector(m_username);
             emit PlayerJoinedLobby();
@@ -21,12 +21,13 @@ void LobbyWindow::startUpdatingThread() {
 
 void LobbyWindow::stopUpdatingThread()
 {
-    stopThread.store(true);
+    stopThread.store(false);
 }
 
 LobbyWindow::LobbyWindow(std::string username,QWidget *parent)
 	: m_username(username),QMainWindow(parent)
 {
+	stopThread.store(true);
 	ui.setupUi(this);
 	m_client.SendUsername(username);
 	connect(ui.startGameButton, &QPushButton::clicked, this, &LobbyWindow::startGameButton_clicked);
@@ -44,10 +45,10 @@ LobbyWindow::~LobbyWindow()
 
 void LobbyWindow::startGameButton_clicked()
 {
+    stopUpdatingThread();
+    m_client.StartGame();
     GameWindow* gameWindow = new GameWindow();
     gameWindow->show();
-
-    stopUpdatingThread();
     this->destroy();
 
 }

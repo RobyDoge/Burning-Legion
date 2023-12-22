@@ -37,7 +37,7 @@ namespace server
 		std::queue<std::string> CreateWordsNeeded(const uint8_t wordsNeeded, const uint8_t difficulty, const uint8_t language) const;
 
 	private:
-		std::unique_ptr<Lobby> m_lobby{ std::make_unique<Lobby>() };
+		std::unique_ptr<Lobby> m_lobby{};
 		std::unique_ptr<Game> m_game{};
 		std::shared_ptr<Turn> m_currentTurn{};
 		std::string m_wordToBeGuessed{};

@@ -83,6 +83,11 @@ void Game::EndGame(std::vector<Player>& players)
 	m_gameStatus = GameStatus::Over;
 }
 
+std::vector<Player>& Game::GetPlayers()
+{
+	return m_players;
+}
+
 void Game::UpdateScoreForAllPlayers()
 {
 	std::for_each(m_players.begin(),m_players.end(), [](Player& player)

@@ -84,10 +84,9 @@ void GameHandlers::StartGame()
 			m_lobby->GetDifficulty(), m_lobby->GetLanguage())
 		);
 
-
 	for(uint8_t _{};_<m_game->NUMBER_OF_ROUNDS;++_)
 	{
-		for(uint8_t drawerPosition{};drawerPosition<m_lobby->GetPlayers().size();drawerPosition++)
+		for(uint8_t drawerPosition{};drawerPosition<m_game->GetPlayers().size();drawerPosition++)
 		{
 			Turn turn{ m_game->GetTurn(drawerPosition) };
 			m_currentTurn = std::make_shared<Turn>(turn);
@@ -96,33 +95,30 @@ void GameHandlers::StartGame()
 			uint8_t ticksPassed{};
 			m_wordToBeGuessed = m_game->GetNextWord();
 
-
-			//TODO: Send Word Censored To Be Guessed To Clients (except drawer) And Send Uncensored Word To Drawer
-
 			timer.Reset();
-			while(true && secondsPassed< turn.TURN_LIMIT)
-			{
-				//TODO: Receive TextBox Input From Clients And Analyze It,add points to the player who guessed the word
+			//while(true && secondsPassed< turn.TURN_LIMIT)
+			//{
+			//	//add points to the player who guessed the word
 
-				if(timer.GetElapsedTime()>0.1)
-				{
-					++ticksPassed;
+			//	if(timer.GetElapsedTime()>0.1)
+			//	{
+			//		++ticksPassed;
 
-					//TODO: Send Last Received Drawing To Clients
+			//		//TODO: Send Last Received Drawing To Clients
 
-					timer.Reset();
-				}
-				if(ticksPassed==10)
-				{
-					++secondsPassed;
+			//		timer.Reset();
+			//	}
+			//	if(ticksPassed==10)
+			//	{
+			//		++secondsPassed;
 
-					uint8_t currentTime{ static_cast<uint8_t>(turn.TURN_LIMIT - secondsPassed) };
+			//		uint8_t currentTime{ static_cast<uint8_t>(turn.TURN_LIMIT - secondsPassed) };
 
-					//TODO: Send Current Time To Clients
+			//		//TODO: Send Current Time To Clients
 
-					ticksPassed=0;
-				}
-			}
+			//		ticksPassed=0;
+			//	}
+			//}
 			
 			m_game->EndTurn(m_currentTurn);
 			//TODO: Send Score To Clients
@@ -134,7 +130,7 @@ void GameHandlers::StartGame()
 	//TODO: Send Winners To Clients
 
 	//game end
-	m_game->EndGame(m_lobby->GetPlayers());
+	m_game->EndGame(m_game->GetPlayers());
 
 	//TODO: Update Database
 }

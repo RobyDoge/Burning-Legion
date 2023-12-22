@@ -128,29 +128,50 @@ std::string Client::SendPlayerMessage(const std::string& message)
 {
     std::string json_data = R"({"message": ")" + message + R"("})";
 
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/GetMessage" },
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/GetMessage" },
         cpr::Header{ {"Content-Type", "application/json"} },
         cpr::Body{ json_data });
 
-    return crow::json::load(response.text)["messsage"].s();
+    return crow::json::load(response.text)["message"].s();
 
 
 }
 
 bool Client::GetGameStatus()
 {
-    return false;
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startGame/GetGameStatus" },
+        cpr::Header{ {"Content-Type", "application/json"} });
+
+     std::string result = crow::json::load(response.text)["Status"].s();
+	 if (result == "true")
+	 {
+		 return true;
+	 }
+     return false;
 }
 
 bool Client::GetTurnStatus()
 {
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/GetTurnStatus" },
+        cpr::Header{ {"Content-Type", "application/json"} });
+
+    std::string res = crow::json::load(response.text)["Status"].s();
+    if (res== "true")
+    {
+        return true;
+    }
     return false;
 }
 
 void Client::StartGame()
 {
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startGame"},
+        cpr::Header{ {"Content-Type", "application/json"} });
+
 }
 
-void Client::StartTurn()
+void Client::CreateLobby()
 {
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobby" },
+        cpr::Header{ {"Content-Type", "application/json"} });
 }

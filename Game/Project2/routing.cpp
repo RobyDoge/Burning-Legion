@@ -82,6 +82,18 @@ void Routing::Run()
 
 		                              return crow::json::wvalue{responseJson};
 	                              });
+
+	CROW_ROUTE(m_app, "/lobby")
+		.methods("POST"_method)
+										([this](const crow::request& req)
+											{
+												if (crow::json::load(req.body))
+													return crow::response(400);
+
+												m_gameHandlers.CreateLobby();
+												return crow::response(200, "OK");
+											});
+
 	CROW_ROUTE(m_app, "/lobbyGetUsers")
 		.methods("POST"_method)
 	                                   ([this](const crow::request& req)
@@ -140,12 +152,18 @@ void Routing::Run()
 		                               return crow::response(200, "OK");
 	                               });
 
+
 	CROW_ROUTE(m_app, "/startTurn/GetTurnStatus")
 		.methods("POST"_method)
 	                                             ([this](const crow::request& req)
 	                                             {
+													 std::string status;
+												     if (m_gameHandlers.GetTurnStatus())
+														 status = "true";
+													 else status = "false";
+
 		                                             const auto responseJson = crow::json::wvalue{
-			                                             {"turnStatus", m_gameHandlers.GetTurnStatus()}
+			                                             {"Status", status}
 		                                             };
 		                                             return crow::json::wvalue{responseJson};
 	                                             });
@@ -153,9 +171,13 @@ void Routing::Run()
 		.methods("POST"_method)
 	                                             ([this](const crow::request& req)
 	                                             {
-		                                             const auto responseJson = crow::json::wvalue{
-			                                             {"gameStatus", m_gameHandlers.GetGameStatus()}
-		                                             };
+														 std::string status;
+														 if (m_gameHandlers.GetGameStatus())
+															 status = "true";
+														 else status = "false";
+														 const auto responseJson = crow::json::wvalue{
+															 {"Status", status}
+														 };
 		                                             return crow::json::wvalue{responseJson};
 	                                             });
 
@@ -174,8 +196,9 @@ void Routing::Run()
 	                                          ([this](const crow::request& req)
 	                                          {
 		                                          const auto jsonData = crow::json::load(req.body);
+												std::string message = m_gameHandlers.CheckMessage(jsonData["message"].s());
 		                                          const auto responseJson = crow::json::wvalue{
-			                                          {"message", m_gameHandlers.CheckMessage(jsonData["message"].s())}
+			                                          {"message", message}
 		                                          };
 		                                          return crow::json::wvalue{responseJson};
 	                                          });

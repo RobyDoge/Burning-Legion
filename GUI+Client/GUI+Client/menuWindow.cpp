@@ -34,6 +34,7 @@ void MenuWindow::GetBestScoreAndLastMatches()
 
 void MenuWindow::createLobbyButton_clicked()
 {
+    m_client.CreateLobby();
     openLobbyWindow();
 }
 

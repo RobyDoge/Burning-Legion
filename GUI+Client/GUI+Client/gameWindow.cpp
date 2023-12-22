@@ -11,6 +11,9 @@ void GameWindow::GetGameStatus()
 		while (true)
 		{
 			m_gameEnded = m_client.GetGameStatus();
+			m_turnEnded = m_client.GetTurnStatus();
+			if constexpr (false)
+				emit StartTurn();
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 	});
@@ -44,8 +47,6 @@ GameWindow::GameWindow(QWidget* parent)
 	setAttribute(Qt::WA_StaticContents);
 	isDrawing = false;
 	resizeToScreenSize();
-
-
 	connect(ui.sendButton, &QPushButton::clicked, this, &GameWindow::sendButton_clicked);
 	connect(ui.inputField, &QLineEdit::returnPressed, this, &GameWindow::inputField_returnPressed);
 	connect(ui.inputField, &QLineEdit::textChanged, this, &GameWindow::updateCharCount);
@@ -64,6 +65,9 @@ GameWindow::GameWindow(QWidget* parent)
 	int yPos = (height() - HEIGHT) / 2;
 
 	QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
+
+	//GetTurnStatus();
+	GetGameStatus();
 }
 
 GameWindow::~GameWindow()
@@ -82,7 +86,8 @@ void GameWindow::sendButton_clicked()
 		if (!playerMessage.isEmpty())
 			ui.messageArea->append(message);
 		ui.inputField->clear();
-		playerMessage = QString(m_client.SendPlayerMessage(playerMessage.toUtf8().constData()).c_str());
+		QString serverMessage = QString(m_client.SendPlayerMessage(playerMessage.toUtf8().constData()).c_str());
+		if (serverMessage!=playerMessage)
 		ui.messageArea->append("Player: " + playerMessage);
 	}
 }
@@ -266,7 +271,7 @@ void GameWindow::StartTurn()
 		ui.wordtoGuess->setText(QString(m_client.GetWordToBeGuessed().c_str()));
 	else
 		ui.wordtoGuess->setText(QString(WordToCensor(m_client.GetWordToBeGuessed()).c_str()));
-	m_client.StartTurn();
+	//m_client.StartTurn();
 	while (true)
 	{
 		if (m_gameEnded)
@@ -278,8 +283,10 @@ void GameWindow::StartTurn()
 
 void GameWindow::ShowPointWindow()
 {
+	return;
 }
 
 void GameWindow::ShowEndWindow()
 {
+	return;
 }

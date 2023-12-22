@@ -37,6 +37,7 @@ namespace game_logic
 		void SwitchGameStatus();				//switches the status of the game
 		void EndTurn(std::shared_ptr<Turn> turn);				//ends the current turn
 		void EndGame(std::vector<Player>& players);							//ends the game
+		std::vector<Player>& GetPlayers();						//for checking the players
 
 	private:
 		void UpdateScoreForAllPlayers();										//updates the score for all players

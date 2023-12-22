@@ -24,6 +24,7 @@ public:
 	bool GetTurnStatus();
 	void StartGame();
 	void StartTurn();
+	void CreateLobby();
 
 private:
 
