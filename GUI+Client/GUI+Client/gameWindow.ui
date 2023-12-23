@@ -14,7 +14,7 @@
    <string>gameWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(162, 236, 251, 188), stop:1 rgba(255, 160, 160, 166));</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTextEdit" name="messageArea">

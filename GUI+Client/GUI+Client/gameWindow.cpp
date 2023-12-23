@@ -288,5 +288,7 @@ void GameWindow::ShowPointWindow()
 
 void GameWindow::ShowEndWindow()
 {
-	return;
+	auto* endWindow = new EndGameWindow();
+	endWindow->show();
+	this->destroy();
 }
