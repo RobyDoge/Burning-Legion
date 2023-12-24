@@ -15,8 +15,8 @@ void GameWindow::checkGameStatus()
 	}
 }
 
-GameWindow::GameWindow(QWidget* parent)
-	: QMainWindow(parent)
+GameWindow::GameWindow(std::string username,QWidget* parent)
+	:m_username(username), QMainWindow(parent)
 {
 
 	ui.setupUi(this);

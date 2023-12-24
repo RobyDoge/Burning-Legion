@@ -50,7 +50,7 @@ void LobbyWindow::startGameButton_clicked()
 {
     stopUpdatingThread();
     m_client.StartGame();
-    GameWindow* gameWindow = new GameWindow();
+    GameWindow* gameWindow = new GameWindow(m_username);
     gameWindow->show();
     this->destroy();
 

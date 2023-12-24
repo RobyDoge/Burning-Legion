@@ -19,7 +19,7 @@ void EndGameWindow::CalculateWinner() const
     if (it != m_players.end())
     {
         std::string winnerName = it->first;
-        QString winnerText = QString::fromStdString(winnerName);
+		QString winnerText = QString(winnerName.c_str());
         ui.winnerLabel->setText(winnerText); // Set the winner label
     }
     else
@@ -34,7 +34,7 @@ void EndGameWindow::DisplayPlayers() const
 
     for (const auto& player : m_players)
     {
-        QString playerInfo = QString("%1: %2").arg(QString::fromStdString(player.first)).arg(player.second);
+        QString playerInfo = QString("%1: %2").arg(QString(player.first.c_str())).arg(player.second);
         QListWidgetItem* item = new QListWidgetItem(playerInfo);
         ui.endPlayersList->addItem(item);
     }

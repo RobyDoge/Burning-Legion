@@ -19,7 +19,7 @@ class GameWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-    GameWindow(QWidget* parent = nullptr);
+    GameWindow(std::string username,QWidget* parent = nullptr);
     ~GameWindow();
     //std::vector<std::vector<int>> pixelMatrix; 
 
@@ -63,6 +63,7 @@ private:
     QColor currentPenColor; 
    
 private:
+
     bool isDrawing;
     bool m_gameEnded;
     bool m_turnEnded;
