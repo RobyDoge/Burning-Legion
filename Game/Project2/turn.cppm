@@ -52,7 +52,8 @@ namespace  game_logic
 			Finished = 0b10,				// player that guessed the word
 			NoRole = 0b11					// for creating m_player at the beginning
 		};
-
+	public:
+		std::vector<Player> GetPlayers();
 	private:
 		void GuessingTimeVectorInitialization(const uint8_t drawerPosition);		//intializes the vector for guessing times
 		void AddPointsForEachPlayer(std::vector<std::pair<Player, Role>>& players);						//adds to each player their points based on the guessing time

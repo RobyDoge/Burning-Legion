@@ -1,4 +1,4 @@
-module turn;
+﻿module turn;
 import player;
 import game;
 
@@ -57,6 +57,19 @@ void Turn::Move(std::vector<Player>& players, const MoveDirection moveDirection)
 	);
 }
 
+
+std::vector<Player> Turn::GetPlayers()
+{
+		std::vector<Player> players;
+		players.reserve(m_players.size()); 
+
+		std::transform(m_players.begin(), m_players.end(), std::back_inserter(players),
+			[](const std::pair<Player, Role>& pair) {
+				return pair.first;
+			});
+
+		return players;
+}
 
 void Turn::GuessingTimeVectorInitialization(const uint8_t drawerPosition)
 {
