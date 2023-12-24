@@ -35,8 +35,7 @@ private:
     void addNewLine(const QVector<QPoint>& newLine);
     void changePenColor();
     void UpdateWordCensorship(char letter, int position);
-    void GetGameStatus();
-    void GetTurnStatus();
+    void checkGameStatus();
     void ShowPointWindow();
     void ShowEndWindow();
 

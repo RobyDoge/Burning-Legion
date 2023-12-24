@@ -127,7 +127,7 @@ uint8_t Client::GetLanguage()
 
 std::string Client::GetWordToBeGuessed()
 {
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startRound/WordToBeGuessed" },
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/WordToBeGuessed" },
         cpr::Header{ {"Content-Type", "application/json"} });
 
     return crow::json::load(response.text)["WordToBeGuessed"].s();

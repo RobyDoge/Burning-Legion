@@ -2,46 +2,23 @@
 #include <chrono>
 #include<QToolTip>
 #include<QColorDialog>
+#include<qtimer.h>
 
-
-void GameWindow::GetGameStatus()
+void GameWindow::checkGameStatus()
 {
-	std::thread gameStatusThread([this]()
+	m_gameEnded = m_client.GetGameStatus();
+	m_turnEnded = m_client.GetTurnStatus();
+
+	if (!m_turnEnded)
 	{
-		while (true)
-		{
-			m_gameEnded = m_client.GetGameStatus();
-			m_turnEnded = m_client.GetTurnStatus();
-			if constexpr (false)
-				emit StartTurn();
-			std::this_thread::sleep_for(std::chrono::seconds(1));
-		}
-	});
-
-	gameStatusThread.detach();
+		emit StartTurn();
+	}
 }
-
-
-void GameWindow::GetTurnStatus()
-{
-	std::thread turnStatusThread([this]()
-	{
-		while (true)
-		{
-			m_turnEnded = m_client.GetTurnStatus();
-			if constexpr (false)
-				emit StartTurn();
-			std::this_thread::sleep_for(std::chrono::seconds(1));
-		}
-	});
-
-	turnStatusThread.detach();
-}
-
 
 GameWindow::GameWindow(QWidget* parent)
 	: QMainWindow(parent)
 {
+
 	ui.setupUi(this);
 	setMouseTracking(true);
 	setAttribute(Qt::WA_StaticContents);
@@ -67,7 +44,17 @@ GameWindow::GameWindow(QWidget* parent)
 	QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
 
 	//GetTurnStatus();
-	GetGameStatus();
+	//GetGameStatus();
+
+
+
+	// În constructorul GameWindow
+	QTimer* gameStatusTimer = new QTimer(this);
+	connect(gameStatusTimer, &QTimer::timeout, this, &GameWindow::checkGameStatus);
+	gameStatusTimer->start(1000);
+
+	  // Intervalul în milisecunde
+
 }
 
 GameWindow::~GameWindow()
@@ -262,23 +249,22 @@ void GameWindow::StartTurn()
 	clearDrawingArea();
 	ClearChat();
 	ui.timerLabel->setText("60");
-	if (m_username == m_client.GetDrawer())
+	/*if (m_username == m_client.GetDrawer())
 		isDrawing = true;
 	else
-		isDrawing = false;
+		isDrawing = false;*/
 
 	if (isDrawing)
 		ui.wordtoGuess->setText(QString(m_client.GetWordToBeGuessed().c_str()));
 	else
 		ui.wordtoGuess->setText(QString(WordToCensor(m_client.GetWordToBeGuessed()).c_str()));
-	//m_client.StartTurn();
-	while (true)
-	{
-		if (m_gameEnded)
-			ShowEndWindow();
-		if (m_turnEnded)
-			ShowPointWindow();
-	}
+	//while (true)
+	//{
+	//	if (m_gameEnded)
+	//		ShowEndWindow();
+	//	if (m_turnEnded)
+	//		ShowPointWindow();
+	//}
 }
 
 void GameWindow::ShowPointWindow()
