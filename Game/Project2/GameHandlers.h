@@ -33,7 +33,9 @@ namespace server
 		bool GetGameStatus() const;
 		bool GetTurnStatus() const;
 		void StartGame();
-		void TurnThreadStart(uint8_t drawerPosition);
+		void TurnThreadStart(uint8_t drawerPosition, uint8_t roundIndex);
+		std::string GetCurrentDrawerName() const;
+		void StartNextTurn(uint8_t drawerPosition, uint8_t roundIndex);
 
 	private:
 		std::queue<std::string> CreateWordsNeeded(const uint8_t wordsNeeded, const uint8_t difficulty, const uint8_t language) const;

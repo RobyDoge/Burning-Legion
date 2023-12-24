@@ -1,4 +1,4 @@
-import turn;
+﻿import turn;
 import game;
 import lobby;
 
@@ -80,9 +80,11 @@ bool GameHandlers::GetTurnStatus() const
 {
 	return static_cast<bool>(m_currentTurn->GetTurnStatus());
 }
-void GameHandlers::TurnThreadStart(uint8_t drawerPosition)
+
+
+void GameHandlers::TurnThreadStart(uint8_t drawerPosition, uint8_t roundIndex)
 {
-	std::thread turnThread([this,drawerPosition]()
+	std::thread turnThread([this,drawerPosition, roundIndex]()
 		{
 			Turn turn{ m_game->GetTurn(drawerPosition) };
 			m_currentTurn = std::make_shared<Turn>(turn);
@@ -116,9 +118,40 @@ void GameHandlers::TurnThreadStart(uint8_t drawerPosition)
 				}
 			}
 			m_game->EndTurn(m_currentTurn);
+			StartNextTurn(drawerPosition, roundIndex);
+
 		});
 	turnThread.detach();
 }
+
+void GameHandlers::StartNextTurn(uint8_t drawerPosition, uint8_t roundIndex)
+{
+	// TODO: Puteți adăuga aici logica specifică atunci când un tur se încheie
+
+	// Verificați dacă mai sunt runde și jucători
+	if (roundIndex < m_game->NUMBER_OF_ROUNDS - 1)
+	{
+			if (drawerPosition < m_game->GetPlayers().size() - 1)
+			{
+				// Programați următorul tur
+				TurnThreadStart(drawerPosition + 1, roundIndex);
+			}
+			else
+			{
+				roundIndex++;
+				drawerPosition = 0;
+				TurnThreadStart(drawerPosition, roundIndex);
+			}
+
+	}
+	else
+	{
+		auto winners{ m_game->GetWinners() };
+
+		m_game->EndGame(m_game->GetPlayers());
+	}
+}
+
 void GameHandlers::StartGame()
 {
 	m_game = std::make_unique<Game>(m_lobby->GetPlayers(), 
@@ -127,21 +160,6 @@ void GameHandlers::StartGame()
 			m_lobby->GetDifficulty(), m_lobby->GetLanguage())
 		);
 
-			TurnThreadStart(1);			
-	for(uint8_t _{};_<m_game->NUMBER_OF_ROUNDS;++_)
-	{
-		for(uint8_t drawerPosition{};drawerPosition<m_game->GetPlayers().size();drawerPosition++)
-		{
-			//TODO: Send Score To Clients
-			//TODO: Save The Drawing
-		}
-	}
+	TurnThreadStart(0,0);		
 
-	auto winners{ m_game->GetWinners() };
-	//TODO: Send Winners To Clients
-
-	//game end
-	m_game->EndGame(m_game->GetPlayers());
-
-	//TODO: Update Database
 }
