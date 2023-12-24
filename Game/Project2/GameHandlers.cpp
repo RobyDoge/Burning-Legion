@@ -81,12 +81,21 @@ bool GameHandlers::GetTurnStatus() const
 	return static_cast<bool>(m_currentTurn->GetTurnStatus());
 }
 
-
-void GameHandlers::TurnThreadStart(uint8_t drawerPosition, uint8_t roundIndex)
+uint8_t GameHandlers::GetDrawerPosition() const
 {
-	std::thread turnThread([this,drawerPosition, roundIndex]()
+	return m_drawerPosition;
+}
+
+std::string GameHandlers::GetDrawerName() const
+{
+	return m_currentTurn->GetPlayers()[m_drawerPosition].GetName();	
+}
+
+void GameHandlers::TurnThreadStart(uint8_t roundIndex)
+{
+	std::thread turnThread([this, roundIndex]()
 		{
-			Turn turn{ m_game->GetTurn(drawerPosition) };
+			Turn turn{ m_game->GetTurn(m_drawerPosition) };
 			m_currentTurn = std::make_shared<Turn>(turn);
 			Timer timer{};
 			uint8_t secondsPassed{};
@@ -118,29 +127,30 @@ void GameHandlers::TurnThreadStart(uint8_t drawerPosition, uint8_t roundIndex)
 				}
 			}
 			m_game->EndTurn(m_currentTurn);
-			StartNextTurn(drawerPosition, roundIndex);
+			StartNextTurn(roundIndex);
 
 		});
 	turnThread.detach();
 }
 
-void GameHandlers::StartNextTurn(uint8_t drawerPosition, uint8_t roundIndex)
+void GameHandlers::StartNextTurn(uint8_t roundIndex)
 {
 	// TODO: Puteți adăuga aici logica specifică atunci când un tur se încheie
 
 	// Verificați dacă mai sunt runde și jucători
 	if (roundIndex < m_game->NUMBER_OF_ROUNDS - 1)
 	{
-			if (drawerPosition < m_game->GetPlayers().size() - 1)
+			if (m_drawerPosition < m_game->GetPlayers().size() - 1)
 			{
 				// Programați următorul tur
-				TurnThreadStart(drawerPosition + 1, roundIndex);
+				m_drawerPosition++;
+				TurnThreadStart( roundIndex);
 			}
 			else
 			{
 				roundIndex++;
-				drawerPosition = 0;
-				TurnThreadStart(drawerPosition, roundIndex);
+				m_drawerPosition = 0;
+				TurnThreadStart(roundIndex);
 			}
 
 	}
@@ -159,7 +169,7 @@ void GameHandlers::StartGame()
 			static_cast<uint8_t>(static_cast<uint8_t>(m_lobby->GetPlayers().size()) * m_game->NUMBER_OF_ROUNDS),
 			m_lobby->GetDifficulty(), m_lobby->GetLanguage())
 		);
-
-	TurnThreadStart(0,0);		
+	m_drawerPosition = 0;
+	TurnThreadStart(0);		
 
 }

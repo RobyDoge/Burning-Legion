@@ -135,10 +135,10 @@ std::string Client::GetWordToBeGuessed()
 
 std::string Client::GetDrawer()
 {
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startRound/Drawer" },
+    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/DrawerName" },
         cpr::Header{ {"Content-Type", "application/json"} });
 
-    return crow::json::load(response.text)["Drawer"].s();
+    return crow::json::load(response.text)["DrawerName"].s();
 }
 
 std::string Client::SendPlayerMessage(const std::string& message)
@@ -153,6 +153,14 @@ std::string Client::SendPlayerMessage(const std::string& message)
 
 
 }
+
+uint8_t Client::GetDrawerPosition()
+{
+	auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/DrawerPosition" },
+		cpr::Header{ {"Content-Type", "application/json"} });
+    return crow::json::load(response.text)["DrawerPosition"].i();
+}
+
 
 bool Client::GetGameStatus()
 {

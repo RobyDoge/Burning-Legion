@@ -70,4 +70,6 @@ private:
     std::string m_username;
     std::vector<std::string> m_players;
 	std::string m_wordToCensor;
+    uint8_t oldpos=-1;
+    uint8_t newpos=-1;
 };

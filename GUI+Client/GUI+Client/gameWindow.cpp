@@ -7,10 +7,10 @@
 void GameWindow::checkGameStatus()
 {
 	m_gameEnded = m_client.GetGameStatus();
-	m_turnEnded = m_client.GetTurnStatus();
-
-	if (!m_turnEnded)
+	newpos = m_client.GetDrawerPosition();
+	if (oldpos!=newpos)
 	{
+		oldpos = newpos;
 		emit StartTurn();
 	}
 }
@@ -249,10 +249,10 @@ void GameWindow::StartTurn()
 	clearDrawingArea();
 	ClearChat();
 	ui.timerLabel->setText("60");
-	/*if (m_username == m_client.GetDrawer())
+	if (m_username == m_client.GetDrawer())
 		isDrawing = true;
 	else
-		isDrawing = false;*/
+		isDrawing = false;
 
 	if (isDrawing)
 		ui.wordtoGuess->setText(QString(m_client.GetWordToBeGuessed().c_str()));

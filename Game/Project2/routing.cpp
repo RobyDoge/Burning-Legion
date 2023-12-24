@@ -203,7 +203,24 @@ void Routing::Run()
 														 };
 		                                             return crow::json::wvalue{responseJson};
 	                                             });
-
+	CROW_ROUTE(m_app, "/startTurn/DrawerPosition")
+		.methods("POST"_method)
+												([this](const crow::request& req)
+													{
+														const auto responseJson = crow::json::wvalue{
+															{"DrawerPosition", m_gameHandlers.GetDrawerPosition()}
+														};
+														return crow::json::wvalue{ responseJson };
+													});
+	CROW_ROUTE(m_app, "/startTurn/DrawerName")
+		.methods("POST"_method)
+												([this](const crow::request& req)
+													{
+														const auto responseJson = crow::json::wvalue{
+															{"DrawerName", m_gameHandlers.GetDrawerName()}
+														};
+														return crow::json::wvalue{ responseJson };
+													});
 	CROW_ROUTE(m_app, "/startTurn/WordToBeGuessed")
 		.methods("POST"_method)
 	                                               ([this](const crow::request& req)

@@ -22,6 +22,7 @@ public:
 	std::string GetWordToBeGuessed();
 	std::string GetDrawer();
 	std::string SendPlayerMessage(const std::string& message);
+	uint8_t GetDrawerPosition();
 	bool GetGameStatus();
 	bool GetTurnStatus();
 	void StartGame();
