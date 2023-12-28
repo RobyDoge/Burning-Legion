@@ -79,12 +79,12 @@ void LobbyWindow::PlayerJoinedLobby()
 
 void LobbyWindow::Difficulty_Changed()
 {
-    m_difficulty = DIFFICULTY_MAP.find(ui.difficultyBox->currentText().toUtf8().constData())->second;
+    m_difficulty = DIFFICULTY_MAP.at(ui.difficultyBox->currentText().toUtf8().constData());
     m_client.SendDifficulty(m_difficulty);
 }
 void LobbyWindow::Language_Changed()
 {
-    m_language = DIFFICULTY_MAP.find(ui.languageBox->currentText().toUtf8().constData())->second;
+    m_language = DIFFICULTY_MAP.at(ui.languageBox->currentText().toUtf8().constData());
     m_client.SendLanguage(m_language);
 }
 

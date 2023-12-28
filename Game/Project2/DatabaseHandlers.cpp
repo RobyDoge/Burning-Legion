@@ -37,14 +37,12 @@ void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filen
 
 void WordDatabaseHandle::Init()
 {
-    time_t lastModifiedTime = 1702233024;            //will fix this magic number
-    if (hasFileChanged("input.txt", lastModifiedTime))
+	if (time_t lastModifiedTime = 1702233024; 
+        HasFileChanged("input.txt", lastModifiedTime))
         m_db.remove_all<WordFromDictionary>();
     m_db.sync_schema();
 
-    auto initalwordscount = m_db.count<WordFromDictionary>();
-
-    if (initalwordscount == 0)
+    if ( m_db.count<WordFromDictionary>() == 0)
         PopulateDictionaryFromFile(m_db, "input.txt");
 }
 
@@ -53,20 +51,7 @@ std::queue<std::string> WordDatabaseHandle::SelectWords(const uint8_t numberOfPl
 {
     std::queue<std::string> generatedWords;
 
-    std::string languageName;
-    switch (language)                   //transforming the language from int to the char in the database
-    {
-    case 0:
-        languageName = "eng";
-        break;
-    case 1:
-        languageName = "ro";
-        break;
-    case 2:
-        languageName = "esp";
-    default:
-        break;
-    }
+    const std::string languageName = LANGUAGE_TO_STRING.at(language);
 
     decltype(m_db.select(sqlite_orm::columns(&WordFromDictionary::id))) rows;
 

@@ -5,12 +5,13 @@
 #include <filesystem>
 #include <crow.h>
 #include <sqlite_orm/sqlite_orm.h>
+#include <unordered_map>
 
 namespace fs = std::filesystem;
 namespace sql = sqlite_orm;
 
 //used for file cheking
-inline bool hasFileChanged(const std::string& filename, time_t& lastModifiedTime) {
+inline bool HasFileChanged(const std::string& filename, time_t& lastModifiedTime) {
 	struct stat fileStat;
 
 	if (stat(filename.c_str(), &fileStat) != 0) {
@@ -52,10 +53,10 @@ struct MatchData
 	uint64_t id;
 	uint16_t uid;
 	int32_t score;
-	std::string R1IMG;
-	std::string R2IMG;
-	std::string R3IMG;
-	std::string R4IMG;
+	std::string firstRoundImage;
+	std::string secondRoundImage;
+	std::string thirdRoundImage;
+	std::string forthRoundImage;
 };
 
 //creating database for dictionary
@@ -90,10 +91,10 @@ inline auto CreateUserDatabase(const std::string& filename)
 			sql::make_column("id", &MatchData::id, sql::primary_key().autoincrement()),
 			sql::make_column("uid", &MatchData::uid, sql::foreign_key(&UserInfo::id).references(&MatchData::uid)),		
 			sql::make_column("score", &MatchData::score),
-			sql::make_column("R1IMG", &MatchData::R1IMG),
-			sql::make_column("R2IMG", &MatchData::R2IMG),
-			sql::make_column("R3IMG", &MatchData::R3IMG),
-			sql::make_column("R4IMG", &MatchData::R4IMG)
+			sql::make_column("firstRoundImage", &MatchData::firstRoundImage),
+			sql::make_column("secondRoundImage", &MatchData::secondRoundImage),
+			sql::make_column("thirdRoundImage", &MatchData::thirdRoundImage),
+			sql::make_column("forthRoundImage", &MatchData::forthRoundImage)
 		)
 	);
 
@@ -120,6 +121,12 @@ public:
 
 private:
 	Dictionary m_db = CreateDictionary("database.sqlite");
+	static constexpr std::unordered_map<uint8_t, std::string> LANGUAGE_TO_STRING
+	{
+		{0, "eng"},
+		{1, "ro"},
+		{2, "esp"}
+	};
 };
 
 
