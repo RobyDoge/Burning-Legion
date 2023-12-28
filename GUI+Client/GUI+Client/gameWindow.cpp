@@ -41,7 +41,8 @@ GameWindow::GameWindow(std::string username,QWidget* parent)
 	int xPos = (width() - WIDTH) / 2;
 	int yPos = (height() - HEIGHT) / 2;
 
-	QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
+	//QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
+	ui.drawingArea->setGeometry(xPos, yPos, WIDTH, HEIGHT);
 
 	//GetTurnStatus();
 	//GetGameStatus();
@@ -102,12 +103,10 @@ void GameWindow::mousePressEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::LeftButton)
 	{
-		int xPos = (width() - WIDTH) / 2;
-		int yPos = (height() - HEIGHT) / 2;
 
-		QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
-		if (drawingArea.contains(event->pos()))
+		if(ui.drawingArea->geometry().contains(event->pos()))
 		{
+			ui.errorLabel->setText("worked");
 			currentLine.clear();
 			currentLine.append(event->pos());
 			isDrawing = true;
@@ -119,11 +118,8 @@ void GameWindow::mouseMoveEvent(QMouseEvent* event)
 {
 	if (event->buttons() & Qt::LeftButton && isDrawing)
 	{
-		int xPos = (width() - WIDTH) / 2;
-		int yPos = (height() - HEIGHT) / 2;
-
-		QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
-		if (drawingArea.contains(event->pos()))
+		
+		if(ui.drawingArea->geometry().contains(event->pos()))
 		{
 			QPoint currentPos = event->pos();
 
@@ -159,13 +155,7 @@ void GameWindow::paintEvent(QPaintEvent* event)
 	QPainter painter(this);
 	painter.setRenderHint(QPainter::Antialiasing);
 
-	int xPos = (width() - WIDTH) / 2;
-	int yPos = (height() - HEIGHT) / 2;
-
-	QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
-	painter.setBrush(Qt::white);
-	painter.drawRect(drawingArea);
-
+	
 	if (!lines.empty())
 		for (int i = 0; i < lines.size(); ++i)
 		{
