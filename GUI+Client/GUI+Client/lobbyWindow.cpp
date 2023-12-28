@@ -79,12 +79,12 @@ void LobbyWindow::PlayerJoinedLobby()
 
 void LobbyWindow::Difficulty_Changed()
 {
-	m_difficulty = ConvertDifficultyToInt(ui.difficultyBox->currentText().toUtf8().constData());
+    m_difficulty = DIFFICULTY_MAP.find(ui.difficultyBox->currentText().toUtf8().constData())->second;
     m_client.SendDifficulty(m_difficulty);
 }
 void LobbyWindow::Language_Changed()
 {
-    m_language = ConvertLanguageToInt(ui.languageBox->currentText().toUtf8().constData());
+    m_language = DIFFICULTY_MAP.find(ui.languageBox->currentText().toUtf8().constData())->second;
     m_client.SendLanguage(m_language);
 }
 
@@ -96,32 +96,5 @@ void LobbyWindow::PlayerChangedDifficulty()
 void LobbyWindow::PlayerChangedLanguage()
 {
     ui.languageBox->setCurrentIndex(m_language);
-}
-
-uint8_t LobbyWindow::ConvertDifficultyToInt(const std::string& difficulty)
-{
-	switch (difficulty)
-	{
-	case "Easy":
-		return 1;
-	case "Normal":
-		return 2;
-	case "Hard":
-		return 3;
-	default:
-		return 0;
-	}
-}
-uint8_t LobbyWindow::ConvertLanguageToInt(const std::string& language)
-{
-	switch (language)
-	{
-	case "Romanian":
-		return 1;
-	case "Spanish":
-		return 2;
-	default:
-		return 0;
-	}
 }
 

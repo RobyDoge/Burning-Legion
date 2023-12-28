@@ -58,6 +58,9 @@
     <QtMoc Include="SignUpWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="LobbyWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="loginWindow.ui">
@@ -84,9 +87,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MenuWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LobbyWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EndGameWindow.h">

@@ -18,8 +18,6 @@ private:
 	void StopUpdatingThread();
 	void UpdatePlayersListWidget(QListWidget* listWidget);
 	void PlayerJoinedLobby();
-	uint8_t ConvertDifficultyToInt(const std::string& difficulty);
-	uint8_t ConvertLanguageToInt(const std::string& language);
 	void PlayerChangedDifficulty();
 	void PlayerChangedLanguage();
 
@@ -36,4 +34,19 @@ private:
 	uint8_t m_language{0};
 	Client m_client{};
 	std::atomic<bool> m_stopThread{};
+
+private:
+	inline static const std::unordered_map<std::string, uint8_t> DIFFICULTY_MAP
+	{
+		{"Easy", 1},
+		{"Normal", 2},
+		{"Hard", 3}
+	};
+
+	inline static const std::unordered_map<std::string, uint8_t> LANGUAGE_MAP
+	{
+			{"English", 0},
+			{"Romanian", 1},
+			{"Spanish", 2}
+	};
 };

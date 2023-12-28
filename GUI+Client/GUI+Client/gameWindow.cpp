@@ -4,29 +4,30 @@
 #include<QColorDialog>
 #include<qtimer.h>
 
-void GameWindow::checkGameStatus()
+void GameWindow::CheckGameStatus()
 {
 	m_gameEnded = m_client.GetGameStatus();
-	newpos = m_client.GetDrawerPosition();
-	if (oldpos!=newpos)
+	m_newPosition = m_client.GetDrawerPosition();
+	if (m_oldPosition!=m_newPosition)
 	{
-		oldpos = newpos;
+		m_oldPosition = m_newPosition;
 		emit StartTurn();
 	}
 }
 
-GameWindow::GameWindow(std::string username,QWidget* parent)
-	:m_username(username), QMainWindow(parent)
+GameWindow::GameWindow(const std::string& username,QWidget* parent):
+	QMainWindow(parent),
+	m_username(username)
 {
 
 	ui.setupUi(this);
 	setMouseTracking(true);
 	setAttribute(Qt::WA_StaticContents);
-	isDrawing = false;
-	resizeToScreenSize();
-	connect(ui.sendButton, &QPushButton::clicked, this, &GameWindow::sendButton_clicked);
-	connect(ui.inputField, &QLineEdit::returnPressed, this, &GameWindow::inputField_returnPressed);
-	connect(ui.inputField, &QLineEdit::textChanged, this, &GameWindow::updateCharCount);
+	m_isDrawing = false;
+	ResizeToScreenSize();
+	connect(ui.sendButton, &QPushButton::clicked, this, &GameWindow::SendButton_Clicked);
+	connect(ui.inputField, &QLineEdit::returnPressed, this, &GameWindow::InputField_ReturnPressed);
+	connect(ui.inputField, &QLineEdit::textChanged, this, &GameWindow::UpdateCharCount);
 
 	connect(ui.penWidthSlider, &QSlider::sliderMoved, this, [this](int value)
 	{
@@ -35,9 +36,9 @@ GameWindow::GameWindow(std::string username,QWidget* parent)
 		QToolTip::showText(sliderPos, QString::number(value));
 	});
 
-	connect(ui.penWidthSlider, &QSlider::valueChanged, this, &GameWindow::updatePenWidth);
-	connect(ui.colorPickerButton, &QPushButton::clicked, this, &GameWindow::changePenColor);
-	connect(ui.clearButton, &QPushButton::clicked, this, &GameWindow::clearDrawingArea);
+	connect(ui.penWidthSlider, &QSlider::valueChanged, this, &GameWindow::UpdatePenWidth);
+	connect(ui.colorPickerButton, &QPushButton::clicked, this, &GameWindow::ChangePenColor);
+	connect(ui.clearButton, &QPushButton::clicked, this, &GameWindow::ClearDrawingArea);
 	int xPos = (width() - WIDTH) / 2;
 	int yPos = (height() - HEIGHT) / 2;
 
@@ -51,7 +52,7 @@ GameWindow::GameWindow(std::string username,QWidget* parent)
 
 	// În constructorul GameWindow
 	QTimer* gameStatusTimer = new QTimer(this);
-	connect(gameStatusTimer, &QTimer::timeout, this, &GameWindow::checkGameStatus);
+	connect(gameStatusTimer, &QTimer::timeout, this, &GameWindow::CheckGameStatus);
 	gameStatusTimer->start(1000);
 
 	  // Intervalul în milisecunde
@@ -65,9 +66,9 @@ GameWindow::~GameWindow()
 //need to add function to display a message with the player that is drawing
 //function to display a message that the player is close or that he has guessed the word
 
-void GameWindow::sendButton_clicked()
+void GameWindow::SendButton_Clicked()
 {
-	if (!isDrawing)
+	if (!m_isDrawing)
 	{
 		QString playerMessage = ui.inputField->text();
 		QString message = "Player: " + playerMessage;
@@ -80,18 +81,18 @@ void GameWindow::sendButton_clicked()
 	}
 }
 
-void GameWindow::inputField_returnPressed()
+void GameWindow::InputField_ReturnPressed()
 {
-	sendButton_clicked();
+	SendButton_Clicked();
 }
 
-void GameWindow::updateCharCount()
+void GameWindow::UpdateCharCount()
 {
 	int charCount = ui.inputField->text().length();
 	ui.charCountLabel->setText(QString::number(charCount));
 }
 
-void GameWindow::resizeToScreenSize()
+void GameWindow::ResizeToScreenSize()
 {
 	QScreen* primaryScreen = QGuiApplication::primaryScreen();
 	QRect screenGeometry = primaryScreen->geometry();
@@ -106,28 +107,28 @@ void GameWindow::mousePressEvent(QMouseEvent* event)
 
 		if(ui.drawingArea->geometry().contains(event->pos()))
 		{
-			currentLine.clear();
-			currentLine.append(event->pos());
-			isDrawing = true;
+			m_currentLine.clear();
+			m_currentLine.append(event->pos());
+			m_isDrawing = true;
 		}
 	}
 }
 
 void GameWindow::mouseMoveEvent(QMouseEvent* event)
 {
-	if (event->buttons() & Qt::LeftButton && isDrawing)
+	if (event->buttons() & Qt::LeftButton && m_isDrawing)
 	{
 		
 		if(ui.drawingArea->geometry().contains(event->pos()))
 		{
 			QPoint currentPos = event->pos();
 
-			if (!currentLine.empty())
+			if (!m_currentLine.empty())
 			{
-				QPoint lastPoint = currentLine.back();
-				currentLine.append(currentPos);
-				lineWidths[lines.size()] = currentPenWidth;
-				lineColor[lines.size()] = currentPenColor;
+				QPoint lastPoint = m_currentLine.back();
+				m_currentLine.append(currentPos);
+				m_lineWidths[m_lines.size()] = m_currentPenWidth;
+				m_lineColor[m_lines.size()] = m_currentPenColor;
 				update();
 			}
 		}
@@ -136,14 +137,14 @@ void GameWindow::mouseMoveEvent(QMouseEvent* event)
 
 void GameWindow::mouseReleaseEvent(QMouseEvent* event)
 {
-	if (event->button() == Qt::LeftButton && isDrawing)
+	if (event->button() == Qt::LeftButton && m_isDrawing)
 	{
-		isDrawing = false;
+		m_isDrawing = false;
 
-		lines.append(currentLine);
-		lineWidths[lines.size() - 1] = currentPenWidth;
-		lineColor[lines.size() - 1] = currentPenColor;
-		currentLine.clear();
+		m_lines.append(m_currentLine);
+		m_lineWidths[m_lines.size() - 1] = m_currentPenWidth;
+		m_lineColor[m_lines.size() - 1] = m_currentPenColor;
+		m_currentLine.clear();
 
 		update();
 	}
@@ -161,15 +162,15 @@ void GameWindow::paintEvent(QPaintEvent* event)
 	painter.setBrush(Qt::white);
 	painter.drawRect(border);
 
-	if (!lines.empty())
-		for (int i = 0; i < lines.size(); ++i)
+	if (!m_lines.empty())
+		for (int i = 0; i < m_lines.size(); ++i)
 		{
-			const QVector<QPoint>& line = lines[i];
+			const QVector<QPoint>& line = m_lines[i];
 
 			QPen pen;
 			pen.setColor(Qt::black);
-			pen.setWidth(lineWidths.value(i, 1));
-			pen.setColor(lineColor.value(i, 1));
+			pen.setWidth(m_lineWidths.value(i, 1));
+			pen.setColor(m_lineColor.value(i, 1));
 			painter.setPen(pen);
 			for (int j = 1; j < line.size(); ++j)
 			{
@@ -177,45 +178,44 @@ void GameWindow::paintEvent(QPaintEvent* event)
 			}
 		}
 
-	if (isDrawing && !currentLine.isEmpty())
+	if (m_isDrawing && !m_currentLine.isEmpty())
 	{
 		QPen pen;
 		pen.setColor(Qt::black);
-		pen.setWidth(currentPenWidth);
-		pen.setColor(currentPenColor);
+		pen.setWidth(m_currentPenWidth);
+		pen.setColor(m_currentPenColor);
 		painter.setPen(pen);
-		if (currentLine.size() > 1)
-			for (int i = 1; i < currentLine.size(); ++i)
-				painter.drawLine(currentLine[i - 1], currentLine[i]);
+		if (m_currentLine.size() > 1)
+			for (int i = 1; i < m_currentLine.size(); ++i)
+				painter.drawLine(m_currentLine[i - 1], m_currentLine[i]);
 	}
 
 	QWidget::paintEvent(event);
 }
 
-void GameWindow::updatePenWidth()
+void GameWindow::UpdatePenWidth()
 {
-	currentPenWidth = ui.penWidthSlider->value();
+	m_currentPenWidth = ui.penWidthSlider->value();
 	update();
 }
 
-void GameWindow::changePenColor()
+void GameWindow::ChangePenColor()
 {
-	QColorDialog colorDialog(this);
-	QColor chosenColor = colorDialog.getColor(currentPenColor, this, "Choose Pen Color");
+	QColor chosenColor = QColorDialog::getColor(m_currentPenColor, this, "Choose Pen Color");
 
 	if (chosenColor.isValid())
 	{
-		currentPenColor = chosenColor;
+		m_currentPenColor = chosenColor;
 		update();
 	}
 }
 
-void GameWindow::clearDrawingArea()
+void GameWindow::ClearDrawingArea()
 {
 	//lines.clear(); // Clear the stored lines
-	lineWidths.clear(); // Clear the stored line widths
-	lineColor.clear();
-	for (auto& line : lines) line.clear();
+	m_lineWidths.clear(); // Clear the stored line widths
+	m_lineColor.clear();
+	for (auto& line : m_lines) line.clear();
 
 	update(); // Trigger a repaint to clear the drawing area
 }
@@ -241,15 +241,15 @@ void GameWindow::UpdateWordCensorship(char letter, int position)
 
 void GameWindow::StartTurn()
 {
-	clearDrawingArea();
+	ClearDrawingArea();
 	ClearChat();
 	ui.timerLabel->setText("60");
 	if (m_username == m_client.GetDrawer())
-		isDrawing = true;
+		m_isDrawing = true;
 	else
-		isDrawing = false;
+		m_isDrawing = false;
 
-	if (isDrawing)
+	if (m_isDrawing)
 		ui.wordtoGuess->setText(QString(m_client.GetWordToBeGuessed().c_str()));
 	else
 		ui.wordtoGuess->setText(QString(WordToCensor(m_client.GetWordToBeGuessed()).c_str()));
