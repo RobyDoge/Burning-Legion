@@ -1,9 +1,10 @@
 #include "EndGameWindow.h"
-
+#include "MenuWindow.h"
 EndGameWindow::EndGameWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+    connect(ui.backButton, &QPushButton::clicked, this, &EndGameWindow::backButton_clicked);
 	CalculateWinner();
 	DisplayPlayers();
 }
@@ -38,4 +39,8 @@ void EndGameWindow::DisplayPlayers() const
         QListWidgetItem* item = new QListWidgetItem(playerInfo);
         ui.endPlayersList->addItem(item);
     }
+}
+void EndGameWindow::backButton_clicked()
+{
+
 }

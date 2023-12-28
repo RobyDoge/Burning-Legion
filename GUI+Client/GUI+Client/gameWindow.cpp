@@ -106,7 +106,6 @@ void GameWindow::mousePressEvent(QMouseEvent* event)
 
 		if(ui.drawingArea->geometry().contains(event->pos()))
 		{
-			ui.errorLabel->setText("worked");
 			currentLine.clear();
 			currentLine.append(event->pos());
 			isDrawing = true;
@@ -155,7 +154,13 @@ void GameWindow::paintEvent(QPaintEvent* event)
 	QPainter painter(this);
 	painter.setRenderHint(QPainter::Antialiasing);
 
-	
+	int xPos = (width() - WIDTH) / 2;
+	int yPos = (height() - HEIGHT) / 2;
+
+	QRect border(xPos, yPos, WIDTH, HEIGHT);
+	painter.setBrush(Qt::white);
+	painter.drawRect(border);
+
 	if (!lines.empty())
 		for (int i = 0; i < lines.size(); ++i)
 		{

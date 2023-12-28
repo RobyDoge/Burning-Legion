@@ -11,6 +11,9 @@ public:
 	EndGameWindow(QWidget *parent = nullptr);
 	~EndGameWindow();
 
+private slots:
+	void backButton_clicked();
+
 private:
 	Ui::EndGameWindowClass ui;
 	void CalculateWinner() const;
