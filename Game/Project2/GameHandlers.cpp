@@ -157,7 +157,7 @@ void GameHandlers::StartNextTurn(uint8_t roundIndex)
 	}
 	else
 	{
-		auto winners{ m_game->GetWinners() };
+		auto winners{ m_game->SortPlayersByTheirScore() };
 
 		m_game->EndGame(m_game->GetPlayers());
 	}

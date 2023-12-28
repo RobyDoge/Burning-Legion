@@ -31,7 +31,7 @@ namespace game_logic
 
 		Turn GetTurn(uint8_t drawerPosition);	//returns the current turn
 		std::string GetNextWord();				//generates a random number of words based on the number of players
-		std::queue<Player> GetWinners();		//return an array with up to top 3 players based on their score
+		std::vector<Player> SortPlayersByTheirScore();		//return an array with up to top 3 players based on their score
 
 		GameStatus GetGameStatus() const;		//returns the status of the game
 		void SwitchGameStatus();				//switches the status of the game

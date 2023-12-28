@@ -31,30 +31,15 @@ std::string Game::GetNextWord()
 	return wordsForRound;
 }
 
-std::queue<Player> Game::GetWinners()		//return an array with up to top 3 players based on their score
+std::vector<Player> Game::SortPlayersByTheirScore()
 {
-	if (m_players.size() == 1)
-	{
-		return{m_players.begin(),m_players.begin()+1};
-	}
-
-	if (m_players.size() == 2)
-	{
-
-		if (m_players[0].GetPoints().GetCurrentGamePoints() > m_players[1].GetPoints().GetCurrentGamePoints())
-		{
-			return { m_players.begin(),m_players.begin() + 2};
-		}
-		return { m_players.rbegin().base(),m_players.rbegin().base() + 2};
-	}
-
 	std::vector<Player> playerCopy{ m_players };
-	std::partial_sort(playerCopy.begin(), playerCopy.begin() + 3, playerCopy.end(), [](Player& first, Player& second)
+	std::ranges::sort(playerCopy, [](Player& first, Player& second)
 		{
 			return first.GetPoints().GetCurrentGamePoints() > second.GetPoints().GetCurrentGamePoints();
 		});
 
-	return { playerCopy.begin(),playerCopy.begin() + 3 };
+	return playerCopy;
 }
 
 Game::GameStatus Game::GetGameStatus() const
