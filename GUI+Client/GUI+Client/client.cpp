@@ -200,3 +200,20 @@ void Client::CreateLobby()
     auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobby" },
         cpr::Header{ {"Content-Type", "application/json"} });
 }
+void Client::sendDrawing(const QByteArray& drawingData)
+{
+
+    auto reponse = cpr::Post(cpr::Url{ "http://localhost:18080/drawingEndpoint" },
+        cpr::Body{ drawingData.constData(), static_cast<size_t>(drawingData.size()) },
+        cpr::Header{ {"Content-Type", "application/octet-stream"} });
+}
+//void Client::displayReceivedDrawing(const QByteArray& drawingData)
+//{
+//    QImage image;
+//    if (image.loadFromData(drawingData, "PNG")) 
+//    {
+//        QPixmap pixmap = QPixmap::fromImage(image);
+//
+//        m_gameWindow->setReceivedDrawing(pixmap);
+//    }
+//}

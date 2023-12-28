@@ -11,6 +11,7 @@
 #include <QGuiApplication>
 #include <QMap>
 #include <QColor>
+#include <QBuffer>
 
 
 class GameWindow : public QMainWindow
@@ -35,6 +36,9 @@ private:
 
 private:
     void ResizeToScreenSize();
+    QByteArray serializeDrawing();
+    void setReceivedDrawing(const QPixmap& pixmap);
+    QPixmap receivedDrawing;
     void addNewLine(const QVector<QPoint>& newLine);
     void ChangePenColor();
     void UpdateWordCensorship(char letter, int position);

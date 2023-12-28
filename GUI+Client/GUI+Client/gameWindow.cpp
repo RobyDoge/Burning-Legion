@@ -157,39 +157,42 @@ void GameWindow::paintEvent(QPaintEvent* event)
 
 	int xPos = (width() - WIDTH) / 2;
 	int yPos = (height() - HEIGHT) / 2;
+	if (!receivedDrawing.isNull())
+		painter.drawPixmap(xPos, yPos, receivedDrawing);
+	else
+	{
+		QRect border(xPos, yPos, WIDTH, HEIGHT);
+		painter.setBrush(Qt::white);
+		painter.drawRect(border);
 
-	QRect border(xPos, yPos, WIDTH, HEIGHT);
-	painter.setBrush(Qt::white);
-	painter.drawRect(border);
+		if (!m_lines.empty())
+			for (int i = 0; i < m_lines.size(); ++i)
+			{
+				const QVector<QPoint>& line = m_lines[i];
 
-	if (!m_lines.empty())
-		for (int i = 0; i < m_lines.size(); ++i)
+				QPen pen;
+				pen.setColor(Qt::black);
+				pen.setWidth(m_lineWidths.value(i, 1));
+				pen.setColor(m_lineColor.value(i, 1));
+				painter.setPen(pen);
+				for (int j = 1; j < line.size(); ++j)
+				{
+					painter.drawLine(line[j - 1], line[j]);
+				}
+			}
+
+		if (m_isDrawing && !m_currentLine.isEmpty())
 		{
-			const QVector<QPoint>& line = m_lines[i];
-
 			QPen pen;
 			pen.setColor(Qt::black);
-			pen.setWidth(m_lineWidths.value(i, 1));
-			pen.setColor(m_lineColor.value(i, 1));
+			pen.setWidth(m_currentPenWidth);
+			pen.setColor(m_currentPenColor);
 			painter.setPen(pen);
-			for (int j = 1; j < line.size(); ++j)
-			{
-				painter.drawLine(line[j - 1], line[j]);
-			}
+			if (m_currentLine.size() > 1)
+				for (int i = 1; i < m_currentLine.size(); ++i)
+					painter.drawLine(m_currentLine[i - 1], m_currentLine[i]);
 		}
-
-	if (m_isDrawing && !m_currentLine.isEmpty())
-	{
-		QPen pen;
-		pen.setColor(Qt::black);
-		pen.setWidth(m_currentPenWidth);
-		pen.setColor(m_currentPenColor);
-		painter.setPen(pen);
-		if (m_currentLine.size() > 1)
-			for (int i = 1; i < m_currentLine.size(); ++i)
-				painter.drawLine(m_currentLine[i - 1], m_currentLine[i]);
 	}
-
 	QWidget::paintEvent(event);
 }
 
@@ -272,4 +275,24 @@ void GameWindow::ShowEndWindow()
 	auto* endWindow = new EndGameWindow();
 	endWindow->show();
 	this->destroy();
+}
+
+QByteArray GameWindow::serializeDrawing()
+{
+	QPixmap pixmap = ui.drawingArea->grab();
+
+	QImage image = pixmap.toImage();
+
+	QByteArray byteArray;
+	QBuffer buffer(&byteArray);
+	buffer.open(QIODevice::WriteOnly);
+	image.save(&buffer, "PNG");
+
+	return byteArray;
+}
+
+void GameWindow::setReceivedDrawing(const QPixmap& pixmap)
+{
+	receivedDrawing = pixmap;
+	ui.drawingArea->update();
 }

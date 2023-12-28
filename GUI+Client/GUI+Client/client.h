@@ -3,7 +3,7 @@
 #include <crow.h>
 #include <iostream>
 #include <list>
-
+#include<QByteArray>
 class Client
 {
 public:
@@ -14,7 +14,7 @@ public:
 	void SendUsername(const std::string& username);
 	void SendDifficulty(uint8_t difficulty);
 	void SendLanguage(uint8_t language);
-	
+	void sendDrawing(const QByteArray& drawingData);
 	std::pair<uint16_t, std::list< int16_t> > GetBestScoreAndLastMatchesPoints(const std::string& username);
 	std::vector<std::string> GetPlayersVector(const std::string& username);
 	uint8_t GetDifficulty();
@@ -32,4 +32,3 @@ public:
 private:
 
 };
-
