@@ -4,10 +4,31 @@
 #include <thread>
 #include <chrono>
 
-void LobbyWindow::startUpdatingThread() {
-    std::thread updateThread([this]() {
-        while (stopThread) {
+LobbyWindow::LobbyWindow(const std::string& username, QWidget* parent):
+	QMainWindow(parent),
+	m_username(username)
+{
+    m_stopThread.store(true);
+    ui.setupUi(this);
+    m_client.SendUsername(username);
 
+    connect(ui.startGameButton, &QPushButton::clicked, this, &LobbyWindow::StartGameButton_Clicked);
+    connect(ui.difficultyBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &LobbyWindow::Difficulty_Changed);
+    connect(ui.languageBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &LobbyWindow::Language_Changed);
+
+    for (uint8_t i = 0; i < ui.playersListWidget->count(); ++i)
+    {
+	    ui.playersListWidget->item(i)->setTextAlignment(Qt::AlignCenter);
+    }
+    StartUpdatingThread();
+}
+
+void LobbyWindow::StartUpdatingThread()
+{
+    std::thread updateThread([this]() 
+    {
+        while (m_stopThread) 
+        {
             m_players = m_client.GetPlayersVector(m_username);
             emit PlayerJoinedLobby();
             m_difficulty = m_client.GetDifficulty();
@@ -16,41 +37,27 @@ void LobbyWindow::startUpdatingThread() {
             emit PlayerChangedLanguage();
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
-        });
+    });
 
     updateThread.detach(); 
 }
 
-void LobbyWindow::stopUpdatingThread()
+void LobbyWindow::StopUpdatingThread()
 {
-    stopThread.store(false);
-}
-
-LobbyWindow::LobbyWindow(std::string username,QWidget *parent)
-	: m_username(username),QMainWindow(parent)
-{
-	stopThread.store(true);
-	ui.setupUi(this);
-	m_client.SendUsername(username);
-	connect(ui.startGameButton, &QPushButton::clicked, this, &LobbyWindow::startGameButton_clicked);
-    connect(ui.difficultyBox, QOverload<int>::of(&QComboBox::currentIndexChanged),this, &LobbyWindow::difficultyBoxIndexChanged);
-    connect(ui.languageBox, QOverload<int>::of(&QComboBox::currentIndexChanged),this, &LobbyWindow::languageBoxIndexChanged);
-    for (int i = 0; i < ui.playersListWidget->count(); ++i) 
-        ui.playersListWidget->item(i)->setTextAlignment(Qt::AlignCenter);  
-    startUpdatingThread();
+    m_stopThread.store(false);
 }
 
 LobbyWindow::~LobbyWindow()
 {
 	this->destroy();
-	stopUpdatingThread();
+	StopUpdatingThread();
 }
 
-void LobbyWindow::startGameButton_clicked()
+void LobbyWindow::StartGameButton_Clicked()
 {
-    stopUpdatingThread();
+    StopUpdatingThread();
     m_client.StartGame();
-    GameWindow* gameWindow = new GameWindow(m_username);
+    auto* gameWindow = new GameWindow(m_username);
     gameWindow->show();
     this->destroy();
 
@@ -59,24 +66,25 @@ void LobbyWindow::startGameButton_clicked()
 void LobbyWindow::UpdatePlayersListWidget(QListWidget* listWidget)
 {
     listWidget->clear();
-        
-    for (const std::string& playerName:m_players) {
+    for (const std::string& playerName:m_players) 
+    {
         listWidget->addItem(QString(playerName.c_str()));
     }
 
 }
-void LobbyWindow::PlayerJoinedLobby() {
+void LobbyWindow::PlayerJoinedLobby()
+{
     UpdatePlayersListWidget(ui.playersListWidget);
 }
 
-void LobbyWindow::difficultyBoxIndexChanged()
+void LobbyWindow::Difficulty_Changed()
 {
-	m_difficulty = ConvertDifToInt(ui.difficultyBox->currentText().toUtf8().constData());
+	m_difficulty = ConvertDifficultyToInt(ui.difficultyBox->currentText().toUtf8().constData());
     m_client.SendDifficulty(m_difficulty);
 }
-void LobbyWindow::languageBoxIndexChanged()
+void LobbyWindow::Language_Changed()
 {
-    m_language = ConvertLangToInt(ui.languageBox->currentText().toUtf8().constData());
+    m_language = ConvertLanguageToInt(ui.languageBox->currentText().toUtf8().constData());
     m_client.SendLanguage(m_language);
 }
 
@@ -89,37 +97,31 @@ void LobbyWindow::PlayerChangedLanguage()
 {
     ui.languageBox->setCurrentIndex(m_language);
 }
-uint8_t LobbyWindow::ConvertDifToInt(const std::string& difficulty)
-{
-    if (difficulty == "Easy")
-    {
-        return 1;
-    }
-    else if (difficulty == "Normal")
-    {
-        return 2;
-    }
-    else if (difficulty == "Hard")
-    {
-        return 3;
-    }
-    return 0;
 
-}
-uint8_t LobbyWindow::ConvertLangToInt(const std::string& language)
+uint8_t LobbyWindow::ConvertDifficultyToInt(const std::string& difficulty)
 {
-    if (language == "Romanian")
-    {
-        return 1;
-    }
-    else if (language == "Spanish")
-    {
-        return 2;
-    }
-    else if (language == "English")
-    {
-        return 3;
-    }
-    return 0;
+	switch (difficulty)
+	{
+	case "Easy":
+		return 1;
+	case "Normal":
+		return 2;
+	case "Hard":
+		return 3;
+	default:
+		return 0;
+	}
+}
+uint8_t LobbyWindow::ConvertLanguageToInt(const std::string& language)
+{
+	switch (language)
+	{
+	case "Romanian":
+		return 1;
+	case "Spanish":
+		return 2;
+	default:
+		return 0;
+	}
 }
 

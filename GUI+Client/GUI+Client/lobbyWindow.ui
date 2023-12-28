@@ -300,17 +300,17 @@ background:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(251, 
        </property>
        <item>
         <property name="text">
+         <string>English</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>Romanian</string>
         </property>
        </item>
        <item>
         <property name="text">
          <string>Spanish</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>English</string>
         </property>
        </item>
       </widget>

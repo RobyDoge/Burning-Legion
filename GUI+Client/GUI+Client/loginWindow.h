@@ -12,6 +12,9 @@ class LoginWindow : public QMainWindow
 public:
 	LoginWindow(QWidget *parent = nullptr);
 	~LoginWindow() override = default;
+
+
+private:
 	void OpenMenuWindow(const std::string& username);
 	std::string GetUsername();
 

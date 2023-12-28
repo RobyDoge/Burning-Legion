@@ -191,6 +191,9 @@ QPushButton#joinLobbyButton:pressed {
        </property>
       </widget>
       <widget class="QLineEdit" name="joinLobbyCode">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>90</x>

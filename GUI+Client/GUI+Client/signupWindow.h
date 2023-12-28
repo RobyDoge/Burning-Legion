@@ -12,14 +12,14 @@ public:
 	SignUpWindow(QWidget *parent = nullptr);
 	~SignUpWindow() override = default;
 
-private slots:
-	void SignUpButton_Clicked();
-	void LoginButton_Clicked();
-	bool Username_LineEditingFinished();
 
 private:
 	void CreateLoginWindow();
 
+private slots:
+	void SignUpButton_Clicked();
+	void LoginButton_Clicked();
+	bool Username_LineEditingFinished();
 
 private:
 	Ui::signupWindowClass ui;

@@ -13,20 +13,23 @@ class MenuWindow : public QMainWindow
 public:
 	MenuWindow(std::string username , QWidget *parent = nullptr);
 	~MenuWindow() override = default;
-	void openLobbyWindow();
 
 private:
+	void OpenLobbyWindow();
+
+	//this function needs to be updated after the saving of drawings are done
+	//and it should be split into multiple functions
 	void GetBestScoreAndLastMatches();
 
 private slots:
-	void createLobbyButton_clicked();
-	void joinLobbyButton_clicked();
+	void CreateLobbyButton_Clicked();
+	void JoinLobbyButton_Clicked();
 
 private:
 	Ui::MenuWindowClass ui;
-	QString m_code;
-	std::string m_username;
-	uint16_t m_bestScore;
-	std::list<int16_t> m_lastMatchesPoints;
-	Client m_client;
+	QString m_code{};  //not in use
+	std::string m_username{};
+	uint16_t m_bestScore{};
+	std::list<int16_t> m_lastMatchesPoints{};
+	Client m_client{};
 };

@@ -49,7 +49,7 @@ void WordDatabaseHandle::Init()
 }
 
 
-std::queue<std::string> WordDatabaseHandle::SelectWords(uint8_t numberOfPlayers, uint8_t difficulty, uint8_t language)
+std::queue<std::string> WordDatabaseHandle::SelectWords(const uint8_t numberOfPlayers, const uint8_t difficulty, const uint8_t language)
 {
     std::queue<std::string> generatedWords;
 
@@ -70,8 +70,7 @@ std::queue<std::string> WordDatabaseHandle::SelectWords(uint8_t numberOfPlayers,
 
     decltype(m_db.select(sqlite_orm::columns(&WordFromDictionary::id))) rows;
 
-
-    if(difficulty!= 3)
+    if(difficulty)
     {
 	    rows = m_db.select(sqlite_orm::columns(&WordFromDictionary::id),
 		   sqlite_orm::where(
@@ -104,16 +103,14 @@ std::queue<std::string> WordDatabaseHandle::SelectWords(uint8_t numberOfPlayers,
 
     while (chosenIndices.size() < numberOfPlayers * 4 + 2)  //create variable for number of turns pls uwu Roby
     {
-        auto index = dis(gen);
-        if (chosenIndices.insert(index).second)
+	    if (auto index = dis(gen); 
+            chosenIndices.insert(index).second)
         {
-            auto elements = m_db.select(sqlite_orm::columns(&WordFromDictionary::word),
-                sqlite_orm::where(
-                    sqlite_orm::c(&WordFromDictionary::id) == wordIds[index]
-                    )
-            );
-
-            for (const auto& element : elements)
+	        for (auto elements = m_db.select(sqlite_orm::columns(&WordFromDictionary::word),
+	                                         sqlite_orm::where(
+		                                         sqlite_orm::c(&WordFromDictionary::id) == wordIds[index]
+	                                         )
+	             ); const auto& element : elements)
             {
                 generatedWords.emplace(std::get<0>(element));
             }
@@ -135,9 +132,9 @@ void WordDatabaseHandle::ClearDictionary()
 
 
 //USERDATABASE
-void AddNewUser(UserDatabase& users, const std::string name, const std::string& password)
+void AddNewUser(UserDatabase& users, const std::string& name, const std::string& password)
 {
-    uint16_t idCounter = 1;
+	constexpr uint16_t idCounter = 1;
     users.insert(UserInfo{ idCounter, name, password, '0' });
 }
 
@@ -149,27 +146,27 @@ void UserDatabaseHandle::AddUser(const std::string& name, const std::string& pas
 
 bool UserDatabaseHandle::Authenticate(const std::string& name, const std::string& password)
 {
-    auto rows = m_db.select(sqlite_orm::columns(&UserInfo::id),
-        sqlite_orm::where(
-            sqlite_orm::and_(
-                sqlite_orm::c(&UserInfo::name) == name,
-                sqlite_orm::c(&UserInfo::password) == password
-            )));
-    if (rows.empty())
-    {
-        rows = m_db.select(sqlite_orm::columns(&UserInfo::id),
-            sqlite_orm::where
-            (sqlite_orm::c(&UserInfo::name) == name)
-        );
-        if (rows.empty())
-        {
-            //Player ul exista dar nu a pus bine parola
-            return false;
-        }
-        //Player ul nu exista
-        return false;
-    }
-    return true;//username ul si parola exista
+	if (auto rows = m_db.select(sqlite_orm::columns(&UserInfo::id),
+	                            sqlite_orm::where(
+		                            sqlite_orm::and_(
+			                            sqlite_orm::c(&UserInfo::name) == name,
+			                            sqlite_orm::c(&UserInfo::password) == password
+		                            )));
+		rows.empty())
+	{
+		rows = m_db.select(sqlite_orm::columns(&UserInfo::id),
+		                   sqlite_orm::where
+		                   (sqlite_orm::c(&UserInfo::name) == name)
+		);
+		if (rows.empty())
+		{
+			//Player ul exista dar nu a pus bine parola
+			return false;
+		}
+		//Player ul nu exista
+		return false;
+	}
+	return true; //username ul si parola exista
 }
 
 bool UserDatabaseHandle::CheckUsername(const std::string& name)

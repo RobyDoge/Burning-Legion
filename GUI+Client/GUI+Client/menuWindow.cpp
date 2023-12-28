@@ -1,20 +1,21 @@
 #include "MenuWindow.h"
+
+
 MenuWindow::MenuWindow(std::string username,QWidget* parent)
     : m_username (username) , QMainWindow(parent)
 {
     ui.setupUi(this);
     //ui.usernameLabel->setText(QString::fromStdString("Username: " + m_username));
-    connect(ui.createLobbyButton, &QPushButton::clicked, this, &MenuWindow::createLobbyButton_clicked);
-    connect(ui.joinLobbyButton, &QPushButton::clicked, this, &MenuWindow::joinLobbyButton_clicked);
+    connect(ui.createLobbyButton, &QPushButton::clicked, this, &MenuWindow::CreateLobbyButton_Clicked);
+    connect(ui.joinLobbyButton, &QPushButton::clicked, this, &MenuWindow::JoinLobbyButton_Clicked);
 	GetBestScoreAndLastMatches();
 }
 
-void MenuWindow::openLobbyWindow()
+void MenuWindow::OpenLobbyWindow()
 {
-    LobbyWindow* lobbyWindow = new LobbyWindow(m_username);
+    auto* lobbyWindow = new LobbyWindow(m_username);
     lobbyWindow->show();
     this->destroy();
-    
 }
 
 void MenuWindow::GetBestScoreAndLastMatches()
@@ -25,21 +26,21 @@ void MenuWindow::GetBestScoreAndLastMatches()
     m_bestScore = bestScoreAndLastMatchesPoints.first;
     m_lastMatchesPoints = bestScoreAndLastMatchesPoints.second;
     ui.scoreList->addItem("Best Score: " + QString::number(m_bestScore));
-    for (const uint16_t& points : m_lastMatchesPoints) {
+    for (const uint16_t& points : m_lastMatchesPoints) 
+    {
         ui.scoreList->addItem(QString::number(points));
     }
-
     ui.scoreList->setMaximumHeight(6 * ui.scoreList->sizeHintForRow(0));
 }
 
-void MenuWindow::createLobbyButton_clicked()
+void MenuWindow::CreateLobbyButton_Clicked()
 {
     m_client.CreateLobby();
-    openLobbyWindow();
+    OpenLobbyWindow();
 }
 
-void MenuWindow::joinLobbyButton_clicked()
+void MenuWindow::JoinLobbyButton_Clicked()
 {
     m_code = ui.joinLobbyCode->text();
-    openLobbyWindow();
+    OpenLobbyWindow();
 }

@@ -1,4 +1,4 @@
-﻿#include "client.h"
+﻿#include "Client.h"
 
 
 long Client::GetLoginResponse(const std::string& username, const std::string & password)
