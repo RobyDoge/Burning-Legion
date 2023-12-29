@@ -1,90 +1,86 @@
 ﻿#include "Client.h"
 
 
-long Client::GetLoginResponse(const std::string& username, const std::string & password)
+long Client::Return_LoginResponse(const std::string& username, const std::string & password)
 {
     //Create a json to send it to the server
-    std::string json_data = R"({"username": ")" + username + R"(", "password": ")" + password + R"("})";
+    const std::string json_data = R"({"username": ")" + username + R"(", "password": ")" + password + R"("})";
 
     //Create a post request to the server and post the json 
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/login" },
-        cpr::Header{ {"Content-Type", "application/json"} },
-        cpr::Body{ json_data });
+    const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/login" },
+                                    cpr::Header{ {"Content-Type", "application/json"} },
+                                    cpr::Body{ json_data });
 
     //Wait for response and return it
     return response.status_code;
 }
 
-long Client::ConfirmUsernameAvailable(const std::string& username) {
+long Client::Return_UsernameAvailability(const std::string& username) {
+	const std::string json_data = R"({"username": ")" + username + R"("})";
 
-    std::string json_data = R"({"username": ")" + username + R"("})";
-
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/signup" },
-        cpr::Header{ {"Content-Type", "application/json"} },
-        cpr::Body{ json_data });
-
-    return response.status_code;
-}
-
-long Client::AddUser(const std::string& username, const std::string& password)
-{
-    std::string json_data = R"({"username": ")" + username + R"(", "password": ")" + password + R"("})";
-
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/signupaccount" },
-        cpr::Header{ {"Content-Type", "application/json"} },
-        cpr::Body{ json_data });
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/signup" },
+	                                cpr::Header{ {"Content-Type", "application/json"} },
+	                                cpr::Body{ json_data });
 
     return response.status_code;
 }
 
-
-std::pair<uint16_t, std::list< int16_t>> Client::GetBestScoreAndLastMatchesPoints(const std::string& username) 
+long Client::Return_CreateUserInDatabase(const std::string& username, const std::string& password)
 {
-    std::string json_data = R"({"username": ")" + username + R"("})";
+	const std::string json_data = R"({"username": ")" + username + R"(", "password": ")" + password + R"("})";
 
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/mainMenu" },
-        cpr::Header{ {"Content-Type", "application/json"} },
-        cpr::Body{ json_data });
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/signupaccount" },
+	                                cpr::Header{ {"Content-Type", "application/json"} },
+	                                cpr::Body{ json_data });
 
-    auto scores = crow::json::load(response.text);
-    bool ok = true;
-    uint16_t bestScore;
-    std::list<int16_t> list;
-    for (const auto& score : scores)
-    {
-		if (ok) { bestScore = score["bestscores"].i(); ok = false; }
-        else
-		list.push_back(score["points"].i());
-    }
-	
-	return std::make_pair(bestScore, list);
+    return response.status_code;
 }
 
+//should be redone
+//std::pair<uint16_t, std::list< int16_t>> Client::GetBestScoreAndLastMatchesPoints(const std::string& username) 
+//{
+//    std::string json_data = R"({"username": ")" + username + R"("})";
+//
+//    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/mainMenu" },
+//        cpr::Header{ {"Content-Type", "application/json"} },
+//        cpr::Body{ json_data });
+//
+//    auto scores = crow::json::load(response.text);
+//    bool ok = true;
+//    uint16_t bestScore;
+//    std::list<int16_t> list;
+//    for (const auto& score : scores)
+//    {
+//		if (ok) { bestScore = score["bestscores"].i(); ok = false; }
+//        else
+//		list.push_back(score["points"].i());
+//    }
+//	
+//	return std::make_pair(bestScore, list);
+//}
 
-void Client::SendUsername(const std::string& username)
+
+void Client::Send_UsernameForLobby(const std::string& username)
 {
-
-    std::string json_data = R"({"username": ")" + username + R"("})";
+	const std::string json_data = R"({"username": ")" + username + R"("})";
 
     auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbyGetUsers" },
         cpr::Header{ {"Content-Type", "application/json"} },
         cpr::Body{ json_data });
-
-
 }
 
-void Client::SendDifficulty(uint8_t difficulty)
+void Client::Send_GameDifficulty(const uint8_t difficulty)
 {
-	std::string json_data = R"({"difficulty": ")" + std::to_string(difficulty) + R"("})";
+	const std::string json_data = R"({"difficulty": ")" + std::to_string(difficulty) + R"("})";
 
 	auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbySetDifficulty" },
 		cpr::Header{ {"Content-Type", "application/json"} },
 		cpr::Body{ json_data });
 }
 
-void Client::SendLanguage(uint8_t language)
+void Client::Send_GameLanguage(const uint8_t language)
 {
-    std::string json_data = R"({"language": ")" + std::to_string(language) + R"("})";
+	const std::string json_data = R"({"language": ")" + std::to_string(language) + R"("})";
 
     auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbySetLanguage" },
         cpr::Header{ {"Content-Type", "application/json"} },
@@ -92,12 +88,12 @@ void Client::SendLanguage(uint8_t language)
 }
 
 
-std::vector<std::string> Client::GetPlayersVector(const std::string& username)
+std::vector<std::string> Client::Return_PlayersVector(const std::string& username)
 {
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbySendUsers" },
-        cpr::Header{ {"Content-Type", "application/json"} });
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbySendUsers" },
+	                                cpr::Header{ {"Content-Type", "application/json"} });
 
-    auto usersReceived = crow::json::load(response.text);
+	const auto usersReceived = crow::json::load(response.text);
 
     std::vector<std::string> users;
     for (const auto& user : usersReceived)
@@ -109,100 +105,95 @@ std::vector<std::string> Client::GetPlayersVector(const std::string& username)
     return users;
 }
 
-uint8_t Client::GetDifficulty()
+uint8_t Client::Return_GameDifficulty()
 {
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbyGetDifficulty" },
+    const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbyGetDifficulty" },
         cpr::Header{ {"Content-Type", "application/json"} });
 
 	return crow::json::load(response.text)["difficulty"].i();
 }
 
-uint8_t Client::GetLanguage()
+uint8_t Client::Return_GameLanguage()
 {
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbyGetLanguage" },
-        cpr::Header{ {"Content-Type", "application/json"} });
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbyGetLanguage" },
+	                                cpr::Header{ {"Content-Type", "application/json"} });
 
     return crow::json::load(response.text)["language"].i();
 }
 
-std::string Client::GetWordToBeGuessed()
+std::string Client::Return_WordToBeGuessed()
 {
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/WordToBeGuessed" },
-        cpr::Header{ {"Content-Type", "application/json"} });
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/WordToBeGuessed" },
+	                                cpr::Header{ {"Content-Type", "application/json"} });
 
     return crow::json::load(response.text)["WordToBeGuessed"].s();
 }
 
-std::string Client::GetDrawer()
+std::string Client::Return_DrawerName()
 {
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/DrawerName" },
-        cpr::Header{ {"Content-Type", "application/json"} });
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/DrawerName" },
+	                                cpr::Header{ {"Content-Type", "application/json"} });
 
     return crow::json::load(response.text)["DrawerName"].s();
 }
 
-std::string Client::SendPlayerMessage(const std::string& message)
+std::string Client::Return_PlayerGuessResponse(const std::string& message)
 {
-    std::string json_data = R"({"message": ")" + message + R"("})";
+	const std::string json_data = R"({"message": ")" + message + R"("})";
 
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/GetMessage" },
-        cpr::Header{ {"Content-Type", "application/json"} },
-        cpr::Body{ json_data });
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/GetMessage" },
+	                                cpr::Header{ {"Content-Type", "application/json"} },
+	                                cpr::Body{ json_data });
 
     return crow::json::load(response.text)["message"].s();
 
 
 }
 
-uint8_t Client::GetDrawerPosition()
+uint8_t Client::Return_DrawerPosition()
 {
-	auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/DrawerPosition" },
-		cpr::Header{ {"Content-Type", "application/json"} });
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/DrawerPosition" },
+	                                cpr::Header{ {"Content-Type", "application/json"} });
     return crow::json::load(response.text)["DrawerPosition"].i();
 }
 
 
-bool Client::GetGameStatus()
+bool Client::Return_GameStatus()
 {
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startGame/GetGameStatus" },
-        cpr::Header{ {"Content-Type", "application/json"} });
-
-     std::string result = crow::json::load(response.text)["Status"].s();
-	 if (result == "true")
-	 {
-		 return true;
-	 }
-     return false;
+	if (const auto response = Post(cpr::Url{"http://localhost:18080/startGame/Return_GameStatus"},
+	                               cpr::Header{{"Content-Type", "application/json"}});
+		crow::json::load(response.text)["Status"].s() == "true")
+	{
+		return true;
+	}
+	return false;
 }
 
-bool Client::GetTurnStatus()
+bool Client::Return_TurnStatus()
 {
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/GetTurnStatus" },
-        cpr::Header{ {"Content-Type", "application/json"} });
-
-    std::string res = crow::json::load(response.text)["Status"].s();
-    if (res== "true")
-    {
-        return true;
-    }
-    return false;
+	if (const auto response = Post(cpr::Url{"http://localhost:18080/startTurn/Return_TurnStatus"},
+	                               cpr::Header{{"Content-Type", "application/json"}});
+		crow::json::load(response.text)["Status"].s() == "true")
+	{
+		return true;
+	}
+	return false;
 }
 
-void Client::StartGame()
+void Client::Send_StartGame_Signal()
 {
     auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startGame"},
         cpr::Header{ {"Content-Type", "application/json"} });
 
 }
 
-void Client::CreateLobby()
+void Client::Send_CreateLobby_Signal()
 {
     auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobby" },
         cpr::Header{ {"Content-Type", "application/json"} });
 }
-void Client::sendDrawing(const QByteArray& drawingData)
+void Client::Send_Drawing(const QByteArray& drawingData)
 {
-
     auto reponse = cpr::Post(cpr::Url{ "http://localhost:18080/drawingEndpoint" },
         cpr::Body{ drawingData.constData(), static_cast<size_t>(drawingData.size()) },
         cpr::Header{ {"Content-Type", "application/octet-stream"} });

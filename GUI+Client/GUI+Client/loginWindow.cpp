@@ -24,7 +24,7 @@ void LoginWindow::LoginButton_Clicked()
     }
 
     //Sends username and password to the server to check with the database  
-    if (const long response = m_loginClient.GetLoginResponse(m_username, m_password); 
+    if (const long response = m_loginClient.Return_LoginResponse(m_username, m_password); 
         response == 200 || response == 201)
     {
 	    OpenMenuWindow(m_username);

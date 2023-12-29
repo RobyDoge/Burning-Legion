@@ -10,7 +10,7 @@ LobbyWindow::LobbyWindow(const std::string& username, QWidget* parent):
 {
     m_stopThread.store(true);
     ui.setupUi(this);
-    m_client.SendUsername(username);
+    m_client.Send_UsernameForLobby(username);
 
     connect(ui.startGameButton, &QPushButton::clicked, this, &LobbyWindow::StartGameButton_Clicked);
     connect(ui.difficultyBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &LobbyWindow::Difficulty_Changed);
@@ -29,10 +29,10 @@ void LobbyWindow::StartUpdatingThread()
     {
         while (m_stopThread) 
         {
-            m_players = m_client.GetPlayersVector(m_username);
+            m_players = m_client.Return_PlayersVector(m_username);
             emit PlayerJoinedLobby();
-            m_difficulty = m_client.GetDifficulty();
-            m_language = m_client.GetLanguage();
+            m_difficulty = m_client.Return_GameDifficulty();
+            m_language = m_client.Return_GameLanguage();
             emit PlayerChangedDifficulty();
             emit PlayerChangedLanguage();
             std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -56,7 +56,7 @@ LobbyWindow::~LobbyWindow()
 void LobbyWindow::StartGameButton_Clicked()
 {
     StopUpdatingThread();
-    m_client.StartGame();
+    m_client.Send_StartGame_Signal();
     auto* gameWindow = new GameWindow(m_username);
     gameWindow->show();
     this->destroy();
@@ -80,12 +80,12 @@ void LobbyWindow::PlayerJoinedLobby()
 void LobbyWindow::Difficulty_Changed()
 {
     m_difficulty = DIFFICULTY_MAP.at(ui.difficultyBox->currentText().toUtf8().constData());
-    m_client.SendDifficulty(m_difficulty);
+    m_client.Send_GameDifficulty(m_difficulty);
 }
 void LobbyWindow::Language_Changed()
 {
     m_language = DIFFICULTY_MAP.at(ui.languageBox->currentText().toUtf8().constData());
-    m_client.SendLanguage(m_language);
+    m_client.Send_GameLanguage(m_language);
 }
 
 void LobbyWindow::PlayerChangedDifficulty()

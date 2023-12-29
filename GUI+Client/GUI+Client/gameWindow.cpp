@@ -31,8 +31,8 @@ GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	//QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
 	ui.drawingArea->setGeometry(m_xPos, m_yPos, WIDTH, HEIGHT);
 
-	//GetTurnStatus();
-	//GetGameStatus();
+	//Return_TurnStatus();
+	//Return_GameStatus();
 
 	// În constructorul GameWindow
 	QTimer* gameStatusTimer = new QTimer(this);
@@ -48,8 +48,8 @@ GameWindow::~GameWindow() = default;
 
 void GameWindow::CheckGameStatus()
 {
-	m_gameStatus = m_client.GetGameStatus();
-	m_currentDrawerPosition = m_client.GetDrawerPosition();
+	m_gameStatus = m_client.Return_GameStatus();
+	m_currentDrawerPosition = m_client.Return_DrawerPosition();
 	if (m_previousDrawerPosition!=m_currentDrawerPosition)
 	{
 		m_previousDrawerPosition = m_currentDrawerPosition;
@@ -72,7 +72,7 @@ void GameWindow::SendButton_Clicked()
 		}
 		ui.inputField->clear();
 
-		if (const auto serverMessage = QString(m_client.SendPlayerMessage(playerMessage.toUtf8().constData()).c_str()); 
+		if (const auto serverMessage = QString(m_client.Return_PlayerGuessResponse(playerMessage.toUtf8().constData()).c_str()); 
 			serverMessage != playerMessage)
 		{
 			ui.messageArea->append("Player: " + playerMessage);
@@ -235,15 +235,15 @@ void GameWindow::StartTurn()
 	ClearDrawingArea();
 	ClearChat();
 	ui.timerLabel->setText("60");
-	if (m_username == m_client.GetDrawer())
+	if (m_username == m_client.Return_DrawerName())
 	{
 		m_isDrawer = true;
-		ui.wordtoGuess->setText(QString(m_client.GetWordToBeGuessed().c_str()));
+		ui.wordtoGuess->setText(QString(m_client.Return_WordToBeGuessed().c_str()));
 	}
 	else
 	{
 		m_isDrawer = false;
-		ui.wordtoGuess->setText(QString(WordToCensor(m_client.GetWordToBeGuessed()).c_str()));
+		ui.wordtoGuess->setText(QString(WordToCensor(m_client.Return_WordToBeGuessed()).c_str()));
 	}
 	//while (true)
 	//{

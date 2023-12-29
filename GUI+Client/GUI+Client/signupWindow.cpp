@@ -19,7 +19,7 @@ bool SignUpWindow::Username_LineEditingFinished()
 {
 	m_username = ui.signupUsernameLine->text();
 	QString data = QCoreApplication::applicationDirPath();
-	if (const long response = m_signUpClient.ConfirmUsernameAvailable(m_username.toUtf8().constData()); 
+	if (const long response = m_signUpClient.Return_UsernameAvailability(m_username.toUtf8().constData()); 
 		response == 200 || response == 201)
 	{
 		const QPixmap available(QCoreApplication::applicationDirPath() + "/Checked.png");			//This should be moved to .h (i think) 
@@ -50,7 +50,7 @@ void SignUpWindow::SignUpButton_Clicked()
 
 	if (Username_LineEditingFinished())
 	{
-		if (const long response = m_signUpClient.AddUser(m_username.toUtf8().constData(), m_password.toUtf8().constData());
+		if (const long response = m_signUpClient.Return_CreateUserInDatabase(m_username.toUtf8().constData(), m_password.toUtf8().constData());
 			response == 200 || response == 201)
 		{
 			CreateLoginWindow();
