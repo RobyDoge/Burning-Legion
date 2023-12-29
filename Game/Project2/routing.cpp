@@ -235,12 +235,13 @@ void Routing::Run()
 		.methods("POST"_method)
 	                                          ([this](const crow::request& req)
 	                                          {
-		                                          const auto jsonData = crow::json::load(req.body);
-												std::string message = m_gameHandlers.CheckMessage(jsonData["message"].s());
-		                                          const auto responseJson = crow::json::wvalue{
+													const auto jsonData = crow::json::load(req.body);
+	                                          		std::string message = m_gameHandlers.CheckMessage(jsonData["message"].s());
+													const auto responseJson = crow::json::wvalue
+	                                          		{
 			                                          {"message", message}
-		                                          };
-		                                          return crow::json::wvalue{responseJson};
+													};
+													return crow::json::wvalue{responseJson};
 	                                          });
 
 

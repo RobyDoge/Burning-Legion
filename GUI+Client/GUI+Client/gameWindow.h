@@ -31,15 +31,16 @@ protected:
 
 
 private:
-    inline static const uint16_t WIDTH{ 800 };
-    inline static const uint16_t HEIGHT{ 600 };
+    inline static constexpr uint16_t WIDTH{ 800 };
+    inline static constexpr uint16_t HEIGHT{ 600 };
+    constexpr int m_xPos { (width() - WIDTH) / 2 };
+    constexpr int m_yPos { (height() - HEIGHT) / 2 };
 
 private:
     void ResizeToScreenSize();
-    QByteArray serializeDrawing();
-    void setReceivedDrawing(const QPixmap& pixmap);
-    QPixmap receivedDrawing;
-    void addNewLine(const QVector<QPoint>& newLine);
+    QByteArray SerializeDrawing();
+    void SetReceivedDrawing(const QPixmap& pixelMap);
+    void AddNewLine(const QVector<QPoint>& newLine);
     void ChangePenColor();
     void UpdateWordCensorship(char letter, int position);
     void CheckGameStatus();
@@ -48,35 +49,42 @@ private:
 
 private:
 	void StartTurn();
-    void ClearChat();
+    void ClearChat() const;
 	std::string WordToCensor(std::string word);
 
 private slots:
     void SendButton_Clicked();
     void InputField_ReturnPressed();
-    void UpdateCharCount();
+    void UpdateCharCount() const;
     void UpdatePenWidth();
     void ClearDrawingArea();
 
 private:
-    Ui::gameWindowClass ui;
-    QVector<QVector<QPoint>> m_lines; 
-    QVector<QPoint> m_currentLine; 
-    int m_currentPenWidth;
-    QMap<int, int> m_lineWidths; 
-    QMap<int, QColor> m_lineColor;
-    int m_lastUpdatedLineIndex = -1;
-    QColor m_currentPenColor; 
-   
-private:
+    /*those are unused for now
+    *
+    *int m_lastUpdatedLineIndex = -1;
+	*bool m_gameStatus;
+	*bool m_turnEnded;
+    *std::vector<std::string> m_players;
+    */
 
-    bool m_isDrawing;
-    bool m_gameEnded;
-    bool m_turnEnded;
+private:
     Client m_client;
+    Ui::gameWindowClass ui;
     std::string m_username;
-    std::vector<std::string> m_players;
-	std::string m_wordToCensor;
-    uint8_t m_oldPosition=-1;
-    uint8_t m_newPosition=-1;
+    std::string m_wordToCensor;
+
+    bool m_isDrawing{ false };
+    bool m_isDrawer{ false };
+    uint8_t m_previousDrawerPosition{ 255 };
+    uint8_t m_currentDrawerPosition{ 255 };
+    QPixmap m_receivedDrawing{};
+
+    QVector<QVector<QPoint>> m_lines;
+    QVector<QPoint> m_currentLine;
+    QColor m_currentPenColor;
+    int m_currentPenWidth;
+    QMap<int, int> m_lineWidths;
+    QMap<int, QColor> m_lineColor;
+
 };
