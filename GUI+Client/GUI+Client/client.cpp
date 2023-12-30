@@ -88,6 +88,11 @@ void Client::Send_GameLanguage(const uint8_t language)
 }
 
 
+std::pair<uint16_t, std::list<int16_t>> Client::GetBestScoreAndLastMatchesPoints(const std::string& username)
+{
+	return std::pair<uint16_t, std::list<int16_t>>();
+}
+
 std::vector<std::string> Client::Return_PlayersVector(const std::string& username)
 {
 	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbySendUsers" },

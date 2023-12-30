@@ -121,7 +121,7 @@ public:
 
 private:
 	Dictionary m_db = CreateDictionary("database.sqlite");
-	static constexpr std::unordered_map<uint8_t, std::string> LANGUAGE_TO_STRING
+	inline static const std::unordered_map<uint8_t, std::string> LANGUAGE_TO_STRING
 	{
 		{0, "eng"},
 		{1, "ro"},

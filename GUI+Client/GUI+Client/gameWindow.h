@@ -33,8 +33,8 @@ protected:
 private:
     inline static constexpr uint16_t WIDTH{ 800 };
     inline static constexpr uint16_t HEIGHT{ 600 };
-    constexpr int m_xPos { (width() - WIDTH) / 2 };
-    constexpr int m_yPos { (height() - HEIGHT) / 2 };
+     int m_xPos { (width() - WIDTH) / 2 };
+     int m_yPos { (height() - HEIGHT) / 2 };
 
 private:
     void ResizeToScreenSize();

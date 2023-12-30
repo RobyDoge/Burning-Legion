@@ -48,7 +48,7 @@ GameWindow::~GameWindow() = default;
 
 void GameWindow::CheckGameStatus()
 {
-	m_gameStatus = m_client.Return_GameStatus();
+	//m_gameStatus = m_client.Return_GameStatus();
 	m_currentDrawerPosition = m_client.Return_DrawerPosition();
 	if (m_previousDrawerPosition!=m_currentDrawerPosition)
 	{

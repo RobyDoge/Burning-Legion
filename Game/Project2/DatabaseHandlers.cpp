@@ -5,6 +5,7 @@
 
 
 //WORDDATABASE
+
 void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filename)
 {
     std::ifstream inputFile(filename);
@@ -37,6 +38,7 @@ void PopulateDictionaryFromFile(Dictionary& dictionary, const std::string& filen
 
 void WordDatabaseHandle::Init()
 {
+
 	if (time_t lastModifiedTime = 1702233024; 
         HasFileChanged("input.txt", lastModifiedTime))
         m_db.remove_all<WordFromDictionary>();
