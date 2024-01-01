@@ -87,4 +87,6 @@ private:
     QMap<int, int> m_lineWidths;
     QMap<int, QColor> m_lineColor;
 
+	bool m_gameEnded{ false };
+    uint8_t currentTime;
 };

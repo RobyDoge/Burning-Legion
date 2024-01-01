@@ -48,13 +48,20 @@ GameWindow::~GameWindow() = default;
 
 void GameWindow::CheckGameStatus()
 {
-	//m_gameStatus = m_client.Return_GameStatus();
+	currentTime--;
+	ui.timerLabel->setText(QString::number(currentTime));
+	m_gameEnded = m_client.Return_GameStatus();
 	m_currentDrawerPosition = m_client.Return_DrawerPosition();
-	if (m_previousDrawerPosition!=m_currentDrawerPosition)
+	if (m_gameEnded)
 	{
-		m_previousDrawerPosition = m_currentDrawerPosition;
-		emit StartTurn();
+		ShowEndWindow();
+		this->destroy();
 	}
+	else if (m_previousDrawerPosition!=m_currentDrawerPosition)
+		{
+			m_previousDrawerPosition = m_currentDrawerPosition;
+			emit StartTurn();
+		}
 }
 
 //need to add function to display a message with the player that is drawing
@@ -234,6 +241,7 @@ void GameWindow::StartTurn()
 {
 	ClearDrawingArea();
 	ClearChat();
+	currentTime = 60;
 	ui.timerLabel->setText("60");
 	if (m_username == m_client.Return_DrawerName())
 	{

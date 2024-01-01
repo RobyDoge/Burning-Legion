@@ -174,16 +174,6 @@ bool Client::Return_GameStatus()
 	return false;
 }
 
-bool Client::Return_TurnStatus()
-{
-	if (const auto response = Post(cpr::Url{"http://localhost:18080/startTurn/Return_TurnStatus"},
-	                               cpr::Header{{"Content-Type", "application/json"}});
-		crow::json::load(response.text)["Status"].s() == "true")
-	{
-		return true;
-	}
-	return false;
-}
 
 void Client::Send_StartGame_Signal()
 {

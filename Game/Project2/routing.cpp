@@ -176,21 +176,7 @@ void Routing::Run()
 	                               });
 
 
-	CROW_ROUTE(m_app, "/startTurn/GetTurnStatus")
-		.methods("POST"_method)
-	                                             ([this](const crow::request& req)
-	                                             {
-													 std::string status;
-												     if (m_gameHandlers.GetTurnStatus())
-														 status = "true";
-													 else status = "false";
-
-		                                             const auto responseJson = crow::json::wvalue{
-			                                             {"Status", status}
-		                                             };
-		                                             return crow::json::wvalue{responseJson};
-	                                             });
-	CROW_ROUTE(m_app, "/startGame/GetGameStatus")
+	CROW_ROUTE(m_app, "/startGame/Return_GameStatus")
 		.methods("POST"_method)
 	                                             ([this](const crow::request& req)
 	                                             {
