@@ -37,6 +37,7 @@ GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	// În constructorul GameWindow
 	QTimer* gameStatusTimer = new QTimer(this);
 	connect(gameStatusTimer, &QTimer::timeout, this, &GameWindow::CheckGameStatus);
+	CheckGameStatus();
 	gameStatusTimer->start(1000);
 
 	// Intervalul în milisecunde
@@ -57,11 +58,20 @@ void GameWindow::CheckGameStatus()
 		ShowEndWindow();
 		this->destroy();
 	}
-	else if (m_previousDrawerPosition!=m_currentDrawerPosition)
+	else if (m_previousDrawerPosition != m_currentDrawerPosition)
+	{
+		if (m_currentDrawerPosition == 0 && m_previousDrawerPosition != 255)
 		{
 			m_previousDrawerPosition = m_currentDrawerPosition;
-			emit StartTurn();
+			emit ShowPointWindow();
+			QTimer::singleShot(5000, this, &GameWindow::StartTurn);
 		}
+		else
+			{
+				m_previousDrawerPosition = m_currentDrawerPosition;
+				emit StartTurn();
+			}
+	}
 }
 
 //need to add function to display a message with the player that is drawing
@@ -253,13 +263,7 @@ void GameWindow::StartTurn()
 		m_isDrawer = false;
 		ui.wordtoGuess->setText(QString(WordToCensor(m_client.Return_WordToBeGuessed()).c_str()));
 	}
-	//while (true)
-	//{
-	//	if (m_gameStatus)
-	//		ShowEndWindow();
-	//	if (m_turnEnded)
-	//		ShowPointWindow();
-	//}
+	
 }
 
 //TODO: implement this function

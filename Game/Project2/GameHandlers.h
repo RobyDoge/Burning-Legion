@@ -7,6 +7,7 @@ import turn;
 #include <memory>
 #include <string>
 #include <queue>
+#include "Timer.h"
 
 
 using namespace game_logic;
@@ -47,6 +48,8 @@ namespace server
 		std::shared_ptr<Turn> m_currentTurn{};
 		std::string m_wordToBeGuessed{};
 		uint8_t m_drawerPosition;
+		Timer m_timer{};
+
 	};
 };
 

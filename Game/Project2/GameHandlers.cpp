@@ -98,23 +98,22 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 		{
 			Turn turn{ m_game->GetTurn(m_drawerPosition) };
 			m_currentTurn = std::make_shared<Turn>(turn);
-			Timer timer{};
 			uint8_t secondsPassed{};
 			uint8_t ticksPassed{};
 			m_wordToBeGuessed = m_game->GetNextWord();
 
-			timer.Reset();
+			m_timer.Reset();
 			while (true && secondsPassed < turn.TURN_LIMIT)
 			{
 				//add points to the player who guessed the word
 
-				if (timer.GetElapsedTime() > 0.1)
+				if (m_timer.GetElapsedTime() > 0.1)
 				{
 					++ticksPassed;
 
 					//TODO: Send Last Received Drawing To Clients
 
-					timer.Reset();
+					m_timer.Reset();
 				}
 				if (ticksPassed == 10)
 				{
@@ -136,7 +135,6 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 
 void GameHandlers::StartNextTurn(uint8_t roundIndex)
 {
-	// TODO: Puteți adăuga aici logica specifică atunci când un tur se încheie
 
 	// Verificați dacă mai sunt runde și jucători
 	if (roundIndex < m_game->NUMBER_OF_ROUNDS - 1)
@@ -151,6 +149,11 @@ void GameHandlers::StartNextTurn(uint8_t roundIndex)
 			{
 				roundIndex++;
 				m_drawerPosition = 0;
+				m_timer.Reset();
+				while (m_timer.GetElapsedTime() < 5)
+				{
+					int a = 0;//idk umplutura?????
+				}
 				TurnThreadStart(roundIndex);
 			}
 
