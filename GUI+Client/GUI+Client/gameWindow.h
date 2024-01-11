@@ -12,7 +12,7 @@
 #include <QMap>
 #include <QColor>
 #include <QBuffer>
-
+#include<algorithm>
 
 class GameWindow : public QMainWindow
 {
@@ -43,6 +43,7 @@ private:
     void AddNewLine(const QVector<QPoint>& newLine);
     void ChangePenColor();
     void UpdateWordCensorship(char letter, int position);
+    void ProcessPlayerGuess(std::string guess, std::string correctAnswer);
     void CheckGameStatus();
     void ShowPointWindow();
     void ShowEndWindow();

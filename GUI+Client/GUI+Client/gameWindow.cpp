@@ -5,6 +5,7 @@
 #include<qtimer.h>
 
 
+
 GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	QMainWindow(parent),
 	m_username(username)
@@ -84,7 +85,7 @@ void GameWindow::SendButton_Clicked()
 	{
 		const QString playerMessage = ui.inputField->text();
 
-		if (!playerMessage.isEmpty())
+		if (!playerMessage.isEmpty() && playerMessage != QString(m_client.Return_WordToBeGuessed().c_str()))
 		{
 			ui.messageArea->append("Player: " + playerMessage);
 		}
@@ -95,7 +96,29 @@ void GameWindow::SendButton_Clicked()
 		{
 			ui.messageArea->append("Player: " + playerMessage);
 		}
+		ProcessPlayerGuess(playerMessage.toUtf8().constData(), m_client.Return_WordToBeGuessed());
 	}
+}
+
+void GameWindow::ProcessPlayerGuess(std::string guess, std::string correctAnswer) 
+{
+	const size_t thirdLength = max(1ul, correctAnswer.length() / 3);
+	size_t diff = 0;
+	size_t minLen =min(guess.length(), correctAnswer.length());
+	size_t index = 0; 
+	diff += std::count_if(guess.begin(), guess.begin() + minLen,
+		[this, &index, &correctAnswer](char c) {
+			return c != correctAnswer[index++];
+		});
+	diff += std::abs(static_cast<int>(guess.size()) - static_cast<int>(correctAnswer.size()));
+
+	if (diff==0) 
+		ui.messageArea->append("You guessed the word right!");
+	else if (diff == 1) 
+		ui.messageArea->append("You are very close to the right answer!");
+	else if (diff == 2 || diff == thirdLength)
+		ui.messageArea->append("You are close to the right answer!");
+//TO BE TESTED when messageArea works again
 }
 
 void GameWindow::InputField_ReturnPressed()
