@@ -27,7 +27,8 @@ GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	connect(ui.colorPickerButton, &QPushButton::clicked, this, &GameWindow::ChangePenColor);
 	connect(ui.clearButton, &QPushButton::clicked, this, &GameWindow::ClearDrawingArea);
 
-
+	m_xPos = (width() - WIDTH) / 2;
+	m_yPos = (height() - HEIGHT) / 2;
 	//QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
 	ui.drawingArea->setGeometry(m_xPos, m_yPos, WIDTH, HEIGHT);
 
@@ -253,6 +254,8 @@ void GameWindow::StartTurn()
 	ClearChat();
 	currentTime = 60;
 	ui.timerLabel->setText("60");
+	QString qDrawerName = QString(m_client.Return_DrawerName().c_str());
+	ui.messageArea->append(qDrawerName + " is drawing...");
 	if (m_username == m_client.Return_DrawerName())
 	{
 		m_isDrawer = true;
