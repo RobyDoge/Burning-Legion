@@ -174,6 +174,16 @@ bool Client::Return_GameStatus()
 	return false;
 }
 
+bool Client::Return_GameStart()
+{
+	if (const auto response = Post(cpr::Url{ "http://localhost:18080/startGame/Return_GameStart" },
+		cpr::Header{ {"Content-Type", "application/json"} });
+		crow::json::load(response.text)["Start"].s() == "true")
+	{
+		return true;
+	}
+	return false;
+}
 
 void Client::Send_StartGame_Signal()
 {

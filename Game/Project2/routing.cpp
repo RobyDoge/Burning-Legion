@@ -189,6 +189,19 @@ void Routing::Run()
 														 };
 		                                             return crow::json::wvalue{responseJson};
 	                                             });
+	CROW_ROUTE(m_app, "/startGame/Return_GameStart")
+		.methods("POST"_method)
+												([this](const crow::request& req)
+													{
+														std::string status;
+														if (m_gameHandlers.IsGameStarted())
+															status = "true";
+														else status = "false";
+														const auto responseJson = crow::json::wvalue{
+															{"Start", status}
+														};
+														return crow::json::wvalue{ responseJson };
+													});
 	CROW_ROUTE(m_app, "/startTurn/DrawerPosition")
 		.methods("POST"_method)
 												([this](const crow::request& req)

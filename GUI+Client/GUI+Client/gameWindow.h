@@ -43,7 +43,7 @@ private:
     void AddNewLine(const QVector<QPoint>& newLine);
     void ChangePenColor();
     void UpdateWordCensorship(char letter, int position);
-    void ProcessPlayerGuess(std::string guess, std::string correctAnswer);
+    //void ProcessPlayerGuess(std::string guess, std::string correctAnswer);
     void CheckGameStatus();
     void ShowPointWindow();
     void ShowEndWindow();

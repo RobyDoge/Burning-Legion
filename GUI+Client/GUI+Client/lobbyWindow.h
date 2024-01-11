@@ -8,9 +8,9 @@
 
 class LobbyWindow : public QMainWindow
 {
-		Q_OBJECT
+	Q_OBJECT
 public:
-	LobbyWindow(const std::string& username,QWidget *parent = nullptr);
+	LobbyWindow(const std::string& username, QWidget* parent = nullptr);
 	~LobbyWindow() override;
 
 private:
@@ -20,21 +20,24 @@ private:
 	void PlayerJoinedLobby();
 	void PlayerChangedDifficulty();
 	void PlayerChangedLanguage();
-
+	void GameStartThread();
+	void GameStarted();
 private slots:
 	void StartGameButton_Clicked();
 	void Difficulty_Changed();
 	void Language_Changed();
 
 private:
+	QTimer* gameStatusTimer;
 	Ui::lobbyClass ui;
 	std::vector<std::string> m_players{};
 	std::string m_username{};
-	uint8_t m_difficulty{0};
-	uint8_t m_language{0};
+	uint8_t m_difficulty{ 0 };
+	uint8_t m_language{ 0 };
 	Client m_client{};
-	std::atomic<bool> m_stopThread{};
-
+	bool m_stopThread{true};
+	bool m_IsLeader{ false };
+	bool m_GameStart{ false };
 private:
 	inline static const std::unordered_map<std::string, uint8_t> DIFFICULTY_MAP
 	{

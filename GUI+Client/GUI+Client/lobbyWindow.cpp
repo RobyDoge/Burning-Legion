@@ -3,12 +3,12 @@
 #include "GameWindow.h"
 #include <thread>
 #include <chrono>
+#include <qtimer.h>
 
 LobbyWindow::LobbyWindow(const std::string& username, QWidget* parent):
 	QMainWindow(parent),
 	m_username(username)
 {
-    m_stopThread.store(true);
     ui.setupUi(this);
     m_client.Send_UsernameForLobby(username);
 
@@ -20,31 +20,44 @@ LobbyWindow::LobbyWindow(const std::string& username, QWidget* parent):
     {
 	    ui.playersListWidget->item(i)->setTextAlignment(Qt::AlignCenter);
     }
+    gameStatusTimer = new QTimer(this);
+    connect(gameStatusTimer, &QTimer::timeout, this, &LobbyWindow::GameStartThread);
+	connect(gameStatusTimer, &QTimer::timeout, this, &LobbyWindow::StartUpdatingThread);
+    gameStatusTimer->start(2000);
+    GameStartThread();
     StartUpdatingThread();
+}
+void LobbyWindow::GameStartThread()
+{
+                
+				m_GameStart = m_client.Return_GameStart();
+				if (m_GameStart)
+				{
+					emit GameStarted();
+				}
+                
+    
+
 }
 
 void LobbyWindow::StartUpdatingThread()
 {
-    std::thread updateThread([this]() 
-    {
-        while (m_stopThread) 
-        {
+    
             m_players = m_client.Return_PlayersVector(m_username);
+
+            if (m_players.size() == 1)
+				m_IsLeader = true;
             emit PlayerJoinedLobby();
             m_difficulty = m_client.Return_GameDifficulty();
             m_language = m_client.Return_GameLanguage();
             emit PlayerChangedDifficulty();
             emit PlayerChangedLanguage();
-            std::this_thread::sleep_for(std::chrono::seconds(1));
-        }
-    });
-
-    updateThread.detach(); 
+    
 }
 
 void LobbyWindow::StopUpdatingThread()
 {
-    m_stopThread.store(false);
+    m_stopThread = false;
 }
 
 LobbyWindow::~LobbyWindow()
@@ -53,13 +66,20 @@ LobbyWindow::~LobbyWindow()
 	StopUpdatingThread();
 }
 
-void LobbyWindow::StartGameButton_Clicked()
+void LobbyWindow::GameStarted()
 {
-    StopUpdatingThread();
-    m_client.Send_StartGame_Signal();
+	gameStatusTimer->stop();
     auto* gameWindow = new GameWindow(m_username);
     gameWindow->show();
     this->destroy();
+}
+
+void LobbyWindow::StartGameButton_Clicked()
+{
+    if (m_IsLeader)
+    {
+    m_client.Send_StartGame_Signal();
+    }
 
 }
 
@@ -97,4 +117,5 @@ void LobbyWindow::PlayerChangedLanguage()
 {
     ui.languageBox->setCurrentIndex(m_language);
 }
+
 

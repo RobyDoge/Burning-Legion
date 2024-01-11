@@ -26,10 +26,9 @@ public:
 	std::string Return_PlayerGuessResponse(const std::string& message);
 	uint8_t Return_DrawerPosition();
 	bool Return_GameStatus();
-	bool Return_TurnStatus();
 	void Send_StartGame_Signal();
-	void StartTurn();
 	void Send_CreateLobby_Signal();
+	bool Return_GameStart();
 
 private:
 

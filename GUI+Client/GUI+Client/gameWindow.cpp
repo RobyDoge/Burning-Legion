@@ -3,6 +3,7 @@
 #include<QToolTip>
 #include<QColorDialog>
 #include<qtimer.h>
+#include <QThread>
 
 
 
@@ -32,9 +33,6 @@ GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	m_yPos = (height() - HEIGHT) / 2;
 	//QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
 	ui.drawingArea->setGeometry(m_xPos, m_yPos, WIDTH, HEIGHT);
-
-	//Return_TurnStatus();
-	//Return_GameStatus();
 
 	// În constructorul GameWindow
 	QTimer* gameStatusTimer = new QTimer(this);
@@ -96,30 +94,30 @@ void GameWindow::SendButton_Clicked()
 		{
 			ui.messageArea->append("Player: " + playerMessage);
 		}
-		ProcessPlayerGuess(playerMessage.toUtf8().constData(), m_client.Return_WordToBeGuessed());
+		//ProcessPlayerGuess(playerMessage.toUtf8().constData(), m_client.Return_WordToBeGuessed());
 	}
 }
 
-void GameWindow::ProcessPlayerGuess(std::string guess, std::string correctAnswer) 
-{
-	const size_t thirdLength = max(1ul, correctAnswer.length() / 3);
-	size_t diff = 0;
-	size_t minLen =min(guess.length(), correctAnswer.length());
-	size_t index = 0; 
-	diff += std::count_if(guess.begin(), guess.begin() + minLen,
-		[this, &index, &correctAnswer](char c) {
-			return c != correctAnswer[index++];
-		});
-	diff += std::abs(static_cast<int>(guess.size()) - static_cast<int>(correctAnswer.size()));
-
-	if (diff==0) 
-		ui.messageArea->append("You guessed the word right!");
-	else if (diff == 1) 
-		ui.messageArea->append("You are very close to the right answer!");
-	else if (diff == 2 || diff == thirdLength)
-		ui.messageArea->append("You are close to the right answer!");
-//TO BE TESTED when messageArea works again
-}
+//void GameWindow::ProcessPlayerGuess(std::string guess, std::string correctAnswer) 
+//{
+//	const size_t thirdLength = max(1ul, correctAnswer.length() / 3);
+//	size_t diff = 0;
+//	size_t minLen =min(guess.length(), correctAnswer.length());
+//	size_t index = 0; 
+//	diff += std::count_if(guess.begin(), guess.begin() + minLen,
+//		[this, &index, &correctAnswer](char c) {
+//			return c != correctAnswer[index++];
+//		});
+//	diff += std::abs(static_cast<int>(guess.size()) - static_cast<int>(correctAnswer.size()));
+//
+//	if (diff==0) 
+//		ui.messageArea->append("You guessed the word right!");
+//	else if (diff == 1) 
+//		ui.messageArea->append("You are very close to the right answer!");
+//	else if (diff == 2 || diff == thirdLength)
+//		ui.messageArea->append("You are close to the right answer!");
+////TO BE TESTED when messageArea works again
+//}
 
 void GameWindow::InputField_ReturnPressed()
 {

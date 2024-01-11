@@ -166,6 +166,11 @@ void GameHandlers::StartNextTurn(uint8_t roundIndex)
 	}
 }
 
+bool GameHandlers::IsGameStarted() const
+{
+	return m_gameStarted;
+}
+
 void GameHandlers::StartGame()
 {
 	m_game = std::make_unique<Game>(m_lobby->GetPlayers(), 
@@ -173,6 +178,7 @@ void GameHandlers::StartGame()
 			static_cast<uint8_t>(static_cast<uint8_t>(m_lobby->GetPlayers().size()) * m_game->NUMBER_OF_ROUNDS),
 			m_lobby->GetDifficulty(), m_lobby->GetLanguage())
 		);
+	m_gameStarted = true;
 	m_drawerPosition = 0;
 	TurnThreadStart(0);		
 
