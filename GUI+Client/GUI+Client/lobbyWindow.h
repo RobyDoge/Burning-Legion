@@ -4,7 +4,7 @@
 #include "ui_lobbyWindow.h"
 #include <vector>
 #include "Client.h"
-
+#include <atomic>
 
 class LobbyWindow : public QMainWindow
 {
@@ -35,7 +35,8 @@ private:
 	uint8_t m_difficulty{ 0 };
 	uint8_t m_language{ 0 };
 	Client m_client{};
-	bool m_stopThread{true};
+
+	std::atomic<bool> m_stopThread;
 	bool m_IsLeader{ false };
 	bool m_GameStart{ false };
 private:

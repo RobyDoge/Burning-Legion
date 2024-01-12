@@ -80,6 +80,7 @@ private:
     uint8_t m_previousDrawerPosition{ 255 };
     uint8_t m_currentDrawerPosition{ 255 };
     QPixmap m_receivedDrawing{};
+    std::atomic<bool> m_stopThread;
 
     QVector<QVector<QPoint>> m_lines;
     QVector<QPoint> m_currentLine;

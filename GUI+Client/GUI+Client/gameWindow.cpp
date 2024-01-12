@@ -34,13 +34,12 @@ GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	//QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
 	ui.drawingArea->setGeometry(m_xPos, m_yPos, WIDTH, HEIGHT);
 
-	// În constructorul GameWindow
-	QTimer* gameStatusTimer = new QTimer(this);
-	connect(gameStatusTimer, &QTimer::timeout, this, &GameWindow::CheckGameStatus);
-	CheckGameStatus();
-	gameStatusTimer->start(1000);
+	m_stopThread.store(true);
 
-	// Intervalul în milisecunde
+	
+	CheckGameStatus();
+
+	
 
 }
 
@@ -49,29 +48,43 @@ GameWindow::~GameWindow() = default;
 
 void GameWindow::CheckGameStatus()
 {
-	currentTime--;
-	ui.timerLabel->setText(QString::number(currentTime));
-	m_gameEnded = m_client.Return_GameStatus();
-	m_currentDrawerPosition = m_client.Return_DrawerPosition();
-	if (m_gameEnded)
-	{
-		ShowEndWindow();
-		this->destroy();
-	}
-	else if (m_previousDrawerPosition != m_currentDrawerPosition)
-	{
-		if (m_currentDrawerPosition == 0 && m_previousDrawerPosition != 255)
+	std::thread updateThread([this]()
 		{
-			m_previousDrawerPosition = m_currentDrawerPosition;
-			emit ShowPointWindow();
-			QTimer::singleShot(5000, this, &GameWindow::StartTurn);
-		}
-		else
+			while (m_stopThread)
 			{
-				m_previousDrawerPosition = m_currentDrawerPosition;
-				emit StartTurn();
+				currentTime--;
+				ui.timerLabel->setText(QString::number(currentTime));
+				m_gameEnded = m_client.Return_GameStatus();
+				m_currentDrawerPosition = m_client.Return_DrawerPosition();
+				QMetaObject::invokeMethod(this, [this]() {
+
+					if (m_gameEnded)
+					{
+						ShowEndWindow();
+						this->destroy();
+						m_stopThread.store(false);
+					}
+
+					}, Qt::QueuedConnection);
+				 if (m_previousDrawerPosition != m_currentDrawerPosition)
+				{
+					if (m_currentDrawerPosition == 0 && m_previousDrawerPosition != 255)
+					{
+						m_previousDrawerPosition = m_currentDrawerPosition;
+						emit ShowPointWindow();
+						QTimer::singleShot(5000, this, &GameWindow::StartTurn);
+					}
+					else
+					{
+						m_previousDrawerPosition = m_currentDrawerPosition;
+						emit StartTurn();
+					}
+				}
 			}
-	}
+			});
+
+	updateThread.detach();
+
 }
 
 //need to add function to display a message with the player that is drawing
@@ -271,6 +284,9 @@ void GameWindow::UpdateWordCensorship(const char letter, const int position)
 
 void GameWindow::StartTurn()
 {
+	QMetaObject::invokeMethod(this, [this]() {
+
+	
 	ClearDrawingArea();
 	ClearChat();
 
@@ -288,13 +304,20 @@ void GameWindow::StartTurn()
 		m_isDrawer = false;
 		ui.wordtoGuess->setText(QString(WordToCensor(m_client.Return_WordToBeGuessed()).c_str()));
 	}
+
+		}, Qt::QueuedConnection);
 	
 }
 
 //TODO: implement this function
 void GameWindow::ShowPointWindow()
 {
+	QMetaObject::invokeMethod(this, [this]() {
+
+	
 	return;
+
+		}, Qt::QueuedConnection);
 }
 
 

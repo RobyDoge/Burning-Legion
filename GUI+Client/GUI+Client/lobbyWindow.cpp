@@ -9,6 +9,7 @@ LobbyWindow::LobbyWindow(const std::string& username, QWidget* parent):
 	QMainWindow(parent),
 	m_username(username)
 {
+    m_stopThread.store(true);
     ui.setupUi(this);
     m_client.Send_UsernameForLobby(username);
 
@@ -20,39 +21,52 @@ LobbyWindow::LobbyWindow(const std::string& username, QWidget* parent):
     {
 	    ui.playersListWidget->item(i)->setTextAlignment(Qt::AlignCenter);
     }
-    gameStatusTimer = new QTimer(this);
-    connect(gameStatusTimer, &QTimer::timeout, this, &LobbyWindow::GameStartThread);
-	connect(gameStatusTimer, &QTimer::timeout, this, &LobbyWindow::StartUpdatingThread);
-    gameStatusTimer->start(2000);
     GameStartThread();
     StartUpdatingThread();
 }
 void LobbyWindow::GameStartThread()
 {
-                
+    std::thread updateThread2([this]()
+        {
+            while (m_stopThread)
+            {
 				m_GameStart = m_client.Return_GameStart();
 				if (m_GameStart)
 				{
 					emit GameStarted();
+					m_stopThread.store(false);
 				}
-                
+            }
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+
+        });
+
+    updateThread2.detach();
     
 
 }
-
 void LobbyWindow::StartUpdatingThread()
 {
-    
-            m_players = m_client.Return_PlayersVector(m_username);
+    std::thread updateThread([this]()
+        {
+            while (m_stopThread)
+            {
+                m_players = m_client.Return_PlayersVector(m_username);
 
-            if (m_players.size() == 1)
-				m_IsLeader = true;
-            emit PlayerJoinedLobby();
-            m_difficulty = m_client.Return_GameDifficulty();
-            m_language = m_client.Return_GameLanguage();
-            emit PlayerChangedDifficulty();
-            emit PlayerChangedLanguage();
-    
+                if (m_players.size() == 1)
+                    m_IsLeader = true;
+
+                emit PlayerJoinedLobby();
+                m_difficulty = m_client.Return_GameDifficulty();
+                m_language = m_client.Return_GameLanguage();
+                emit PlayerChangedDifficulty();
+                emit PlayerChangedLanguage();
+
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+            }
+        });
+
+    updateThread.detach();
 }
 
 void LobbyWindow::StopUpdatingThread()
@@ -68,10 +82,15 @@ LobbyWindow::~LobbyWindow()
 
 void LobbyWindow::GameStarted()
 {
-	gameStatusTimer->stop();
+    QMetaObject::invokeMethod(this, [this]() {
+
+    m_stopThread.store(false);
     auto* gameWindow = new GameWindow(m_username);
     gameWindow->show();
     this->destroy();
+
+    }, Qt::QueuedConnection);
+
 }
 
 void LobbyWindow::StartGameButton_Clicked()
@@ -94,7 +113,11 @@ void LobbyWindow::UpdatePlayersListWidget(QListWidget* listWidget)
 }
 void LobbyWindow::PlayerJoinedLobby()
 {
+    QMetaObject::invokeMethod(this, [this]() {
+
     UpdatePlayersListWidget(ui.playersListWidget);
+
+    }, Qt::QueuedConnection);
 }
 
 void LobbyWindow::Difficulty_Changed()
@@ -110,12 +133,16 @@ void LobbyWindow::Language_Changed()
 
 void LobbyWindow::PlayerChangedDifficulty()
 {
-	ui.difficultyBox->setCurrentIndex(m_difficulty);
+    QMetaObject::invokeMethod(this, [this]() {
+        ui.difficultyBox->setCurrentIndex(m_difficulty);
+        }, Qt::QueuedConnection);
 }
 
 void LobbyWindow::PlayerChangedLanguage()
 {
+    QMetaObject::invokeMethod(this, [this]() {
     ui.languageBox->setCurrentIndex(m_language);
+    }, Qt::QueuedConnection);
 }
 
 
