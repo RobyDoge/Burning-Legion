@@ -276,9 +276,9 @@ QPushButton#clearButton:pressed {
    <widget class="QLabel" name="wordtoGuess">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>390</x>
       <y>40</y>
-      <width>471</width>
+      <width>691</width>
       <height>51</height>
      </rect>
     </property>

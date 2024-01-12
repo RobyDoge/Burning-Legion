@@ -102,6 +102,7 @@
     <ClCompile Include="LoginWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuWindow.cpp" />
+    <ClCompile Include="ShowPointsWindow.cpp" />
     <ClCompile Include="SignUpWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +114,7 @@
     <QtUic Include="lobbyWindow.ui" />
     <QtUic Include="loginWindow.ui" />
     <QtUic Include="menuWindow.ui" />
+    <QtUic Include="showPointsWindow.ui" />
     <QtUic Include="signupWindow.ui" />
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +126,7 @@
   <ItemGroup>
     <ClInclude Include="Client.h" />
     <ClInclude Include="EndGameWindow.h" />
+    <ClInclude Include="ShowPointsWindow.h" />
     <QtMoc Include="LobbyWindow.h" />
     <ClInclude Include="MenuWindow.h" />
   </ItemGroup>

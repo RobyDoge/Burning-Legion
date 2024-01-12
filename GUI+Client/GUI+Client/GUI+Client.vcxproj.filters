@@ -47,6 +47,9 @@
     <ClCompile Include="EndGameWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ShowPointsWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LoginWindow.h">
@@ -81,6 +84,9 @@
     <QtUic Include="endGameWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="showPointsWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -90,6 +96,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EndGameWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowPointsWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
