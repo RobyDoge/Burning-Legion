@@ -4,7 +4,7 @@
 #include<QColorDialog>
 #include<qtimer.h>
 #include <QThread>
-
+#include <algorithm>
 
 
 GameWindow::GameWindow(const std::string& username, QWidget* parent) :
@@ -92,32 +92,32 @@ void GameWindow::SendButton_Clicked()
 		if (const auto serverMessage = QString(m_client.Return_PlayerGuessResponse(playerMessage.toUtf8().constData()).c_str()); 
 			serverMessage != playerMessage)
 		{
-			ui.messageArea->append("Player: " + playerMessage);
+			ui.messageArea->append("Player: " + serverMessage);
 		}
 		//ProcessPlayerGuess(playerMessage.toUtf8().constData(), m_client.Return_WordToBeGuessed());
 	}
 }
 
-//void GameWindow::ProcessPlayerGuess(std::string guess, std::string correctAnswer) 
-//{
-//	const size_t thirdLength = max(1ul, correctAnswer.length() / 3);
-//	size_t diff = 0;
-//	size_t minLen =min(guess.length(), correctAnswer.length());
-//	size_t index = 0; 
-//	diff += std::count_if(guess.begin(), guess.begin() + minLen,
-//		[this, &index, &correctAnswer](char c) {
-//			return c != correctAnswer[index++];
-//		});
-//	diff += std::abs(static_cast<int>(guess.size()) - static_cast<int>(correctAnswer.size()));
-//
-//	if (diff==0) 
-//		ui.messageArea->append("You guessed the word right!");
-//	else if (diff == 1) 
-//		ui.messageArea->append("You are very close to the right answer!");
-//	else if (diff == 2 || diff == thirdLength)
-//		ui.messageArea->append("You are close to the right answer!");
-////TO BE TESTED when messageArea works again
-//}
+void GameWindow::ProcessPlayerGuess(std::string guess, std::string correctAnswer) 
+{
+	const size_t thirdLength = std::max(1ul, static_cast<unsigned long>(correctAnswer.length() / 3));
+	size_t diff = 0;
+	size_t minLen =min(guess.length(), correctAnswer.length());
+	size_t index = 0; 
+	diff += std::count_if(guess.begin(), guess.begin() + minLen,
+		[this, &index, &correctAnswer](char c) {
+			return c != correctAnswer[index++];
+		});
+	diff += std::abs(static_cast<int>(guess.size()) - static_cast<int>(correctAnswer.size()));
+
+	if (diff==0) 
+		ui.messageArea->append("You guessed the word right!");
+	else if (diff == 1) 
+		ui.messageArea->append("You are very close to the right answer!");
+	else if (diff == 2 || diff == thirdLength)
+		ui.messageArea->append("You are close to the right answer!");
+//TO BE TESTED when messageArea works again
+}
 
 void GameWindow::InputField_ReturnPressed()
 {
@@ -273,6 +273,7 @@ void GameWindow::StartTurn()
 {
 	ClearDrawingArea();
 	ClearChat();
+
 	currentTime = 60;
 	ui.timerLabel->setText("60");
 	QString qDrawerName = QString(m_client.Return_DrawerName().c_str());

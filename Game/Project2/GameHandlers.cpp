@@ -68,6 +68,9 @@ std::queue<std::string> GameHandlers::CreateWordsNeeded(const uint8_t wordsNeede
 
 std::string GameHandlers::CheckMessage(const std::string& message) const
 {
+	if (m_currentTurn->VerifyInputWord(m_wordToBeGuessed, message) == "Correct Guess")
+		m_correctGuesses++;
+
 	return m_currentTurn->VerifyInputWord(m_wordToBeGuessed, message);
 
 }
@@ -101,17 +104,15 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 			uint8_t secondsPassed{};
 			uint8_t ticksPassed{};
 			m_wordToBeGuessed = m_game->GetNextWord();
-
+			m_correctGuesses = 0;
 			m_timer.Reset();
-			while (true && secondsPassed < turn.TURN_LIMIT)
+			while ((m_correctGuesses < turn.GetPlayers().size()-1) && (secondsPassed < turn.TURN_LIMIT))
 			{
-				//add points to the player who guessed the word
 
 				if (m_timer.GetElapsedTime() > 0.1)
 				{
 					++ticksPassed;
 
-					//TODO: Send Last Received Drawing To Clients
 
 					m_timer.Reset();
 				}
@@ -121,7 +122,6 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 
 					uint8_t currentTime{ static_cast<uint8_t>(turn.TURN_LIMIT - secondsPassed) };
 
-					//TODO: Send Current Time To Clients
 
 					ticksPassed = 0;
 				}

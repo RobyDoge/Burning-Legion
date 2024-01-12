@@ -26,18 +26,18 @@ namespace server
 		std::vector<std::string> GetUsersNames() const;
 		void SetDifficulty(int difficulty) const;
 		void SetLanguage(int language) const;
-		
+
 		uint8_t GetLanguage() const;
 		uint8_t GetDifficulty() const;
 		std::string GetWordToBeGuessed();
-		std::string CheckMessage(const std::string & message) const;
+		std::string CheckMessage(const std::string& message) const;
 		bool GetGameStatus() const;
 		bool GetTurnStatus() const;
 		void StartGame();
-		void TurnThreadStart( uint8_t roundIndex);
+		void TurnThreadStart(uint8_t roundIndex);
 		std::string GetDrawerName() const;
 		uint8_t GetDrawerPosition() const;
-		void StartNextTurn( uint8_t roundIndex);
+		void StartNextTurn(uint8_t roundIndex);
 		bool IsGameStarted() const;
 	private:
 		std::queue<std::string> CreateWordsNeeded(const uint8_t wordsNeeded, const uint8_t difficulty, const uint8_t language) const;
@@ -50,6 +50,7 @@ namespace server
 		uint8_t m_drawerPosition;
 		Timer m_timer{};
 		bool m_gameStarted{ false };
+		mutable int m_correctGuesses=0;
 	};
 };
 
