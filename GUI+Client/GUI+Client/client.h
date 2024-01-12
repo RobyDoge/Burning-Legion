@@ -29,7 +29,7 @@ public:
 	void Send_StartGame_Signal();
 	void Send_CreateLobby_Signal();
 	bool Return_GameStart();
-
+	int Return_CurrentTime();
 private:
 
 };

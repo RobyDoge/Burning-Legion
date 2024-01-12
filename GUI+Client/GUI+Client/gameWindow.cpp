@@ -52,8 +52,8 @@ void GameWindow::CheckGameStatus()
 		{
 			while (m_stopThread)
 			{
-				currentTime--;
-				ui.timerLabel->setText(QString::number(currentTime));
+				m_currentTime = m_client.Return_CurrentTime();
+				ui.timerLabel->setText(QString::number(60-m_currentTime));
 				m_gameEnded = m_client.Return_GameStatus();
 				m_currentDrawerPosition = m_client.Return_DrawerPosition();
 				QMetaObject::invokeMethod(this, [this]() {
@@ -290,7 +290,7 @@ void GameWindow::StartTurn()
 	ClearDrawingArea();
 	ClearChat();
 
-	currentTime = 60;
+	m_currentTime = 60;
 	ui.timerLabel->setText("60");
 	QString qDrawerName = QString(m_client.Return_DrawerName().c_str());
 	ui.messageArea->append(qDrawerName + " is drawing...");

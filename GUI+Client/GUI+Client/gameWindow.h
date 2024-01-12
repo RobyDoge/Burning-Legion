@@ -90,5 +90,5 @@ private:
     QMap<int, QColor> m_lineColor;
 
 	bool m_gameEnded{ false };
-    uint8_t currentTime;
+    uint8_t m_currentTime;
 };

@@ -174,7 +174,15 @@ void Routing::Run()
 		                               m_gameHandlers.StartGame();
 		                               return crow::response(200, "OK");
 	                               });
-
+	CROW_ROUTE(m_app, "/startTurn/Return_CurrentTime")
+		.methods("POST"_method)
+											([this](const crow::request& req)
+												{
+													const auto responseJson = crow::json::wvalue{
+														{"CurrentTime", m_gameHandlers.GetTime()}
+													};
+													return crow::json::wvalue{ responseJson };
+												});
 
 	CROW_ROUTE(m_app, "/startGame/Return_GameStatus")
 		.methods("POST"_method)

@@ -39,6 +39,8 @@ namespace server
 		uint8_t GetDrawerPosition() const;
 		void StartNextTurn(uint8_t roundIndex);
 		bool IsGameStarted() const;
+		int GetTime() const;
+
 	private:
 		std::queue<std::string> CreateWordsNeeded(const uint8_t wordsNeeded, const uint8_t difficulty, const uint8_t language) const;
 
@@ -51,6 +53,7 @@ namespace server
 		Timer m_timer{};
 		bool m_gameStarted{ false };
 		mutable int m_correctGuesses=0;
+		int m_currentTime;
 	};
 };
 

@@ -185,6 +185,13 @@ bool Client::Return_GameStart()
 	return false;
 }
 
+int Client::Return_CurrentTime()
+{
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/Return_CurrentTime" },
+		cpr::Header{ {"Content-Type", "application/json"} });
+	return crow::json::load(response.text)["CurrentTime"].i();
+}
+
 void Client::Send_StartGame_Signal()
 {
     auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startGame"},

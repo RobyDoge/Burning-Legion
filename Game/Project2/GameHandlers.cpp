@@ -94,7 +94,10 @@ std::string GameHandlers::GetDrawerName() const
 {
 	return m_currentTurn->GetPlayers()[m_drawerPosition].GetName();	
 }
-
+int GameHandlers::GetTime() const
+{
+	return m_currentTime;
+}
 void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 {
 	std::thread turnThread([this, roundIndex]()
@@ -105,6 +108,7 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 			uint8_t ticksPassed{};
 			m_wordToBeGuessed = m_game->GetNextWord();
 			m_correctGuesses = 0;
+			m_currentTime = 0;
 			m_timer.Reset();
 			while ((m_correctGuesses < turn.GetPlayers().size()-1) && (secondsPassed < turn.TURN_LIMIT))
 			{
@@ -119,7 +123,7 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 				if (ticksPassed == 10)
 				{
 					++secondsPassed;
-
+					m_currentTime++;
 					uint8_t currentTime{ static_cast<uint8_t>(turn.TURN_LIMIT - secondsPassed) };
 
 
