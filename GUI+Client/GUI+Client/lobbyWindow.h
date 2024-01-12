@@ -42,6 +42,7 @@ private:
 private:
 	inline static const std::unordered_map<std::string, uint8_t> DIFFICULTY_MAP
 	{
+		{"No Difficulty",0},
 		{"Easy", 1},
 		{"Normal", 2},
 		{"Hard", 3}

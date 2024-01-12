@@ -122,12 +122,14 @@ void LobbyWindow::PlayerJoinedLobby()
 
 void LobbyWindow::Difficulty_Changed()
 {
-    m_difficulty = DIFFICULTY_MAP.at(ui.difficultyBox->currentText().toUtf8().constData());
+	const std::string difficultyChange = ui.difficultyBox->currentText().toUtf8().constData();
+    m_difficulty = DIFFICULTY_MAP.at(difficultyChange);
     m_client.Send_GameDifficulty(m_difficulty);
 }
 void LobbyWindow::Language_Changed()
 {
-    m_language = DIFFICULTY_MAP.at(ui.languageBox->currentText().toUtf8().constData());
+    const std::string languageChange = ui.languageBox->currentText().toUtf8().constData();
+    m_language = LANGUAGE_MAP.at(languageChange);
     m_client.Send_GameLanguage(m_language);
 }
 
