@@ -40,7 +40,10 @@ namespace server
 		void StartNextTurn(uint8_t roundIndex);
 		bool IsGameStarted() const;
 		int GetTime() const;
-
+		void SetCurrentGuess(const std::string& guess);
+		std::string GetCurrentGuess() const;
+		std::string GetDrawing() const;
+		void SetDrawing(const std::string& drawing);
 	private:
 		std::queue<std::string> CreateWordsNeeded(const uint8_t wordsNeeded, const uint8_t difficulty, const uint8_t language) const;
 
@@ -54,6 +57,8 @@ namespace server
 		bool m_gameStarted{ false };
 		mutable int m_correctGuesses=0;
 		int m_currentTime;
+		std::string m_currentGuess;
+		std::string m_drawing;
 	};
 };
 

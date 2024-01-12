@@ -98,6 +98,22 @@ int GameHandlers::GetTime() const
 {
 	return m_currentTime;
 }
+void server::GameHandlers::SetCurrentGuess(const std::string& guess)
+{
+	m_currentGuess = guess;
+}
+std::string GameHandlers::GetCurrentGuess() const
+{
+	return m_currentGuess;
+}
+std::string server::GameHandlers::GetDrawing() const
+{
+	return m_drawing;
+}
+void server::GameHandlers::SetDrawing(const std::string& drawing)
+{
+	m_drawing = drawing;
+}
 void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 {
 	std::thread turnThread([this, roundIndex]()
@@ -110,7 +126,7 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 			m_correctGuesses = 0;
 			m_currentTime = 0;
 			m_timer.Reset();
-			while ((m_correctGuesses < turn.GetPlayers().size()-1) && (secondsPassed < turn.TURN_LIMIT))
+			while ((m_correctGuesses < turn.GetPlayers().size()) && (secondsPassed < turn.TURN_LIMIT))
 			{
 
 				if (m_timer.GetElapsedTime() > 0.1)

@@ -56,6 +56,8 @@ void GameWindow::CheckGameStatus()
 				ui.timerLabel->setText(QString::number(60-m_currentTime));
 				m_gameEnded = m_client.Return_GameStatus();
 				m_currentDrawerPosition = m_client.Return_DrawerPosition();
+				emit SerializeDrawing();
+				emit DeserializeDrawing();
 				QMetaObject::invokeMethod(this, [this]() {
 
 					if (m_gameEnded)
@@ -88,22 +90,39 @@ void GameWindow::CheckGameStatus()
 }
 
 //need to add function to display a message with the player that is drawing
-//function to display a message that the player is close or that he has guessed the word
 
+void GameWindow::UpdatePlayerMessages()
+{
+	std::thread messageThread([this]()
+		{
+		/*	while (m_stopThread)
+			{
+				m_currentPlayerGuess = QString(m_client.Return_OtherPlayerGuess().c_str());
+				QMetaObject::invokeMethod(this, [this]() {
+					if (!m_playerMessage.empty())
+					{
+						ui.messageArea->append(m_playerMessages.front());
+						m_playerMessages.pop();
+					}
+					}, Qt::QueuedConnection);
+			}*/
+		});
+}
 void GameWindow::SendButton_Clicked()
 {
 	if (!m_isDrawer)
 	{
-		const QString playerMessage = ui.inputField->text();
+	    m_playerMessage = ui.inputField->text();
+		m_client.Send_PlayerGuess(m_playerMessage.toUtf8().constData());
 
-		if (!playerMessage.isEmpty() && playerMessage != QString(m_client.Return_WordToBeGuessed().c_str()))
+		if (!m_playerMessage.isEmpty() && m_playerMessage != QString(m_client.Return_WordToBeGuessed().c_str()))
 		{
-			ui.messageArea->append("Player: " + playerMessage);
+			ui.messageArea->append("Player: " + m_playerMessage);
 		}
 		ui.inputField->clear();
 
-		if (const auto serverMessage = QString(m_client.Return_PlayerGuessResponse(playerMessage.toUtf8().constData()).c_str()); 
-			serverMessage != playerMessage)
+		if (const auto serverMessage = QString(m_client.Return_PlayerGuessResponse(m_playerMessage.toUtf8().constData()).c_str());
+			serverMessage != m_playerMessage)
 		{
 			ui.messageArea->append("Player: " + serverMessage);
 		}
@@ -328,18 +347,47 @@ void GameWindow::ShowEndWindow()
 	this->destroy();
 }
 
-QByteArray GameWindow::SerializeDrawing()
+void GameWindow::SerializeDrawing()
 {
-	const QPixmap pixelMap = ui.drawingArea->grab();
-	const QImage image = pixelMap.toImage();
+		QMetaObject::invokeMethod(this, [this]() {
+	if (m_isDrawer)
+	{
 
-	QByteArray byteArray;
-	QBuffer buffer(&byteArray);
-	buffer.open(QIODevice::WriteOnly);
-	image.save(&buffer, "PNG");
+		const QPixmap pixelMap = ui.drawingArea->grab();
+		const QImage image = pixelMap.toImage();
 
-	return byteArray;
+		QByteArray byteArray;
+		QBuffer buffer(&byteArray);
+		buffer.open(QIODevice::WriteOnly);
+		image.save(&buffer, "JPG");
+		QString imageString = byteArray.toBase64();
+		m_client.Send_Drawing(imageString.toUtf8().constData());
+
+	}
+		}, Qt::QueuedConnection);
 }
+
+void GameWindow::DeserializeDrawing()
+{
+	QMetaObject::invokeMethod(this, [this]()
+		{
+			if (!m_isDrawer)
+			{
+				std::string imageString = m_client.Return_Drawing();
+				QByteArray byteArray = QByteArray::fromBase64(imageString.c_str());
+
+				QImage image;
+				image.loadFromData(byteArray, "JPG");
+
+				// Convertește imaginea în QPixmap
+				QPixmap pixelMap = QPixmap::fromImage(image);
+				m_receivedDrawing = pixelMap;
+				update();
+				//ui.drawingArea->update();
+			}
+		}, Qt::QueuedConnection);
+}
+
 
 void GameWindow::SetReceivedDrawing(const QPixmap& pixelMap)
 {

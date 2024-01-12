@@ -250,6 +250,51 @@ void Routing::Run()
 													};
 													return crow::json::wvalue{responseJson};
 	                                          });
+	CROW_ROUTE(m_app, "/startTurn/Set_PlayerGuess")
+		.methods("POST"_method)
+		([this](const crow::request& req)
+			{
+				const auto jsonData = crow::json::load(req.body);
+				m_gameHandlers.SetCurrentGuess(jsonData["guess"].s());
+				return crow::response(200, "OK");
+
+			});
+	CROW_ROUTE(m_app, "/startTurn/Get_PlayerGuess")
+		.methods("POST"_method)
+		([this](const crow::request& req)
+			{
+				const auto responseJson = crow::json::wvalue{
+				{"guess", m_gameHandlers.GetCurrentGuess()}
+				};
+				return crow::json::wvalue{ responseJson };
+			});
+
+
+	CROW_ROUTE(m_app, "/startTurn/Return_DrawingData")
+		.methods("POST"_method)
+		([this](const crow::request& req)
+			{
+				const auto responseJson = crow::json::wvalue{
+					{"DrawingData", m_gameHandlers.GetDrawing()}
+				};
+				return crow::json::wvalue{ responseJson };
+			});
+
+
+
+	CROW_ROUTE(m_app, "/startTurn/SendDrawing")
+		.methods("POST"_method)
+		([this](const crow::request& req)
+			{
+				const auto jsonData = crow::json::load(req.body);
+				if (!jsonData)
+					return crow::response(400);
+
+				m_gameHandlers.SetDrawing(jsonData["DrawingData"].s());
+				return crow::response(200, "OK");
+			});
+
+
 
 
 	m_app.port(18080).multithreaded().run();

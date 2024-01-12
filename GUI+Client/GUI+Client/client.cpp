@@ -185,6 +185,20 @@ bool Client::Return_GameStart()
 	return false;
 }
 
+void Client::Send_PlayerGuess(const std::string& guess)
+{
+	const std::string json_data = R"({"guess": ")" + guess + R"("})";
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/Set_PlayerGuess" },
+		cpr::Header{ {"Content-Type", "application/json"} },
+		cpr::Body{ json_data });
+
+}
+std::string Client::Return_OtherPlayerGuess()
+{
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/Return_OtherPlayerGuess" },
+	cpr::Header{ {"Content-Type", "application/json"} });
+	return crow::json::load(response.text)["guess"].s();
+}
 int Client::Return_CurrentTime()
 {
 	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/Return_CurrentTime" },
@@ -204,11 +218,20 @@ void Client::Send_CreateLobby_Signal()
     auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobby" },
         cpr::Header{ {"Content-Type", "application/json"} });
 }
-void Client::Send_Drawing(const QByteArray& drawingData)
+void Client::Send_Drawing(std::string drawingData)
 {
-    auto reponse = cpr::Post(cpr::Url{ "http://localhost:18080/drawingEndpoint" },
-        cpr::Body{ drawingData.constData(), static_cast<size_t>(drawingData.size()) },
-        cpr::Header{ {"Content-Type", "application/octet-stream"} });
+	const std::string json_data = R"({"DrawingData": ")" + drawingData + R"("})";
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/SendDrawing" },
+		cpr::Header{ {"Content-Type", "application/json"} },
+		cpr::Body{ json_data });
+}
+
+std::string Client::Return_Drawing()
+{
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/Return_DrawingData" },
+		cpr::Header{ {"Content-Type", "application/json"} });
+	return crow::json::load(response.text)["DrawingData"].s();
+
 }
 //void Client::displayReceivedDrawing(const QByteArray& drawingData)
 //{

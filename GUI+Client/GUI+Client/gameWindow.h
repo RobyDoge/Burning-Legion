@@ -38,7 +38,8 @@ private:
 
 private:
     void ResizeToScreenSize();
-    QByteArray SerializeDrawing();
+    void SerializeDrawing();
+    void DeserializeDrawing();
     void SetReceivedDrawing(const QPixmap& pixelMap);
     void AddNewLine(const QVector<QPoint>& newLine);
     void ChangePenColor();
@@ -47,7 +48,7 @@ private:
     void CheckGameStatus();
     void ShowPointWindow();
     void ShowEndWindow();
-
+    void UpdatePlayerMessages();
 private:
 	void StartTurn();
     void ClearChat() const;
@@ -88,7 +89,11 @@ private:
     int m_currentPenWidth;
     QMap<int, int> m_lineWidths;
     QMap<int, QColor> m_lineColor;
-
+    
 	bool m_gameEnded{ false };
     uint8_t m_currentTime;
+
+    QString m_currentPlayerGuess;
+    QString m_lastPlayerGuess;
+    QString m_playerMessage;
 };
