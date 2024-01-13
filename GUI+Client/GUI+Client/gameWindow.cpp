@@ -16,7 +16,7 @@ GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	setMouseTracking(true);
 	setAttribute(Qt::WA_StaticContents);
 	ResizeToScreenSize();
-
+	DisplayPlayers();
 	connect(ui.sendButton, &QPushButton::clicked, this, &GameWindow::SendButton_Clicked);
 	connect(ui.inputField, &QLineEdit::returnPressed, this, &GameWindow::InputField_ReturnPressed);
 	connect(ui.inputField, &QLineEdit::textChanged, this, &GameWindow::UpdateCharCount);
@@ -29,7 +29,6 @@ GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	connect(ui.penWidthSlider, &QSlider::valueChanged, this, &GameWindow::UpdatePenWidth);
 	connect(ui.colorPickerButton, &QPushButton::clicked, this, &GameWindow::ChangePenColor);
 	connect(ui.clearButton, &QPushButton::clicked, this, &GameWindow::ClearDrawingArea);
-
 	m_xPos = (width() - WIDTH) / 2;
 	m_yPos = (height() - HEIGHT) / 2;
 	//QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
@@ -46,6 +45,15 @@ GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 
 GameWindow::~GameWindow() = default;
 
+void GameWindow::DisplayPlayers()
+{
+	ui.gamePlayersList->clear();
+	std::vector<std::string> m_players = m_client.Return_PlayersNames();
+	for (const auto& player : m_players)
+	{
+		ui.gamePlayersList->addItem(QString(player.c_str()));
+	}
+}
 
 void GameWindow::CheckGameStatus()
 {

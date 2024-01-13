@@ -50,6 +50,8 @@ private:
     void ShowEndWindow();
     void UpdatePlayerMessages();
     void RevealRandomLetters();
+    void DisplayPlayers();
+
 private:
 	void StartTurn();
     void ClearChat() const;
