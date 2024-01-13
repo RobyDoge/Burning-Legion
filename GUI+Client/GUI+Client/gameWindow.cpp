@@ -66,9 +66,9 @@ void GameWindow::CheckGameStatus()
 
 					if (m_gameEnded)
 					{
+						m_stopThread.store(false);
 						ShowEndWindow();
 						this->destroy();
-						m_stopThread.store(false);
 					}
 
 					}, Qt::QueuedConnection);
