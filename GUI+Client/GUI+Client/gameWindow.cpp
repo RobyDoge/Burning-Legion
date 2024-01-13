@@ -70,16 +70,12 @@ void GameWindow::CheckGameStatus()
 				emit DeserializeDrawing();*/
 				if ((m_currentTime == 30 || m_currentTime == 45))
 					RevealRandomLetters();
-				QMetaObject::invokeMethod(this, [this]() {
-
 					if (m_gameEnded)
 					{
 						m_stopThread.store(false);
 						ShowEndWindow();
-						this->destroy();
 					}
 
-					}, Qt::QueuedConnection);
 				 if (m_previousDrawerPosition != m_currentDrawerPosition)
 				{
 					if (m_previousDrawerPosition != 255)
@@ -390,9 +386,14 @@ void GameWindow::ShowPointWindow()
 
 void GameWindow::ShowEndWindow()
 {
+	QMetaObject::invokeMethod(this, [this]() {
+
 	auto* endWindow = new EndGameWindow();
 	endWindow->show();
 	this->destroy();
+		
+
+		}, Qt::QueuedConnection);
 }
 
 void GameWindow::SerializeDrawing()
