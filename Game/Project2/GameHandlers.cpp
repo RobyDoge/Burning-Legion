@@ -163,6 +163,9 @@ void GameHandlers::StartNextTurn(uint8_t roundIndex)
 			{
 				// Programați următorul tur
 				m_drawerPosition++;
+				while (m_timer.GetElapsedTime() < 5)
+				{
+				}
 				TurnThreadStart( roundIndex);
 			}
 			else
@@ -172,7 +175,6 @@ void GameHandlers::StartNextTurn(uint8_t roundIndex)
 				m_timer.Reset();
 				while (m_timer.GetElapsedTime() < 5)
 				{
-					int a = 0;//idk umplutura?????
 				}
 				TurnThreadStart(roundIndex);
 			}

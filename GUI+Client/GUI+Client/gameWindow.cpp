@@ -1,4 +1,5 @@
 ﻿#include "GameWindow.h"
+#include "ShowPointsWindow.h"
 #include <chrono>
 #include<QToolTip>
 #include<QColorDialog>
@@ -70,7 +71,7 @@ void GameWindow::CheckGameStatus()
 					}, Qt::QueuedConnection);
 				 if (m_previousDrawerPosition != m_currentDrawerPosition)
 				{
-					if (m_currentDrawerPosition == 0 && m_previousDrawerPosition != 255)
+					if (m_previousDrawerPosition != 255)
 					{
 						m_previousDrawerPosition = m_currentDrawerPosition;
 						emit ShowPointWindow();
@@ -334,9 +335,21 @@ void GameWindow::StartTurn()
 void GameWindow::ShowPointWindow()
 {
 	QMetaObject::invokeMethod(this, [this]() {
+		ShowPointsWindow* pointWindow = new ShowPointsWindow();
+		pointWindow->show();
 
-	
-	return;
+		// Crearea unui QTimer pentru a închide fereastra după 5 secunde
+		QTimer* timer = new QTimer(this);
+		connect(timer, &QTimer::timeout, [pointWindow, timer]() {
+			// Închideți fereastra și opriți timerul când expiră intervalul
+			pointWindow->close();
+			pointWindow->deleteLater();
+			timer->stop();
+			timer->deleteLater();  // Eliberare resurse
+			});
+
+		// Setarea intervalului la 5000 de milisecunde (5 secunde)
+		timer->start(5000);
 
 		}, Qt::QueuedConnection);
 }
