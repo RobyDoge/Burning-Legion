@@ -58,8 +58,8 @@ void GameWindow::CheckGameStatus()
 				m_gameEnded = m_client.Return_GameStatus();
 				//std::vector<std::pair<float, std::string>> playersPoints = m_client.Return_PlayersPoints();
 				m_currentDrawerPosition = m_client.Return_DrawerPosition();
-				/*emit SerializeDrawing();
-				emit DeserializeDrawing();*/
+				emit SerializeDrawing();
+				emit DeserializeDrawing();
 				QMetaObject::invokeMethod(this, [this]() {
 
 					if (m_gameEnded)
@@ -377,7 +377,7 @@ void GameWindow::SerializeDrawing()
 		buffer.open(QIODevice::WriteOnly);
 		image.save(&buffer, "JPG");
 		QString imageString = byteArray.toBase64();
-		m_client.Send_Drawing(imageString.toUtf8().constData());
+		m_client.Send_Drawing(imageString.toLatin1().constData());
 
 	}
 		}, Qt::QueuedConnection);
@@ -398,8 +398,7 @@ void GameWindow::DeserializeDrawing()
 				// Convertește imaginea în QPixmap
 				QPixmap pixelMap = QPixmap::fromImage(image);
 				m_receivedDrawing = pixelMap;
-				update();
-				//ui.drawingArea->update();
+				ui.drawingArea->update();
 			}
 		}, Qt::QueuedConnection);
 }
