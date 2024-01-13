@@ -143,10 +143,10 @@ text-align: center;
       <widget class="QLabel" name="wordLabel">
        <property name="geometry">
         <rect>
-         <x>130</x>
-         <y>190</y>
-         <width>71</width>
-         <height>50</height>
+         <x>10</x>
+         <y>180</y>
+         <width>421</width>
+         <height>61</height>
         </rect>
        </property>
        <property name="minimumSize">

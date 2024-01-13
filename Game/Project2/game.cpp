@@ -52,6 +52,7 @@ void Game::SwitchGameStatus()
 void Game::EndTurn(std::shared_ptr<Turn> turn)
 {
 	UpdateScoreForAllPlayers();
+	m_players.clear();
 	turn->ReturnPlayers(m_players);
 	if(turn->GetTurnStatus()==Turn::TurnStatus::NotOver)
 	{

@@ -14,6 +14,7 @@ ShowPointsWindow::ShowPointsWindow(QWidget *parent)
 		[](float point, const std::string& name) {
 			return std::make_pair(name, static_cast<int>(point));
 		});
+	DisplayPlayers();
 }
 
 ShowPointsWindow::~ShowPointsWindow()

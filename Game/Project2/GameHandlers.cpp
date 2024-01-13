@@ -137,7 +137,8 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 {
 	std::thread turnThread([this, roundIndex]()
 		{
-			m_currentTurn = std::make_shared<Turn>(m_game->CreateTurn(m_drawerPosition));
+			Turn turn(m_game->CreateTurn(m_drawerPosition));
+			m_currentTurn = std::make_shared<Turn>(turn);
 			uint8_t secondsPassed{};
 			uint8_t ticksPassed{};
 			m_wordToBeGuessed = m_game->GetNextWord();
