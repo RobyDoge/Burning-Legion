@@ -6,6 +6,7 @@ ShowPointsWindow::ShowPointsWindow(QWidget *parent)
 	ui.setupUi(this);
 	DisplayPlayers();
 	ui.wordLabel->setText(QString(m_client.Return_WordToBeGuessed().c_str()));
+
 }
 
 ShowPointsWindow::~ShowPointsWindow()

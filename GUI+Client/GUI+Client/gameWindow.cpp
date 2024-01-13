@@ -56,6 +56,7 @@ void GameWindow::CheckGameStatus()
 				m_currentTime = m_client.Return_CurrentTime();
 				ui.timerLabel->setText(QString::number(60-m_currentTime));
 				m_gameEnded = m_client.Return_GameStatus();
+				//std::vector<std::pair<float, std::string>> playersPoints = m_client.Return_PlayersPoints();
 				m_currentDrawerPosition = m_client.Return_DrawerPosition();
 				/*emit SerializeDrawing();
 				emit DeserializeDrawing();*/

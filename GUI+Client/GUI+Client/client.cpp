@@ -238,12 +238,9 @@ std::vector<std::pair<float, std::string>> Client::Return_PlayersPoints()
 	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/Return_Points" },
 		cpr::Header{ {"Content-Type", "application/json"} });
 
-	// Verificați dacă răspunsul poate fi parsat
-	try {
+
 		auto json_response = nlohmann::json::parse(response.text);
 
-		// Verificați dacă răspunsul este un array JSON
-		if (json_response.is_array()) {
 			std::vector<std::pair<float, std::string>> result;
 
 			// Iterați prin fiecare element al array-ului
@@ -255,7 +252,8 @@ std::vector<std::pair<float, std::string>> Client::Return_PlayersPoints()
 					std::string name = element["Name"].get<std::string>();
 					result.emplace_back(points, name);
 				}
-				else {
+			}
+}
 //void Client::displayReceivedDrawing(const QByteArray& drawingData)
 //{
 //    QImage image;

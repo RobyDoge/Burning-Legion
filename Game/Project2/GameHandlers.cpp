@@ -120,10 +120,13 @@ void GameHandlers::SetDrawing(const std::string& drawing)
 std::vector<std::pair<float,std::string>> GameHandlers::GetPlayersPoints()
 {
 	std::vector<std::pair<float, std::string>> points;
-	for (auto& player : m_currentTurn->GetPlayers())
+	if(!m_game->GetPlayers().empty())
+	for (auto& player : m_game->GetPlayers())
 	{
 		points.push_back(std::make_pair(player.GetPoints().GetTurnPoints(), player.GetName()));
 	}
+
+	return points;
 }
 void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 {
@@ -157,6 +160,7 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 				}
 			}
 			m_game->EndTurn(m_currentTurn);
+			
 			StartNextTurn(roundIndex);
 
 		});
