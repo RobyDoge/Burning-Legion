@@ -60,12 +60,12 @@ namespace server
 		uint8_t m_drawerPosition;
 		Timer m_timer{};
 		bool m_gameStarted{ false };
-		mutable int m_correctGuesses=0;
+		mutable int m_correctGuesses = 0;
 		int m_currentTime;
 		std::string m_currentGuess;
 		std::string m_drawing;
 		std::string m_currentGuesser;
 		std::vector<std::pair<std::string,float>> m_currentTurnPoints{};
 	};
-};
 
+}

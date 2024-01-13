@@ -113,6 +113,7 @@ void Routing::Run()
 	                                    {
 		                                    std::vector<crow::json::wvalue> responseJson;
 		                                    const auto users = m_gameHandlers.GetUsersNames();
+											m_usersNames = users;
 		                                    for (const auto& userName : users)
 		                                    {
 			                                    std::cout << userName;
@@ -303,23 +304,35 @@ void Routing::Run()
 		                                           return crow::response(200, "OK");
 	                                           });
 
-	//CROW_ROUTE(m_app, "/startTurn/Return_Points")
-	//	.methods("POST"_method)
-	//	([this](const crow::request& req)
-	//		{
-	//			std::vector<std::pair<float, std::string>> pairs = m_gameHandlers.GetPlayersTurnPoints(); // Obțineți datele dorite
+	CROW_ROUTE(m_app, "/startTurn/Return_Points")
+		.methods("POST"_method)
+		([this](const crow::request& req)
+			{
+									std::vector<std::pair<std::string, float>> pairs = m_gameHandlers.GetPlayersTurnPoints(); // Obțineți datele dorite
+				
 
-	//			// Construiți un json din vectorul de perechi
-	//			json responseJson;
-	//			for (const auto& pair : pairs) {
-	//				responseJson.push_back({
-	//					{"Points", pair.first},
-	//					{"Name", pair.second}
-	//					});
-	//			}
+		                              const auto jsonData = crow::json::load(req.body);
+		                              std::vector<crow::json::wvalue> responseJson;
+									  for (const auto& [name,points] : pairs)
+		                              {
+			                              responseJson.push_back(crow::json::wvalue{{"points", points}});
+		                              }
 
-	//			return responseJson;
-	//		});
+		                              return crow::json::wvalue{responseJson};
+	                              });
+	CROW_ROUTE(m_app, "/Game/Return_UsersNames")
+		.methods("POST"_method)
+		([this](const crow::request& req)
+			{
+				const auto jsonData = crow::json::load(req.body);
+				std::vector<crow::json::wvalue> responseJson;
+				for (const auto& name : m_usersNames)
+				{
+					responseJson.push_back(crow::json::wvalue{ {"name", name} });
+				}
+
+				return crow::json::wvalue{ responseJson };
+			});
 
 	m_app.port(18080).multithreaded().run();
 }

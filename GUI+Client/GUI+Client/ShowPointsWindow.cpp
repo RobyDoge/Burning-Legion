@@ -1,12 +1,19 @@
-#include "ShowPointsWindow.h"
+﻿#include "ShowPointsWindow.h"
 
 ShowPointsWindow::ShowPointsWindow(QWidget *parent)
-	: QMainWindow(parent)
+	:QMainWindow(parent)
 {
 	ui.setupUi(this);
 	DisplayPlayers();
 	ui.wordLabel->setText(QString(m_client.Return_WordToBeGuessed().c_str()));
+	m_playersPoints =m_client.Return_PlayersPoints();
+	m_playersNames = m_client.Return_PlayersNames();
+	m_players.reserve(m_playersPoints.size()); // Alocare spațiu pentru eficiență
 
+	std::transform(m_playersPoints.begin(), m_playersPoints.end(), m_playersNames.begin(), std::back_inserter(m_players),
+		[](float point, const std::string& name) {
+			return std::make_pair(name, static_cast<uint16_t>(point));
+		});
 }
 
 ShowPointsWindow::~ShowPointsWindow()

@@ -1,5 +1,4 @@
 ﻿#include "Client.h"
-#include "nlohmann/json.hpp"
 
 long Client::Return_LoginResponse(const std::string& username, const std::string & password)
 {
@@ -233,26 +232,38 @@ std::string Client::Return_Drawing()
 	return crow::json::load(response.text)["DrawingData"].s();
 
 }
-std::vector<std::pair<float, std::string>> Client::Return_PlayersPoints()
+std::vector<float> Client::Return_PlayersPoints()
 {
 	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/Return_Points" },
 		cpr::Header{ {"Content-Type", "application/json"} });
 
+	const auto pointsReceived = crow::json::load(response.text);
 
-		auto json_response = nlohmann::json::parse(response.text);
+	std::vector<float> points;
+	for (const auto& point : pointsReceived)
+	{
 
-			std::vector<std::pair<float, std::string>> result;
+		points.push_back(point["points"].i());
+	}
+	return points;
+		
+}
 
-			// Iterați prin fiecare element al array-ului
-			for (const auto& element : json_response) {
-				// Verificați dacă elementul are structura corectă
-				if (element.contains("Points") && element.contains("Name") &&
-					element["Points"].is_number_float() && element["Name"].is_string()) {
-					float points = element["Points"].get<float>();
-					std::string name = element["Name"].get<std::string>();
-					result.emplace_back(points, name);
-				}
-			}
+std::vector<std::string> Client::Return_PlayersNames()
+{
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/Game/Return_UsersNames" },
+		cpr::Header{ {"Content-Type", "application/json"} });
+
+	const auto namesReceived = crow::json::load(response.text);
+
+	std::vector<std::string> names;
+	for (const auto& name : namesReceived)
+	{
+
+		names.push_back(name["name"].s());
+	}
+	return names;
+
 }
 //void Client::displayReceivedDrawing(const QByteArray& drawingData)
 //{

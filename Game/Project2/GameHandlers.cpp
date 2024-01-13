@@ -161,7 +161,7 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 					ticksPassed = 0;
 				}
 			}
-			m_currentTurnPoints = turn.AddPointsForEachPlayer();
+			m_currentTurnPoints = m_currentTime->AddPointsForEachPlayer();
 			m_game->EndTurn(m_currentTurn);
 			
 			StartNextTurn(roundIndex);
