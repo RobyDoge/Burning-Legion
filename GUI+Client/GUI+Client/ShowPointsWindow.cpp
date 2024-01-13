@@ -12,7 +12,7 @@ ShowPointsWindow::ShowPointsWindow(QWidget *parent)
 
 	std::transform(m_playersPoints.begin(), m_playersPoints.end(), m_playersNames.begin(), std::back_inserter(m_players),
 		[](float point, const std::string& name) {
-			return std::make_pair(name, static_cast<uint16_t>(point));
+			return std::make_pair(name, static_cast<int>(point));
 		});
 }
 

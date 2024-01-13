@@ -160,10 +160,8 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 					ticksPassed = 0;
 				}
 			}
-			if(m_correctGuesses != m_currentTurn->GetPlayers().size() - 1)
-			{
+			
 				m_currentTurn->FillGuessingTimes();
-			}
 
 			m_currentTurnPoints = m_currentTurn->AddPointsForEachPlayer();
 			m_game->EndTurn(m_currentTurn);

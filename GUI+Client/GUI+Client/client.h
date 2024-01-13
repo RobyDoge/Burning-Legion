@@ -28,7 +28,7 @@ public:
 	std::string Return_DrawerName();
 	std::string Return_PlayerGuessResponse(const std::string& message, const std::string& guesser);
 	std::string Return_OtherPlayerGuess();
-	std::vector<float> Return_PlayersPoints();
+	std::vector<int> Return_PlayersPoints();
 	std::vector<std::string> Return_PlayersNames();
 
 	uint8_t Return_DrawerPosition();

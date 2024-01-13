@@ -232,18 +232,18 @@ std::string Client::Return_Drawing()
 	return crow::json::load(response.text)["DrawingData"].s();
 
 }
-std::vector<float> Client::Return_PlayersPoints()
+std::vector<int> Client::Return_PlayersPoints()
 {
-	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/Return_Points" },
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/EndTurn/Return_Points" },
 		cpr::Header{ {"Content-Type", "application/json"} });
 
 	const auto pointsReceived = crow::json::load(response.text);
 
-	std::vector<float> points;
+	std::vector<int> points;
 	for (const auto& point : pointsReceived)
 	{
 
-		points.push_back(point["points"].i());
+		points.push_back(point["Point"].i());
 	}
 	return points;
 		

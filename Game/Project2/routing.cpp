@@ -304,7 +304,7 @@ void Routing::Run()
 		                                           return crow::response(200, "OK");
 	                                           });
 
-	CROW_ROUTE(m_app, "/startTurn/Return_Points")
+	CROW_ROUTE(m_app, "/EndTurn/Return_Points")
 		.methods("POST"_method)
 		([this](const crow::request& req)
 			{
@@ -315,7 +315,8 @@ void Routing::Run()
 		                              std::vector<crow::json::wvalue> responseJson;
 									  for (const auto& [name,points] : pairs)
 		                              {
-			                              responseJson.push_back(crow::json::wvalue{{"points", points}});
+										  int point = int(points);
+			                              responseJson.push_back(crow::json::wvalue{{"Point", point}});
 		                              }
 
 		                              return crow::json::wvalue{responseJson};
