@@ -2,6 +2,7 @@
 
 #include <QMainWindow>
 #include "ui_endGameWindow.h"
+#include "client.h"
 
 //this class should be adjusted after the request for the list of players is implemented
 class EndGameWindow : public QMainWindow
@@ -18,7 +19,10 @@ private slots:
 
 private:
 	Ui::EndGameWindowClass ui;
-	std::vector<std::pair<std::string,uint16_t>> m_players{};
+	std::vector<std::pair<std::string, int >> m_players;
+	std::vector<int> m_playersPoints;
+	std::vector<std::string> m_playersNames;
+	Client m_client;
 	std::string m_winner{};
 };
 

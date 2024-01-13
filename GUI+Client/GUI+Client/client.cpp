@@ -248,6 +248,23 @@ std::vector<int> Client::Return_PlayersPoints()
 	return points;
 		
 }
+std::vector<int> Client::Return_PlayersEndGamePoints()
+{
+		const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/EndGame/Return_EndGamePoints" },
+			cpr::Header{ {"Content-Type", "application/json"} });
+
+		const auto pointsReceived = crow::json::load(response.text);
+
+		std::vector<int> points;
+		for (const auto& point : pointsReceived)
+		{
+
+			points.push_back(point["Point"].i());
+		}
+		return points;
+
+}
+
 
 std::vector<std::string> Client::Return_PlayersNames()
 {
@@ -263,6 +280,7 @@ std::vector<std::string> Client::Return_PlayersNames()
 		names.push_back(name["name"].s());
 	}
 	return names;
+
 
 }
 //void Client::displayReceivedDrawing(const QByteArray& drawingData)

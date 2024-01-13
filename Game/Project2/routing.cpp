@@ -321,6 +321,24 @@ void Routing::Run()
 
 		                              return crow::json::wvalue{responseJson};
 	                              });
+	CROW_ROUTE(m_app, "/EndGame/Return_EndGamePoints")
+		.methods("POST"_method)
+		([this](const crow::request& req)
+			{
+				std::vector<std::pair<std::string, float>> pairs = m_gameHandlers.GetPlayersGamePoints(); // Obțineți datele dorite
+
+
+				const auto jsonData = crow::json::load(req.body);
+				std::vector<crow::json::wvalue> responseJson;
+				for (const auto& [name, points] : pairs)
+				{
+					int point = int(points);
+					responseJson.push_back(crow::json::wvalue{ {"Point", point} });
+				}
+
+				return crow::json::wvalue{ responseJson };
+			});
+
 	CROW_ROUTE(m_app, "/Game/Return_UsersNames")
 		.methods("POST"_method)
 		([this](const crow::request& req)

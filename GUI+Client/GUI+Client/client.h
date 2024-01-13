@@ -30,7 +30,7 @@ public:
 	std::string Return_OtherPlayerGuess();
 	std::vector<int> Return_PlayersPoints();
 	std::vector<std::string> Return_PlayersNames();
-
+	std::vector<int> Return_PlayersEndGamePoints();
 	uint8_t Return_DrawerPosition();
 	bool Return_GameStatus();
 	void Send_StartGame_Signal();

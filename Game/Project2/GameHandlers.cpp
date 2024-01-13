@@ -175,7 +175,7 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 void GameHandlers::StartNextTurn(uint8_t roundIndex)
 {
 
-	if (roundIndex < m_game->NUMBER_OF_ROUNDS - 1)
+	if (roundIndex < m_game->NUMBER_OF_ROUNDS - 4)
 	{
 			if (m_drawerPosition < m_game->GetPlayers().size() - 1)
 			{
