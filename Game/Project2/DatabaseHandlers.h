@@ -89,7 +89,7 @@ inline auto CreateUserDatabase(const std::string& filename)
 		sql::make_table(
 			"Match",
 			sql::make_column("id", &MatchData::id, sql::primary_key().autoincrement()),
-			sql::make_column("uid", &MatchData::uid, sql::foreign_key(&UserInfo::id).references(&MatchData::uid)),		
+			sql::make_column("uid", &MatchData::uid)//, sql::foreign_key(&UserInfo::id).references(&MatchData::uid)),		
 			sql::make_column("score", &MatchData::score),
 			sql::make_column("firstRoundImage", &MatchData::firstRoundImage),
 			sql::make_column("secondRoundImage", &MatchData::secondRoundImage),

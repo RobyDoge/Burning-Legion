@@ -28,6 +28,7 @@ private slots:
 	void Language_Changed();
 
 private:
+	std::thread updateThread;
 	QTimer* gameStatusTimer;
 	Ui::lobbyClass ui;
 	std::vector<std::string> m_players{};

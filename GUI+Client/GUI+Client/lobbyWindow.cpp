@@ -47,7 +47,7 @@ void LobbyWindow::GameStartThread()
 }
 void LobbyWindow::StartUpdatingThread()
 {
-    std::thread updateThread([this]()
+    updateThread = std::thread ([this]()
         {
             while (m_stopThread)
             {
@@ -62,7 +62,7 @@ void LobbyWindow::StartUpdatingThread()
                 emit PlayerChangedDifficulty();
                 emit PlayerChangedLanguage();
 
-                std::this_thread::sleep_for(std::chrono::seconds(1));
+                std::this_thread::sleep_for(std::chrono::seconds(3));
             }
         });
 

@@ -28,7 +28,7 @@ long Client::Return_CreateUserInDatabase(const std::string& username, const std:
 {
 	const std::string json_data = R"({"username": ")" + username + R"(", "password": ")" + password + R"("})";
 
-	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/signupaccount" },
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/CreateUser" },
 	                                cpr::Header{ {"Content-Type", "application/json"} },
 	                                cpr::Body{ json_data });
 

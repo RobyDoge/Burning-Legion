@@ -48,7 +48,7 @@ void Routing::Run()
 	                            });
 
 
-	CROW_ROUTE(m_app, "/signupaccount")
+	CROW_ROUTE(m_app, "/CreateUser")
         .methods("POST"_method)
 	                                   ([this](const crow::request& req)
 	                                   {
@@ -161,7 +161,7 @@ void Routing::Run()
 		                                      if (!jsonData)
 			                                      return crow::response(400);
 
-		                                      m_gameHandlers.SetDifficulty(jsonData["language"].i());
+		                                      m_gameHandlers.SetLanguage(jsonData["language"].i());
 		                                      return crow::response(200, "Language set successfully");
 	                                      });
 

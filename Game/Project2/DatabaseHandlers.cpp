@@ -127,7 +127,7 @@ void AddNewUser(UserDatabase& users, const std::string& name, const std::string&
 
 void UserDatabaseHandle::AddUser(const std::string& name, const std::string& password)
 {
-    m_db.sync_schema();
+    //m_db.sync_schema();
     AddNewUser(m_db, name, password);
 }
 
