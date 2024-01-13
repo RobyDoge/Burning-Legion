@@ -180,7 +180,7 @@ void GameWindow::mousePressEvent(QMouseEvent* event)
 {
 	if (event->button() == Qt::LeftButton)
 	{
-		if(ui.drawingArea->geometry().contains(event->pos()))
+		if(ui.drawingArea->geometry().contains(event->pos()) && m_isDrawer)
 		{
 			m_currentLine.clear();
 			m_currentLine.append(event->pos());
