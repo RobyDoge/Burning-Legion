@@ -174,10 +174,8 @@ void GameWindow::UpdateCharCount() const
 
 void GameWindow::ResizeToScreenSize()
 {
-	QScreen* primaryScreen = QGuiApplication::primaryScreen();
-	QRect screenGeometry = primaryScreen->geometry();
-	resize(screenGeometry.width(), screenGeometry.height());
-	setFixedSize(screenGeometry.width(), screenGeometry.height());
+	 resize(1536, 864);
+	setFixedSize(1536,864); 
 }
 
 void GameWindow::mousePressEvent(QMouseEvent* event)
