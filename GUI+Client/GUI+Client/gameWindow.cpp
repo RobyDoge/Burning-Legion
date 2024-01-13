@@ -38,7 +38,7 @@ GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 
 	
 	CheckGameStatus();
-
+	UpdatePlayerMessages();
 	
 
 }
@@ -56,8 +56,8 @@ void GameWindow::CheckGameStatus()
 				ui.timerLabel->setText(QString::number(60-m_currentTime));
 				m_gameEnded = m_client.Return_GameStatus();
 				m_currentDrawerPosition = m_client.Return_DrawerPosition();
-				emit SerializeDrawing();
-				emit DeserializeDrawing();
+				/*emit SerializeDrawing();
+				emit DeserializeDrawing();*/
 				QMetaObject::invokeMethod(this, [this]() {
 
 					if (m_gameEnded)
@@ -95,18 +95,33 @@ void GameWindow::UpdatePlayerMessages()
 {
 	std::thread messageThread([this]()
 		{
-		/*	while (m_stopThread)
+			while (m_stopThread)
 			{
 				m_currentPlayerGuess = QString(m_client.Return_OtherPlayerGuess().c_str());
-				QMetaObject::invokeMethod(this, [this]() {
-					if (!m_playerMessage.empty())
+				if (m_currentPlayerGuess != m_lastPlayerGuess)
+				{
+					m_lastPlayerGuess = m_currentPlayerGuess;
+					QMetaObject::invokeMethod(this, [this]() 
 					{
-						ui.messageArea->append(m_playerMessages.front());
-						m_playerMessages.pop();
-					}
+					
+						if (!m_currentPlayerGuess.isEmpty() && m_currentPlayerGuess != QString(m_client.Return_WordToBeGuessed().c_str()))
+						{
+							ui.messageArea->append("Player: " + m_currentPlayerGuess);
+						}
+						ui.inputField->clear();
+
+						if (const auto serverMessage = QString(m_client.Return_PlayerGuessResponse(m_currentPlayerGuess.toUtf8().constData()).c_str());
+							serverMessage != m_currentPlayerGuess)
+						{
+							ui.messageArea->append("Player: " + serverMessage);
+						}
+
 					}, Qt::QueuedConnection);
-			}*/
+
+				}
+			}
 		});
+	messageThread.detach();
 }
 void GameWindow::SendButton_Clicked()
 {
@@ -114,19 +129,6 @@ void GameWindow::SendButton_Clicked()
 	{
 	    m_playerMessage = ui.inputField->text();
 		m_client.Send_PlayerGuess(m_playerMessage.toUtf8().constData());
-
-		if (!m_playerMessage.isEmpty() && m_playerMessage != QString(m_client.Return_WordToBeGuessed().c_str()))
-		{
-			ui.messageArea->append("Player: " + m_playerMessage);
-		}
-		ui.inputField->clear();
-
-		if (const auto serverMessage = QString(m_client.Return_PlayerGuessResponse(m_playerMessage.toUtf8().constData()).c_str());
-			serverMessage != m_playerMessage)
-		{
-			ui.messageArea->append("Player: " + serverMessage);
-		}
-		//ProcessPlayerGuess(playerMessage.toUtf8().constData(), m_client.Return_WordToBeGuessed());
 	}
 }
 

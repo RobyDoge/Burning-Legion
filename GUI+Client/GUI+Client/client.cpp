@@ -195,9 +195,9 @@ void Client::Send_PlayerGuess(const std::string& guess)
 }
 std::string Client::Return_OtherPlayerGuess()
 {
-	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/Return_OtherPlayerGuess" },
-	cpr::Header{ {"Content-Type", "application/json"} });
-	return crow::json::load(response.text)["guess"].s();
+			const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/Return_OtherPlayerGuess" },
+			cpr::Header{ {"Content-Type", "application/json"} });
+		return crow::json::load(response.text)["guess"].s();
 }
 int Client::Return_CurrentTime()
 {

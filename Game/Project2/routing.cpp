@@ -259,7 +259,7 @@ void Routing::Run()
 				return crow::response(200, "OK");
 
 			});
-	CROW_ROUTE(m_app, "/startTurn/Get_PlayerGuess")
+	CROW_ROUTE(m_app, "/startTurn/Return_OtherPlayerGuess")
 		.methods("POST"_method)
 		([this](const crow::request& req)
 			{
