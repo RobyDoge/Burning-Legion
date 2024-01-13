@@ -1,5 +1,5 @@
 ﻿#include "Client.h"
-
+#include "nlohmann/json.hpp"
 
 long Client::Return_LoginResponse(const std::string& username, const std::string & password)
 {
@@ -142,9 +142,9 @@ std::string Client::Return_DrawerName()
     return crow::json::load(response.text)["DrawerName"].s();
 }
 
-std::string Client::Return_PlayerGuessResponse(const std::string& message)
+std::string Client::Return_PlayerGuessResponse(const std::string& message , const std::string& guesser)
 {
-	const std::string json_data = R"({"message": ")" + message + R"("})";
+	const std::string json_data = R"({"message": ")" + message + R"(", "guesser": ")" + guesser + R"("})";
 
 	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/GetMessage" },
 	                                cpr::Header{ {"Content-Type", "application/json"} },
@@ -233,6 +233,29 @@ std::string Client::Return_Drawing()
 	return crow::json::load(response.text)["DrawingData"].s();
 
 }
+std::vector<std::pair<float, std::string>> Client::Return_PlayersPoints()
+{
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/Return_Points" },
+		cpr::Header{ {"Content-Type", "application/json"} });
+
+	// Verificați dacă răspunsul poate fi parsat
+	try {
+		auto json_response = nlohmann::json::parse(response.text);
+
+		// Verificați dacă răspunsul este un array JSON
+		if (json_response.is_array()) {
+			std::vector<std::pair<float, std::string>> result;
+
+			// Iterați prin fiecare element al array-ului
+			for (const auto& element : json_response) {
+				// Verificați dacă elementul are structura corectă
+				if (element.contains("Points") && element.contains("Name") &&
+					element["Points"].is_number_float() && element["Name"].is_string()) {
+					float points = element["Points"].get<float>();
+					std::string name = element["Name"].get<std::string>();
+					result.emplace_back(points, name);
+				}
+				else {
 //void Client::displayReceivedDrawing(const QByteArray& drawingData)
 //{
 //    QImage image;

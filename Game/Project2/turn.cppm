@@ -54,6 +54,7 @@ namespace  game_logic
 		};
 	public:
 		std::vector<Player> GetPlayers();
+		void AddToGuessingTimes(float timeOfGuess, const std::string& playerName);
 	private:
 		void GuessingTimeVectorInitialization(const uint8_t drawerPosition);		//intializes the vector for guessing times
 		void AddPointsForEachPlayer(std::vector<std::pair<Player, Role>>& players);						//adds to each player their points based on the guessing time

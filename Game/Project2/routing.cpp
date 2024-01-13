@@ -1,5 +1,6 @@
 ﻿#include "Routing.h"
 #include "ostream"
+#include <nlohmann/json.hpp>
 
 
 using namespace server;
@@ -243,7 +244,7 @@ void Routing::Run()
 	                                          ([this](const crow::request& req)
 	                                          {
 													const auto jsonData = crow::json::load(req.body);
-	                                          		std::string message = m_gameHandlers.CheckMessage(jsonData["message"].s());
+	                                          		std::string message = m_gameHandlers.CheckMessage(jsonData["message"].s(),jsonData["guesser"].s());
 													const auto responseJson = crow::json::wvalue
 	                                          		{
 			                                          {"message", message}
@@ -294,8 +295,33 @@ void Routing::Run()
 				return crow::response(200, "OK");
 			});
 
+	CROW_ROUTE(m_app, "/startTurn/Return_DrawingData")
+		.methods("POST"_method)
+		([this](const crow::request& req)
+			{
+				const auto responseJson = crow::json::wvalue{
+					{"DrawingData", m_gameHandlers.GetDrawing()}
+				};
+				return crow::json::wvalue{ responseJson };
+			});
 
+	CROW_ROUTE(m_app, "/sendData").methods(crow::HTTPMethod::Post)([](const crow::request& req) {
+		// Deserializare JSON
+		nlohmann::json jsonData = nlohmann::json::parse(req.body);
 
+		// Deserializare în vector de perechi
+		std::vector<std::pair<std::string, int>> receivedData;
+		for (const auto& entry : jsonData) {
+			receivedData.emplace_back(entry["name"].get<std::string>(), entry["age"].get<int>());
+		}
+
+		// Afisare date primite
+		for (const auto& entry : receivedData) {
+			std::cout << "Nume: " << entry.first << ", Varsta: " << entry.second << "\n";
+		}
+
+		return crow::response(200);
+		});
 
 	m_app.port(18080).multithreaded().run();
 }

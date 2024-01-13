@@ -111,7 +111,7 @@ void GameWindow::UpdatePlayerMessages()
 						}
 						ui.inputField->clear();
 
-						if (const auto serverMessage = QString(m_client.Return_PlayerGuessResponse(m_currentPlayerGuess.toUtf8().constData()).c_str());
+						if (const auto serverMessage = QString(m_client.Return_PlayerGuessResponse(m_currentPlayerGuess.toUtf8().constData(),m_username).c_str());
 							serverMessage != m_currentPlayerGuess)
 						{
 							ui.messageArea->append("Player: " + serverMessage);

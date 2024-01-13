@@ -71,6 +71,11 @@ std::vector<Player> Turn::GetPlayers()
 		return players;
 }
 
+void Turn::AddToGuessingTimes(float timeOfGuess, const std::string& playerName)
+{
+	m_guessingTimes.push_back(std::make_pair(timeOfGuess, playerName));
+}
+
 void Turn::GuessingTimeVectorInitialization(const uint8_t drawerPosition)
 {
 	m_guessingTimes.resize(m_players.size());

@@ -30,7 +30,7 @@ namespace server
 		uint8_t GetLanguage() const;
 		uint8_t GetDifficulty() const;
 		std::string GetWordToBeGuessed();
-		std::string CheckMessage(const std::string& message) const;
+		std::string CheckMessage(const std::string& message, const std::string& guesser) const;
 		bool GetGameStatus() const;
 		bool GetTurnStatus() const;
 		void StartGame();
@@ -44,6 +44,8 @@ namespace server
 		std::string GetCurrentGuess() const;
 		std::string GetDrawing() const;
 		void SetDrawing(const std::string& drawing);
+		std::vector < std::pair<float, std::string>> GetPlayersPoints();
+
 	private:
 		std::queue<std::string> CreateWordsNeeded(const uint8_t wordsNeeded, const uint8_t difficulty, const uint8_t language) const;
 
@@ -59,6 +61,7 @@ namespace server
 		int m_currentTime;
 		std::string m_currentGuess;
 		std::string m_drawing;
+		std::string m_currentGuesser;
 	};
 };
 

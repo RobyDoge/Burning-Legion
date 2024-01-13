@@ -13,7 +13,6 @@ public:
 	ShowPointsWindow(QWidget *parent = nullptr);
 	~ShowPointsWindow();
 private slots:
-	void nextButton_clicked();
 
 private:
 	Ui::ShowPointsWindowClass ui;

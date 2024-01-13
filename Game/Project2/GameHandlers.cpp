@@ -66,11 +66,13 @@ std::queue<std::string> GameHandlers::CreateWordsNeeded(const uint8_t wordsNeede
 }
 
 
-std::string GameHandlers::CheckMessage(const std::string& message) const
+std::string GameHandlers::CheckMessage(const std::string& message,const std::string& guesser) const
 {
 	if (m_currentTurn->VerifyInputWord(m_wordToBeGuessed, message) == "Correct Guess")
+	{
 		m_correctGuesses++;
-
+		m_currentTurn->AddToGuessingTimes(m_currentTime, guesser);
+	}
 	return m_currentTurn->VerifyInputWord(m_wordToBeGuessed, message);
 
 }
@@ -106,13 +108,22 @@ std::string GameHandlers::GetCurrentGuess() const
 {
 	return m_currentGuess;
 }
-std::string server::GameHandlers::GetDrawing() const
+std::string GameHandlers::GetDrawing() const
 {
 	return m_drawing;
 }
-void server::GameHandlers::SetDrawing(const std::string& drawing)
+void GameHandlers::SetDrawing(const std::string& drawing)
 {
 	m_drawing = drawing;
+}
+
+std::vector<std::pair<float,std::string>> GameHandlers::GetPlayersPoints()
+{
+	std::vector<std::pair<float, std::string>> points;
+	for (auto& player : m_currentTurn->GetPlayers())
+	{
+		points.push_back(std::make_pair(player.GetPoints().GetTurnPoints(), player.GetName()));
+	}
 }
 void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 {
@@ -140,8 +151,7 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 				{
 					++secondsPassed;
 					m_currentTime++;
-					uint8_t currentTime{ static_cast<uint8_t>(turn.TURN_LIMIT - secondsPassed) };
-
+					//uint8_t currentTime{ static_cast<uint8_t>(turn.TURN_LIMIT - secondsPassed) };
 
 					ticksPassed = 0;
 				}
@@ -156,12 +166,10 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 void GameHandlers::StartNextTurn(uint8_t roundIndex)
 {
 
-	// Verificați dacă mai sunt runde și jucători
 	if (roundIndex < m_game->NUMBER_OF_ROUNDS - 1)
 	{
 			if (m_drawerPosition < m_game->GetPlayers().size() - 1)
 			{
-				// Programați următorul tur
 				m_drawerPosition++;
 				while (m_timer.GetElapsedTime() < 5)
 				{

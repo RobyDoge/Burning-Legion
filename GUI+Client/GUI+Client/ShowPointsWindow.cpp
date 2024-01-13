@@ -4,7 +4,6 @@ ShowPointsWindow::ShowPointsWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-	connect(ui.nextButton, &QPushButton::clicked, this, &ShowPointsWindow::nextButton_clicked);
 	DisplayPlayers();
 	ui.wordLabel->setText(QString(m_client.Return_WordToBeGuessed().c_str()));
 }
@@ -30,8 +29,4 @@ void ShowPointsWindow::DisplayPlayers()
 		QListWidgetItem* item = new QListWidgetItem(playerInfo);
 		ui.roundPlayersList->addItem(item);
 	}
-}
-void ShowPointsWindow::nextButton_clicked()
-{
-
 }
