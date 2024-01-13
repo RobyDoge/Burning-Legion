@@ -16,9 +16,9 @@ Game::Game(std::vector<Player>& players, const std::queue<std::string>& words)
 	std::swap(m_players, players);
 }
 
-Turn Game::CreateTurn()
+Turn Game::CreateTurn(const int drawerPosition)
 {
-	return { m_players };
+	return { m_players,m_players[drawerPosition].GetName()};
 }
 
 std::string Game::GetNextWord()

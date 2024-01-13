@@ -137,15 +137,14 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 {
 	std::thread turnThread([this, roundIndex]()
 		{
-			Turn turn{ m_game->CreateTurn() };
-			m_currentTurn = std::make_shared<Turn>(turn);
+			m_currentTurn = std::make_shared<Turn>(m_game->CreateTurn(m_drawerPosition));
 			uint8_t secondsPassed{};
 			uint8_t ticksPassed{};
 			m_wordToBeGuessed = m_game->GetNextWord();
 			m_correctGuesses = 0;
 			m_currentTime = 0;
 			m_timer.Reset();
-			while (m_correctGuesses < turn.GetPlayers().size()-1 && secondsPassed < turn.TURN_LIMIT)
+			while (m_correctGuesses < m_currentTurn->GetPlayers().size()-1 && secondsPassed < m_currentTurn->TURN_LIMIT)
 			{
 
 				if (m_timer.GetElapsedTime() > 0.1)
@@ -161,7 +160,12 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 					ticksPassed = 0;
 				}
 			}
-			m_currentTurnPoints = m_currentTime->AddPointsForEachPlayer();
+			if(m_correctGuesses != m_currentTurn->GetPlayers().size() - 1)
+			{
+				m_currentTurn->FillGuessingTimes();
+			}
+
+			m_currentTurnPoints = m_currentTurn->AddPointsForEachPlayer();
 			m_game->EndTurn(m_currentTurn);
 			
 			StartNextTurn(roundIndex);

@@ -14,54 +14,21 @@ import <ranges>;
 
 using namespace game_logic;
 
-Turn::Turn(std::vector<Player>& players)
+Turn::Turn(std::vector<Player>& players, const std::string& drawerName)
 {
-	Move(players, MoveDirection::FromGameToTurn);
+	std::ranges::move(players, std::back_inserter(m_players));
+	m_guessingTimes[drawerName] = std::nullopt;
 
 }
 
 void Turn::ReturnPlayers(std::vector<Player>& players)
 {
-	Move(players, MoveDirection::FromTurnToGame);
+	std::ranges::move(m_players, std::back_inserter(players));
 }
 
-void Turn::Move(std::vector<Player>& players, const MoveDirection moveDirection)
+std::vector<Player> Turn::GetPlayers() const
 {
-	if (moveDirection == MoveDirection::FromGameToTurn)
-	{
-		m_players.clear();
-		m_players.resize(players.size());
-		std::ranges::transform(players, m_players.begin(),
-		                       [](Player& user)
-		                       {
-			                       return std::make_pair<Player, Role>(std::move(user), Role::NoRole);
-		                       }
-		);
-		players.clear();
-		return;
-	}
-
-	players.resize(m_players.size());
-	std::ranges::transform(m_players,players.begin(),
-			[](const std::pair<Player&, Role> pair)
-			{
-				return std::move(pair.first);
-			}
-	);
-}
-
-
-std::vector<Player> Turn::GetPlayers()
-{
-		std::vector<Player> players;
-		players.reserve(m_players.size()); 
-
-		std::ranges::transform(m_players, std::back_inserter(players),
-		                       [](const std::pair<Player, Role>& pair) {
-			                       return pair.first;
-		                       });
-
-		return players;
+	return m_players;
 }
 
 void Turn::AddToGuessingTimes(const float timeOfGuess, const std::string& playerName)
@@ -69,25 +36,34 @@ void Turn::AddToGuessingTimes(const float timeOfGuess, const std::string& player
 	m_guessingTimes[playerName] = timeOfGuess;
 }
 
+void Turn::FillGuessingTimes()
+{
+	for (auto& player : m_players)
+	{
+		if (!m_guessingTimes.contains(player.GetName()))
+			m_guessingTimes[player.GetName()] = 0.0f;
+	}
+}
+
 std::vector<std::pair<std::string, float>> Turn::Players_TurnPoints()
 {
-	std::vector<std::pair<std::string, float>> players_TurnPoints;
-	std::ranges::transform(m_players, std::back_inserter(players_TurnPoints),
-	                       [](const std::pair<Player, Role>& pair)
+	std::vector<std::pair<std::string, float>> players_turnPoints;
+	std::ranges::transform(m_players, std::back_inserter(players_turnPoints),
+	                       [](const Player& player)
 	                       {
-		                       return std::make_pair(pair.first.GetName(), pair.first.GetPoints().GetTurnPoints());
+		                       return std::make_pair(player.GetName(), player.GetPoints().GetTurnPoints());
 	                       });
-	return players_TurnPoints;
+	return players_turnPoints;
 }
 
 std::vector<float> Turn::OnlyGuessingTimes()
 {
 	std::vector<float> guessingTimes;
-	std::ranges::for_each(m_guessingTimes, [&guessingTimes](const auto& PlayerName_GuessingTime)
-	{
-		if (PlayerName_GuessingTime.second.has_value())
-			guessingTimes.push_back(PlayerName_GuessingTime.second.value());
-	});
+	std::ranges::for_each(m_guessingTimes, [&guessingTimes](const auto& playerName_guessingTime)
+		{
+			if (playerName_guessingTime.second.has_value())
+				guessingTimes.push_back(playerName_guessingTime.second.value());
+		});
 	return guessingTimes;
 }
 
@@ -112,12 +88,10 @@ Turn::TurnStatus Turn::GetTurnStatus() const
 	return m_turnStatus;
 }
 
-
 void Turn::SwitchTurnStatus()
 {
 	m_turnStatus = static_cast<TurnStatus>(!static_cast<bool>(m_turnStatus));
 }
-
 
 Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord)
 {
@@ -148,20 +122,18 @@ Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std
 	return StringDifference::NotSimilar;
 }
 
-
-
 std::vector<std::pair<std::string,float>> Turn::AddPointsForEachPlayer()
 {
 	ConvertRemainingTimeToTakenTime();
-	for (auto& [playerName,playerRole]: m_players)
+	for (auto& player: m_players)
 	{
-		if(playerRole==Role::Drawer)
+		if(!m_guessingTimes.at(player.GetName()).has_value())
 		{
 
-			playerName.ChangePoints().AddToTurnPoints(OnlyGuessingTimes());
+			player.ChangePoints().AddToTurnPoints(OnlyGuessingTimes());
 			continue;
 		}
-		playerName.ChangePoints().AddToTurnPoints(m_guessingTimes.at(playerName.GetName()).value());
+		player.ChangePoints().AddToTurnPoints(m_guessingTimes.at(player.GetName()).value());
 	}
 	return Players_TurnPoints();
 }

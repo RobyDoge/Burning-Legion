@@ -25,15 +25,18 @@ namespace  game_logic
 
 	public:
 		Turn() = default;
-		Turn(std::vector<Player>& players);
 		~Turn() = default;
+		Turn(std::vector<Player>& players, const std::string& drawerName);
+
+		TurnStatus GetTurnStatus() const;
+		std::vector<Player> GetPlayers() const;
+
+		void SwitchTurnStatus();
 		static std::string VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord);
 		void ReturnPlayers(std::vector<Player>& players);
-		TurnStatus GetTurnStatus() const;
-		void SwitchTurnStatus();
 		std::vector<std::pair<std::string, float>> AddPointsForEachPlayer();						//adds to each player their points based on the guessing time
-		std::vector<Player> GetPlayers();
 		void AddToGuessingTimes(float timeOfGuess, const std::string& playerName);
+		void FillGuessingTimes();
 
 	private:
 		enum class StringDifference : uint8_t	//used for returning how different  are two strings
@@ -43,29 +46,15 @@ namespace  game_logic
 			DifferByTwoChars = 0b10,			//by two characters
 			Identical = 0b11					//they are the same
 		};
-		enum class MoveDirection : bool //enum for knowing which way a move should be done
-		{
-			FromGameToTurn,					//the information from game are being moved to turn
-			FromTurnToGame					//the information from turn are being moved to back to game
-		};
-		enum class Role : uint8_t	//enum defining different roles for players in a round
-		{
-			Drawer = 0b00,					// player drawing the word
-			Guesser = 0b01,					// player guessing the word
-			Finished = 0b10,				// player that guessed the word
-			NoRole = 0b11					// for creating m_player at the beginning
-		};
 
 	private:
 		std::vector<std::pair<std::string, float>> Players_TurnPoints();
 		std::vector<float> OnlyGuessingTimes();
 		void ConvertRemainingTimeToTakenTime();							//converts the remaining time stored in guessingTimes to how much it tool everyone to guess
-		void Move(std::vector<Player>& players, const MoveDirection moveDirection);
 		static StringDifference Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord);
 
 	private:
-		std::vector<std::pair<Player, Role>> m_players{};			//stores the players and their roles
-		//std::vector<std::pair<float, std::string>> m_guessingTimes{};		//
+		std::vector<Player> m_players{};		//stores the players
 		std::unordered_map<std::string,std::optional<float>> m_guessingTimes{};	//stores the time taken for guessing
 		TurnStatus m_turnStatus{ TurnStatus::NotOver };				//stores if the turn is over
 	};
