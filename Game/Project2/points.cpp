@@ -43,7 +43,7 @@ int16_t Points::GetCurrentGamePoints() const
 	return m_gamePoints;
 }
 
-void Points::UpdateScore()
+void Points::UpdateGamePoints()
 {
 	m_gamePoints += m_turnPoints;
 	m_turnPoints = 0;

@@ -16,25 +16,22 @@ Game::Game(std::vector<Player>& players, const std::queue<std::string>& words)
 	std::swap(m_players, players);
 }
 
-Turn Game::GetTurn(const uint8_t drawerPosition)
+Turn Game::CreateTurn()
 {
-	Turn turn{m_players,m_currentWordList.front(),drawerPosition };
-	m_currentWordList.pop();
-
-	return turn;
+	return { m_players };
 }
 
 std::string Game::GetNextWord()
 {
 	std::string wordsForRound{ m_currentWordList.front() };
 	m_currentWordList.pop();
-	return wordsForRound;
+	return std::move(wordsForRound);
 }
 
-std::vector<Player> Game::SortPlayersByTheirScore()
+std::vector<Player> Game::GetPlayersSortedByScore() const
 {
-	std::vector<Player> playerCopy{ m_players };
-	std::ranges::sort(playerCopy, [](Player& first, Player& second)
+	std::vector playerCopy{ m_players };
+	std::ranges::sort(playerCopy, [](const Player& first, const Player& second)
 		{
 			return first.GetPoints().GetCurrentGamePoints() > second.GetPoints().GetCurrentGamePoints();
 		});
@@ -75,8 +72,8 @@ std::vector<Player>& Game::GetPlayers()
 
 void Game::UpdateScoreForAllPlayers()
 {
-	std::for_each(m_players.begin(),m_players.end(), [](Player& player)
-		{
-			player.GetPoints().UpdateScore();
-		});
+	std::ranges::for_each(m_players, [](Player& player)
+	{
+		player.ChangePoints().UpdateGamePoints();
+	});
 }

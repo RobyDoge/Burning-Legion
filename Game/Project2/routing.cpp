@@ -67,7 +67,7 @@ void Routing::Run()
 	                              {
 		                              const auto jsonData = crow::json::load(req.body);
 
-		                              std::string username = jsonData["username"].s();
+		                              const std::string username = jsonData["username"].s();
 
 		                              uint16_t bestscores = m_userStorage.GetBestScore(username);
 		                              std::deque<int16_t> lastmatches = m_userStorage.GetLastMatchesPoints(username);
@@ -85,14 +85,14 @@ void Routing::Run()
 
 	CROW_ROUTE(m_app, "/lobby")
 		.methods("POST"_method)
-										([this](const crow::request& req)
-											{
-												if (crow::json::load(req.body))
-													return crow::response(400);
+	                           ([this](const crow::request& req)
+	                           {
+		                           if (crow::json::load(req.body))
+			                           return crow::response(400);
 
-												m_gameHandlers.CreateLobby();
-												return crow::response(200, "OK");
-											});
+		                           m_gameHandlers.CreateLobby();
+		                           return crow::response(200, "OK");
+	                           });
 
 	CROW_ROUTE(m_app, "/lobbyGetUsers")
 		.methods("POST"_method)
@@ -112,11 +112,11 @@ void Routing::Run()
 	                                    ([this](const crow::request& req)
 	                                    {
 		                                    std::vector<crow::json::wvalue> responseJson;
-		                                    std::vector<std::string> users = m_gameHandlers.GetUsersNames();
-		                                    for (const auto& user : users)
+		                                    const auto users = m_gameHandlers.GetUsersNames();
+		                                    for (const auto& userName : users)
 		                                    {
-			                                    std::cout << user;
-			                                    responseJson.push_back(crow::json::wvalue{{"user", user}});
+			                                    std::cout << userName;
+			                                    responseJson.push_back(crow::json::wvalue{{"user", userName}});
 		                                    }
 		                                    return crow::json::wvalue{responseJson};
 	                                    });
@@ -144,25 +144,25 @@ void Routing::Run()
 
 	CROW_ROUTE(m_app, "/lobbyGetLanguage")
 		.methods("POST"_method)
-											([this](const crow::request& req)
-											{
-												const auto responseJson = crow::json::wvalue{
-												{"language", m_gameHandlers.GetLanguage()}
-												};
-												return crow::json::wvalue{ responseJson };
-											});
+	                                      ([this](const crow::request& req)
+	                                      {
+		                                      const auto responseJson = crow::json::wvalue{
+			                                      {"language", m_gameHandlers.GetLanguage()}
+		                                      };
+		                                      return crow::json::wvalue{responseJson};
+	                                      });
 
 	CROW_ROUTE(m_app, "/lobbySetLanguage")
 		.methods("POST"_method)
-											([this](const crow::request& req)
-											{
-												const auto jsonData = crow::json::load(req.body);
-												if (!jsonData)
-													return crow::response(400);
+	                                      ([this](const crow::request& req)
+	                                      {
+		                                      const auto jsonData = crow::json::load(req.body);
+		                                      if (!jsonData)
+			                                      return crow::response(400);
 
-												m_gameHandlers.SetDifficulty(jsonData["language"].i());
-												return crow::response(200, "Language set successfully");
-											});
+		                                      m_gameHandlers.SetDifficulty(jsonData["language"].i());
+		                                      return crow::response(200, "Language set successfully");
+	                                      });
 
 	CROW_ROUTE(m_app, "/startGame")
 		.methods("POST"_method)
@@ -176,58 +176,68 @@ void Routing::Run()
 	                               });
 	CROW_ROUTE(m_app, "/startTurn/Return_CurrentTime")
 		.methods("POST"_method)
-											([this](const crow::request& req)
-												{
-													const auto responseJson = crow::json::wvalue{
-														{"CurrentTime", m_gameHandlers.GetTime()}
-													};
-													return crow::json::wvalue{ responseJson };
-												});
+	                                                  ([this](const crow::request& req)
+	                                                  {
+		                                                  const auto responseJson = crow::json::wvalue{
+			                                                  {"CurrentTime", m_gameHandlers.GetTime()}
+		                                                  };
+		                                                  return crow::json::wvalue{responseJson};
+	                                                  });
 
 	CROW_ROUTE(m_app, "/startGame/Return_GameStatus")
 		.methods("POST"_method)
-	                                             ([this](const crow::request& req)
-	                                             {
-														 std::string status;
-														 if (m_gameHandlers.GetGameStatus())
-															 status = "true";
-														 else status = "false";
-														 const auto responseJson = crow::json::wvalue{
-															 {"Status", status}
-														 };
-		                                             return crow::json::wvalue{responseJson};
-	                                             });
+	                                                 ([this](const crow::request& req)
+	                                                 {
+		                                                 std::string status;
+		                                                 if (m_gameHandlers.GetGameStatus())
+		                                                 {
+			                                                 status = "true";
+		                                                 }
+		                                                 else
+		                                                 {
+			                                                 status = "false";
+		                                                 }
+		                                                 const auto responseJson = crow::json::wvalue{
+			                                                 {"Status", status}
+		                                                 };
+		                                                 return crow::json::wvalue{responseJson};
+	                                                 });
 	CROW_ROUTE(m_app, "/startGame/Return_GameStart")
 		.methods("POST"_method)
-												([this](const crow::request& req)
-													{
-														std::string status;
-														if (m_gameHandlers.IsGameStarted())
-															status = "true";
-														else status = "false";
-														const auto responseJson = crow::json::wvalue{
-															{"Start", status}
-														};
-														return crow::json::wvalue{ responseJson };
-													});
+	                                                ([this](const crow::request& req)
+	                                                {
+		                                                std::string status;
+		                                                if (m_gameHandlers.IsGameStarted())
+		                                                {
+			                                                status = "true";
+		                                                }
+		                                                else
+		                                                {
+			                                                status = "false";
+		                                                }
+		                                                const auto responseJson = crow::json::wvalue{
+			                                                {"Start", status}
+		                                                };
+		                                                return crow::json::wvalue{responseJson};
+	                                                });
 	CROW_ROUTE(m_app, "/startTurn/DrawerPosition")
 		.methods("POST"_method)
-												([this](const crow::request& req)
-													{
-														const auto responseJson = crow::json::wvalue{
-															{"DrawerPosition", m_gameHandlers.GetDrawerPosition()}
-														};
-														return crow::json::wvalue{ responseJson };
-													});
+	                                              ([this](const crow::request& req)
+	                                              {
+		                                              const auto responseJson = crow::json::wvalue{
+			                                              {"DrawerPosition", m_gameHandlers.GetDrawerPosition()}
+		                                              };
+		                                              return crow::json::wvalue{responseJson};
+	                                              });
 	CROW_ROUTE(m_app, "/startTurn/DrawerName")
 		.methods("POST"_method)
-												([this](const crow::request& req)
-													{
-														const auto responseJson = crow::json::wvalue{
-															{"DrawerName", m_gameHandlers.GetDrawerName()}
-														};
-														return crow::json::wvalue{ responseJson };
-													});
+	                                          ([this](const crow::request& req)
+	                                          {
+		                                          const auto responseJson = crow::json::wvalue{
+			                                          {"DrawerName", m_gameHandlers.GetDrawerName()}
+		                                          };
+		                                          return crow::json::wvalue{responseJson};
+	                                          });
 	CROW_ROUTE(m_app, "/startTurn/WordToBeGuessed")
 		.methods("POST"_method)
 	                                               ([this](const crow::request& req)
@@ -242,57 +252,56 @@ void Routing::Run()
 		.methods("POST"_method)
 	                                          ([this](const crow::request& req)
 	                                          {
-													const auto jsonData = crow::json::load(req.body);
-	                                          		std::string message = m_gameHandlers.CheckMessage(jsonData["message"].s(),jsonData["guesser"].s());
-													const auto responseJson = crow::json::wvalue
-	                                          		{
+		                                          const auto jsonData = crow::json::load(req.body);
+		                                          const auto message = m_gameHandlers.CheckMessage(
+			                                          jsonData["message"].s(), jsonData["guesser"].s());
+		                                          const auto responseJson = crow::json::wvalue
+		                                          {
 			                                          {"message", message}
-													};
-													return crow::json::wvalue{responseJson};
+		                                          };
+		                                          return crow::json::wvalue{responseJson};
 	                                          });
 	CROW_ROUTE(m_app, "/startTurn/Set_PlayerGuess")
 		.methods("POST"_method)
-		([this](const crow::request& req)
-			{
-				const auto jsonData = crow::json::load(req.body);
-				m_gameHandlers.SetCurrentGuess(jsonData["guess"].s());
-				return crow::response(200, "OK");
-
-			});
+	                                               ([this](const crow::request& req)
+	                                               {
+		                                               const auto jsonData = crow::json::load(req.body);
+		                                               m_gameHandlers.SetCurrentGuess(jsonData["guess"].s());
+		                                               return crow::response(200, "OK");
+	                                               });
 	CROW_ROUTE(m_app, "/startTurn/Return_OtherPlayerGuess")
 		.methods("POST"_method)
-		([this](const crow::request& req)
-			{
-				const auto responseJson = crow::json::wvalue{
-				{"guess", m_gameHandlers.GetCurrentGuess()}
-				};
-				return crow::json::wvalue{ responseJson };
-			});
+	                                                       ([this](const crow::request& req)
+	                                                       {
+		                                                       const auto responseJson = crow::json::wvalue{
+			                                                       {"guess", m_gameHandlers.GetCurrentGuess()}
+		                                                       };
+		                                                       return crow::json::wvalue{responseJson};
+	                                                       });
 
 
 	CROW_ROUTE(m_app, "/startTurn/Return_DrawingData")
 		.methods("POST"_method)
-		([this](const crow::request& req)
-			{
-				const auto responseJson = crow::json::wvalue{
-					{"DrawingData", m_gameHandlers.GetDrawing()}
-				};
-				return crow::json::wvalue{ responseJson };
-			});
-
+	                                                  ([this](const crow::request& req)
+	                                                  {
+		                                                  const auto responseJson = crow::json::wvalue{
+			                                                  {"DrawingData", m_gameHandlers.GetDrawing()}
+		                                                  };
+		                                                  return crow::json::wvalue{responseJson};
+	                                                  });
 
 
 	CROW_ROUTE(m_app, "/startTurn/SendDrawing")
 		.methods("POST"_method)
-		([this](const crow::request& req)
-			{
-				const auto jsonData = crow::json::load(req.body);
-				if (!jsonData)
-					return crow::response(400);
+	                                           ([this](const crow::request& req)
+	                                           {
+		                                           const auto jsonData = crow::json::load(req.body);
+		                                           if (!jsonData)
+			                                           return crow::response(400);
 
-				m_gameHandlers.SetDrawing(jsonData["DrawingData"].s());
-				return crow::response(200, "OK");
-			});
+		                                           m_gameHandlers.SetDrawing(jsonData["DrawingData"].s());
+		                                           return crow::response(200, "OK");
+	                                           });
 
 	//CROW_ROUTE(m_app, "/startTurn/Return_Points")
 	//	.methods("POST"_method)

@@ -20,8 +20,8 @@ namespace game_logic
 		void SetName(const std::string& name);				//Sets m_name
 		void SetPoints(const Points& points);				//Sets m_points
 		std::string GetName() const;						//returns m_name
-		Points& GetPoints();								//returns m_points
-
+		Points GetPoints() const;							//returns m_points
+		Points& ChangePoints();								//returns m_points and can be used to change it
 
 	private:
 		std::string m_name{};								//the name and display name of a user

@@ -7,6 +7,8 @@ import turn;
 #include <memory>
 #include <string>
 #include <queue>
+#include <unordered_map>
+
 #include "Timer.h"
 
 
@@ -44,10 +46,10 @@ namespace server
 		std::string GetCurrentGuess() const;
 		std::string GetDrawing() const;
 		void SetDrawing(const std::string& drawing);
-		std::vector < std::pair<float, std::string>> GetPlayersPoints();
+		std::unordered_map<std::string, float> GetPlayersPoints() const;
 
 	private:
-		std::queue<std::string> CreateWordsNeeded(const uint8_t wordsNeeded, const uint8_t difficulty, const uint8_t language) const;
+		static std::queue<std::string> CreateWordsNeeded(const uint8_t wordsNeeded, const uint8_t difficulty, const uint8_t language);
 
 	private:
 		std::unique_ptr<Lobby> m_lobby{};

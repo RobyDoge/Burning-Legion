@@ -56,7 +56,7 @@ std::string GameHandlers::GetWordToBeGuessed()
 	return m_wordToBeGuessed;
 }
 
-std::queue<std::string> GameHandlers::CreateWordsNeeded(const uint8_t wordsNeeded,const uint8_t difficulty, const uint8_t language) const
+std::queue<std::string> GameHandlers::CreateWordsNeeded(const uint8_t wordsNeeded,const uint8_t difficulty, const uint8_t language)
 {
 	WordDatabaseHandle wordDbHandle;
 	if (!wordDbHandle.IsInitialized())
@@ -68,12 +68,13 @@ std::queue<std::string> GameHandlers::CreateWordsNeeded(const uint8_t wordsNeede
 
 std::string GameHandlers::CheckMessage(const std::string& message,const std::string& guesser) const
 {
-	if (m_currentTurn->VerifyInputWord(m_wordToBeGuessed, message) == "Correct Guess")
+	const auto& guess {m_currentTurn->VerifyInputWord(m_wordToBeGuessed, message) };
+	if (guess == "Correct Guess")
 	{
 		m_correctGuesses++;
 		m_currentTurn->AddToGuessingTimes(m_currentTime, guesser);
 	}
-	return m_currentTurn->VerifyInputWord(m_wordToBeGuessed, message);
+	return guess;
 
 }
 
@@ -117,13 +118,13 @@ void GameHandlers::SetDrawing(const std::string& drawing)
 	m_drawing = drawing;
 }
 
-std::vector<std::pair<float,std::string>> GameHandlers::GetPlayersPoints()
+std::unordered_map<std::string, float> GameHandlers::GetPlayersPoints() const
 {
-	std::vector<std::pair<float, std::string>> points;
+	std::unordered_map<std::string, float> points;
 	if(!m_game->GetPlayers().empty())
 	for (auto& player : m_game->GetPlayers())
 	{
-		points.push_back(std::make_pair(player.GetPoints().GetTurnPoints(), player.GetName()));
+		points[player.GetName()] = player.GetPoints().GetTurnPoints();
 	}
 
 	return points;
@@ -132,7 +133,7 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 {
 	std::thread turnThread([this, roundIndex]()
 		{
-			Turn turn{ m_game->GetTurn(m_drawerPosition) };
+			Turn turn{ m_game->CreateTurn() };
 			m_currentTurn = std::make_shared<Turn>(turn);
 			uint8_t secondsPassed{};
 			uint8_t ticksPassed{};
@@ -140,14 +141,12 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 			m_correctGuesses = 0;
 			m_currentTime = 0;
 			m_timer.Reset();
-			while ((m_correctGuesses < turn.GetPlayers().size()) && (secondsPassed < turn.TURN_LIMIT))
+			while (m_correctGuesses < turn.GetPlayers().size()-1 && secondsPassed < turn.TURN_LIMIT)
 			{
 
 				if (m_timer.GetElapsedTime() > 0.1)
 				{
 					++ticksPassed;
-
-
 					m_timer.Reset();
 				}
 				if (ticksPassed == 10)
@@ -155,7 +154,6 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 					++secondsPassed;
 					m_currentTime++;
 					//uint8_t currentTime{ static_cast<uint8_t>(turn.TURN_LIMIT - secondsPassed) };
-
 					ticksPassed = 0;
 				}
 			}
@@ -166,7 +164,6 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 		});
 	turnThread.detach();
 }
-
 void GameHandlers::StartNextTurn(uint8_t roundIndex)
 {
 
@@ -182,7 +179,7 @@ void GameHandlers::StartNextTurn(uint8_t roundIndex)
 			}
 			else
 			{
-				roundIndex++;
+				++roundIndex;
 				m_drawerPosition = 0;
 				m_timer.Reset();
 				while (m_timer.GetElapsedTime() < 5)
@@ -194,7 +191,7 @@ void GameHandlers::StartNextTurn(uint8_t roundIndex)
 	}
 	else
 	{
-		auto winners{ m_game->SortPlayersByTheirScore() };
+		auto winners{ m_game->GetPlayersSortedByScore() };
 
 		m_game->EndGame(m_game->GetPlayers());
 	}

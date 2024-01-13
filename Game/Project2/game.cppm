@@ -29,9 +29,9 @@ namespace game_logic
 		~Game()= default;													//destructor
 		Game(std::vector<Player>& players, const std::queue<std::string>& words);	//constructor with info from lobby
 
-		Turn GetTurn(uint8_t drawerPosition);	//returns the current turn
+		Turn CreateTurn();	//returns the current turn
 		std::string GetNextWord();				//generates a random number of words based on the number of players
-		std::vector<Player> SortPlayersByTheirScore();		//return an array with up to top 3 players based on their score
+		std::vector<Player> GetPlayersSortedByScore() const;		//return an array with up to top 3 players based on their score
 
 		GameStatus GetGameStatus() const;		//returns the status of the game
 		void SwitchGameStatus();				//switches the status of the game

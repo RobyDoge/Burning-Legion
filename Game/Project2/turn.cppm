@@ -1,12 +1,12 @@
 export module turn;
 import player;
 
-
 import <vector>;
 import <utility>;
 import <optional>;
 import <string>;
 import <cstdint>;
+import <unordered_map>;
 
 namespace  game_logic
 {
@@ -25,9 +25,9 @@ namespace  game_logic
 
 	public:
 		Turn() = default;
-		Turn(std::vector<Player>& players, const std::string& wordToBeGuessed,const uint8_t drawerPosition);
+		Turn(std::vector<Player>& players);
 		~Turn() = default;
-		std::string VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord) const;
+		static std::string VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord);
 		void ReturnPlayers(std::vector<Player>& players);
 		TurnStatus GetTurnStatus() const;
 		void SwitchTurnStatus();
@@ -56,15 +56,16 @@ namespace  game_logic
 		std::vector<Player> GetPlayers();
 		void AddToGuessingTimes(float timeOfGuess, const std::string& playerName);
 	private:
-		void GuessingTimeVectorInitialization(const uint8_t drawerPosition);		//intializes the vector for guessing times
+		std::vector<float> OnlyGuessingTimes();
 		void AddPointsForEachPlayer(std::vector<std::pair<Player, Role>>& players);						//adds to each player their points based on the guessing time
 		void ConvertRemainingTimeToTakenTime();							//converts the remaining time stored in guessingTimes to how much it tool everyone to guess
 		void Move(std::vector<Player>& players, const MoveDirection moveDirection);
-		StringDifference Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord) const;
+		static StringDifference Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord);
 
 	private:
 		std::vector<std::pair<Player, Role>> m_players{};			//stores the players and their roles
-		std::vector<std::pair<float, std::string>> m_guessingTimes{};		//stores the time taken for guessing
+		//std::vector<std::pair<float, std::string>> m_guessingTimes{};		//
+		std::unordered_map<std::string,std::optional<float>> m_guessingTimes{};	//stores the time taken for guessing
 		TurnStatus m_turnStatus{ TurnStatus::NotOver };				//stores if the turn is over
 	};
 }

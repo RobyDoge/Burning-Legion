@@ -14,10 +14,9 @@ import <ranges>;
 
 using namespace game_logic;
 
-Turn::Turn(std::vector<Player>& players, const std::string& wordToBeDrawn, const uint8_t drawerPosition)
+Turn::Turn(std::vector<Player>& players)
 {
 	Move(players, MoveDirection::FromGameToTurn);
-	GuessingTimeVectorInitialization(drawerPosition);
 
 }
 
@@ -32,28 +31,22 @@ void Turn::Move(std::vector<Player>& players, const MoveDirection moveDirection)
 	{
 		m_players.clear();
 		m_players.resize(players.size());
-		std::transform(
-			players.begin(),
-			players.end(),
-			m_players.begin(),
-			[](Player& user)
-		{
-			return std::make_pair<Player, Role>(std::move(user), Role::NoRole);
-		}
+		std::ranges::transform(players, m_players.begin(),
+		                       [](Player& user)
+		                       {
+			                       return std::make_pair<Player, Role>(std::move(user), Role::NoRole);
+		                       }
 		);
 		players.clear();
 		return;
 	}
 
 	players.resize(m_players.size());
-	std::transform(
-		m_players.begin(),
-		m_players.end(),
-		players.begin(),
-		[](const std::pair<Player&, Role> pair)
-	{
-		return std::move(pair.first);
-	}
+	std::ranges::transform(m_players,players.begin(),
+			[](const std::pair<Player&, Role> pair)
+			{
+				return std::move(pair.first);
+			}
 	);
 }
 
@@ -63,35 +56,32 @@ std::vector<Player> Turn::GetPlayers()
 		std::vector<Player> players;
 		players.reserve(m_players.size()); 
 
-		std::transform(m_players.begin(), m_players.end(), std::back_inserter(players),
-			[](const std::pair<Player, Role>& pair) {
-				return pair.first;
-			});
+		std::ranges::transform(m_players, std::back_inserter(players),
+		                       [](const std::pair<Player, Role>& pair) {
+			                       return pair.first;
+		                       });
 
 		return players;
 }
 
-void Turn::AddToGuessingTimes(float timeOfGuess, const std::string& playerName)
+void Turn::AddToGuessingTimes(const float timeOfGuess, const std::string& playerName)
 {
-	m_guessingTimes.push_back(std::make_pair(timeOfGuess, playerName));
+	m_guessingTimes[playerName] = timeOfGuess;
 }
 
-void Turn::GuessingTimeVectorInitialization(const uint8_t drawerPosition)
+std::vector<float> Turn::OnlyGuessingTimes()
 {
-	m_guessingTimes.resize(m_players.size());
-	for (uint8_t iterator = 0; iterator < m_players.size(); iterator++)
+	std::vector<float> guessingTimes;
+	std::ranges::for_each(m_guessingTimes, [&guessingTimes](const auto& PlayerName_GuessingTime)
 	{
-		if (iterator==drawerPosition)
-		{
-			m_guessingTimes[iterator].first = -2;
-			continue;
-		}
-		m_guessingTimes[iterator].first = -1;
-	}
+		if (PlayerName_GuessingTime.second.has_value())
+			guessingTimes.push_back(PlayerName_GuessingTime.second.value());
+	});
+	return guessingTimes;
 }
 
 
-std::string Turn::VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord) const
+std::string Turn::VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord)
 {
 	switch (Compare(wordToBeGuessed, playerInputWord))
 	{
@@ -108,7 +98,7 @@ std::string Turn::VerifyInputWord(const std::string& wordToBeGuessed, const std:
 
 Turn::TurnStatus Turn::GetTurnStatus() const
 {
-		return m_turnStatus;
+	return m_turnStatus;
 }
 
 
@@ -118,7 +108,7 @@ void Turn::SwitchTurnStatus()
 }
 
 
-Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord) const
+Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord)
 {
 	if (wordToBeDrawn.length() != playerInputWord.length())
 		return StringDifference::NotSimilar;
@@ -152,30 +142,23 @@ Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std
 void Turn::AddPointsForEachPlayer(std::vector<std::pair<Player, Role>>& players)
 {
 	ConvertRemainingTimeToTakenTime();
-	for (uint8_t iterator = 0; iterator < players.size(); iterator++)
+	for (auto& [playerName,playerRole]: players)
 	{
-		if (players[iterator].second != Role::Drawer)
+		if(playerRole==Role::Drawer)
 		{
-			players[iterator].first.GetPoints().AddToTurnPoints(m_guessingTimes[iterator].first);
+
+			playerName.ChangePoints().AddToTurnPoints(OnlyGuessingTimes());
 			continue;
 		}
-		std::vector<float> floatVector;
-		for (uint8_t iterator2 = 0; iterator2 < m_guessingTimes.size(); iterator2++)
-		{
-			if (iterator == iterator2)
-			{
-				continue;
-			}
-			floatVector.push_back(m_guessingTimes[iterator2].first);
-		}
-		players[iterator].first.GetPoints().AddToTurnPoints(floatVector);
+		playerName.ChangePoints().AddToTurnPoints(m_guessingTimes.at(playerName.GetName()).value());
 	}
 }
 
 void Turn::ConvertRemainingTimeToTakenTime()
 {
-	for (auto& remainingTime : m_guessingTimes | std::views::keys)
+	for (auto& remainingTime : m_guessingTimes | std::views::values)
 	{
-		remainingTime = TURN_LIMIT - remainingTime;
+		if(remainingTime.has_value())
+			remainingTime = -remainingTime.value() + TURN_LIMIT;
 	}
 }

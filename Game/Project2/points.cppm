@@ -24,7 +24,7 @@ namespace game_logic
 		//if T is a vector we use the second method
 		template <typename T>
 		void AddToTurnPoints(const T& time);				//sets the turnPoints based on the time taken to guess the word
-		void UpdateScore();							//adds the points obtain during a turn to the currentGamePoints
+		void UpdateGamePoints();							//adds the points obtain during a turn to the currentGamePoints
 
 		int16_t GetCurrentGamePoints() const;					//getter for currentGamePoints
 		int16_t GetTurnPoints() const;							//getter for turnPoints
@@ -41,19 +41,15 @@ namespace game_logic
 		int16_t m_turnPoints{};									//temporary points earned during a turn
 	};
 
-	export template <typename T>
-		void Points::AddToTurnPoints(const T& time)
+	export template <>
+	void Points::AddToTurnPoints<float>(const float& time)
 	{
-
-		if constexpr (std::is_same_v<T, float> || std::is_same_v<T, int>)
-		{
-			Points::AddPointsGuesser(time);
-			return;
-		}
-		if constexpr (std::is_same_v<T, std::vector<float>>)
-		{
-			Points::AddPointsDrawer(time);
-		}
+		AddPointsGuesser(time);
+	}
+	export template <>
+	void Points::AddToTurnPoints<std::vector<float>>(const std::vector<float>& time)
+	{
+		AddPointsDrawer(time);
 	}
 
 	export void swap(Points& first, Points& second) noexcept;		//overload std::swap for two Player objects;

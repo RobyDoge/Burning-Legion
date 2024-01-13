@@ -50,10 +50,14 @@ std::string Player::GetName() const
     return m_name;
 }
 
-Points& Player::GetPoints()
+Points Player::GetPoints() const
 {
-
     return m_points;
+}
+
+Points& Player::ChangePoints()
+{
+	return m_points;
 }
 
 void Player::SetName(const std::string& name)
