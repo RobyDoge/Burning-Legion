@@ -118,17 +118,21 @@ void GameHandlers::SetDrawing(const std::string& drawing)
 	m_drawing = drawing;
 }
 
-std::unordered_map<std::string, float> GameHandlers::GetPlayersPoints() const
+std::vector<std::pair<std::string, float>> GameHandlers::GetPlayersTurnPoints() const
 {
-	std::unordered_map<std::string, float> points;
-	if(!m_game->GetPlayers().empty())
-	for (auto& player : m_game->GetPlayers())
-	{
-		points[player.GetName()] = player.GetPoints().GetTurnPoints();
-	}
-
-	return points;
+	return m_currentTurnPoints;
 }
+
+std::vector<std::pair<std::string, float>> GameHandlers::GetPlayersGamePoints() const
+{
+	std::vector<std::pair<std::string, float>> playersGamePoints{};
+	for(const auto& player : m_game->GetPlayers())
+	{
+		playersGamePoints.push_back({ player.GetName(), player.GetPoints().GetCurrentGamePoints() });
+	}
+	return playersGamePoints;
+}
+
 void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 {
 	std::thread turnThread([this, roundIndex]()
@@ -157,6 +161,7 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 					ticksPassed = 0;
 				}
 			}
+			m_currentTurnPoints = turn.AddPointsForEachPlayer();
 			m_game->EndTurn(m_currentTurn);
 			
 			StartNextTurn(roundIndex);
@@ -172,6 +177,8 @@ void GameHandlers::StartNextTurn(uint8_t roundIndex)
 			if (m_drawerPosition < m_game->GetPlayers().size() - 1)
 			{
 				m_drawerPosition++;
+				m_timer.Reset();
+				//turn points sent
 				while (m_timer.GetElapsedTime() < 5)
 				{
 				}

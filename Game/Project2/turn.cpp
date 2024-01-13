@@ -69,6 +69,17 @@ void Turn::AddToGuessingTimes(const float timeOfGuess, const std::string& player
 	m_guessingTimes[playerName] = timeOfGuess;
 }
 
+std::vector<std::pair<std::string, float>> Turn::Players_TurnPoints()
+{
+	std::vector<std::pair<std::string, float>> players_TurnPoints;
+	std::ranges::transform(m_players, std::back_inserter(players_TurnPoints),
+	                       [](const std::pair<Player, Role>& pair)
+	                       {
+		                       return std::make_pair(pair.first.GetName(), pair.first.GetPoints().GetTurnPoints());
+	                       });
+	return players_TurnPoints;
+}
+
 std::vector<float> Turn::OnlyGuessingTimes()
 {
 	std::vector<float> guessingTimes;
@@ -139,10 +150,10 @@ Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std
 
 
 
-void Turn::AddPointsForEachPlayer(std::vector<std::pair<Player, Role>>& players)
+std::vector<std::pair<std::string,float>> Turn::AddPointsForEachPlayer()
 {
 	ConvertRemainingTimeToTakenTime();
-	for (auto& [playerName,playerRole]: players)
+	for (auto& [playerName,playerRole]: m_players)
 	{
 		if(playerRole==Role::Drawer)
 		{
@@ -152,6 +163,7 @@ void Turn::AddPointsForEachPlayer(std::vector<std::pair<Player, Role>>& players)
 		}
 		playerName.ChangePoints().AddToTurnPoints(m_guessingTimes.at(playerName.GetName()).value());
 	}
+	return Players_TurnPoints();
 }
 
 void Turn::ConvertRemainingTimeToTakenTime()

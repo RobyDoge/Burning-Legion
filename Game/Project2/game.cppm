@@ -32,7 +32,6 @@ namespace game_logic
 		Turn CreateTurn();	//returns the current turn
 		std::string GetNextWord();				//generates a random number of words based on the number of players
 		std::vector<Player> GetPlayersSortedByScore() const;		//return an array with up to top 3 players based on their score
-
 		GameStatus GetGameStatus() const;		//returns the status of the game
 		void SwitchGameStatus();				//switches the status of the game
 		void EndTurn(std::shared_ptr<Turn> turn);				//ends the current turn

@@ -46,7 +46,8 @@ namespace server
 		std::string GetCurrentGuess() const;
 		std::string GetDrawing() const;
 		void SetDrawing(const std::string& drawing);
-		std::unordered_map<std::string, float> GetPlayersPoints() const;
+		std::vector<std::pair<std::string, float>> GetPlayersTurnPoints() const;
+		std::vector<std::pair<std::string, float>> GetPlayersGamePoints() const;
 
 	private:
 		static std::queue<std::string> CreateWordsNeeded(const uint8_t wordsNeeded, const uint8_t difficulty, const uint8_t language);
@@ -64,6 +65,7 @@ namespace server
 		std::string m_currentGuess;
 		std::string m_drawing;
 		std::string m_currentGuesser;
+		std::vector<std::pair<std::string,float>> m_currentTurnPoints{};
 	};
 };
 

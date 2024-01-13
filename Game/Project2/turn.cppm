@@ -31,6 +31,9 @@ namespace  game_logic
 		void ReturnPlayers(std::vector<Player>& players);
 		TurnStatus GetTurnStatus() const;
 		void SwitchTurnStatus();
+		std::vector<std::pair<std::string, float>> AddPointsForEachPlayer();						//adds to each player their points based on the guessing time
+		std::vector<Player> GetPlayers();
+		void AddToGuessingTimes(float timeOfGuess, const std::string& playerName);
 
 	private:
 		enum class StringDifference : uint8_t	//used for returning how different  are two strings
@@ -52,12 +55,10 @@ namespace  game_logic
 			Finished = 0b10,				// player that guessed the word
 			NoRole = 0b11					// for creating m_player at the beginning
 		};
-	public:
-		std::vector<Player> GetPlayers();
-		void AddToGuessingTimes(float timeOfGuess, const std::string& playerName);
+
 	private:
+		std::vector<std::pair<std::string, float>> Players_TurnPoints();
 		std::vector<float> OnlyGuessingTimes();
-		void AddPointsForEachPlayer(std::vector<std::pair<Player, Role>>& players);						//adds to each player their points based on the guessing time
 		void ConvertRemainingTimeToTakenTime();							//converts the remaining time stored in guessingTimes to how much it tool everyone to guess
 		void Move(std::vector<Player>& players, const MoveDirection moveDirection);
 		static StringDifference Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord);

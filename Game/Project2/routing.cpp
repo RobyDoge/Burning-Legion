@@ -307,7 +307,7 @@ void Routing::Run()
 	//	.methods("POST"_method)
 	//	([this](const crow::request& req)
 	//		{
-	//			std::vector<std::pair<float, std::string>> pairs = m_gameHandlers.GetPlayersPoints(); // Obțineți datele dorite
+	//			std::vector<std::pair<float, std::string>> pairs = m_gameHandlers.GetPlayersTurnPoints(); // Obțineți datele dorite
 
 	//			// Construiți un json din vectorul de perechi
 	//			json responseJson;

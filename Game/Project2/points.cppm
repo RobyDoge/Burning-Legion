@@ -38,7 +38,7 @@ namespace game_logic
 
 	private:
 		int16_t m_gamePoints{};							//the points earned in the current game 
-		int16_t m_turnPoints{};									//temporary points earned during a turn
+		int16_t m_turnPoints{};							//temporary points earned during a turn
 	};
 
 	export template <>
