@@ -6,7 +6,7 @@
 #include<qtimer.h>
 #include <QThread>
 #include <algorithm>
-
+#include<random>
 
 GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	QMainWindow(parent),
@@ -60,6 +60,8 @@ void GameWindow::CheckGameStatus()
 				m_currentDrawerPosition = m_client.Return_DrawerPosition();
 				/*emit SerializeDrawing();
 				emit DeserializeDrawing();*/
+				if ((m_currentTime == 30 || m_currentTime == 45))
+					RevealRandomLetters();
 				QMetaObject::invokeMethod(this, [this]() {
 
 					if (m_gameEnded)
@@ -304,7 +306,29 @@ void GameWindow::UpdateWordCensorship(const char letter, const int position)
 	m_wordToCensor[position] = letter;
 	ui.wordtoGuess->setText(QString(m_wordToCensor.c_str()));
 }
+void GameWindow::RevealRandomLetters()
+{
+	int lettersToReveal = m_wordToCensor.length() / 4;
 
+	std::vector<int> indices;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> distrib(0, m_wordToCensor.length() - 1);
+
+	while (indices.size() < lettersToReveal) {
+		int randIndex = distrib(gen);
+		if (std::find(indices.begin(), indices.end(), randIndex) == indices.end()) {
+			indices.push_back(randIndex);
+		}
+	}
+
+	for (int index : indices)
+	{
+		UpdateWordCensorship(m_client.Return_WordToBeGuessed()[index], index);
+		ui.wordtoGuess->setText(QString(m_wordToCensor.c_str()));
+	}
+
+}
 void GameWindow::StartTurn()
 {
 	QMetaObject::invokeMethod(this, [this]() {

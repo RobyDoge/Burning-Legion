@@ -49,6 +49,7 @@ private:
     void ShowPointWindow();
     void ShowEndWindow();
     void UpdatePlayerMessages();
+    void RevealRandomLetters();
 private:
 	void StartTurn();
     void ClearChat() const;
