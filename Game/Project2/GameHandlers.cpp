@@ -151,6 +151,7 @@ void server::GameHandlers::AddDrawingsToDatabase()
 	{
 
 		std::vector<std::string> drawing{ m_currentMatchDrawings[player.GetName()]};
+
 		dbHandler.AddMatch(player.GetName(), player.GetPoints().GetCurrentGamePoints(), drawing[0], drawing[1], drawing[2], drawing[3]);
 	}
 }
@@ -244,7 +245,7 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 void GameHandlers::StartNextTurn(uint8_t roundIndex)
 {
 
-	if (roundIndex < m_game->NUMBER_OF_ROUNDS - 4)
+	if (roundIndex < m_game->NUMBER_OF_ROUNDS - 1)
 	{
 			if (m_drawerPosition < m_game->GetPlayers().size() - 1)
 			{
@@ -277,7 +278,7 @@ void GameHandlers::StartNextTurn(uint8_t roundIndex)
 				return std::make_pair(player.GetName(), player.GetPoints().GetCurrentGamePoints());
 			});
 
-		//AddDrawingsToDatabase();
+		AddDrawingsToDatabase();
 		m_game->EndGame(m_game->GetPlayers());
 	}
 }

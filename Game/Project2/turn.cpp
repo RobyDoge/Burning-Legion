@@ -73,9 +73,11 @@ std::string Turn::VerifyInputWord(const std::string& wordToBeGuessed, const std:
 {
 	//use regex to turn word to all uppercase
 	std::string uppercaseWTBG{};
-	std::transform(wordToBeGuessed.begin(), wordToBeGuessed.end(), uppercaseWTBG.begin(), ::toupper);
+	uppercaseWTBG.reserve(wordToBeGuessed.length());
+	std::ranges::transform(wordToBeGuessed, std::back_inserter(uppercaseWTBG), ::toupper);
 	std::string uppercasePIW{};
-	std::transform(playerInputWord.begin(), playerInputWord.end(), uppercasePIW.begin(), ::toupper);
+	uppercasePIW.reserve(playerInputWord.length());
+	std::ranges::transform(playerInputWord, std::back_inserter(uppercasePIW), ::toupper);
 
 	switch (Compare(uppercaseWTBG, uppercasePIW))
 	{
