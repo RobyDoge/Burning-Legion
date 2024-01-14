@@ -50,6 +50,9 @@
     <ClCompile Include="ShowPointsWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ShowImagesWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LoginWindow.h">
@@ -62,6 +65,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="LobbyWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ShowImagesWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -85,6 +91,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="showPointsWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ShowImagesWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

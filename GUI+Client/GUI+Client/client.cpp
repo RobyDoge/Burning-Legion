@@ -63,11 +63,6 @@ void Client::Send_GameLanguage(const uint8_t language)
 }
 
 
-std::pair<uint16_t, std::list<int16_t>> Client::GetBestScoreAndLastMatchesPoints(const std::string& username)
-{
-	return std::pair<uint16_t, std::list<int16_t>>();
-}
-
 std::vector<std::string> Client::Return_PlayersVector(const std::string& username)
 {
 	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbySendUsers" },
@@ -160,9 +155,9 @@ bool Client::Return_GameStart()
 	return false;
 }
 
-void Client::Send_PlayerGuess(const std::string& message)
+void Client::Send_PlayerGuess(const std::string& guess)
 {
-	const std::string json_data = R"({"guess": ")" + message + R"("})";
+	const std::string json_data = R"({"guess": ")" + guess + R"("})";
 	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/Set_PlayerGuess" },
 		cpr::Header{ {"Content-Type", "application/json"} },
 		cpr::Body{ json_data });
@@ -272,4 +267,23 @@ std::vector<std::string> Client::Return_PlayersNames()
 		names.push_back(name["name"].s());
 	}
 	return names;
+
+
+}
+
+
+std::vector<std::pair<int, std::tuple<std::string, std::string, std::string, std::string>>> Client::Return_Last5Games(const std::string& username)
+{
+	const std::string json_data = R"({"username": ")" + username + R"("})";
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/MainMenu/Return_Image" },
+		cpr::Header{ {"Content-Type", "application/json"} },
+		cpr::Body{ json_data });
+
+	const auto gamesReceived = crow::json::load(response.text);
+	std::vector<std::pair<int, std::tuple<std::string, std::string, std::string, std::string>>> games;
+	for (const auto& game : gamesReceived)
+	{
+		games.push_back(std::make_pair(game["Score"].i(), std::make_tuple(game["Image1"].s(), game["Image2"].s(), game["Image3"].s(), game["Image4"].s())));
+	}
+	return games;
 }

@@ -3,7 +3,7 @@
 #include <crow.h>
 #include <list>
 #include <QByteArray>
-
+#include <tuple>
 class Client
 {
 public:
@@ -19,7 +19,7 @@ public:
 	static void Send_PlayerGuess(const std::string& message);
 
 	//this fucntion should be modified and split once the drawing saving is implemented
-	static std::pair<uint16_t, std::list< int16_t> > GetBestScoreAndLastMatchesPoints(const std::string& username);
+	static std::vector<std::pair<int, std::tuple<std::string, std::string, std::string, std::string>>> Return_Last5Games(const std::string& username);
 	static std::vector<std::string> Return_PlayersVector(const std::string& username);
 	static uint8_t Return_GameDifficulty();
 	static uint8_t Return_GameLanguage();

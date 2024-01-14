@@ -63,6 +63,31 @@ text-align: center;
  }
 </string>
        </property>
+       <item>
+        <property name="text">
+         <string>New Item</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>New Item</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>New Item</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>New Item</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>New Item</string>
+        </property>
+       </item>
       </widget>
       <widget class="QLabel" name="usernameLabel">
        <property name="geometry">
@@ -91,6 +116,71 @@ text-align: center;
        </property>
        <property name="text">
         <string>Username</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="SeeDrawings1">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>140</y>
+         <width>75</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>SeeDrawings</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="SeeDrawings2">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>190</y>
+         <width>75</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>SeeDrawings</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="SeeDrawings3">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>240</y>
+         <width>75</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>SeeDrawings</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="SeeDrawings4">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>290</y>
+         <width>75</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>SeeDrawings</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="SeeDrawings5">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>340</y>
+         <width>75</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>SeeDrawings</string>
        </property>
       </widget>
      </widget>

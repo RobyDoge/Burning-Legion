@@ -340,6 +340,28 @@ void Routing::Run()
 
 				//return crow::json::wvalue{ responseJson };
 			//});
+	CROW_ROUTE(m_app, "/MainMenu/Return_Image")
+		.methods("POST"_method)
+		([this](const crow::request& req)
+			{
+				const auto jsonData = crow::json::load(req.body);
+				std::vector<Images> images = m_userStorage.GetLast5Matches(jsonData["username"].s());
+				std::vector<crow::json::wvalue> responseJson;
+				for (int i=0;i<images.size();i++)
+				{
+					responseJson.push_back(crow::json::wvalue{ {"Score", images[i].score} });
+					responseJson.push_back(crow::json::wvalue{ {"Image1", images[i].firstRoundImage}});
+					responseJson.push_back(crow::json::wvalue{ {"Image2", images[i].secondRoundImage} });
+					responseJson.push_back(crow::json::wvalue{ {"Image3", images[i].thirdRoundImage} });
+					responseJson.push_back(crow::json::wvalue{ {"Image4", images[i].forthRoundImage} });
+
+				}
+				return crow::json::wvalue{ responseJson };
+			});
+
+
+
+
 
 	CROW_ROUTE(m_app, "/EndGame/Return_EndGamePoints")
 		.methods("POST"_method)
