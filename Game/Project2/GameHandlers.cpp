@@ -93,6 +93,19 @@ uint8_t GameHandlers::GetDrawerPosition() const
 	return m_drawerPosition;
 }
 
+void server::GameHandlers::AddDrawingsToDatabase()
+{
+	UserDatabaseHandle dbHandler;
+	
+	for (const auto& player : m_game->GetPlayers())
+	{
+		//std::vector<std::string> drawing{ m_currentDrawings.equal_range(player.GetName()) };
+
+		std::vector<std::string> drawing{ m_currentMatchDrawings[player.GetName()]};
+		dbHandler.AddMatch(player.GetName(), player.GetPoints().GetCurrentGamePoints(), drawing[0], drawing[1], drawing[2], drawing[3]);
+	}
+}
+
 std::string GameHandlers::GetDrawerName() const
 {
 	return m_currentTurn->GetPlayers()[m_drawerPosition].GetName();	
@@ -163,8 +176,11 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 			}
 			
 				m_currentTurn->FillGuessingTimes();
-
+			
 			m_currentTurnPoints = m_currentTurn->AddPointsForEachPlayer();
+
+			//m_currentDrawings.at(m_game->GetPlayers()[m_drawerPosition]).emplace_back(m_drawing);
+			m_currentMatchDrawings[m_game->GetPlayers()[m_drawerPosition].GetName()].emplace_back(m_drawing);
 			m_game->EndTurn(m_currentTurn);
 			
 			StartNextTurn(roundIndex);
@@ -202,7 +218,7 @@ void GameHandlers::StartNextTurn(uint8_t roundIndex)
 	else
 	{
 		auto winners{ m_game->GetPlayersSortedByScore() };
-
+		AddDrawingsToDatabase();
 		m_game->EndGame(m_game->GetPlayers());
 	}
 }

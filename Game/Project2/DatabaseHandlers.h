@@ -147,9 +147,10 @@ public:
 	bool CheckUsername(const std::string& name);
 	uint16_t GetBestScore(const std::string& name);
 	std::deque<int16_t> GetLastMatchesPoints(const std::string& name);
-	std::pair<std::string, Images> GetLastMatch(const std::string& name);
+	std::vector<Images> GetLast5Matches(const std::string& name);
 
 	void AddMatch(const std::string& name, const int16_t score, const std::string& firstRoundImage, const std::string& secondRoundImage, const std::string& thirdRoundImage, const std::string& forthRoundImage);
+	void AddBestScore(const std::string& name, int16_t int16);
 	void UpdateBestScore(const std::string& name, const int16_t score);
 
 

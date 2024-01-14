@@ -39,6 +39,7 @@ namespace server
 		void TurnThreadStart(uint8_t roundIndex);
 		std::string GetDrawerName() const;
 		uint8_t GetDrawerPosition() const;
+		void AddDrawingsToDatabase();
 		void StartNextTurn(uint8_t roundIndex);
 		bool IsGameStarted() const;
 		int GetTime() const;
@@ -48,6 +49,8 @@ namespace server
 		void SetDrawing(const std::string& drawing);
 		std::vector<std::pair<std::string, float>> GetPlayersTurnPoints() const;
 		std::vector<std::pair<std::string, float>> GetPlayersGamePoints() const;
+
+
 
 	private:
 		static std::queue<std::string> CreateWordsNeeded(const uint8_t wordsNeeded, const uint8_t difficulty, const uint8_t language);
@@ -66,6 +69,8 @@ namespace server
 		std::string m_drawing;
 		std::string m_currentGuesser;
 		std::vector<std::pair<std::string,float>> m_currentTurnPoints{};
+		std::unordered_map<std::string, std::vector<std::string>> m_currentMatchDrawings{};
+		//std::unordered_multimap<std::string, std::vector<std::string>> m_currentDrawings{};
 	};
 
 }
