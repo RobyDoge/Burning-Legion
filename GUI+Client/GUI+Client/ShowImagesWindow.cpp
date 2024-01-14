@@ -25,8 +25,9 @@ QImage ShowImagesWindow::DeserializeImage(std::string imageString)
 }
 void ShowImagesWindow::DisplayImages()
 {
-	ui.label->setPixmap(QPixmap::fromImage(DeserializeImage(std::get<0>(m_images))));
-	ui.label_2->setPixmap(QPixmap::fromImage(DeserializeImage(std::get<1>(m_images))));
-	ui.label_3->setPixmap(QPixmap::fromImage(DeserializeImage(std::get<2>(m_images))));
-	ui.label_4->setPixmap(QPixmap::fromImage(DeserializeImage(std::get<3>(m_images))));
+	ui.label->setPixmap(QPixmap::fromImage(DeserializeImage(std::get<0>(m_images))).scaled(ui.label->size(),Qt::KeepAspectRatio));
+	ui.label_2->setPixmap(QPixmap::fromImage(DeserializeImage(std::get<1>(m_images))).scaled(ui.label_2->size(), Qt::KeepAspectRatio));
+	ui.label_3->setPixmap(QPixmap::fromImage(DeserializeImage(std::get<2>(m_images))).scaled(ui.label_3->size(), Qt::KeepAspectRatio));
+	ui.label_4->setPixmap(QPixmap::fromImage(DeserializeImage(std::get<3>(m_images))).scaled(ui.label_4->size(), Qt::KeepAspectRatio));
+
 }

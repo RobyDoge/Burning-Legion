@@ -317,12 +317,7 @@ void Routing::Run()
 				std::vector<crow::json::wvalue> responseJson;
 				for (int i=0;i<images.size();i++)
 				{
-					responseJson.push_back(crow::json::wvalue{ {"Score", images[i].score} });
-					responseJson.push_back(crow::json::wvalue{ {"Image1", images[i].firstRoundImage}});
-					responseJson.push_back(crow::json::wvalue{ {"Image2", images[i].secondRoundImage} });
-					responseJson.push_back(crow::json::wvalue{ {"Image3", images[i].thirdRoundImage} });
-					responseJson.push_back(crow::json::wvalue{ {"Image4", images[i].forthRoundImage} });
-
+					responseJson.push_back(crow::json::wvalue{ {"Score", images[i].score} ,{"Image1", images[i].firstRoundImage},{"Image2", images[i].secondRoundImage} ,{"Image3", images[i].thirdRoundImage},{"Image4", images[i].forthRoundImage} });
 				}
 				return crow::json::wvalue{ responseJson };
 			});

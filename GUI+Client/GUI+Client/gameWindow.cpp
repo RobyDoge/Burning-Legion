@@ -401,7 +401,8 @@ void GameWindow::ShowPointWindow()
 	QMetaObject::invokeMethod(this, [this]() {
 		auto pointWindow = new ShowPointsWindow();
 		pointWindow->show();
-
+		m_capturedImage.fill(Qt::white);
+		update();
 		// Crearea unui QTimer pentru a închide fereastra după 5 secunde
 		auto timer = new QTimer(this);
 		connect(timer, &QTimer::timeout, [pointWindow, timer]() {

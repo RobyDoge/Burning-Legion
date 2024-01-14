@@ -207,8 +207,8 @@ std::vector<Images> UserDatabaseHandle::GetLast5Matches(const std::string& name)
 	}
 	else
 	{
-		const auto result = m_db.select(sqlite_orm::columns(&MatchData::score ,&MatchData::firstRoundImage, &MatchData::secondRoundImage, &MatchData::thirdRoundImage, &MatchData::forthRoundImage),
-		                                sqlite_orm::where(sqlite_orm::c(&MatchData::id) == std::get<0>(nameCheck.front())),
+		const auto result = m_db.select(sqlite_orm::columns(&MatchData::score ,&MatchData::firstRoundImage, &MatchData::secondRoundImage, &MatchData::thirdRoundImage, &MatchData::forthRoundImage ),
+		                                sqlite_orm::where(sqlite_orm::c(&MatchData::uid) == std::get<0>(nameCheck.front())),
 		                                sqlite_orm::order_by(&MatchData::id)
 		);
 

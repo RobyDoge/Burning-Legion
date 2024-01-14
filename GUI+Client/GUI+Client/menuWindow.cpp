@@ -37,16 +37,15 @@ void MenuWindow::SeeDrawingsButton1_Pushed()
 {
 	if (ui.SeeDrawings1->isVisible())
 	{
-		ShowImagesWindow* showImagesWindow = new ShowImagesWindow(m_imagesGame1,this);
+		ShowImagesWindow* showImagesWindow = new ShowImagesWindow(m_imagesGame1);
 		showImagesWindow->show();
-		this->hide();
 	}
 }
 void MenuWindow::SeeDrawingsButton2_Pushed()
 {
 	if (ui.SeeDrawings2->isVisible())
 	{
-		ShowImagesWindow* showImagesWindow = new ShowImagesWindow(m_imagesGame2, this);
+		ShowImagesWindow* showImagesWindow = new ShowImagesWindow(m_imagesGame2);
 		showImagesWindow->show();
 	}
 }
@@ -54,7 +53,7 @@ void MenuWindow::SeeDrawingsButton3_Pushed()
 {
 	if (ui.SeeDrawings3->isVisible())
 	{
-		ShowImagesWindow* showImagesWindow = new ShowImagesWindow(m_imagesGame3, this);
+		ShowImagesWindow* showImagesWindow = new ShowImagesWindow(m_imagesGame3);
 		showImagesWindow->show();
 	}
 }
@@ -62,7 +61,7 @@ void MenuWindow::SeeDrawingsButton4_Pushed()
 {
 	if (ui.SeeDrawings4->isVisible())
 	{
-		ShowImagesWindow* showImagesWindow = new ShowImagesWindow(m_imagesGame4, this);
+		ShowImagesWindow* showImagesWindow = new ShowImagesWindow(m_imagesGame4);
 		showImagesWindow->show();
 	}
 }
@@ -70,7 +69,7 @@ void MenuWindow::SeeDrawingsButton5_Pushed()
 {
 	if (ui.SeeDrawings5->isVisible())
 	{
-		ShowImagesWindow* showImagesWindow = new ShowImagesWindow(m_imagesGame5, this);
+		ShowImagesWindow* showImagesWindow = new ShowImagesWindow(m_imagesGame5);
 		showImagesWindow->show();
 	}
 }
@@ -89,18 +88,23 @@ void MenuWindow::GetBestScoreAndLastMatches()
 		{
 		case 1:
 			ui.SeeDrawings1->setVisible(true);
+			m_imagesGame1 = game.second;
 			break;
 		case 2:
 			ui.SeeDrawings2->setVisible(true);
+			m_imagesGame2 = game.second;
 			break;
 		case 3:
 			ui.SeeDrawings3->setVisible(true);
+			m_imagesGame3 = game.second;
 			break;
 		case 4:
 			ui.SeeDrawings4->setVisible(true);
+			m_imagesGame4 = game.second;
 			break;
 		case 5:
 			ui.SeeDrawings5->setVisible(true);
+			m_imagesGame5 = game.second;
 			break;
 		}
         ui.scoreList->addItem(item);
