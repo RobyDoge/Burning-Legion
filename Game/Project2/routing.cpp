@@ -68,17 +68,19 @@ void Routing::Run()
 		                              const auto jsonData = crow::json::load(req.body);
 
 		                              const std::string username = jsonData["username"].s();
+									  std::vector<crow::json::wvalue> responseJson;
 
-		                              uint16_t bestscores = m_userStorage.GetBestScore(username);
+										//this need to be redone to send  vector of pairs {game score, the 4 images}
+
+		                              /*uint16_t bestscores = m_userStorage.GetBestScore(username);
 		                              std::deque<int16_t> lastmatches = m_userStorage.GetLastMatchesPoints(username);
 
-		                              std::vector<crow::json::wvalue> responseJson;
 		                              responseJson.push_back(crow::json::wvalue{{"bestscores", bestscores}});
 
 		                              for (const auto& points : lastmatches)
 		                              {
 			                              responseJson.push_back(crow::json::wvalue{{"points", points}});
-		                              }
+		                              }*/
 
 		                              return crow::json::wvalue{responseJson};
 	                              });
@@ -345,10 +347,7 @@ void Routing::Run()
 			{
 				std::vector<std::pair<std::string, float>> pairs = m_gameHandlers.GetPlayersGamePoints(); // Obțineți datele dorite
 
-				for (const auto& [name, points] : pairs)
-				{
-					m_userStorage.UpdateBestScore(name, points);
-				}
+				
 
 				//m_userStorage.UpdateBestScore();
 				const auto jsonData = crow::json::load(req.body);

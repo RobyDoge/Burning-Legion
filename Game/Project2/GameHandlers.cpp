@@ -6,6 +6,7 @@ import lobby;
 #include "Timer.h"
 #include "DatabaseHandlers.h"
 #include <thread>
+#include <regex>
 
 using namespace game_logic;
 using server::GameHandlers;
@@ -62,7 +63,13 @@ std::queue<std::string> GameHandlers::CreateWordsNeeded(const uint8_t wordsNeede
 	if (!wordDbHandle.IsInitialized())
 		wordDbHandle.Init();
 	return wordDbHandle.SelectWords(wordsNeeded, difficulty, language);
-	 
+	/*std::queue<std::string> words{};
+
+	auto rows = wordDbHandle.SelectWords(wordsNeeded, difficulty, language);
+	for(const auto& row : rows)
+	{
+		
+	}*/
 }
 
 
@@ -105,6 +112,7 @@ void server::GameHandlers::AddDrawingsToDatabase()
 		dbHandler.AddMatch(player.GetName(), player.GetPoints().GetCurrentGamePoints(), drawing[0], drawing[1], drawing[2], drawing[3]);
 	}
 }
+
 
 std::string GameHandlers::GetDrawerName() const
 {
@@ -218,7 +226,7 @@ void GameHandlers::StartNextTurn(uint8_t roundIndex)
 	else
 	{
 		auto winners{ m_game->GetPlayersSortedByScore() };
-		AddDrawingsToDatabase();
+		//AddDrawingsToDatabase();
 		m_game->EndGame(m_game->GetPlayers());
 	}
 }
