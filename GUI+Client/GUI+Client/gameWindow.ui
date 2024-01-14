@@ -375,6 +375,37 @@ text-align: center;
      </rect>
     </property>
    </widget>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1584</width>
+      <height>864</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(255, 255, 255, 164), stop:0.994318 rgba(255, 255, 255, 142));</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+   </widget>
+   <zorder>frame</zorder>
+   <zorder>charCountLabel</zorder>
+   <zorder>clearButton</zorder>
+   <zorder>colorPickerButton</zorder>
+   <zorder>drawingArea</zorder>
+   <zorder>gamePlayersList</zorder>
+   <zorder>inputField</zorder>
+   <zorder>messageArea</zorder>
+   <zorder>penWidthSlider</zorder>
+   <zorder>sendButton</zorder>
+   <zorder>timerLabel</zorder>
+   <zorder>wordtoGuess</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
