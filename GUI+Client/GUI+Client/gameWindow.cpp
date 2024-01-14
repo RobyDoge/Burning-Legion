@@ -10,7 +10,7 @@
 
 GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	QMainWindow(parent),
-	m_username(username)
+	m_username(username), m_receivedImage(400, 400, QImage::Format_RGB32),m_capturedImage(400, 400, QImage::Format_RGB32)
 {
 	ui.setupUi(this);
 	setMouseTracking(true);
@@ -34,6 +34,7 @@ GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	//QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
 	ui.drawingArea->setGeometry(m_xPos, m_yPos, WIDTH, HEIGHT);
 
+
 	m_stopThread.store(true);
 
 	
@@ -41,8 +42,8 @@ GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	UpdatePlayerMessages();
 	StartDrawingThread();
 
-	QImage image(100, 100, QImage::Format_RGB32);
-	image.fill(Qt::black);
+	QImage image(m_xPos, m_yPos, QImage::Format_RGB32);
+	//image.fill(Qt::black);
 
 	// Convert the QImage to a QByteArray
 	//QByteArray byteArray;
@@ -103,8 +104,9 @@ void GameWindow::StartDrawingThread()
 
 						std::string imageString = m_client.Return_Drawing();
 						QByteArray byteArray = QByteArray::fromBase64(imageString.c_str());
-
+				
 						m_receivedImage.loadFromData(byteArray, "PNG");
+						
 						update();
 					}
 					std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -282,26 +284,26 @@ void GameWindow::mouseReleaseEvent(QMouseEvent* event)
 
 void GameWindow::paintEvent(QPaintEvent* event)
 {
-	QPainter painter(this);
-	painter.setRenderHint(QPainter::Antialiasing);
-	m_capturedImage=QImage(WIDTH, HEIGHT, QImage::Format_RGB32);
-	QPainter capturePainter(&m_capturedImage);
-	capturePainter.setRenderHint(QPainter::Antialiasing);
+	 QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
 
-	const QRect border(m_xPos, m_yPos, WIDTH, HEIGHT);
-	painter.setBrush(Qt::white);
-	capturePainter.setBrush(Qt::white);
-	painter.drawRect(border);
-	capturePainter.drawRect(border);
+    m_capturedImage = QImage(1536, 864, QImage::Format_RGB32);
+    QPainter capturePainter(&m_capturedImage);
+    capturePainter.setRenderHint(QPainter::Antialiasing);
 
-	if (!m_receivedImage.isNull())
-	{
-		QWidget::paintEvent(event);
+    const QRect border(m_xPos, m_yPos, WIDTH, HEIGHT);
+    painter.setBrush(Qt::white);
+    capturePainter.setBrush(Qt::white);
+    painter.drawRect(border);
+    capturePainter.drawRect(border);
 
-		// Draw the image
-		painter.drawImage(m_xPos,m_yPos, m_receivedImage);
-		capturePainter.drawImage(m_xPos, m_yPos, m_receivedImage);
-	}
+    if (!m_receivedImage.isNull())
+    {
+   
+        
+        painter.drawImage(0,0, m_receivedImage);
+        capturePainter.drawImage(0, 0, m_receivedImage);
+    }
 
 	if (!m_lines.empty())
 		for (int lineIndex = 0; lineIndex < m_lines.size(); ++lineIndex)
@@ -487,7 +489,7 @@ void GameWindow::DeserializeDrawing()
 				imgString = "iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAANElEQVR4nO3BAQ0AAADCoPdPbQ43oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfgx1lAABqFDyOQAAAABJRU5ErkJggg==";
 				QByteArray byteArray = QByteArray::fromBase64(imgString.c_str());
 
-				m_receivedImage.loadFromData(byteArray, "JPG");
+				m_receivedImage.loadFromData(byteArray, "PNG");
 				update();
 			}
 		}, Qt::QueuedConnection);
