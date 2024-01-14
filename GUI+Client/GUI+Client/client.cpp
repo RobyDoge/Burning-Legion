@@ -35,30 +35,6 @@ long Client::Return_CreateUserInDatabase(const std::string& username, const std:
     return response.status_code;
 }
 
-//should be redone
-//std::pair<uint16_t, std::list< int16_t>> Client::GetBestScoreAndLastMatchesPoints(const std::string& username) 
-//{
-//    std::string json_data = R"({"username": ")" + username + R"("})";
-//
-//    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/mainMenu" },
-//        cpr::Header{ {"Content-Type", "application/json"} },
-//        cpr::Body{ json_data });
-//
-//    auto scores = crow::json::load(response.text);
-//    bool ok = true;
-//    uint16_t bestScore;
-//    std::list<int16_t> list;
-//    for (const auto& score : scores)
-//    {
-//		if (ok) { bestScore = score["bestscores"].i(); ok = false; }
-//        else
-//		list.push_back(score["points"].i());
-//    }
-//	
-//	return std::make_pair(bestScore, list);
-//}
-
-
 void Client::Send_UsernameForLobby(const std::string& username)
 {
 	const std::string json_data = R"({"username": ")" + username + R"("})";
@@ -184,9 +160,9 @@ bool Client::Return_GameStart()
 	return false;
 }
 
-void Client::Send_PlayerGuess(const std::string& guess)
+void Client::Send_PlayerGuess(const std::string& message)
 {
-	const std::string json_data = R"({"guess": ")" + guess + R"("})";
+	const std::string json_data = R"({"guess": ")" + message + R"("})";
 	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/Set_PlayerGuess" },
 		cpr::Header{ {"Content-Type", "application/json"} },
 		cpr::Body{ json_data });
@@ -205,6 +181,22 @@ int Client::Return_CurrentTime()
 	return crow::json::load(response.text)["CurrentTime"].i();
 }
 
+std::vector<std::pair<std::string, uint16_t>> Client::Return_SortedPlayers()
+{
+	const auto response = Post(cpr::Url{ "http://localhost:18080/EndGame/Return_SortedPlayers" },
+	                           cpr::Header{ {"Content-Type", "application/json"} });
+
+	const auto playersReceived = crow::json::load(response.text);
+
+	std::vector<std::pair<std::string, uint16_t>> players;
+	for (const auto& player : playersReceived)
+	{
+
+		players.push_back(std::make_pair(player["name"].s(), player["points"].i()));
+	}
+	return players;
+}
+
 void Client::Send_StartGame_Signal()
 {
     auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startGame"},
@@ -217,7 +209,7 @@ void Client::Send_CreateLobby_Signal()
     auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobby" },
         cpr::Header{ {"Content-Type", "application/json"} });
 }
-void Client::Send_Drawing(std::string drawingData)
+void Client::Send_Drawing(const std::string& drawingData)
 {
 	const std::string json_data = R"({"DrawingData": ")" + drawingData + R"("})";
 	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/SendDrawing" },
@@ -233,14 +225,14 @@ std::string Client::Return_Drawing()
 	return DrawData;
 
 }
-std::vector<int> Client::Return_PlayersPoints()
+std::vector<uint16_t> Client::Return_PlayersPoints()
 {
 	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/EndTurn/Return_Points" },
 		cpr::Header{ {"Content-Type", "application/json"} });
 
 	const auto pointsReceived = crow::json::load(response.text);
 
-	std::vector<int> points;
+	std::vector<uint16_t> points;
 	for (const auto& point : pointsReceived)
 	{
 
@@ -249,14 +241,14 @@ std::vector<int> Client::Return_PlayersPoints()
 	return points;
 		
 }
-std::vector<int> Client::Return_PlayersEndGamePoints()
+std::vector<uint16_t> Client::Return_PlayersEndGamePoints()
 {
 		const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/EndGame/Return_EndGamePoints" },
 			cpr::Header{ {"Content-Type", "application/json"} });
 
 		const auto pointsReceived = crow::json::load(response.text);
 
-		std::vector<int> points;
+		std::vector<uint16_t> points;
 		for (const auto& point : pointsReceived)
 		{
 

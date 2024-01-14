@@ -45,9 +45,9 @@ void Turn::FillGuessingTimes()
 	}
 }
 
-std::vector<std::pair<std::string, float>> Turn::Players_TurnPoints()
+std::vector<std::pair<std::string, uint16_t>> Turn::Players_TurnPoints()
 {
-	std::vector<std::pair<std::string, float>> players_turnPoints;
+	std::vector<std::pair<std::string, uint16_t>> players_turnPoints;
 	std::ranges::transform(m_players, std::back_inserter(players_turnPoints),
 	                       [](const Player& player)
 	                       {
@@ -122,7 +122,7 @@ Turn::StringDifference Turn::Compare(const std::string& wordToBeDrawn, const std
 	return StringDifference::NotSimilar;
 }
 
-std::vector<std::pair<std::string,float>> Turn::AddPointsForEachPlayer()
+std::vector<std::pair<std::string, uint16_t>> Turn::AddPointsForEachPlayer()
 {
 	ConvertRemainingTimeToTakenTime();
 	for (auto& player: m_players)

@@ -41,44 +41,16 @@ GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	CheckGameStatus();
 	UpdatePlayerMessages();
 	StartDrawingThread();
-
-	QImage image(m_xPos, m_yPos, QImage::Format_RGB32);
-	//image.fill(Qt::black);
-
-	// Convert the QImage to a QByteArray
-	//QByteArray byteArray;
-	//QBuffer buffer(&byteArray);
-	//buffer.open(QIODevice::WriteOnly);
-	//image.save(&buffer, "PNG");
-
-	//// Convert the QByteArray to a base64-encoded string
-	//QString base64String = byteArray.toBase64();
-
-	//std::string normalString = base64String.toUtf8().constData();
-	//std::string normalString = "iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAANElEQVR4nO3BAQ0AAADCoPdPbQ43oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfgx1lAABqFDyOQAAAABJRU5ErkJggg==";
-	//// Decode base64 string to QByteArray
-	//QByteArray byteArray2 = QByteArray::fromBase64(normalString.c_str());
-
-	//std::ofstream outputFile("output.txt", std::ios::binary);
-	//if (outputFile.is_open()) {
-	//	outputFile << normalString << std::endl;
-	//}
-	//// Load the image from the QByteArray
-	//m_receivedImage.loadFromData(byteArray2, "PNG");
 }
 
-GameWindow::~GameWindow() = default;
-
-void GameWindow::DisplayPlayers()
+void GameWindow::DisplayPlayers() const
 {
 	ui.gamePlayersList->clear();
-	std::vector<std::string> m_players = m_client.Return_PlayersNames();
-	for (const auto& player : m_players)
+	for (const auto& player : Client::Return_PlayersNames())
 	{
 		ui.gamePlayersList->addItem(QString(player.c_str()));
 	}
 }
-
 
 
 void GameWindow::StartDrawingThread()
@@ -96,13 +68,13 @@ void GameWindow::StartDrawingThread()
 						buffer.open(QIODevice::WriteOnly);
 						image.save(&buffer, "PNG");
 						QString imageString = byteArray.toBase64();
-						imgString = imageString.toUtf8().constData();
-						m_client.Send_Drawing(imgString);
+						m_imgString = imageString.toUtf8().constData();
+						Client::Send_Drawing(m_imgString);
 
 					}
 					else {
 
-						std::string imageString = m_client.Return_Drawing();
+						std::string imageString = Client::Return_Drawing();
 						QByteArray byteArray = QByteArray::fromBase64(imageString.c_str());
 				
 						m_receivedImage.loadFromData(byteArray, "PNG");
@@ -122,10 +94,10 @@ void GameWindow::CheckGameStatus()
 		{
 			while (m_stopThread)
 			{
-				m_currentTime = m_client.Return_CurrentTime();
+				m_currentTime = Client::Return_CurrentTime();
 				ui.timerLabel->setText(QString::number(60-m_currentTime));
-				m_gameEnded = m_client.Return_GameStatus();
-				m_currentDrawerPosition = m_client.Return_DrawerPosition();
+				m_gameEnded = Client::Return_GameStatus();
+				m_currentDrawerPosition = Client::Return_DrawerPosition();
 				
 				if ((m_currentTime == 30 || m_currentTime == 45))
 					RevealRandomLetters();
@@ -164,20 +136,20 @@ void GameWindow::UpdatePlayerMessages()
 		{
 			while (m_stopThread)
 			{
-				m_currentPlayerGuess = QString(m_client.Return_OtherPlayerGuess().c_str());
+				m_currentPlayerGuess = QString(Client::Return_OtherPlayerGuess().c_str());
 				if (m_currentPlayerGuess != m_lastPlayerGuess)
 				{
 					m_lastPlayerGuess = m_currentPlayerGuess;
 					QMetaObject::invokeMethod(this, [this]() 
 					{
 					
-						if (!m_currentPlayerGuess.isEmpty() && m_currentPlayerGuess != QString(m_client.Return_WordToBeGuessed().c_str()))
+						if (!m_currentPlayerGuess.isEmpty() && m_currentPlayerGuess != QString(Client::Return_WordToBeGuessed().c_str()))
 						{
 							ui.messageArea->append("Player: " + m_currentPlayerGuess);
 						}
 						ui.inputField->clear();
 
-						if (const auto serverMessage = QString(m_client.Return_PlayerGuessResponse(m_currentPlayerGuess.toUtf8().constData(),m_username).c_str());
+						if (const auto serverMessage = QString(Client::Return_PlayerGuessResponse(m_currentPlayerGuess.toUtf8().constData(),m_username).c_str());
 							serverMessage != m_currentPlayerGuess)
 						{
 							ui.messageArea->append("Player: " + serverMessage);
@@ -195,29 +167,8 @@ void GameWindow::SendButton_Clicked()
 	if (!m_isDrawer)
 	{
 	    m_playerMessage = ui.inputField->text();
-		m_client.Send_PlayerGuess(m_playerMessage.toUtf8().constData());
+		Client::Send_PlayerGuess(m_playerMessage.toUtf8().constData());
 	}
-}
-
-void GameWindow::ProcessPlayerGuess(std::string guess, std::string correctAnswer) 
-{
-	const size_t thirdLength = std::max(1ul, static_cast<unsigned long>(correctAnswer.length() / 3));
-	size_t diff = 0;
-	size_t minLen =min(guess.length(), correctAnswer.length());
-	size_t index = 0; 
-	diff += std::count_if(guess.begin(), guess.begin() + minLen,
-		[this, &index, &correctAnswer](char c) {
-			return c != correctAnswer[index++];
-		});
-	diff += std::abs(static_cast<int>(guess.size()) - static_cast<int>(correctAnswer.size()));
-
-	if (diff==0) 
-		ui.messageArea->append("You guessed the word right!");
-	else if (diff == 1) 
-		ui.messageArea->append("You are very close to the right answer!");
-	else if (diff == 2 || diff == thirdLength)
-		ui.messageArea->append("You are close to the right answer!");
-//TO BE TESTED when messageArea works again
 }
 
 void GameWindow::InputField_ReturnPressed()
@@ -369,77 +320,79 @@ void GameWindow::ClearChat() const
 	ui.messageArea->clear();
 }
 
-std::string GameWindow::WordToCensor(std::string word)
+void GameWindow::CensoredWord()
 {
-	std::ranges::for_each(word, [](char& letter) { letter = '*'; });
-	m_wordToCensor = word;
-	return word;
+	for (int i = 0; i < m_guessWord.length(); i++)
+	{
+		m_censoredWord += "*";
+	}
+	
 }
 
 void GameWindow::UpdateWordCensorship(const char letter, const int position)
 {
-	m_wordToCensor[position] = letter;
-	ui.wordtoGuess->setText(QString(m_wordToCensor.c_str()));
+	m_censoredWord[position] = letter;
+	ui.wordtoGuess->setText(QString(m_censoredWord.c_str()));
 }
 void GameWindow::RevealRandomLetters()
 {
-	int lettersToReveal = m_wordToCensor.length() / 4;
+	const int lettersToReveal = m_censoredWord.length() / 4;
 
 	std::vector<int> indices;
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> distrib(0, m_wordToCensor.length() - 1);
+	std::uniform_int_distribution<> distribution(0, m_censoredWord.length() - 1);
 
-	while (indices.size() < lettersToReveal) {
-		int randIndex = distrib(gen);
-		if (std::find(indices.begin(), indices.end(), randIndex) == indices.end()) {
+	while (indices.size() < lettersToReveal) 
+	{
+		if (int randIndex = distribution(gen); 
+			std::ranges::find(indices, randIndex) == indices.end()) 
+		{
 			indices.push_back(randIndex);
 		}
 	}
 
-	for (int index : indices)
+	for (const int index : indices)
 	{
-		UpdateWordCensorship(m_client.Return_WordToBeGuessed()[index], index);
-		ui.wordtoGuess->setText(QString(m_wordToCensor.c_str()));
+		UpdateWordCensorship(m_guessWord[index], index);
+		ui.wordtoGuess->setText(QString(m_censoredWord.c_str()));
 	}
 
 }
 void GameWindow::StartTurn()
 {
-	QMetaObject::invokeMethod(this, [this]() {
-
-	
-	ClearDrawingArea();
-	ClearChat();
-
-	m_currentTime = 60;
-	ui.timerLabel->setText("60");
-	QString qDrawerName = QString(m_client.Return_DrawerName().c_str());
-	ui.messageArea->append(qDrawerName + " is drawing...");
-	if (m_username == m_client.Return_DrawerName())
+	QMetaObject::invokeMethod(this, [this]()
 	{
-		m_isDrawer = true;
-		ui.wordtoGuess->setText(QString(m_client.Return_WordToBeGuessed().c_str()));
-	}
-	else
-	{
-		m_isDrawer = false;
-		ui.wordtoGuess->setText(QString(WordToCensor(m_client.Return_WordToBeGuessed()).c_str()));
-	}
+		ClearDrawingArea();
+		ClearChat();
 
-		}, Qt::QueuedConnection);
-	
+		m_currentTime = 60;
+		ui.timerLabel->setText("60");
+		const auto qDrawerName = QString(Client::Return_DrawerName().c_str());
+		ui.messageArea->append(qDrawerName + " is drawing...");
+		m_guessWord = Client::Return_WordToBeGuessed();
+		CensoredWord();
+		if (m_username == Client::Return_DrawerName())
+		{
+			m_isDrawer = true;
+			ui.wordtoGuess->setText(QString(m_guessWord.c_str()));
+		}
+		else
+		{
+			m_isDrawer = false;
+			ui.wordtoGuess->setText(QString(m_censoredWord.c_str()));
+		}
+	}, Qt::QueuedConnection);
 }
 
-//TODO: implement this function
 void GameWindow::ShowPointWindow()
 {
 	QMetaObject::invokeMethod(this, [this]() {
-		ShowPointsWindow* pointWindow = new ShowPointsWindow();
+		auto pointWindow = new ShowPointsWindow();
 		pointWindow->show();
 
 		// Crearea unui QTimer pentru a închide fereastra după 5 secunde
-		QTimer* timer = new QTimer(this);
+		auto timer = new QTimer(this);
 		connect(timer, &QTimer::timeout, [pointWindow, timer]() {
 			// Închideți fereastra și opriți timerul când expiră intervalul
 			pointWindow->close();
@@ -467,33 +420,6 @@ void GameWindow::ShowEndWindow()
 		}, Qt::QueuedConnection);
 }
 
-void GameWindow::SerializeDrawing()
-{
-		QMetaObject::invokeMethod(this, [this]() {
-	if (m_isDrawer)
-	{
-
-		m_pixelMap = ui.drawingArea->grab();
-
-	}
-		}, Qt::QueuedConnection);
-}
-
-void GameWindow::DeserializeDrawing()
-{
-	QMetaObject::invokeMethod(this, [this]()
-		{
-			if (!m_isDrawer)
-			{
-				std::string imageString = m_client.Return_Drawing();
-				imgString = "iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAANElEQVR4nO3BAQ0AAADCoPdPbQ43oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfgx1lAABqFDyOQAAAABJRU5ErkJggg==";
-				QByteArray byteArray = QByteArray::fromBase64(imgString.c_str());
-
-				m_receivedImage.loadFromData(byteArray, "PNG");
-				update();
-			}
-		}, Qt::QueuedConnection);
-}
 
 
 void GameWindow::SetReceivedDrawing(const QPixmap& pixelMap)

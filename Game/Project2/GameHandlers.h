@@ -3,7 +3,6 @@ import game;
 import lobby;
 import turn;
 
-
 #include <memory>
 #include <string>
 #include <queue>
@@ -47,10 +46,9 @@ namespace server
 		std::string GetCurrentGuess() const;
 		std::string GetDrawing() const;
 		void SetDrawing(const std::string& drawing);
-		std::vector<std::pair<std::string, float>> GetPlayersTurnPoints() const;
-		std::vector<std::pair<std::string, float>> GetPlayersGamePoints() const;
-
-
+		std::vector<std::pair<std::string, uint16_t>> GetPlayersTurnPoints() const;
+		std::vector<std::pair<std::string, uint16_t>> GetPlayersGamePoints() const;
+		std::vector<std::pair<std::string, uint16_t>> GetSortedPlayers() const;
 
 	private:
 		static std::queue<std::string> CreateWordsNeeded(const uint8_t wordsNeeded, const uint8_t difficulty, const uint8_t language);
@@ -68,9 +66,9 @@ namespace server
 		std::string m_currentGuess;
 		std::string m_drawing;
 		std::string m_currentGuesser;
-		std::vector<std::pair<std::string,float>> m_currentTurnPoints{};
+		std::vector<std::pair<std::string, uint16_t>> m_currentTurnPoints{};
 		std::unordered_map<std::string, std::vector<std::string>> m_currentMatchDrawings{};
-		//std::unordered_multimap<std::string, std::vector<std::string>> m_currentDrawings{};
+		std::vector<std::pair<std::string, uint16_t>> m_winners{};
 	};
 
 }

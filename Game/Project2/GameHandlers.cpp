@@ -1,6 +1,7 @@
 ﻿import turn;
 import game;
 import lobby;
+import player;
 
 #include "GameHandlers.h"
 #include "Timer.h"
@@ -139,19 +140,24 @@ void GameHandlers::SetDrawing(const std::string& drawing)
 	m_drawing = drawing;
 }
 
-std::vector<std::pair<std::string, float>> GameHandlers::GetPlayersTurnPoints() const
+std::vector<std::pair<std::string, uint16_t>> GameHandlers::GetPlayersTurnPoints() const
 {
 	return m_currentTurnPoints;
 }
 
-std::vector<std::pair<std::string, float>> GameHandlers::GetPlayersGamePoints() const
+std::vector<std::pair<std::string, uint16_t>> GameHandlers::GetPlayersGamePoints() const
 {
-	std::vector<std::pair<std::string, float>> playersGamePoints{};
+	std::vector<std::pair<std::string, uint16_t>> playersGamePoints{};
 	for(const auto& player : m_game->GetPlayers())
 	{
 		playersGamePoints.push_back({ player.GetName(), player.GetPoints().GetCurrentGamePoints() });
 	}
 	return playersGamePoints;
+}
+
+std::vector<std::pair<std::string, uint16_t>> GameHandlers::GetSortedPlayers() const
+{
+	return m_winners;
 }
 
 void GameHandlers::TurnThreadStart(uint8_t roundIndex)
@@ -178,7 +184,6 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 				{
 					++secondsPassed;
 					m_currentTime++;
-					//uint8_t currentTime{ static_cast<uint8_t>(turn.TURN_LIMIT - secondsPassed) };
 					ticksPassed = 0;
 				}
 			}
@@ -187,7 +192,6 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 			
 			m_currentTurnPoints = m_currentTurn->AddPointsForEachPlayer();
 
-			//m_currentDrawings.at(m_game->GetPlayers()[m_drawerPosition]).emplace_back(m_drawing);
 			m_currentMatchDrawings[m_game->GetPlayers()[m_drawerPosition].GetName()].emplace_back(m_drawing);
 			m_game->EndTurn(m_currentTurn);
 			
@@ -225,7 +229,13 @@ void GameHandlers::StartNextTurn(uint8_t roundIndex)
 	}
 	else
 	{
-		auto winners{ m_game->GetPlayersSortedByScore() };
+		auto sortedPlayers { m_game->GetPlayersSortedByScore() };
+		m_winners.reserve(sortedPlayers.size());
+		std::ranges::transform(sortedPlayers, std::back_inserter(m_winners), [](const Player& player)
+			{
+				return std::make_pair(player.GetName(), player.GetPoints().GetCurrentGamePoints());
+			});
+
 		//AddDrawingsToDatabase();
 		m_game->EndGame(m_game->GetPlayers());
 	}

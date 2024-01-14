@@ -15,7 +15,7 @@ public:
 	static void Send_UsernameForLobby(const std::string& username);
 	static void Send_GameDifficulty(uint8_t difficulty);
 	static void Send_GameLanguage(uint8_t language);
-	static void Send_Drawing(std::string drawingData);
+	static void Send_Drawing(const std::string& drawingData);
 	static void Send_PlayerGuess(const std::string& message);
 
 	//this fucntion should be modified and split once the drawing saving is implemented
@@ -28,15 +28,14 @@ public:
 	static std::string Return_DrawerName();
 	static std::string Return_PlayerGuessResponse(const std::string& message, const std::string& guesser);
 	static std::string Return_OtherPlayerGuess();
-	static std::vector<int> Return_PlayersPoints();
+	static std::vector<uint16_t> Return_PlayersPoints();
 	static std::vector<std::string> Return_PlayersNames();
-	static std::vector<int> Return_PlayersEndGamePoints();
+	static std::vector<uint16_t> Return_PlayersEndGamePoints();
 	static uint8_t Return_DrawerPosition();
 	static bool Return_GameStatus();
 	static void Send_StartGame_Signal();
 	static void Send_CreateLobby_Signal();
 	static bool Return_GameStart();
 	static int Return_CurrentTime();
-private:
-
+	static std::vector<std::pair<std::string, uint16_t >> Return_SortedPlayers();
 };

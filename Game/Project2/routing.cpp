@@ -306,23 +306,23 @@ void Routing::Run()
 		                                           return crow::response(200, "OK");
 	                                           });
 
-	CROW_ROUTE(m_app, "/EndTurn/Return_Points")
-		.methods("POST"_method)
-		([this](const crow::request& req)
-			{
-									std::vector<std::pair<std::string, float>> pairs = m_gameHandlers.GetPlayersTurnPoints(); // Obțineți datele dorite
-				
+	//CROW_ROUTE(m_app, "/EndTurn/Return_Points")
+	//	.methods("POST"_method)
+	//	([this](const crow::request& req)
+	//		{
+	//								std::vector<std::pair<std::string, float>> pairs = m_gameHandlers.GetPlayersTurnPoints(); // Obțineți datele dorite
+	//			
 
-		                              const auto jsonData = crow::json::load(req.body);
-		                              std::vector<crow::json::wvalue> responseJson;
-									  for (const auto& [name,points] : pairs)
-		                              {
-										  int point = int(points);
-			                              responseJson.push_back(crow::json::wvalue{{"Point", point}});
-		                              }
+	//	                              const auto jsonData = crow::json::load(req.body);
+	//	                              std::vector<crow::json::wvalue> responseJson;
+	//								  for (const auto& [name,points] : pairs)
+	//	                              {
+	//									  int point = int(points);
+	//		                              responseJson.push_back(crow::json::wvalue{{"Point", point}});
+	//	                              }
 
-		                              return crow::json::wvalue{responseJson};
-	                              });
+	//	                              return crow::json::wvalue{responseJson};
+	//                              });
 	//new route for end turn / return image
 	//should recieve image + name from client -> std::pair<std::string, std::string>
 	//CROW_ROUTE(m_app, "/EndTurn/Return_Image")
@@ -345,17 +345,16 @@ void Routing::Run()
 		.methods("POST"_method)
 		([this](const crow::request& req)
 			{
-				std::vector<std::pair<std::string, float>> pairs = m_gameHandlers.GetPlayersGamePoints(); // Obțineți datele dorite
+				std::vector<std::pair<std::string, uint16_t>> pairs = m_gameHandlers.GetPlayersGamePoints(); // Obțineți datele dorite
 
 				
 
 				//m_userStorage.UpdateBestScore();
 				const auto jsonData = crow::json::load(req.body);
 				std::vector<crow::json::wvalue> responseJson;
-				for (const auto& [name, points] : pairs)
+				for (const auto& points : pairs | std::views::values)
 				{
-					int point = int(points);
-					responseJson.push_back(crow::json::wvalue{ {"Point", point} });
+					responseJson.push_back(crow::json::wvalue{ {"Point", points} });
 				}
 
 				return crow::json::wvalue{ responseJson };
@@ -374,6 +373,22 @@ void Routing::Run()
 
 				return crow::json::wvalue{ responseJson };
 			});
+
+	CROW_ROUTE(m_app, "/EndGame/Return_SortedPlayers")
+	.methods("POST"_method)
+	([this](const crow::request& req)
+		{
+			std::vector<std::pair<std::string, uint16_t>> pairs = m_gameHandlers.GetSortedPlayers();
+			
+			const auto jsonData = crow::json::load(req.body);
+			std::vector<crow::json::wvalue> responseJson;
+			for (const auto& [name, points] : pairs)
+			{
+				responseJson.push_back(crow::json::wvalue{ {"name", name},{"points", points} });
+			}
+
+			return crow::json::wvalue{ responseJson };
+		});
 
 	m_app.port(18080).multithreaded().run();
 }

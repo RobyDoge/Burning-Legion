@@ -2,8 +2,6 @@
 
 #include "ui_gameWindow.h"
 #include "EndGamewindow.h"
-#include "Client.h"
-
 #include <QMainWindow>
 #include <QPainter>
 #include <QMouseEvent>
@@ -20,8 +18,8 @@ class GameWindow : public QMainWindow
 
 public:
     GameWindow(const std::string& username,QWidget* parent = nullptr);
-    ~GameWindow();
-    //std::vector<std::vector<int>> pixelMatrix; 
+    ~GameWindow() = default;
+    void SetReceivedDrawing(const QPixmap& pixelMap);
 
 protected:
     void mousePressEvent(QMouseEvent* event) override;
@@ -29,34 +27,24 @@ protected:
     void mouseReleaseEvent(QMouseEvent* event) override;
     void paintEvent(QPaintEvent* event) override;
 
-
 private:
     inline static constexpr uint16_t WIDTH{ 800 };
     inline static constexpr uint16_t HEIGHT{ 600 };
-    int m_xPos;
-    int m_yPos;
 
 private:
     void ResizeToScreenSize();
-    void SerializeDrawing();
-    void DeserializeDrawing();
-    void SetReceivedDrawing(const QPixmap& pixelMap);
-    void AddNewLine(const QVector<QPoint>& newLine);
     void ChangePenColor();
     void UpdateWordCensorship(char letter, int position);
-    void ProcessPlayerGuess(std::string guess, std::string correctAnswer);
     void CheckGameStatus();
     void ShowPointWindow();
     void ShowEndWindow();
     void UpdatePlayerMessages();
     void RevealRandomLetters();
-    void DisplayPlayers();
+    void DisplayPlayers() const;
     void StartDrawingThread();
-
-private:
 	void StartTurn();
     void ClearChat() const;
-	std::string WordToCensor(std::string word);
+	void CensoredWord();
 
 private slots:
     void SendButton_Clicked();
@@ -66,42 +54,35 @@ private slots:
     void ClearDrawingArea();
 
 private:
-    /*those are unused for now
-    *
-    *int m_lastUpdatedLineIndex = -1;
-	*bool m_gameStatus;
-	*bool m_turnEnded;
-    *std::vector<std::string> m_players;
-    */
-
-private:
-    Client m_client;
     Ui::gameWindowClass ui;
     std::string m_username;
-    std::string m_wordToCensor;
+    std::string m_censoredWord;
+    std::string m_guessWord;
 
     bool m_isDrawing{ false };
     bool m_isDrawer{ false };
     uint8_t m_previousDrawerPosition{ 255 };
     uint8_t m_currentDrawerPosition{ 255 };
     QPixmap m_receivedDrawing{};
-    std::atomic<bool> m_stopThread;
+    std::atomic<bool> m_stopThread{};
 
-    QVector<QVector<QPoint>> m_lines;
-    QVector<QPoint> m_currentLine;
-    QColor m_currentPenColor;
-    int m_currentPenWidth;
-    QMap<int, int> m_lineWidths;
-    QMap<int, QColor> m_lineColor;
+    QVector<QVector<QPoint>> m_lines{};
+    QVector<QPoint> m_currentLine{};
+    QColor m_currentPenColor{};
+    int m_currentPenWidth{};
+    QMap<int, int> m_lineWidths{};
+    QMap<int, QColor> m_lineColor{};
     
 	bool m_gameEnded{ false };
-    uint8_t m_currentTime;
+    uint8_t m_currentTime{};
 
-    QString m_currentPlayerGuess;
-    QString m_lastPlayerGuess;
-    QString m_playerMessage;
-	QPixmap m_pixelMap;
-    QImage m_receivedImage;
-    QImage m_capturedImage;
-    std::string imgString;
+    QString m_currentPlayerGuess{};
+    QString m_lastPlayerGuess{};
+    QString m_playerMessage{};
+    QImage m_receivedImage{};
+    QImage m_capturedImage{};
+    std::string m_imgString{};
+
+    int m_xPos;
+    int m_yPos;
 };
