@@ -99,9 +99,11 @@ void GameWindow::CheckGameStatus()
 				ui.timerLabel->setText(QString::number(60-m_currentTime));
 				m_gameEnded = Client::Return_GameStatus();
 				m_currentDrawerPosition = Client::Return_DrawerPosition();
-				
+
+				if(!m_isDrawer)
 				if ((m_currentTime == 30 || m_currentTime == 45))
 					RevealRandomLetters();
+
 					if (m_gameEnded)
 					{
 						m_stopThread.store(false);
