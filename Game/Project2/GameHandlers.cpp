@@ -234,7 +234,7 @@ void GameHandlers::TurnThreadStart(uint8_t roundIndex)
 			
 			m_currentTurnPoints = m_currentTurn->AddPointsForEachPlayer();
 
-			m_currentMatchDrawings[m_game->GetPlayers()[m_drawerPosition].GetName()].emplace_back(m_drawing);
+			m_currentMatchDrawings[m_currentTurn->GetPlayers()[m_drawerPosition].GetName()].emplace_back(m_drawing);
 			m_game->EndTurn(m_currentTurn);
 			
 			StartNextTurn(roundIndex);
