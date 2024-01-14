@@ -20,6 +20,7 @@ void EndGameWindow::DisplayPlayers() const
         auto* item = new QListWidgetItem(playerInfo);
         ui.endPlayersList->addItem(item);
     }
+	ui.winnerLabel->setText(m_players.begin()->first.c_str());
 }
 void EndGameWindow::BackButton_Clicked()
 {
