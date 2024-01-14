@@ -2,7 +2,6 @@
 
 #include <QMainWindow>
 #include "ui_signupWindow.h"
-#include "Client.h"
 
 class SignUpWindow : public QMainWindow
 {
@@ -12,9 +11,6 @@ public:
 	SignUpWindow(QWidget *parent = nullptr);
 	~SignUpWindow() override = default;
 
-
-private:
-	void CreateLoginWindow();
 
 private slots:
 	void SignUpButton_Clicked();
@@ -26,6 +22,5 @@ private:
 	QString m_username{};
 	QString m_password{};
 	QString m_confirmPassword{};
-	Client m_signUpClient{};
 
 };

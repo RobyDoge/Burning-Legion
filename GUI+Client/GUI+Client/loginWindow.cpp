@@ -1,6 +1,7 @@
 ﻿#include "LoginWindow.h"
 #include "SignUpWindow.h"
 #include "MenuWindow.h"
+#include "Client.h"
 #include <QString>
 
 LoginWindow::LoginWindow(QWidget *parent)
@@ -24,10 +25,10 @@ void LoginWindow::LoginButton_Clicked()
     }
 
     //Sends username and password to the server to check with the database  
-    if (const long response = m_loginClient.Return_LoginResponse(m_username, m_password); 
+    if (const long response = Client::Return_LoginResponse(m_username, m_password); 
         response == 200 || response == 201)
     {
-	    OpenMenuWindow(m_username);
+	    OpenMenuWindow();
         return;
     }
 	ui.messageLabel->setText("Username or Password incorrect");
@@ -39,14 +40,15 @@ void LoginWindow::SigninButton_Clicked()
     signUpWindow->show();
     this->destroy();
 }
-void LoginWindow::OpenMenuWindow(const std::string& username)
+
+void LoginWindow::OpenMenuWindow()
 {
-	auto* menuWindow = new MenuWindow(username); 
+	auto* menuWindow = new MenuWindow(std::move(m_username)); 
     menuWindow->show();
     this->destroy();
 }
 
-std::string LoginWindow::GetUsername()
+std::string LoginWindow::GetUsername() const
 {
 	return m_username;
 }

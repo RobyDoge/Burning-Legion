@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>699</width>
+    <width>623</width>
     <height>564</height>
    </rect>
   </property>
@@ -59,19 +59,6 @@ font: 600 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
        </property>
        <property name="placeholderText">
         <string>Username</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="signupUsernameCheckLabel">
-       <property name="geometry">
-        <rect>
-         <x>260</x>
-         <y>110</y>
-         <width>21</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
        </property>
       </widget>
       <widget class="QLineEdit" name="sigupPasswordLine">
@@ -253,7 +240,7 @@ QPushButton#signupLogginButton:pressed {
         </rect>
        </property>
        <property name="text">
-        <string>Aici o sa apara textul de ai gresit user / parola</string>
+        <string/>
        </property>
       </widget>
      </widget>
@@ -265,7 +252,7 @@ QPushButton#signupLogginButton:pressed {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>699</width>
+     <width>623</width>
      <height>22</height>
     </rect>
    </property>

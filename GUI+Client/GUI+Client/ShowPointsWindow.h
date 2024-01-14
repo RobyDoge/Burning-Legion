@@ -11,7 +11,8 @@ class ShowPointsWindow : public QMainWindow
 
 public:
 	ShowPointsWindow(QWidget *parent = nullptr);
-	~ShowPointsWindow();
+	~ShowPointsWindow() = default;
+
 private slots:
 
 private:

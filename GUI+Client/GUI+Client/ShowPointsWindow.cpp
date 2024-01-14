@@ -17,9 +17,6 @@ ShowPointsWindow::ShowPointsWindow(QWidget *parent)
 	DisplayPlayers();
 }
 
-ShowPointsWindow::~ShowPointsWindow()
-{}
-
 void ShowPointsWindow::SortPlayers()
 {
 	std::sort(m_players.begin(), m_players.end(), [](const std::pair<std::string, uint16_t>& a, const std::pair<std::string, uint16_t>& b) {

@@ -171,7 +171,7 @@ QPushButton#loginButton:pressed {
         </rect>
        </property>
        <property name="text">
-        <string>Aici o sa apara textul de ai gresit user / parola</string>
+        <string/>
        </property>
       </widget>
       <widget class="QPushButton" name="signinButton">

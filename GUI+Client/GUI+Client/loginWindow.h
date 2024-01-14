@@ -3,7 +3,6 @@
 #include <QString>
 #include <string>
 #include "ui_loginWindow.h"
-#include "Client.h"
 
 class LoginWindow : public QMainWindow
 {
@@ -15,8 +14,8 @@ public:
 
 
 private:
-	void OpenMenuWindow(const std::string& username);
-	std::string GetUsername();
+	void OpenMenuWindow();
+	std::string GetUsername() const;
 
 private slots:
 	void LoginButton_Clicked();
@@ -26,5 +25,4 @@ private:
 	Ui::loginClass ui;
 	std::string m_username{};
 	std::string m_password{};
-	Client m_loginClient{};
 };

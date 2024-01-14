@@ -3,15 +3,13 @@
 #include <QMainWindow>
 #include <QString>
 #include "ui_menuWindow.h"
-#include "LobbyWindow.h"
-#include "Client.h"
 #include <list>
 
 class MenuWindow : public QMainWindow
 {
 
 public:
-	MenuWindow(std::string username , QWidget *parent = nullptr);
+	MenuWindow(const std::string& username , QWidget *parent = nullptr);
 	~MenuWindow() override = default;
 
 private:
@@ -27,9 +25,8 @@ private slots:
 
 private:
 	Ui::MenuWindowClass ui;
-	QString m_code{};  //not in use
 	std::string m_username{};
-	uint16_t m_bestScore{};
-	std::list<int16_t> m_lastMatchesPoints{};
-	Client m_client{};
+	//those should be updated after the request for the best score and last matches is implemented
+	/*uint16_t m_bestScore{};
+	std::list<int16_t> m_lastMatchesPoints{};*/
 };

@@ -190,36 +190,6 @@ QPushButton#joinLobbyButton:pressed {
         <string>Join Lobby</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="joinLobbyCode">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>90</x>
-         <y>340</y>
-         <width>151</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Yu Gothic UI Semibold</family>
-         <pointsize>10</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgba(0, 0, 0, 0);
-border:none;
-border-bottom:2px solid rgba(190,86,131,200);
-color:rgba(0,0,0,240);
-padding-bottom:7px;</string>
-       </property>
-       <property name="placeholderText">
-        <string>Code</string>
-       </property>
-      </widget>
       <widget class="QLabel" name="label">
        <property name="geometry">
         <rect>
