@@ -1,12 +1,13 @@
 ﻿#include "GameWindow.h"
 #include "ShowPointsWindow.h"
+#include "Client.h"
 #include <chrono>
-#include<QToolTip>
-#include<QColorDialog>
-#include<qtimer.h>
+#include <QToolTip>
+#include <QColorDialog>
+#include <qtimer.h>
 #include <QThread>
 #include <algorithm>
-#include<random>
+#include <random>
 
 GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	QMainWindow(parent),
@@ -420,7 +421,7 @@ void GameWindow::ShowEndWindow()
 {
 	QMetaObject::invokeMethod(this, [this]() {
 
-	auto* endWindow = new EndGameWindow();
+	auto* endWindow = new EndGameWindow(std::move(m_username));
 	endWindow->show();
 	this->destroy();
 		

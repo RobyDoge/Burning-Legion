@@ -1,7 +1,7 @@
 #include "ShowImagesWindow.h"
 
 ShowImagesWindow::ShowImagesWindow(std::tuple<std::string, std::string, std::string, std::string> images,QWidget *parent)
-	: m_images(images),QMainWindow(parent)
+	: QMainWindow(parent),m_images(images)
 {
 	ui.setupUi(this);
 	connect(ui.MainMenu, &QPushButton::clicked, this, &ShowImagesWindow::MainMenuButton_clicked);

@@ -21,9 +21,10 @@ namespace server
 		GameHandlers() = default;
 		~GameHandlers() = default;
 
-		void CreateLobby();
+		long CreateLobby(const bool createLobby);
 		void AddUserToLobby(const std::string& username) const;
-		void RemoveUserFromLobby(const std::string& username) const;
+		void DeleteLobby();
+		void RemoveUserFromLobby(const std::string& username);
 		std::vector<std::string> GetUsersNames() const;
 		void SetDifficulty(int difficulty) const;
 		void SetLanguage(int language) const;
@@ -62,10 +63,10 @@ namespace server
 		Timer m_timer{};
 		bool m_gameStarted{ false };
 		mutable int m_correctGuesses = 0;
-		int m_currentTime;
-		std::string m_currentGuess;
-		std::string m_drawing;
-		std::string m_currentGuesser;
+		int m_currentTime{};
+		std::string m_currentGuess{};
+		std::string m_drawing{};
+		std::string m_currentGuesser{};
 		std::vector<std::pair<std::string, int16_t>> m_currentTurnPoints{};
 		std::unordered_map<std::string, std::vector<std::string>> m_currentMatchDrawings{};
 		std::vector<std::pair<std::string, int16_t>> m_winners{};

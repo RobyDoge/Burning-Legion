@@ -2,8 +2,9 @@
 #include "LobbyWindow.h"
 #include "Client.h"
 #include "ShowImagesWindow.h"
+
 MenuWindow::MenuWindow(const std::string& username,QWidget* parent)
-    : m_username (username) , QMainWindow(parent)
+    : QMainWindow(parent) , m_username (username)
 {
     ui.setupUi(this);
    
@@ -110,11 +111,12 @@ void MenuWindow::GetBestScoreAndLastMatches()
 
 void MenuWindow::CreateLobbyButton_Clicked()
 {
-    Client::Send_CreateLobby_Signal();
-    OpenLobbyWindow();
+    if(Client::Send_CreateLobby_Signal(true)==200)
+		OpenLobbyWindow();
 }
 
 void MenuWindow::JoinLobbyButton_Clicked()
 {
-    OpenLobbyWindow();
+	if (Client::Send_CreateLobby_Signal(false) == 200)
+		OpenLobbyWindow();
 }

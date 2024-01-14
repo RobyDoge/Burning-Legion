@@ -32,7 +32,6 @@ namespace game_logic
 
         void SetDifficulty(const uint8_t difficulty);				//sets the game difficulty at the start of the game
         void SetLanguage(const uint8_t language);              //sets the game language at the start of the game
-        void SetPlayers(const std::vector<Player>& players);  	    //sets the players at the start of the game
 
         uint8_t GetLanguage() const;                           //for checking the language 
         uint8_t GetDifficulty() const;						//for checking the difficulty
@@ -40,7 +39,7 @@ namespace game_logic
 		std::vector<std::string>& GetUsersNames();
 
         void AddPlayer(const std::string& name);                      //adds a player to the lobby
-        void RemovePlayer(const std::string& name);     
+        uint8_t RemovePlayer(const std::string& name);     
         //removes a player from the lobby
 
     private:
@@ -48,9 +47,5 @@ namespace game_logic
         GameDifficulty m_difficulty{};
         GameLanguage m_language{};
         std::vector<std::string> m_usersNames;
-        int a;
-
     };
-
-
 }

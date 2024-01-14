@@ -37,8 +37,4 @@ private:
 	std::tuple<std::string, std::string, std::string, std::string> m_imagesGame3;
 	std::tuple<std::string, std::string, std::string, std::string> m_imagesGame4;
 	std::tuple<std::string, std::string, std::string, std::string> m_imagesGame5;
-
-	//those should be updated after the request for the best score and last matches is implemented
-	/*uint16_t m_bestScore{};
-	std::list<int16_t> m_lastMatchesPoints{};*/
 };

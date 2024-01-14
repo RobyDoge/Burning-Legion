@@ -3,6 +3,7 @@
 #include "GameWindow.h"
 #include <chrono>
 #include <qtimer.h>
+#include "Client.h"
 
 LobbyWindow::LobbyWindow(const std::string& username, QWidget* parent):
 	QMainWindow(parent),

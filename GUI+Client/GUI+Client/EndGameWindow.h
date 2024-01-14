@@ -2,13 +2,12 @@
 #include <string>
 #include <QMainWindow>
 #include "ui_endGameWindow.h"
-#include "client.h"
 
 
 class EndGameWindow : public QMainWindow
 {
 public:
-	EndGameWindow(QWidget *parent = nullptr);
+	EndGameWindow(const std::string& username,QWidget *parent = nullptr);
 	~EndGameWindow() override = default;
 
 private slots:
@@ -19,6 +18,7 @@ private:
 
 private:
 	Ui::EndGameWindowClass ui;
+	std::string m_username;
 	std::vector<std::pair<std::string, int16_t >> m_players;
 };
 

@@ -39,9 +39,9 @@ void Client::Send_UsernameForLobby(const std::string& username)
 {
 	const std::string json_data = R"({"username": ")" + username + R"("})";
 
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbyGetUsers" },
-        cpr::Header{ {"Content-Type", "application/json"} },
-        cpr::Body{ json_data });
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobbyGetUsers" },
+	                                cpr::Header{ {"Content-Type", "application/json"} },
+	                                cpr::Body{ json_data });
 }
 
 void Client::Send_GameDifficulty(const uint8_t difficulty)
@@ -187,10 +187,21 @@ std::vector<std::pair<std::string, int16_t>> Client::Return_SortedPlayers()
 	for (const auto& player : playersReceived)
 	{
 
-		players.push_back(std::make_pair(player["name"].s(), player["points"].i()));
+		players.emplace_back(player["name"].s(), player["points"].i());
 	}
 	return players;
 }
+
+long Client::Return_LeaveGameResponse(const std::string& string)
+{
+	const std::string json_data = R"({"username": ")" + string + R"("})";
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/EndGame/LeaveGame" },
+				cpr::Header{ {"Content-Type", "application/json"} },
+				cpr::Body{ json_data });
+
+	return response.status_code;
+}
+
 
 void Client::Send_StartGame_Signal()
 {
@@ -199,10 +210,20 @@ void Client::Send_StartGame_Signal()
 
 }
 
-void Client::Send_CreateLobby_Signal()
+long Client::Send_CreateLobby_Signal(const bool createLobby)
 {
-    auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobby" },
-        cpr::Header{ {"Content-Type", "application/json"} });
+	std::string createLobbyString = "false";
+	if(createLobby)
+	{
+		createLobbyString = "true";
+	}
+	const std::string json_data = R"({"createLobby": ")" + createLobbyString + R"("})";
+	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/lobby" },
+		cpr::Header{ {"Content-Type", "application/json"} },
+		cpr::Body{ json_data });
+
+	
+	return response.status_code;
 }
 void Client::Send_Drawing(const std::string& drawingData)
 {
@@ -283,7 +304,7 @@ std::vector<std::pair<int, std::tuple<std::string, std::string, std::string, std
 	std::vector<std::pair<int, std::tuple<std::string, std::string, std::string, std::string>>> games;
 	for (const auto& game : gamesReceived)
 	{
-		games.push_back(std::make_pair(game["Score"].i(), std::make_tuple(game["Image1"].s(), game["Image2"].s(), game["Image3"].s(), game["Image4"].s())));
+		games.emplace_back(game["Score"].i(), std::make_tuple(game["Image1"].s(), game["Image2"].s(), game["Image3"].s(), game["Image4"].s()));
 	}
 	return games;
 }

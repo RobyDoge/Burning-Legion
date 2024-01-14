@@ -89,11 +89,13 @@ void Routing::Run()
 		.methods("POST"_method)
 	                           ([this](const crow::request& req)
 	                           {
-		                           if (crow::json::load(req.body))
-			                           return crow::response(400);
+									   const auto jsonData = crow::json::load(req.body);
+									   if (!jsonData)
+										   return crow::response(400);
 
-		                           m_gameHandlers.CreateLobby();
-		                           return crow::response(200, "OK");
+									   if(jsonData["createLobby"].s()== "true")
+											return crow::response(m_gameHandlers.CreateLobby(true), "OK");
+									   return crow::response(m_gameHandlers.CreateLobby(false), "OK");
 	                           });
 
 	CROW_ROUTE(m_app, "/lobbyGetUsers")
@@ -103,9 +105,8 @@ void Routing::Run()
 		                                   const auto jsonData = crow::json::load(req.body);
 		                                   if (!jsonData)
 			                                   return crow::response(400);
-
-		                                   m_gameHandlers.AddUserToLobby(jsonData["username"].s());
-
+											   m_gameHandlers.AddUserToLobby(jsonData["username"].s());
+										   
 		                                   return crow::response(200, "valid");
 	                                   });
 
@@ -306,40 +307,7 @@ void Routing::Run()
 		                                           return crow::response(200, "OK");
 	                                           });
 
-	//CROW_ROUTE(m_app, "/EndTurn/Return_Points")
-	//	.methods("POST"_method)
-	//	([this](const crow::request& req)
-	//		{
-	//								std::vector<std::pair<std::string, float>> pairs = m_gameHandlers.GetPlayersTurnPoints(); // Obțineți datele dorite
-	//			
-
-	//	                              const auto jsonData = crow::json::load(req.body);
-	//	                              std::vector<crow::json::wvalue> responseJson;
-	//								  for (const auto& [name,points] : pairs)
-	//	                              {
-	//									  int point = int(points);
-	//		                              responseJson.push_back(crow::json::wvalue{{"Point", point}});
-	//	                              }
-
-	//	                              return crow::json::wvalue{responseJson};
-	//                              });
-	//new route for end turn / return image
-	//should recieve image + name from client -> std::pair<std::string, std::string>
-	//CROW_ROUTE(m_app, "/EndTurn/Return_Image")
-		//.methods("POST"_method)
-		//([this](const crow::request& req)
-			//{
-				//std::vector<std::pair<std::string, std::string>> pairs = m_gameHandlers.GetPlayersTurnImage(); // Obțineți datele dorite
-			
-				//const auto jsonData = crow::json::load(req.body);
-				//std::vector<crow::json::wvalue> responseJson;
-				//for (const auto& [name, image] : pairs)
-				//{
-				//	responseJson.push_back(crow::json::wvalue{ {"Image", image} });
-				//}
-
-				//return crow::json::wvalue{ responseJson };
-			//});
+	
 	CROW_ROUTE(m_app, "/MainMenu/Return_Image")
 		.methods("POST"_method)
 		([this](const crow::request& req)
@@ -396,6 +364,21 @@ void Routing::Run()
 				return crow::json::wvalue{ responseJson };
 			});
 
+	CROW_ROUTE(m_app, "/EndGame/LeaveGame")
+		.methods("POST"_method)
+		([this](const crow::request& req)
+			{
+				const auto jsonData = crow::json::load(req.body);
+				if(!jsonData)
+				{
+					return crow::response(400);
+				}
+				m_gameHandlers.RemoveUserFromLobby(jsonData["username"].s());
+				return crow::response(200, "OK");
+			});
+
+
+
 	CROW_ROUTE(m_app, "/EndGame/Return_SortedPlayers")
 	.methods("POST"_method)
 	([this](const crow::request& req)
@@ -411,6 +394,8 @@ void Routing::Run()
 
 			return crow::json::wvalue{ responseJson };
 		});
+
+	
 
 	m_app.port(18080).multithreaded().run();
 }

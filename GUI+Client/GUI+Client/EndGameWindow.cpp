@@ -1,7 +1,9 @@
 ﻿#include "EndGameWindow.h"
 #include "MenuWindow.h"
-EndGameWindow::EndGameWindow(QWidget *parent)
-	: QMainWindow(parent)
+#include "Client.h"
+
+EndGameWindow::EndGameWindow(const std::string& username,QWidget *parent)
+	: QMainWindow(parent), m_username(username)
 {
 	ui.setupUi(this);
     connect(ui.backButton, &QPushButton::clicked, this, &EndGameWindow::BackButton_Clicked);
@@ -21,5 +23,13 @@ void EndGameWindow::DisplayPlayers() const
 }
 void EndGameWindow::BackButton_Clicked()
 {
+    if(Client::Return_LeaveGameResponse(m_username)!=400)
+    {
+	    auto* menuWindow = new MenuWindow(std::move(m_username));
+    	menuWindow->show();
+    	this->close();
+        return;
+    }
+    BackButton_Clicked();
 
 }

@@ -13,19 +13,59 @@ using namespace game_logic;
 using server::GameHandlers;
 
 
-void GameHandlers::CreateLobby()
+long GameHandlers::CreateLobby(const bool createLobby)
 {
-	m_lobby = std::make_unique<Lobby>();
+	//if createLobby is true, create a new lobby
+	if(createLobby)
+	{
+		//if there is no lobby, create one
+		if(m_lobby == nullptr)
+		{
+			m_lobby = std::make_unique<Lobby>();
+			return 200;
+		}
+		//if there is a lobby, return error
+		return 400;
+	}
+
+	//if createLobby is false, check if there is a lobby
+	if(m_lobby == nullptr)
+	{
+		//if there is no lobby, return error
+		return 400;
+	}
+	//if there is a lobby, return success
+	return 200;
+	
 }
 
 void GameHandlers::AddUserToLobby(const std::string& username) const
 {
+	if(m_lobby == nullptr)
+	{
+		throw std::runtime_error("Lobby is not created");
+	}
 	m_lobby->AddPlayer(username);
 }
 
-void GameHandlers::RemoveUserFromLobby(const std::string& username) const
+void GameHandlers::DeleteLobby()
 {
-	m_lobby->RemovePlayer(username);
+	m_lobby.reset();
+	m_game.reset();
+	m_drawerPosition = 0;
+	m_gameStarted = false;
+	m_currentTurnPoints.clear();
+	m_currentMatchDrawings.clear();
+	m_winners.clear();
+}
+
+void GameHandlers::RemoveUserFromLobby(const std::string& username)
+{
+	if(m_lobby->RemovePlayer(username) == 0)
+	{
+		DeleteLobby();
+	}
+	
 }
 
 std::vector<std::string> GameHandlers::GetUsersNames() const

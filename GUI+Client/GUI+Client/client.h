@@ -34,8 +34,9 @@ public:
 	static uint8_t Return_DrawerPosition();
 	static bool Return_GameStatus();
 	static void Send_StartGame_Signal();
-	static void Send_CreateLobby_Signal();
+	static long Send_CreateLobby_Signal(bool createLobby);
 	static bool Return_GameStart();
 	static int Return_CurrentTime();
 	static std::vector<std::pair<std::string, int16_t >> Return_SortedPlayers();
+	static long Return_LeaveGameResponse(const std::string& string);
 };

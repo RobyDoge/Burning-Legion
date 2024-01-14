@@ -28,16 +28,21 @@ void Lobby::AddPlayer(const std::string& name)
 
 }
 
-void Lobby::RemovePlayer(const std::string& name)
+
+uint8_t Lobby::RemovePlayer(const std::string& name)
 {
-    auto playerToBeDeleted = std::ranges::find_if(m_players, [&name](const Player& player) { return player.GetName() == name; });
+    const auto playerToBeDeleted = std::ranges::find_if(m_players, [&name](const Player& player)
+        {
+            return player.GetName() == name;
+        });
     if (playerToBeDeleted == m_players.end())
     {
-        //TODO: throw exception
-        return;
+        return m_players.size();
     }
     m_players.erase(playerToBeDeleted);
-	m_usersNames.erase(std::remove(m_usersNames.begin(), m_usersNames.end(), name), m_usersNames.end());
+    std::erase(m_usersNames, name);
+
+    return m_players.size();
 }
 
 void Lobby::SetDifficulty(const uint8_t difficulty)
