@@ -51,6 +51,7 @@ private:
     void UpdatePlayerMessages();
     void RevealRandomLetters();
     void DisplayPlayers();
+    void StartDrawingThread();
 
 private:
 	void StartTurn();
@@ -99,4 +100,8 @@ private:
     QString m_currentPlayerGuess;
     QString m_lastPlayerGuess;
     QString m_playerMessage;
+	QPixmap m_pixelMap;
+    QImage m_receivedImage;
+    QImage m_capturedImage;
+    std::string imgString;
 };

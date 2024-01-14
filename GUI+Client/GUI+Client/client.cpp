@@ -229,7 +229,8 @@ std::string Client::Return_Drawing()
 {
 	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/startTurn/Return_DrawingData" },
 		cpr::Header{ {"Content-Type", "application/json"} });
-	return crow::json::load(response.text)["DrawingData"].s();
+	std::string DrawData = crow::json::load(response.text)["DrawingData"].s();
+	return DrawData;
 
 }
 std::vector<int> Client::Return_PlayersPoints()

@@ -39,8 +39,31 @@ GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	
 	CheckGameStatus();
 	UpdatePlayerMessages();
-	
+	StartDrawingThread();
 
+	QImage image(100, 100, QImage::Format_RGB32);
+	image.fill(Qt::black);
+
+	// Convert the QImage to a QByteArray
+	//QByteArray byteArray;
+	//QBuffer buffer(&byteArray);
+	//buffer.open(QIODevice::WriteOnly);
+	//image.save(&buffer, "PNG");
+
+	//// Convert the QByteArray to a base64-encoded string
+	//QString base64String = byteArray.toBase64();
+
+	//std::string normalString = base64String.toUtf8().constData();
+	//std::string normalString = "iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAANElEQVR4nO3BAQ0AAADCoPdPbQ43oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfgx1lAABqFDyOQAAAABJRU5ErkJggg==";
+	//// Decode base64 string to QByteArray
+	//QByteArray byteArray2 = QByteArray::fromBase64(normalString.c_str());
+
+	//std::ofstream outputFile("output.txt", std::ios::binary);
+	//if (outputFile.is_open()) {
+	//	outputFile << normalString << std::endl;
+	//}
+	//// Load the image from the QByteArray
+	//m_receivedImage.loadFromData(byteArray2, "PNG");
 }
 
 GameWindow::~GameWindow() = default;
@@ -55,6 +78,42 @@ void GameWindow::DisplayPlayers()
 	}
 }
 
+
+
+void GameWindow::StartDrawingThread()
+{
+	std::thread drawThread([this]()
+		{
+			while (m_stopThread)
+			{
+					if (m_isDrawer)
+					{
+
+						QImage image = m_capturedImage;
+						QByteArray byteArray;
+						QBuffer buffer(&byteArray);
+						buffer.open(QIODevice::WriteOnly);
+						image.save(&buffer, "PNG");
+						QString imageString = byteArray.toBase64();
+						imgString = imageString.toUtf8().constData();
+						m_client.Send_Drawing(imgString);
+
+					}
+					else {
+
+						std::string imageString = m_client.Return_Drawing();
+						QByteArray byteArray = QByteArray::fromBase64(imageString.c_str());
+
+						m_receivedImage.loadFromData(byteArray, "PNG");
+						update();
+					}
+					std::this_thread::sleep_for(std::chrono::milliseconds(100));
+				
+			}
+		});
+	drawThread.detach();
+}
+
 void GameWindow::CheckGameStatus()
 {
 	std::thread updateThread([this]()
@@ -64,10 +123,8 @@ void GameWindow::CheckGameStatus()
 				m_currentTime = m_client.Return_CurrentTime();
 				ui.timerLabel->setText(QString::number(60-m_currentTime));
 				m_gameEnded = m_client.Return_GameStatus();
-				//std::vector<std::pair<float, std::string>> playersPoints = m_client.Return_PlayersPoints();
 				m_currentDrawerPosition = m_client.Return_DrawerPosition();
-				/*emit SerializeDrawing();
-				emit DeserializeDrawing();*/
+				
 				if ((m_currentTime == 30 || m_currentTime == 45))
 					RevealRandomLetters();
 					if (m_gameEnded)
@@ -227,16 +284,24 @@ void GameWindow::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);
 	painter.setRenderHint(QPainter::Antialiasing);
-	if (!m_receivedDrawing.isNull())
-	{
-		painter.drawPixmap(m_xPos, m_yPos, m_receivedDrawing);
-		QWidget::paintEvent(event);
-		return;
-	}
+	m_capturedImage=QImage(WIDTH, HEIGHT, QImage::Format_RGB32);
+	QPainter capturePainter(&m_capturedImage);
+	capturePainter.setRenderHint(QPainter::Antialiasing);
 
 	const QRect border(m_xPos, m_yPos, WIDTH, HEIGHT);
 	painter.setBrush(Qt::white);
+	capturePainter.setBrush(Qt::white);
 	painter.drawRect(border);
+	capturePainter.drawRect(border);
+
+	if (!m_receivedImage.isNull())
+	{
+		QWidget::paintEvent(event);
+
+		// Draw the image
+		painter.drawImage(m_xPos,m_yPos, m_receivedImage);
+		capturePainter.drawImage(m_xPos, m_yPos, m_receivedImage);
+	}
 
 	if (!m_lines.empty())
 		for (int lineIndex = 0; lineIndex < m_lines.size(); ++lineIndex)
@@ -247,9 +312,11 @@ void GameWindow::paintEvent(QPaintEvent* event)
 			pen.setWidth(m_lineWidths.value(lineIndex, 1));
 			pen.setColor(m_lineColor.value(lineIndex, 1));
 			painter.setPen(pen);
-			for (int linePixelIndex = 1; linePixelIndex < line.size(); ++linePixelIndex)
+			capturePainter.setPen(pen);
+        	for (int linePixelIndex = 1; linePixelIndex < line.size(); ++linePixelIndex)
 			{
 				painter.drawLine(line[linePixelIndex - 1], line[linePixelIndex]);
+				capturePainter.drawLine(line[linePixelIndex - 1], line[linePixelIndex]);
 			}
 		}
 
@@ -260,9 +327,13 @@ void GameWindow::paintEvent(QPaintEvent* event)
 		pen.setWidth(m_currentPenWidth);
 		pen.setColor(m_currentPenColor);
 		painter.setPen(pen);
+		capturePainter.setPen(pen);
 		if (m_currentLine.size() > 1)
 			for (int linePixelIndex = 1; linePixelIndex < m_currentLine.size(); ++linePixelIndex)
+			{
 				painter.drawLine(m_currentLine[linePixelIndex - 1], m_currentLine[linePixelIndex]);
+				capturePainter.drawLine(m_currentLine[linePixelIndex - 1], m_currentLine[linePixelIndex]);
+			}
 	}
 	QWidget::paintEvent(event);
 }
@@ -400,15 +471,7 @@ void GameWindow::SerializeDrawing()
 	if (m_isDrawer)
 	{
 
-		const QPixmap pixelMap = ui.drawingArea->grab();
-		const QImage image = pixelMap.toImage();
-
-		QByteArray byteArray;
-		QBuffer buffer(&byteArray);
-		buffer.open(QIODevice::WriteOnly);
-		image.save(&buffer, "JPG");
-		QString imageString = byteArray.toBase64();
-		m_client.Send_Drawing(imageString.toLatin1().constData());
+		m_pixelMap = ui.drawingArea->grab();
 
 	}
 		}, Qt::QueuedConnection);
@@ -421,15 +484,11 @@ void GameWindow::DeserializeDrawing()
 			if (!m_isDrawer)
 			{
 				std::string imageString = m_client.Return_Drawing();
-				QByteArray byteArray = QByteArray::fromBase64(imageString.c_str());
+				imgString = "iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAANElEQVR4nO3BAQ0AAADCoPdPbQ43oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfgx1lAABqFDyOQAAAABJRU5ErkJggg==";
+				QByteArray byteArray = QByteArray::fromBase64(imgString.c_str());
 
-				QImage image;
-				image.loadFromData(byteArray, "JPG");
-
-				// Convertește imaginea în QPixmap
-				QPixmap pixelMap = QPixmap::fromImage(image);
-				m_receivedDrawing = pixelMap;
-				ui.drawingArea->update();
+				m_receivedImage.loadFromData(byteArray, "JPG");
+				update();
 			}
 		}, Qt::QueuedConnection);
 }
