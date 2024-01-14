@@ -331,6 +331,7 @@ void GameWindow::ClearChat() const
 
 void GameWindow::CensoredWord()
 {
+	m_censoredWord.clear();
 	for (int i = 0; i < m_guessWord.length(); i++)
 	{
 		m_censoredWord += "*";
@@ -374,7 +375,8 @@ void GameWindow::StartTurn()
 	{
 		ClearDrawingArea();
 		ClearChat();
-
+		m_capturedImage.fill(Qt::white);
+		update();
 		m_currentTime = 60;
 		ui.timerLabel->setText("60");
 		const auto qDrawerName = QString(Client::Return_DrawerName().c_str());

@@ -151,7 +151,7 @@ void server::GameHandlers::AddDrawingsToDatabase()
 	{
 
 		std::vector<std::string> drawing{ m_currentMatchDrawings[player.GetName()]};
-
+		if(drawing.size()==4)
 		dbHandler.AddMatch(player.GetName(), player.GetPoints().GetCurrentGamePoints(), drawing[0], drawing[1], drawing[2], drawing[3]);
 	}
 }
