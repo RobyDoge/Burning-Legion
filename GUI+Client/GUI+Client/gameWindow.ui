@@ -375,26 +375,44 @@ text-align: center;
      </rect>
     </property>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QPushButton" name="saveDrawing">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>1584</width>
-      <height>864</height>
+      <x>420</x>
+      <y>740</y>
+      <width>91</width>
+      <height>31</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic UI Semibold</family>
+      <pointsize>10</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
-     <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(255, 255, 255, 164), stop:0.994318 rgba(255, 255, 255, 142));</string>
+     <string notr="true">QPushButton#saveDrawing {
+	background-color:qlineargradient(spread:pad, x1:0.369318, y1:0.778, x2:1, y2:0, stop:0 rgba(69, 96, 255, 149), stop:0.994318 rgba(65, 101, 222, 117));
+    border-radius: 5px;
+    color:rgb(255, 255, 255);
+}
+
+QPushButton#saveDrawing:hover {
+     background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(239, 123, 0, 239), stop:0.994318 rgba(255, 146, 235, 246));
+}
+
+QPushButton#saveDrawing:pressed {
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: rgb(164, 162, 253)
+}
+</string>
     </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
+    <property name="text">
+     <string>Save Drawing</string>
     </property>
    </widget>
-   <zorder>frame</zorder>
    <zorder>charCountLabel</zorder>
    <zorder>clearButton</zorder>
    <zorder>colorPickerButton</zorder>
@@ -406,6 +424,7 @@ text-align: center;
    <zorder>sendButton</zorder>
    <zorder>timerLabel</zorder>
    <zorder>wordtoGuess</zorder>
+   <zorder>saveDrawing</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

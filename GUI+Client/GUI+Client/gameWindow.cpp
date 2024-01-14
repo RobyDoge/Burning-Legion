@@ -29,6 +29,7 @@ GameWindow::GameWindow(const std::string& username, QWidget* parent) :
 	connect(ui.penWidthSlider, &QSlider::valueChanged, this, &GameWindow::UpdatePenWidth);
 	connect(ui.colorPickerButton, &QPushButton::clicked, this, &GameWindow::ChangePenColor);
 	connect(ui.clearButton, &QPushButton::clicked, this, &GameWindow::ClearDrawingArea);
+	connect(ui.saveDrawing, &QPushButton::clicked, this, &GameWindow::SaveDrawing);
 	m_xPos = (width() - WIDTH) / 2;
 	m_yPos = (height() - HEIGHT) / 2;
 	//QRect drawingArea(xPos, yPos, WIDTH, HEIGHT);
@@ -235,26 +236,30 @@ void GameWindow::mouseReleaseEvent(QMouseEvent* event)
 
 void GameWindow::paintEvent(QPaintEvent* event)
 {
-	 QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
+	QPainter painter(this);
+	painter.setRenderHint(QPainter::Antialiasing);
 
-    m_capturedImage = QImage(1536, 864, QImage::Format_RGB32);
-    QPainter capturePainter(&m_capturedImage);
-    capturePainter.setRenderHint(QPainter::Antialiasing);
+	int captureOffsetX = m_xPos;
+	int captureOffsetY = m_yPos;
 
-    const QRect border(m_xPos, m_yPos, WIDTH, HEIGHT);
-    painter.setBrush(Qt::white);
-    capturePainter.setBrush(Qt::white);
-    painter.drawRect(border);
-    capturePainter.drawRect(border);
+	m_capturedImage = QImage(WIDTH, HEIGHT, QImage::Format_RGB32);
+	QPainter capturePainter(&m_capturedImage);
+	capturePainter.translate(-m_xPos, -m_yPos);
+	capturePainter.setRenderHint(QPainter::Antialiasing);
 
-    if (!m_receivedImage.isNull())
-    {
-   
-        
-        painter.drawImage(0,0, m_receivedImage);
-        capturePainter.drawImage(0, 0, m_receivedImage);
-    }
+	const QRect border(0, 0, WIDTH, HEIGHT);
+	painter.setBrush(Qt::white);
+	capturePainter.setBrush(Qt::white);
+	painter.drawRect(border.translated(captureOffsetX, captureOffsetY));
+	capturePainter.drawRect(border.translated(captureOffsetX, captureOffsetY));
+
+	if (!m_receivedImage.isNull())
+	{
+
+
+		painter.drawImage(m_xPos, m_yPos, m_receivedImage);
+		capturePainter.drawImage(m_xPos, m_yPos, m_receivedImage);
+	}
 
 	if (!m_lines.empty())
 		for (int lineIndex = 0; lineIndex < m_lines.size(); ++lineIndex)
@@ -266,7 +271,7 @@ void GameWindow::paintEvent(QPaintEvent* event)
 			pen.setColor(m_lineColor.value(lineIndex, 1));
 			painter.setPen(pen);
 			capturePainter.setPen(pen);
-        	for (int linePixelIndex = 1; linePixelIndex < line.size(); ++linePixelIndex)
+			for (int linePixelIndex = 1; linePixelIndex < line.size(); ++linePixelIndex)
 			{
 				painter.drawLine(line[linePixelIndex - 1], line[linePixelIndex]);
 				capturePainter.drawLine(line[linePixelIndex - 1], line[linePixelIndex]);
@@ -290,6 +295,7 @@ void GameWindow::paintEvent(QPaintEvent* event)
 	}
 	QWidget::paintEvent(event);
 }
+
 
 void GameWindow::UpdatePenWidth()
 {
@@ -420,7 +426,19 @@ void GameWindow::ShowEndWindow()
 		}, Qt::QueuedConnection);
 }
 
-
+void GameWindow::SaveDrawing()
+{
+	QMetaObject::invokeMethod(this, [this]()
+		{
+			QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+			"/path/to/default/filename.png",
+			tr("Images (*.png *.jpg)"));
+	if (!fileName.isEmpty())
+	{
+		m_capturedImage.save(fileName);
+	}
+		}, Qt::QueuedConnection);
+}
 
 void GameWindow::SetReceivedDrawing(const QPixmap& pixelMap)
 {

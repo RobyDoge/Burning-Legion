@@ -11,6 +11,7 @@
 #include <QColor>
 #include <QBuffer>
 #include<algorithm>
+#include<QFileDialog>
 
 class GameWindow : public QMainWindow
 {
@@ -45,6 +46,7 @@ private:
 	void StartTurn();
     void ClearChat() const;
 	void CensoredWord();
+    void SaveDrawing();
 
 private slots:
     void SendButton_Clicked();
