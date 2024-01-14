@@ -130,15 +130,28 @@ private:
 };
 
 
+struct Images
+{
+	std::string firstRoundImage;
+	std::string secondRoundImage;
+	std::string thirdRoundImage;
+	std::string forthRoundImage;
+};
+
 class UserDatabaseHandle
 {
 public:
 	void AddUser(const std::string& name, const std::string& password);
-	std::vector<std::string> SelectUserInfo(const uint8_t wordsNeeded);
+	//std::vector<std::string> SelectUserInfo(const uint8_t wordsNeeded);
 	bool Authenticate(const std::string& name, const std::string& password);
 	bool CheckUsername(const std::string& name);
 	uint16_t GetBestScore(const std::string& name);
 	std::deque<int16_t> GetLastMatchesPoints(const std::string& name);
+	std::pair<std::string, Images> GetLastMatch(const std::string& name);
+
+	void AddMatch(const std::string& name, const int16_t score, const std::string& firstRoundImage, const std::string& secondRoundImage, const std::string& thirdRoundImage, const std::string& forthRoundImage);
+	void UpdateBestScore(const std::string& name, const int16_t score);
+
 
 	void ClearUserDatabase();
 	void ClearMatchDatabase();

@@ -177,33 +177,102 @@ uint16_t UserDatabaseHandle::GetBestScore(const std::string& name) // this shoul
     auto result = m_db.select(sqlite_orm::columns(&UserInfo::best),
         sqlite_orm::where(sqlite_orm::c(&UserInfo::name) == name));
 
-    //if (!result.empty()) {
-     //   return result.front();
-    //}
-    return 0;
+    if (result.empty())
+	{
+		throw std::runtime_error("User not found");
+	}
+	else if (result.size() > 1)
+	{
+		throw std::runtime_error("Multiple users with the same name");
+	}
+    else
+	{
+		return std::get<0>(result.front());
+	}
 }
 
 std::deque<int16_t> UserDatabaseHandle::GetLastMatchesPoints(const std::string& name)
 {
-    //auto result = m_db.select(sqlite_orm::columns(&UserInfo::last5),
-      //  sqlite_orm::where(sqlite_orm::c(&UserInfo::name) == name));
+    
+    auto nameCheck = m_db.select(sqlite_orm::columns(&UserInfo::id),
+        sqlite_orm::where(sqlite_orm::c(&UserInfo::name) == name));
 
-    /*if (!result.empty()) {
+    if (nameCheck.size() == 0)
+    {
+        throw std::runtime_error("User not found");
+    }
+    else if (nameCheck.size() > 1)
+    {
+        throw std::runtime_error("Multiple users with the same name");
+    }
+    else
+    {
+        auto result = m_db.select(sqlite_orm::columns(&MatchData::score),
+            sqlite_orm::where(sqlite_orm::c(&MatchData::id) == std::get<0>(nameCheck.front())),
+            sqlite_orm::order_by(&MatchData::id)
+        );
 
-        std::string last5String = result.front();
-
-        std::list<int16_t> points;
-        size_t pos = 0;
-        while ((pos = last5String.find(',')) != std::string::npos) {
-            points.push_back(std::stoi(last5String.substr(0, pos)));
-            last5String.erase(0, pos + 1);
+        std::deque<int16_t> points;
+        for (const auto& row : result)
+        {
+            points.push_back(std::get<0>(row));
         }
-        points.push_back(std::stoi(last5String));
-
         return points;
-    }*/
+    }
+}
 
-    return {};
+void UserDatabaseHandle::AddMatch(const std::string& name, const int16_t score, const std::string& firstRoundImage, const std::string& secondRoundImage, const std::string& thirdRoundImage, const std::string& forthRoundImage)
+{
+    uint16_t idCounter = '1';
+    m_db.sync_schema();
+    auto nameCheck = m_db.select(sqlite_orm::columns(&UserInfo::id),
+        sqlite_orm::where(sqlite_orm::c(&UserInfo::name) == name));
+    if (nameCheck.size() == 0)
+    {
+        throw std::runtime_error("User not found");
+    }
+    else if (nameCheck.size() > 1)
+    {
+        throw std::runtime_error("Multiple users with the same name");
+    }
+    else
+    {
+
+        m_db.insert(MatchData{ idCounter, std::get<0>(nameCheck.front()), score, firstRoundImage, secondRoundImage, thirdRoundImage, forthRoundImage});
+    }
+
+
+    auto rows = m_db.select(sqlite_orm::columns(&MatchData::id),
+        sqlite_orm::where
+        (sqlite_orm::c(&MatchData::id) == std::get<0>(nameCheck.front()))
+    );
+    if (rows.size() > 5)
+    {
+        //if the user has more than 5 matches, delete the one with the lowest id - so the oldest one
+        m_db.remove<MatchData>(sqlite_orm::where(sqlite_orm::c(&MatchData::id) == sqlite_orm::min(&MatchData::id)));
+    }
+}
+
+void UserDatabaseHandle::UpdateBestScore(const std::string& name, const int16_t score)
+{
+    auto rows = m_db.select(sqlite_orm::columns(&UserInfo::best),
+        sqlite_orm::where(sqlite_orm::c(&UserInfo::name) == name));
+    if (rows.size() == 0)
+    {
+        throw std::runtime_error("User not found");
+    }
+    else if (rows.size() > 1)
+    {
+        throw std::runtime_error("Multiple users with the same name");
+    }
+    else
+    {
+        if (score > std::get<0>(rows.front()))
+        {
+            m_db.update_all(sqlite_orm::set(sqlite_orm::c(&UserInfo::best) = score),
+                sqlite_orm::where(sqlite_orm::c(&UserInfo::name) == name));
+        }
+    }
 }
 
 void UserDatabaseHandle::ClearUserDatabase()
