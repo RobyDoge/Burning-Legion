@@ -345,7 +345,7 @@ void Routing::Run()
 		.methods("POST"_method)
 		([this](const crow::request& req)
 			{
-				std::vector<std::pair<std::string, uint16_t>> pairs = m_gameHandlers.GetPlayersGamePoints(); // Obțineți datele dorite
+				std::vector<std::pair<std::string, int16_t>> pairs = m_gameHandlers.GetPlayersGamePoints(); // Obțineți datele dorite
 
 				
 
@@ -378,7 +378,7 @@ void Routing::Run()
 	.methods("POST"_method)
 	([this](const crow::request& req)
 		{
-			std::vector<std::pair<std::string, uint16_t>> pairs = m_gameHandlers.GetSortedPlayers();
+			std::vector<std::pair<std::string, int16_t>> pairs = m_gameHandlers.GetSortedPlayers();
 			
 			const auto jsonData = crow::json::load(req.body);
 			std::vector<crow::json::wvalue> responseJson;

@@ -28,14 +28,14 @@ public:
 	static std::string Return_DrawerName();
 	static std::string Return_PlayerGuessResponse(const std::string& message, const std::string& guesser);
 	static std::string Return_OtherPlayerGuess();
-	static std::vector<uint16_t> Return_PlayersPoints();
+	static std::vector<int16_t> Return_PlayersPoints();
 	static std::vector<std::string> Return_PlayersNames();
-	static std::vector<uint16_t> Return_PlayersEndGamePoints();
+	static std::vector<int16_t> Return_PlayersEndGamePoints();
 	static uint8_t Return_DrawerPosition();
 	static bool Return_GameStatus();
 	static void Send_StartGame_Signal();
 	static void Send_CreateLobby_Signal();
 	static bool Return_GameStart();
 	static int Return_CurrentTime();
-	static std::vector<std::pair<std::string, uint16_t >> Return_SortedPlayers();
+	static std::vector<std::pair<std::string, int16_t >> Return_SortedPlayers();
 };

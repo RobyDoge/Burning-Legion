@@ -19,7 +19,7 @@ private:
 
 private:
 	Ui::EndGameWindowClass ui;
-	std::vector<std::pair<std::string, uint16_t >> m_players;
+	std::vector<std::pair<std::string, int16_t >> m_players;
 };
 
 

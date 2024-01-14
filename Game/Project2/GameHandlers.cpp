@@ -140,14 +140,14 @@ void GameHandlers::SetDrawing(const std::string& drawing)
 	m_drawing = drawing;
 }
 
-std::vector<std::pair<std::string, uint16_t>> GameHandlers::GetPlayersTurnPoints() const
+std::vector<std::pair<std::string, int16_t>> GameHandlers::GetPlayersTurnPoints() const
 {
 	return m_currentTurnPoints;
 }
 
-std::vector<std::pair<std::string, uint16_t>> GameHandlers::GetPlayersGamePoints() const
+std::vector<std::pair<std::string, int16_t>> GameHandlers::GetPlayersGamePoints() const
 {
-	std::vector<std::pair<std::string, uint16_t>> playersGamePoints{};
+	std::vector<std::pair<std::string, int16_t>> playersGamePoints{};
 	for(const auto& player : m_game->GetPlayers())
 	{
 		playersGamePoints.push_back({ player.GetName(), player.GetPoints().GetCurrentGamePoints() });
@@ -155,7 +155,7 @@ std::vector<std::pair<std::string, uint16_t>> GameHandlers::GetPlayersGamePoints
 	return playersGamePoints;
 }
 
-std::vector<std::pair<std::string, uint16_t>> GameHandlers::GetSortedPlayers() const
+std::vector<std::pair<std::string, int16_t>> GameHandlers::GetSortedPlayers() const
 {
 	return m_winners;
 }

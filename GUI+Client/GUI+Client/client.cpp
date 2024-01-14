@@ -181,14 +181,14 @@ int Client::Return_CurrentTime()
 	return crow::json::load(response.text)["CurrentTime"].i();
 }
 
-std::vector<std::pair<std::string, uint16_t>> Client::Return_SortedPlayers()
+std::vector<std::pair<std::string, int16_t>> Client::Return_SortedPlayers()
 {
 	const auto response = Post(cpr::Url{ "http://localhost:18080/EndGame/Return_SortedPlayers" },
 	                           cpr::Header{ {"Content-Type", "application/json"} });
 
 	const auto playersReceived = crow::json::load(response.text);
 
-	std::vector<std::pair<std::string, uint16_t>> players;
+	std::vector<std::pair<std::string, int16_t>> players;
 	for (const auto& player : playersReceived)
 	{
 
@@ -225,14 +225,14 @@ std::string Client::Return_Drawing()
 	return DrawData;
 
 }
-std::vector<uint16_t> Client::Return_PlayersPoints()
+std::vector<int16_t> Client::Return_PlayersPoints()
 {
 	const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/EndTurn/Return_Points" },
 		cpr::Header{ {"Content-Type", "application/json"} });
 
 	const auto pointsReceived = crow::json::load(response.text);
 
-	std::vector<uint16_t> points;
+	std::vector<int16_t> points;
 	for (const auto& point : pointsReceived)
 	{
 
@@ -241,21 +241,20 @@ std::vector<uint16_t> Client::Return_PlayersPoints()
 	return points;
 		
 }
-std::vector<uint16_t> Client::Return_PlayersEndGamePoints()
+std::vector<int16_t> Client::Return_PlayersEndGamePoints()
 {
 		const auto response = cpr::Post(cpr::Url{ "http://localhost:18080/EndGame/Return_EndGamePoints" },
 			cpr::Header{ {"Content-Type", "application/json"} });
 
 		const auto pointsReceived = crow::json::load(response.text);
 
-		std::vector<uint16_t> points;
+		std::vector<int16_t> points;
 		for (const auto& point : pointsReceived)
 		{
 
 			points.push_back(point["Point"].i());
 		}
 		return points;
-
 }
 
 
@@ -273,16 +272,4 @@ std::vector<std::string> Client::Return_PlayersNames()
 		names.push_back(name["name"].s());
 	}
 	return names;
-
-
 }
-//void Client::displayReceivedDrawing(const QByteArray& drawingData)
-//{
-//    QImage image;
-//    if (image.loadFromData(drawingData, "PNG")) 
-//    {
-//        QPixmap pixmap = QPixmap::fromImage(image);
-//
-//        m_gameWindow->setReceivedDrawing(pixmap);
-//    }
-//}

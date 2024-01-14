@@ -34,7 +34,7 @@ namespace  game_logic
 		void SwitchTurnStatus();
 		static std::string VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord);
 		void ReturnPlayers(std::vector<Player>& players);
-		std::vector<std::pair<std::string, uint16_t>> AddPointsForEachPlayer();						//adds to each player their points based on the guessing time
+		std::vector<std::pair<std::string, int16_t>> AddPointsForEachPlayer();						//adds to each player their points based on the guessing time
 		void AddToGuessingTimes(float timeOfGuess, const std::string& playerName);
 		void FillGuessingTimes();
 
@@ -48,7 +48,7 @@ namespace  game_logic
 		};
 
 	private:
-		std::vector<std::pair<std::string, uint16_t>> Players_TurnPoints();
+		std::vector<std::pair<std::string, int16_t>> Players_TurnPoints();
 		std::vector<float> OnlyGuessingTimes();
 		void ConvertRemainingTimeToTakenTime();							//converts the remaining time stored in guessingTimes to how much it tool everyone to guess
 		static StringDifference Compare(const std::string& wordToBeDrawn, const std::string& playerInputWord);
