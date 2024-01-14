@@ -9,6 +9,7 @@ import <optional>;
 import <algorithm>;
 import <string>;
 import <ranges>;
+import <regex>;
 
 
 
@@ -70,7 +71,13 @@ std::vector<float> Turn::OnlyGuessingTimes()
 
 std::string Turn::VerifyInputWord(const std::string& wordToBeGuessed, const std::string& playerInputWord)
 {
-	switch (Compare(wordToBeGuessed, playerInputWord))
+	//use regex to turn word to all uppercase
+	std::string uppercaseWTBG{};
+	std::transform(wordToBeGuessed.begin(), wordToBeGuessed.end(), uppercaseWTBG.begin(), ::toupper);
+	std::string uppercasePIW{};
+	std::transform(playerInputWord.begin(), playerInputWord.end(), uppercasePIW.begin(), ::toupper);
+
+	switch (Compare(uppercaseWTBG, uppercasePIW))
 	{
 	case StringDifference::Identical:
 		return "Correct Guess";

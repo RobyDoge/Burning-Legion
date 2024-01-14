@@ -115,7 +115,7 @@ class WordDatabaseHandle
 public:
 
 	void Init();
-	std::queue<std::string> SelectWords(uint8_t numberOfPlayers, uint8_t difficulty, uint8_t language);
+	std::vector<std::string> SelectWords(uint8_t numberOfPlayers, uint8_t difficulty, uint8_t language);
 	bool IsInitialized();
 	void ClearDictionary();
 

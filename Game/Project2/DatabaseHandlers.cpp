@@ -49,9 +49,9 @@ void WordDatabaseHandle::Init()
 }
 
 
-std::queue<std::string> WordDatabaseHandle::SelectWords(const uint8_t numberOfPlayers, const uint8_t difficulty, const uint8_t language)
+std::vector<std::string> WordDatabaseHandle::SelectWords(const uint8_t numberOfPlayers, const uint8_t difficulty, const uint8_t language)
 {
-    std::queue<std::string> generatedWords;
+    std::vector<std::string> generatedWords;
 
     const std::string languageName = LANGUAGE_TO_STRING.at(language);
 
@@ -99,7 +99,7 @@ std::queue<std::string> WordDatabaseHandle::SelectWords(const uint8_t numberOfPl
 	                                         )
 	             ); const auto& element : elements)
             {
-                generatedWords.emplace(std::get<0>(element));
+                generatedWords.emplace_back(std::get<0>(element));
             }
         }
     }

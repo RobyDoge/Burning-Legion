@@ -103,14 +103,16 @@ std::queue<std::string> GameHandlers::CreateWordsNeeded(const uint8_t wordsNeede
 	WordDatabaseHandle wordDbHandle;
 	if (!wordDbHandle.IsInitialized())
 		wordDbHandle.Init();
-	return wordDbHandle.SelectWords(wordsNeeded, difficulty, language);
-	/*std::queue<std::string> words{};
-
+	//return wordDbHandle.SelectWords(wordsNeeded, difficulty, language);
+	std::queue<std::string> words{};
+	std::regex pattern("_");
 	auto rows = wordDbHandle.SelectWords(wordsNeeded, difficulty, language);
-	for(const auto& row : rows)
+	for(std::string row : rows)
 	{
-		
-	}*/
+		std::string wordWithoutUnderline = std::regex_replace(row, pattern, " ");
+		words.push(wordWithoutUnderline);
+	}
+	return words;
 }
 
 
@@ -147,7 +149,6 @@ void server::GameHandlers::AddDrawingsToDatabase()
 	
 	for (const auto& player : m_game->GetPlayers())
 	{
-		//std::vector<std::string> drawing{ m_currentDrawings.equal_range(player.GetName()) };
 
 		std::vector<std::string> drawing{ m_currentMatchDrawings[player.GetName()]};
 		dbHandler.AddMatch(player.GetName(), player.GetPoints().GetCurrentGamePoints(), drawing[0], drawing[1], drawing[2], drawing[3]);
